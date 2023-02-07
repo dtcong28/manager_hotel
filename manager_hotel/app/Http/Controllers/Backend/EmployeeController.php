@@ -11,8 +11,7 @@ class EmployeeController extends BackendController
 {
     public function index()
     {
-        // sao đường dẫn kp ghi rõ hết ra
-        return Inertia::render('Admin/Employees/Index',[
+        return Inertia::render('Admin/Employees/Index', [
             'employees' => Employee::all()->map(function ($employees) {
                 return [
                     'id' => $employees->id,
@@ -22,9 +21,10 @@ class EmployeeController extends BackendController
             })
         ]);
     }
+
     public function create()
     {
-        return Inertia::render('Admin/Employees/Create',[]);
+        return Inertia::render('Admin/Employees/Create', []);
     }
 
     public function store(Request $request)
@@ -32,6 +32,23 @@ class EmployeeController extends BackendController
         Employee::create([
             'name' => $request->name,
             'email' => $request->email,
+        ]);
+
+        return Redirect::route('employees.index');
+    }
+
+    public function edit(Employee $employee)
+    {
+        return Inertia::render('Admin/Employees/Edit', [
+            'employee' => $employee
+        ]);
+    }
+
+    public function update(Employee $employee)
+    {
+        $employee->update([
+            'name' => Request::input('name'),
+            'email' => Request::input('email'),
         ]);
 
         return Redirect::route('employees.index');

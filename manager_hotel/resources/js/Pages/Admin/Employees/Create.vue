@@ -7,9 +7,9 @@ const form = useForm({
     email: '',
 });
 
-// function storeEmployee() {
-//     router.post(route('employees.create'), form)
-// }
+const storeEmployee = () => {
+    form.post(route('employees.store'))
+};
 
 </script>
 
@@ -44,7 +44,7 @@ const form = useForm({
                             <li class="mdl-menu__item mdl-js-ripple-effect" tabindex="-1" data-upgraded=",MaterialRipple"><i class="material-icons">favorite</i>Something else here<span class="mdl-menu__item-ripple-container"><span class="mdl-ripple"></span></span></li>
                         </ul></div>
                     </div>
-                    <form @submit.prevent="form.post(route('employees.store'))">
+                    <form @submit.prevent="storeEmployee">
                         <label for="name">Name:</label>
                         <input id="name" v-model="form.name" />
                         <label for="email">Email:</label>

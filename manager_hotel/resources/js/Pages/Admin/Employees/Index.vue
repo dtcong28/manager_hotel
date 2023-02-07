@@ -46,7 +46,10 @@ const props = defineProps({
                     <th scope="row">{{employee.id}}</th>
                     <td>{{employee.name}}</td>
                     <td>{{employee.email}}</td>
-                    <td>@Action</td>
+                    <td>
+                        <a :href="`/admin/employees/${employee.id}/edit`">Edit</a>
+                    </td>
+
                 </tr>
 
                 </tbody>

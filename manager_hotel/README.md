@@ -16,4 +16,5 @@
 4. clear cache: php artisan optimize:clear
 5. create storage link: php artisan storage:link
 6. run migrate: php artisan migrate
+7. run seeder create user: php artisan db:seed --class=UserSeeder
 ```

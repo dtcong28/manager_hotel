@@ -1,7 +1,7 @@
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
 import {Head, Link, useForm} from '@inertiajs/vue3';
-import { Inertia } from "@inertiajs/inertia";
+import { router } from '@inertiajs/vue3'
 
 const props = defineProps({
     employee: Object,
@@ -13,7 +13,7 @@ const form = useForm({
 });
 
 const updateEmployee = () => {
-    Inertia.post(`/admin/employees/${props.employee.id}`, {
+    router.post(`/admin/employees/${props.employee.id}`, {
         _method: 'put',
         name: form.name,
         email: form.email,

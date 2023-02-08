@@ -64,11 +64,6 @@
                                     <span class="title">View All Staffs</span>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="edit_staff.html" class="nav-link ">
-                                    <span class="title">Edit Staff Details</span>
-                                </a>
-                            </li>
                         </ul>
                     </li>
                 </ul>

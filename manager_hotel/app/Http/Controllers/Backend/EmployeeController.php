@@ -46,9 +46,10 @@ class EmployeeController extends BackendController
 
     public function update(Employee $employee)
     {
+       // dd(json_decode(Request()->all('name')));
         $employee->update([
-            'name' => Request::input('name'),
-            'email' => Request::input('email'),
+            'name' => Request()->all('name'),
+            'email' => Request()->all('email'),
         ]);
 
         return Redirect::route('employees.index');

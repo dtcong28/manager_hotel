@@ -66,6 +66,27 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item active">
+                        <a href="#" class="nav-link nav-toggle">
+                            <i class="material-icons">vpn_key</i>
+                            <span class="title">Rooms</span>
+                            <span class="selected"></span>
+                            <span class="arrow"></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="nav-item">
+                                <a :href="route('types-room.create')" class="nav-link ">
+                                    <span class="title">Add Types Room</span>
+                                    <span class="selected"></span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a :href="route('types-room.index')" class="nav-link ">
+                                    <span class="title">View All Types Room</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

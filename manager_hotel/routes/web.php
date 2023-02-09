@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\EmployeeController;
-
+use App\Http\Controllers\Backend\TypeRoomController;
 use App\Http\Controllers\Backend\ProfileBackendController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -19,7 +19,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Admin/Welcome', [
+    return Inertia::render('Admin/Auth/Login', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -28,7 +28,7 @@ Route::get('/', function () {
 });
 
 Route::prefix('admin')->get('/dashboard', function () {
-    return Inertia::render('Admin/Dashboard');
+    return Inertia::render('Admin/Employees/Index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::prefix('admin')->middleware('auth')->group(function () {
@@ -39,6 +39,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     //employee
     Route::resource('employees', EmployeeController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
 
+    //types room
+    Route::resource('types-room', TypeRoomController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
 });
 
 require __DIR__.'/auth.php';

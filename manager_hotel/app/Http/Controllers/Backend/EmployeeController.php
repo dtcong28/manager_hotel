@@ -48,10 +48,16 @@ class EmployeeController extends BackendController
     {
        // dd(json_decode(Request()->all('name')));
         $employee->update([
-            'name' => Request()->all('name'),
-            'email' => Request()->all('email'),
+            'name' => request()->all()["name"],
+            'email' => request()->all()["email"],
         ]);
 
+        return Redirect::route('employees.index');
+    }
+
+    public function destroy(Employee $employee)
+    {
+        $employee->delete();
         return Redirect::route('employees.index');
     }
 }

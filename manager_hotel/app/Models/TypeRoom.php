@@ -5,19 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Employee extends Model
+class TypeRoom extends Model
 {
     use HasFactory;
 
-    public $table = 'employees';
+    public $table = 'types_room';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-    ];
+    protected $fillable = ['name'];
+
+    public function room() {
+        return $this->hasMany(Room::class);
+    }
 }

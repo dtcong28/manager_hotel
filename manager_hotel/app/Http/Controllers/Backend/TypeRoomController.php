@@ -40,6 +40,7 @@ class TypeRoomController extends BackendController
 
     public function create()
     {
+       // dd(session()->get('errors')->getBag('default')->getMessages());
         return Inertia::render('Admin/TypesRoom/Create');
     }
 
@@ -85,7 +86,7 @@ class TypeRoomController extends BackendController
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(TypeRoomRequest $request, $id)
     {
         $this->setFormData($request->all());
         $params = $this->getFormData();

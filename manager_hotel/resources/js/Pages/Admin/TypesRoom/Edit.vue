@@ -24,7 +24,7 @@ const updateTypeRoom = () => {
         <div class="page-bar">
             <div class="page-title-breadcrumb">
                 <div class=" pull-left">
-                    <div class="page-title">Add Types Room</div>
+                    <div class="page-title">Edit Types Room</div>
                 </div>
                 <ol class="breadcrumb page-breadcrumb pull-right">
                     <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index.html">Home</a>&nbsp;<i
@@ -32,7 +32,7 @@ const updateTypeRoom = () => {
                     </li>
                     <li><a class="parent-item" href="">Rooms</a>&nbsp;<i class="fa fa-angle-right"></i>
                     </li>
-                    <li class="active">Add Type Room</li>
+                    <li class="active">Edit Type Room</li>
                 </ol>
             </div>
         </div>
@@ -49,6 +49,7 @@ const updateTypeRoom = () => {
                                 data-upgraded=",MaterialTextfield">
                                 <input class="mdl-textfield__input" type="text" v-model="form.name" id="name"
                                        name="name"/>
+                                <div v-if="form.errors.name" style="color: red">{{ form.errors.name[0] }}</div>
                                 <label class="mdl-textfield__label" for="name">Room Type</label>
                             </div>
                             <div class="col-lg-12 p-t-20 text-center">

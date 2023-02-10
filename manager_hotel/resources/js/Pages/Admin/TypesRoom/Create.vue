@@ -43,6 +43,7 @@ const storeTypeRoom = () => {
                                 data-upgraded=",MaterialTextfield">
                                 <input class="mdl-textfield__input" type="text" v-model="form.name" id="name"
                                        name="name"/>
+                                <div v-if="form.errors.name" style="color: red">{{ form.errors.name[0] }}</div>
                                 <label class="mdl-textfield__label" for="name">Room Type</label>
                             </div>
                             <div class="col-lg-12 p-t-20 text-center">

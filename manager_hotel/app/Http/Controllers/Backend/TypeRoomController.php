@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Requests\Room\TypeRoomRequest;
-use App\Models\TypeRoom;
 use App\Repositories\Eloquent\TypeRoomRepository;
 use App\Services\TypeRoomService;
 use Illuminate\Http\Request;
@@ -40,7 +39,6 @@ class TypeRoomController extends BackendController
 
     public function create()
     {
-       // dd(session()->get('errors')->getBag('default')->getMessages());
         return Inertia::render('Admin/TypesRoom/Create');
     }
 
@@ -86,7 +84,7 @@ class TypeRoomController extends BackendController
         ]);
     }
 
-    public function update(TypeRoomRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $this->setFormData($request->all());
         $params = $this->getFormData();

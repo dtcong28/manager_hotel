@@ -16,5 +16,9 @@
         "tailwindcss": "^3.2.1",
         "vite": "^4.0.0",
         "vue": "^3.2.41"
+    },
+    "dependencies": {
+        "tb-vue3-laravel-inertiajs-file-upload": "^1.8.4",
+        "vue3-simple-dropzone": "^1.0.4"
     }
 }

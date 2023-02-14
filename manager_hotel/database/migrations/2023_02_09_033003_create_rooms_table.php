@@ -24,9 +24,7 @@ return new class extends Migration
             $table->string('view', 200);
             $table->integer('number_bed');
             $table->float('rent_per_night');
-            $table->string('img1', 500);
-            $table->string('img2', 500);
-            $table->string('img3', 500);
+            $table->string('image');
 
             $table->timestamps();
         });

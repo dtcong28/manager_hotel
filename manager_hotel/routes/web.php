@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\EmployeeController;
 use App\Http\Controllers\Backend\TypeRoomController;
+use App\Http\Controllers\Backend\RoomController;
 use App\Http\Controllers\Backend\ProfileBackendController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     //types room
     Route::resource('types-room', TypeRoomController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
+
+    // rooms
+    Route::resource('rooms', RoomController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
 });
 
 require __DIR__.'/auth.php';

@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Room extends Model
+class Room extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
 
     public $table = 'rooms';
 
@@ -26,9 +28,7 @@ class Room extends Model
         'view',
         'number_bed',
         'rent_per_night',
-        'img1',
-        'img2',
-        'img3',
+        'image',
     ];
 
     public function typeRoom()

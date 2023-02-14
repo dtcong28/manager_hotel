@@ -42,31 +42,16 @@ const updateTypeRoom = () => {
                     <div class="card-head">
                         <header>Types Room</header>
                     </div>
-                    <form @submit.prevent="updateTypeRoom">
-                        <div class="card-body row">
-                            <div
-                                class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width is-upgraded"
-                                data-upgraded=",MaterialTextfield">
-                                <input class="mdl-textfield__input" type="text" v-model="form.name" id="name"
-                                       name="name"/>
+                    <div class="card-body " id="bar-parent">
+                        <form @submit.prevent="updateTypeRoom">
+                            <div class="form-group">
+                                <label for="name">Room Type</label>
+                                <input type="text" v-model="form.name" class="form-control col-4" id="name" name="name" placeholder="Enter room type">
                                 <div v-if="form.errors.name" style="color: red">{{ form.errors.name[0] }}</div>
-                                <label class="mdl-textfield__label" for="name">Room Type</label>
                             </div>
-                            <div class="col-lg-12 p-t-20 text-center">
-                                <button type="submit"
-                                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
-                                        data-upgraded=",MaterialButton,MaterialRipple">Submit<span
-                                    class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
-                                </button>
-                                <a type="button"
-                                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default"
-                                   :href="route('types-room.create')"
-                                   data-upgraded=",MaterialButton,MaterialRipple">Cancel<span
-                                    class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
-                                </a>
-                            </div>
-                        </div>
-                    </form>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

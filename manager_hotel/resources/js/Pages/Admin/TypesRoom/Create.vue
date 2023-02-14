@@ -32,35 +32,22 @@ const storeTypeRoom = () => {
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <div class="card-box">
-                    <div class="card-head">
-                        <header>Types Room</header>
-                    </div>
-                    <form @submit.prevent="storeTypeRoom">
-                        <div class="card-body row">
-                            <div
-                                class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width is-upgraded"
-                                data-upgraded=",MaterialTextfield">
-                                <input class="mdl-textfield__input" type="text" v-model="form.name" id="name"
-                                       name="name"/>
-                                <div v-if="form.errors.name" style="color: red">{{ form.errors.name[0] }}</div>
-                                <label class="mdl-textfield__label" for="name">Room Type</label>
-                            </div>
-                            <div class="col-lg-12 p-t-20 text-center">
-                                <button type="submit"
-                                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
-                                        data-upgraded=",MaterialButton,MaterialRipple">Submit<span
-                                    class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
-                                </button>
-                                <a type="button"
-                                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default"
-                                        :href="route('types-room.create')"
-                                        data-upgraded=",MaterialButton,MaterialRipple">Cancel<span
-                                    class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
-                                </a>
-                            </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="card card-box">
+                        <div class="card-head">
+                            <header>Types Room</header>
                         </div>
-                    </form>
+                        <div class="card-body " id="bar-parent">
+                            <form @submit.prevent="storeTypeRoom">
+                                <div class="form-group">
+                                    <label for="name">Room Type</label>
+                                    <input type="text" v-model="form.name" class="form-control col-4" id="name" name="name" placeholder="Enter room type">
+                                    <div v-if="form.errors.name" style="color: red">{{ form.errors.name[0] }}</div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

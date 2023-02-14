@@ -85,7 +85,57 @@ const menus = [
                     <li class="menu-heading">
                         <span>-- Main</span>
                     </li>
-                    <SidebarMenuItem v-for="(menu,index) in menus" :key="index" :menuItem="menu"/>
+                    <li class="nav-item start active">
+                        <a href="#" class="nav-link nav-toggle">
+                            <i class="material-icons">group</i>
+                            <span class="title">Staff</span>
+                            <span class="arrow"></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="nav-item">
+                                <a :href="route('employees.create')" class="nav-link ">
+                                    <span class="title">Add Staff Details</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a :href="route('employees.index')" class="nav-link ">
+                                    <span class="title">View All Staffs</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="#" class="nav-link nav-toggle">
+                            <i class="material-icons">vpn_key</i>
+                            <span class="title">Rooms</span>
+                            <span class="selected"></span>
+                            <span class="arrow"></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="nav-item">
+                                <a :href="route('types-room.create')" class="nav-link ">
+                                    <span class="title">Add Types Room</span>
+                                    <span class="selected"></span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a :href="route('types-room.index')" class="nav-link ">
+                                    <span class="title">View All Types Room</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a :href="route('rooms.create')" class="nav-link ">
+                                    <span class="title">Add Room Details</span>
+                                    <span class="selected"></span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a :href="route('rooms.index')" class="nav-link ">
+                                    <span class="title">View All Rooms</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

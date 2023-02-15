@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\StatefulGuard;
-use Core\Providers\Facades\Log\ChannelLog;
 
 if (!function_exists('getConfig')) {
     /**
@@ -189,20 +188,6 @@ if (!function_exists('sqlBinding')) {
         }
 
         return vsprintf($boundSql, $bindings);
-    }
-}
-
-if (!function_exists('logError')) {
-    /**
-     * @param $message
-     * @param array $context
-     * @param string $mode
-     * @param string $path
-     */
-    function logError($message, array $context = [], string $mode = 'NASUCTRH', string $path = '')
-    {
-        $context = array_merge($context, ['mode' => $mode, 'path' => $path]);
-        ChannelLog::error('error', $message, $context);
     }
 }
 

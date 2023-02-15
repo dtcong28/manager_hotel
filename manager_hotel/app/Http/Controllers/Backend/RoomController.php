@@ -8,6 +8,7 @@ use App\Repositories\Eloquent\RoomRepository;
 use App\Services\RoomService;
 use App\Services\TypeRoomService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -61,28 +62,15 @@ class RoomController extends BackendController
     public function store(RoomRequest $request)
     {
         try {
-            $this->setFormData($request->all());
+            $params = $request->all();
+            $images = $request->file('images');
 
-            $params = $this->getFormData();
-
-//            Bị lỗi Serialization of 'Illuminate\Http\UploadedFile' is not allowed
-//            if (!$this->roomService->store($params)) {
-//                session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
-//
-//                return Redirect::route('rooms.index');
-//            }
-//
-//            if ($request->hasFile('image')) {
-//                Room::class->addMediaFromRequest('image')->toMediaCollection();
-//            }
-            $room = Room::create($params);
-
-            if ($request->hasFile('image')) {
-                $room->addMediaFromRequest('image')
-                    ->usingName($params->name)
-                    ->toMediaCollection();
+            if ($request->hasFile('images')) {
+                $params['hasFile'] = $images;
+                unset($params['images']);
             }
 
+            $this->roomService->store($params);
 
             session()->flash('action_success', getConstant('messages.CREATE_SUCCESS'));
         } catch (\Exception $exception) {

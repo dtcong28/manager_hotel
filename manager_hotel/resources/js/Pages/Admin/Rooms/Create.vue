@@ -1,7 +1,6 @@
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
 import {Head, Link, useForm} from '@inertiajs/vue3';
-
 const form = useForm({
     name: '',
     type_room_id: '',
@@ -13,7 +12,7 @@ const form = useForm({
     rent_per_night: '',
     description: '',
     note: '',
-    image: '',
+    images: '',
 });
 
 const storeRoom = () => {
@@ -152,8 +151,8 @@ const props = defineProps({
                             </div>
                             <div class="col-lg-12 p-t-20">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width is-upgraded" data-upgraded=",MaterialTextfield">
-                                    <input class="mdl-textfield__input" type="file" pattern="-?[0-9]*(\.[0-9]+)?" id="image" name="image" @input="form.image = $event.target.files[0]">
-                                    <label for="image">Image</label>
+                                    <label for="images">Images</label>
+                                    <input type="file" name="images[]" multiple @input="form.images = $event.target.files" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                                 </div>
                             </div>
                             <div class="col-lg-12 p-t-20">

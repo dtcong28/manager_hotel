@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Repositories\Eloquent\BaseRepository;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 
 class BaseService
 {
@@ -47,10 +49,15 @@ class BaseService
     {
         try {
             $this->prepareBeforeStore($params);
-            $this->getRepository()->create($params);
+            $data = $this->getRepository()->create(Arr::except($params, ['hasFile']));
+
+            if (!empty($params['hasFile'])) {
+                $this->uploadImage($data, $params['hasFile']);
+            }
+
             return true;
         } catch (\Exception $exception) {
-            logError($exception->getMessage() . PHP_EOL . $exception->getTraceAsString());
+            Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
         }
 
         return false;
@@ -71,7 +78,7 @@ class BaseService
 
             return true;
         } catch (\Exception $exception) {
-            logError($exception->getMessage() . PHP_EOL . $exception->getTraceAsString());
+            Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
         }
 
         return false;
@@ -89,10 +96,17 @@ class BaseService
             $this->getRepository()->delete($id);
             return true;
         } catch (\Exception $exception) {
-            logError($exception->getMessage() . PHP_EOL . $exception->getTraceAsString());
+            Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
         }
 
         return false;
+    }
+
+    protected function uploadImage(&$params, $images)
+    {
+        foreach ($images as $image) {
+            $params->addMedia($image)->toMediaCollection('images');
+        }
     }
 
     protected function prepareBeforeStore(&$params)

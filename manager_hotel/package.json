@@ -19,6 +19,7 @@
     },
     "dependencies": {
         "tb-vue3-laravel-inertiajs-file-upload": "^1.8.4",
+        "vue-media-upload": "^1.2.1",
         "vue3-simple-dropzone": "^1.0.4"
     }
 }

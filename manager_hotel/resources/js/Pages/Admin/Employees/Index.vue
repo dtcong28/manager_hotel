@@ -1,7 +1,6 @@
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
-import {Link} from '@inertiajs/vue3'
-import {Head} from '@inertiajs/vue3';
+import {Link,Head} from '@inertiajs/vue3';
 
 const props = defineProps({
     employees: Array

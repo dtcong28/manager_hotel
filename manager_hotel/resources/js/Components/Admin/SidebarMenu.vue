@@ -1,12 +1,10 @@
 <script setup>
 import SidebarMenuItem from "@/Components/Admin/SidebarMenuItem.vue";
-
 const menus = [
     {
         name: 'Staff',
         icon: 'group',
         route: false,
-        routeName: 'employees',
         children: [
             {
                 name: 'View All Staffs',
@@ -23,7 +21,6 @@ const menus = [
         name: 'Rooms',
         icon: 'vpn_key',
         route: false,
-        routeName: 'types-room',
         children: [
             {
                 name: 'View All Types Room',
@@ -32,6 +29,14 @@ const menus = [
             {
                 name: 'Add Types Room',
                 route: 'types-room.create',
+            },
+            {
+                name: 'View All Rooms',
+                route: 'rooms.index',
+            },
+            {
+                name: 'Add Room Details',
+                route: 'rooms.create',
             },
 
         ],
@@ -85,57 +90,7 @@ const menus = [
                     <li class="menu-heading">
                         <span>-- Main</span>
                     </li>
-                    <li class="nav-item start active">
-                        <a href="#" class="nav-link nav-toggle">
-                            <i class="material-icons">group</i>
-                            <span class="title">Staff</span>
-                            <span class="arrow"></span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item">
-                                <a :href="route('employees.create')" class="nav-link ">
-                                    <span class="title">Add Staff Details</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a :href="route('employees.index')" class="nav-link ">
-                                    <span class="title">View All Staffs</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item active">
-                        <a href="#" class="nav-link nav-toggle">
-                            <i class="material-icons">vpn_key</i>
-                            <span class="title">Rooms</span>
-                            <span class="selected"></span>
-                            <span class="arrow"></span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item">
-                                <a :href="route('types-room.create')" class="nav-link ">
-                                    <span class="title">Add Types Room</span>
-                                    <span class="selected"></span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a :href="route('types-room.index')" class="nav-link ">
-                                    <span class="title">View All Types Room</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a :href="route('rooms.create')" class="nav-link ">
-                                    <span class="title">Add Room Details</span>
-                                    <span class="selected"></span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a :href="route('rooms.index')" class="nav-link ">
-                                    <span class="title">View All Rooms</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    <SidebarMenuItem v-for="(menu,index) in menus" :key="index" :menuItem="menu"/>
                 </ul>
             </div>
         </div>

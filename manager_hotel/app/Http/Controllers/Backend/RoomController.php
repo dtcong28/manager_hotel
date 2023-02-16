@@ -100,7 +100,32 @@ class RoomController extends BackendController
 
     public function edit($id)
     {
+        if (empty($id)) {
+            return Redirect::route('rooms.index');
+        }
 
+        $record = $this->roomRepository->find($id)->toArray();
+
+        if (empty($record)) {
+            session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
+
+            return Redirect::route('rooms.index');
+        }
+
+        $typesRoom = $this->typeRoomService->index(request()->all());
+
+        foreach (\App\Models\Enums\RoomStatusEnum::cases() as $key => $data) {
+            $status[$key] = [
+                'value' => $data->value,
+                'name' => $data->label(),
+            ];
+        }
+
+        return Inertia::render('Admin/Rooms/Edit', [
+            'room' => $record,
+            'typesRoom' => $typesRoom,
+            'status' => $status,
+        ]);
     }
 
     public function update(Request $request, $id)

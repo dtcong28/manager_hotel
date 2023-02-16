@@ -18,12 +18,12 @@ return new class extends Migration {
             $table->integer('type_room_id');
             $table->char('status', 1)->default(1);
             $table->integer('max_person');
-            $table->float('size');
-            $table->string('view', 200);
+            $table->float('size')->nullable();
+            $table->string('view', 200)->nullable();
             $table->integer('number_bed');
             $table->float('rent_per_night');
-            $table->string('images');
-            $table->text('description');
+            $table->string('images')->nullable();
+            $table->text('description')->nullable();
 
             $table->timestamps();
         });

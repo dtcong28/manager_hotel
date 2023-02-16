@@ -1,36 +1,52 @@
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
-import {Head, Link, useForm} from '@inertiajs/vue3';
+import {Head, Link, router, useForm} from '@inertiajs/vue3';
 import Multiselect from 'vue-multiselect'
 import {ref} from "vue";
 
+const props = defineProps({
+    room: Object,
+    typesRoom: Array,
+    status: Array,
+})
+
 const form = useForm({
-    name: '',
-    type_room_id: '',
-    status: '',
-    max_person: '',
-    size: '',
-    view: '',
-    number_bed: '',
-    rent_per_night: '',
-    description: '',
-    images: '',
+    name: props.room.name,
+    type_room_id: props.room.type_room_id,
+    status: props.room.status,
+    max_person: props.room.max_person,
+    size: props.room.size,
+    view: props.room.view,
+    number_bed: props.room.number_bed,
+    rent_per_night: props.room.rent_per_night,
+    description: props.room.description,
+    images: props.room.images,
 });
 
 const storeRoom = () => {
     form.post(route('rooms.store'))
 };
 
-const props = defineProps({
-    typesRoom: Array,
-    status: Array,
-})
-
 const data = ref({
     options: props.typesRoom.data,
     statusOptions: props.status,
 })
-console.log(data);
+
+const updateRoom = () => {
+    router.post(`/admin/rooms/${props.room.id}`, {
+        _method: 'put',
+        name: form.name,
+        type_room_id: form.type_room_id,
+        status: form.status,
+        max_person: form.max_person,
+        size: form.size,
+        view: form.view,
+        number_bed: form.number_bed,
+        rent_per_night: form.rent_per_night,
+        description: form.description,
+        images: form.images,
+    })
+};
 </script>
 
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
@@ -49,7 +65,7 @@ console.log(data);
                     </li>
                     <li><a class="parent-item" href="">Rooms</a>&nbsp;<i class="fa fa-angle-right"></i>
                     </li>
-                    <li class="active">Add Room Details</li>
+                    <li class="active">Edit Room Details</li>
                 </ol>
             </div>
         </div>
@@ -57,9 +73,9 @@ console.log(data);
             <div class="col-sm-12">
                 <div class="card-box">
                     <div class="card-head">
-                        <header>Add Room Details</header>
+                        <header>Edit Room Details</header>
                     </div>
-                    <form @submit.prevent="storeRoom">
+                    <form @submit.prevent="updateRoom">
                         <div class="card-body row pl-5 pr-5">
                             <div class="row">
                                 <div class="col-lg-6 p-t-20">
@@ -72,23 +88,15 @@ console.log(data);
                                 <div class="col-lg-6 p-t-20">
                                     <div class="form-group">
                                         <label class="typo__label">Types Room</label>
-                                        <multiselect v-model="form.type_room_id"
-                                                     deselect-label="Can't remove this value" track-by="name"
-                                                     label="name" placeholder="Select one" :options="data.options"
-                                                     :searchable="false" :allow-empty="false">
-                                            <template slot="singleLabel" slot-scope="{ option }"><strong>{{
-                                                    option.name
-                                                }}</strong></template>
+                                        <multiselect v-model="form.type_room_id" deselect-label="Can't remove this value" track-by="name" label="name" placeholder="Select one" :options="data.options" :searchable="false" :allow-empty="false">
+                                            <template slot="singleLabel" slot-scope="{ option }"><strong>{{option.name}}</strong></template>
                                         </multiselect>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 p-t-20">
                                     <div class="form-group">
                                         <label>Status</label>
-                                        <multiselect v-model="form.status" deselect-label="Can't remove this value"
-                                                     track-by="name" label="name" placeholder="Select one"
-                                                     :options="data.statusOptions" :searchable="false"
-                                                     :allow-empty="false"></multiselect>
+                                        <multiselect v-model="form.status" deselect-label="Can't remove this value" track-by="name" label="name" placeholder="Select one" :options="data.statusOptions" :searchable="false" :allow-empty="false"></multiselect>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 p-t-20">

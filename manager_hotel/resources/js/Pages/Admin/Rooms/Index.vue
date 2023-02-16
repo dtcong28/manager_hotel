@@ -48,7 +48,7 @@ const props = defineProps({
                         <div class="row p-b-20">
                             <div class="col-md-6 col-sm-6 col-6">
                                 <div class="btn-group">
-                                    <a href="add_room.html" id="addRow" class="btn btn-info">
+                                    <a :href="route('rooms.create')" id="addRow" class="btn btn-info">
                                         Add New <i class="fa fa-plus"></i>
                                     </a>
                                 </div>
@@ -82,9 +82,9 @@ const props = defineProps({
                                     <td class="center">{{ room.number_bed }}</td>
                                     <td class="center">{{ room.rent_per_night }}</td>
                                     <td class="center">
-                                        <a href="edit_room.html" class="btn btn-tbl-edit btn-xs">
+                                        <Link :href="route('rooms.edit', { id: room.id })" class="btn btn-tbl-edit btn-xs">
                                             <i class="fa fa-pencil"></i>
-                                        </a>
+                                        </Link>
                                         <a class="btn btn-tbl-delete btn-xs">
                                             <i class="fa fa-trash-o "></i>
                                         </a>

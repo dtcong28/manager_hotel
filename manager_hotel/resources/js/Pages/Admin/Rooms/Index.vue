@@ -6,6 +6,7 @@ import {Head} from '@inertiajs/vue3';
 const props = defineProps({
     rooms: Array
 })
+
 </script>
 
 <template>
@@ -57,21 +58,21 @@ const props = defineProps({
                             <table class="table table-hover table-checkable order-column full-width" id="example4">
                                 <thead>
                                 <tr>
-                                    <th class="center"> img </th>
-                                    <th class="center"> # </th>
-                                    <th class="center"> Type </th>
-                                    <th class="center"> Name </th>
-                                    <th class="center"> Status </th>
-                                    <th class="center"> Max Person </th>
-                                    <th class="center"> Number Bed </th>
-                                    <th class="center"> Rent </th>
-                                    <th class="center"> Action </th>
+                                    <th class="center"> img</th>
+                                    <th class="center"> #</th>
+                                    <th class="center"> Type</th>
+                                    <th class="center"> Name</th>
+                                    <th class="center"> Status</th>
+                                    <th class="center"> Number People</th>
+                                    <th class="center"> Number Bed</th>
+                                    <th class="center"> Rent</th>
+                                    <th class="center"> Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr v-for="room in rooms" :key="room.id" class="odd gradeX">
                                     <td class="user-circle-img">
-                                        <img src="{{ room.id }}" alt="">
+                                        <img :src="room.image" :alt="room.image" class="w-20 h-20 shadow">
                                     </td>
                                     <td class="center">{{ room.id }}</td>
                                     <td class="center">{{ room.type_room_id }}</td>

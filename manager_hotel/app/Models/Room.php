@@ -22,13 +22,13 @@ class Room extends Model implements HasMedia
         'name',
         'type_room_id',
         'status',
-        'note',
         'max_person',
         'size',
         'view',
         'number_bed',
         'rent_per_night',
         'images',
+        'description',
     ];
 
     public function typeRoom()

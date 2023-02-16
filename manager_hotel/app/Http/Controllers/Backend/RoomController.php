@@ -47,7 +47,7 @@ class RoomController extends BackendController
                     'view' => $value->view,
                     'number_bed' => $value->number_bed,
                     'rent_per_night' => $value->rent_per_night,
-                    'image' => $value->image,
+                    'image' => ($value->getMedia('images'))[0]->getUrl(),
                 ];
             }),
             'typesRoom' => $typesRoom,
@@ -56,13 +56,27 @@ class RoomController extends BackendController
 
     public function create()
     {
-        return Inertia::render('Admin/Rooms/Create');
+        $typesRoom = $this->typeRoomService->index(request()->all());
+
+        foreach (\App\Models\Enums\RoomStatusEnum::cases() as $key => $data) {
+            $status[$key] = [
+                'value' => $data->value,
+                'name' => $data->label(),
+            ];
+        }
+
+        return Inertia::render('Admin/Rooms/Create', [
+            'typesRoom' => $typesRoom,
+            'status' => $status,
+        ]);
     }
 
     public function store(RoomRequest $request)
     {
         try {
             $params = $request->all();
+            $params['type_room_id'] = $params['type_room_id']['id'];
+            $params['status'] = $params['status']['value'];
             $images = $request->file('images');
 
             if ($request->hasFile('images')) {
@@ -70,16 +84,17 @@ class RoomController extends BackendController
                 unset($params['images']);
             }
 
-            $this->roomService->store($params);
-
-            session()->flash('action_success', getConstant('messages.CREATE_SUCCESS'));
+            if ($this->roomService->store($params)) {
+                session()->flash('action_success', getConstant('messages.CREATE_SUCCESS'));
+            } else {
+                session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
+            }
         } catch (\Exception $exception) {
             Log::error($exception);
             session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
         }
 
         $this->cleanFormData();
-
         return Redirect::route('rooms.index');
     }
 

@@ -22,7 +22,6 @@ return new class extends Migration {
             $table->string('view', 200)->nullable();
             $table->integer('number_bed');
             $table->float('rent_per_night');
-            $table->string('images')->nullable();
             $table->text('description')->nullable();
 
             $table->timestamps();

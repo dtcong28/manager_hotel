@@ -72,14 +72,7 @@ console.log(data);
                                 <div class="col-lg-6 p-t-20">
                                     <div class="form-group">
                                         <label class="typo__label">Types Room</label>
-                                        <multiselect v-model="form.type_room_id"
-                                                     deselect-label="Can't remove this value" track-by="name"
-                                                     label="name" placeholder="Select one" :options="data.options"
-                                                     :searchable="false" :allow-empty="false">
-                                            <template slot="singleLabel" slot-scope="{ option }"><strong>{{
-                                                    option.name
-                                                }}</strong></template>
-                                        </multiselect>
+                                        <multiselect v-model="form.type_room_id" deselect-label="Can't remove this value" track-by="name" label="name" placeholder="Select one" :options="data.options" :searchable="false" :allow-empty="false"></multiselect>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 p-t-20">
@@ -146,16 +139,8 @@ console.log(data);
                                 </div>
                             </div>
                             <div class="col-lg-12 p-t-20 text-center">
-                                <button type="submit"
-                                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
-                                        data-upgraded=",MaterialButton,MaterialRipple">Submit<span
-                                    class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
-                                </button>
-                                <button type="button"
-                                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default"
-                                        data-upgraded=",MaterialButton,MaterialRipple">Cancel<span
-                                    class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
-                                </button>
+                                <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink" data-upgraded=",MaterialButton,MaterialRipple">Submit<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
+                                <Link :href="route('rooms.index')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default" data-upgraded=",MaterialButton,MaterialRipple">Cancel<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></Link>
                             </div>
                         </div>
                     </form>

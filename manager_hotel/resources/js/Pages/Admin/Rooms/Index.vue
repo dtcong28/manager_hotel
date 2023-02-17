@@ -85,9 +85,9 @@ const props = defineProps({
                                         <Link :href="route('rooms.edit', { id: room.id })" class="btn btn-tbl-edit btn-xs">
                                             <i class="fa fa-pencil"></i>
                                         </Link>
-                                        <a class="btn btn-tbl-delete btn-xs">
+                                        <Link :href="route('rooms.destroy', { id: room.id })" method="delete" class="btn btn-tbl-delete btn-xs">
                                             <i class="fa fa-trash-o "></i>
-                                        </a>
+                                        </Link>
                                     </td>
                                 </tr>
                                 </tbody>

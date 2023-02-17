@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Enums\RoomStatusEnum;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -27,9 +29,24 @@ class Room extends Model implements HasMedia
         'view',
         'number_bed',
         'rent_per_night',
-        'images',
         'description',
+//        'status_label',
     ];
+
+//    protected $appends = [
+//        'status_label',
+//    ];
+//
+//    protected $casts = [
+//        'status' => RoomStatusEnum::class,
+//    ];
+
+//    protected function statusLabel(): Attribute
+//    {
+//        return Attribute::make(
+//            get: fn($value) => $this->status_label?->label() ?? '',
+//        );
+//    }
 
     public function typeRoom()
     {

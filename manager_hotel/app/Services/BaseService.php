@@ -74,7 +74,11 @@ class BaseService
     {
         try {
             $this->prepareBeforeUpdate($params);
-            $this->getRepository()->update($id, $params);
+            $data = $this->getRepository()->update($id, $params);
+
+            if (!empty($params['hasFile'])) {
+                $this->updateImage($data, $params['hasFile']);
+            }
 
             return true;
         } catch (\Exception $exception) {
@@ -104,6 +108,14 @@ class BaseService
 
     protected function uploadImage(&$params, $images)
     {
+        foreach ($images as $image) {
+            $params->addMedia($image)->toMediaCollection('images');
+        }
+    }
+
+    protected function updateImage(&$params, $images)
+    {
+        $params->clearMediaCollection('images');
         foreach ($images as $image) {
             $params->addMedia($image)->toMediaCollection('images');
         }

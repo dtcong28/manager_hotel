@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Requests\Room\RoomRequest;
+use App\Models\Enums\RoomStatusEnum;
 use App\Models\Room;
 use App\Repositories\Eloquent\RoomRepository;
 use App\Services\RoomService;
@@ -75,6 +76,7 @@ class RoomController extends BackendController
     {
         try {
             $params = $request->all();
+
             $params['type_room_id'] = $params['type_room_id']['id'];
             $params['status'] = $params['status']['value'];
             $images = $request->file('images');
@@ -104,7 +106,12 @@ class RoomController extends BackendController
             return Redirect::route('rooms.index');
         }
 
-        $record = $this->roomRepository->find($id)->toArray();
+        $data = $this->roomRepository->find($id);
+        $record = $data->toArray();
+
+        foreach ($data->getMedia('images') as $key => $value) {
+            $record['images'][$key] = $value->getUrl();
+        }
 
         if (empty($record)) {
             session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
@@ -128,14 +135,63 @@ class RoomController extends BackendController
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(RoomRequest $request, $id)
     {
+        try {
+            if (empty($id) || empty($request)) {
+                return Redirect::route('rooms.index');
+            }
 
+            $params = $request->all();
+
+            $params['type_room_id'] = $params['type_room_id']['id'];
+            $params['status'] = $params['status']['value'];
+            $images = $request->file('images');
+
+            if ($request->hasFile('images')) {
+                $params['hasFile'] = $images;
+                unset($params['images']);
+            }
+
+            if ($this->roomService->update($id, $params)) {
+                session()->flash('action_success', getConstant('messages.UPDATE_SUCCESS'));
+            } else {
+                session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
+            }
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
+        }
+
+        return Redirect::route('rooms.index');
     }
 
     public function destroy($id)
     {
+        try {
+            if (empty($id)) {
+                return Redirect::route('rooms.index');
+            }
 
+            if (empty($this->roomRepository->find($id))) {
+                session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+
+                return Redirect::route('rooms.index');
+            }
+
+            if (!$this->roomService->destroy($id)) {
+                session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+
+                return Redirect::route('rooms.index');
+            }
+
+            session()->flash('action_success', getConstant('messages.DELETE_SUCCESS'));
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+        }
+
+        return Redirect::route('rooms.index');
     }
 
 }

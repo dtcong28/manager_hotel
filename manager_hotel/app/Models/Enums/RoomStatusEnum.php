@@ -16,12 +16,4 @@ enum RoomStatusEnum: int
             self::OCCUPIED => 'Occupied',
         };
     }
-
-//    public static function statusLabel($value): string
-//    {
-//        return match ($value) {
-//            self::VACANT->value => 'Vacant',
-//            self::OCCUPIED->value => 'Occupied',
-//        };
-//    }
 }

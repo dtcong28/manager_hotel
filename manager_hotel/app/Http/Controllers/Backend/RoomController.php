@@ -34,7 +34,6 @@ class RoomController extends BackendController
         $data = request()->all();
         $record = $this->roomService->index($data);
         $typesRoom = $this->typeRoomService->index($data);
-
         return Inertia::render('Admin/Rooms/Index', [
             'rooms' => $record->map(function ($value) {
                 return [
@@ -43,7 +42,7 @@ class RoomController extends BackendController
                     'type_room_id' => $value->type_room_id,
                     'status' => $value->status,
                     'note' => $value->note,
-                    'max_person' => $value->max_person,
+                    'number_people' => $value->number_people,
                     'size' => $value->size,
                     'view' => $value->view,
                     'number_bed' => $value->number_bed,
@@ -77,15 +76,6 @@ class RoomController extends BackendController
         try {
             $params = $request->all();
 
-            $params['type_room_id'] = $params['type_room_id']['id'];
-            $params['status'] = $params['status']['value'];
-            $images = $request->file('images');
-
-            if ($request->hasFile('images')) {
-                $params['hasFile'] = $images;
-                unset($params['images']);
-            }
-
             if ($this->roomService->store($params)) {
                 session()->flash('action_success', getConstant('messages.CREATE_SUCCESS'));
             } else {
@@ -96,7 +86,6 @@ class RoomController extends BackendController
             session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
         }
 
-        $this->cleanFormData();
         return Redirect::route('rooms.index');
     }
 
@@ -143,15 +132,6 @@ class RoomController extends BackendController
             }
 
             $params = $request->all();
-
-            $params['type_room_id'] = $params['type_room_id']['id'];
-            $params['status'] = $params['status']['value'];
-            $images = $request->file('images');
-
-            if ($request->hasFile('images')) {
-                $params['hasFile'] = $images;
-                unset($params['images']);
-            }
 
             if ($this->roomService->update($id, $params)) {
                 session()->flash('action_success', getConstant('messages.UPDATE_SUCCESS'));

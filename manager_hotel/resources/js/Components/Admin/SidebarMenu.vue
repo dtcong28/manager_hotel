@@ -40,8 +40,39 @@ const menus = [
             },
 
         ],
-    }
+    },
+    {
+        name: 'Customer',
+        icon: 'person_outline',
+        route: false,
+        children: [
+            {
+                name: 'View All Customers',
+                route: 'customers.index',
+            },
+            {
+                name: 'Add Customers Details',
+                route: 'customers.create',
+            },
 
+        ],
+    },
+    {
+        name: 'Booking',
+        icon: 'business_center',
+        route: false,
+        children: [
+            {
+                name: 'View All Booking',
+                route: 'booking.index',
+            },
+            {
+                name: 'Add Booking Details',
+                route: 'booking.create',
+            },
+
+        ],
+    }
 ]
 </script>
 

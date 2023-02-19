@@ -24,32 +24,36 @@ class Room extends Model implements HasMedia
         'name',
         'type_room_id',
         'status',
-        'max_person',
+        'number_people',
         'size',
         'view',
         'number_bed',
         'rent_per_night',
         'description',
-//        'status_label',
+        'status_label',
     ];
 
-//    protected $appends = [
-//        'status_label',
-//    ];
-//
-//    protected $casts = [
-//        'status' => RoomStatusEnum::class,
-//    ];
+    protected $appends = [
+        'status_label',
+    ];
 
-//    protected function statusLabel(): Attribute
-//    {
-//        return Attribute::make(
-//            get: fn($value) => $this->status_label?->label() ?? '',
-//        );
-//    }
+    protected $casts = [
+        'status' => RoomStatusEnum::class,
+    ];
+
+    protected function statusLabel(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $this->status?->label()
+        );
+    }
 
     public function typeRoom()
     {
         return $this->belongsTo(TypeRoom::class);
+    }
+
+    public function bookingRoom() {
+        return $this->hasMany(BookingRoom::class);
     }
 }

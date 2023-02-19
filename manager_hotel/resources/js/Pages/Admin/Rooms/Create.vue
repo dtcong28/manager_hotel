@@ -8,7 +8,7 @@ const form = useForm({
     name: '',
     type_room_id: '',
     status: '',
-    max_person: '',
+    number_people: '',
     size: '',
     view: '',
     number_bed: '',
@@ -30,7 +30,6 @@ const data = ref({
     options: props.typesRoom.data,
     statusOptions: props.status,
 })
-console.log(data);
 </script>
 
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
@@ -86,9 +85,9 @@ console.log(data);
                                 </div>
                                 <div class="col-lg-6 p-t-20">
                                     <div class="form-group">
-                                        <label for="max_person">Number people</label>
-                                        <input type="number" name="max_person" v-model="form.max_person"
-                                               class="form-control" id="max_person" placeholder="Enter number people">
+                                        <label for="number_people">Number people</label>
+                                        <input type="number" name="number_people" v-model="form.number_people"
+                                               class="form-control" id="number_people" placeholder="Enter number people">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 p-t-20">

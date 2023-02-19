@@ -4,8 +4,9 @@ import {Link} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 
 const props = defineProps({
-    typesRoom: Array
+    customers: Array
 })
+
 </script>
 
 <template>
@@ -14,15 +15,15 @@ const props = defineProps({
         <div class="page-bar">
             <div class="page-title-breadcrumb">
                 <div class=" pull-left">
-                    <div class="page-title">All Types Room</div>
+                    <div class="page-title">All Customers</div>
                 </div>
                 <ol class="breadcrumb page-breadcrumb pull-right">
                     <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index.html">Home</a>&nbsp;<i
                         class="fa fa-angle-right"></i>
                     </li>
-                    <li><a class="parent-item" href="">Rooms</a>&nbsp;<i class="fa fa-angle-right"></i>
+                    <li><a class="parent-item" href="">Customers</a>&nbsp;<i class="fa fa-angle-right"></i>
                     </li>
-                    <li class="active">All Types Room</li>
+                    <li class="active">All Customers</li>
                 </ol>
             </div>
         </div>
@@ -36,7 +37,7 @@ const props = defineProps({
             <div class="col-md-12">
                 <div class="card card-box">
                     <div class="card-head">
-                        <header>All Type Rooms</header>
+                        <header>All Customers</header>
                         <div class="tools">
                             <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
                             <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
@@ -47,7 +48,7 @@ const props = defineProps({
                         <div class="row p-b-20">
                             <div class="col-md-6 col-sm-6 col-6">
                                 <div class="btn-group">
-                                    <a :href="route('types-room.create')" id="addRow" class="btn btn-info">
+                                    <a :href="route('customers.create')" id="addRow" class="btn btn-info">
                                         Add New <i class="fa fa-plus"></i>
                                     </a>
                                 </div>
@@ -59,18 +60,28 @@ const props = defineProps({
                                 <tr>
                                     <th class="center"> #</th>
                                     <th class="center"> Name</th>
+                                    <th class="center"> Address</th>
+                                    <th class="center"> Gender</th>
+                                    <th class="center"> Phone</th>
+                                    <th class="center"> Email</th>
+                                    <th class="center"> Identity card</th>
                                     <th class="center"> Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="typeRoom in typesRoom" :key="typeRoom.id" class="odd gradeX">
-                                    <td class="center">{{ typeRoom.id }}</td>
-                                    <td class="center">{{ typeRoom.name }}</td>
+                                <tr v-for="customer in customers" :key="customer.id" class="odd gradeX">
+                                    <td class="center">{{ customer.id }}</td>
+                                    <td class="center">{{ customer.name }}</td>
+                                    <td class="center">{{ customer.address }}</td>
+                                    <td class="center">{{ customer.gender }}</td>
+                                    <td class="center">{{ customer.phone }}</td>
+                                    <td class="center">{{ customer.email }}</td>
+                                    <td class="center">{{ customer.identity_card }}</td>
                                     <td class="center">
-                                        <Link :href="route('types-room.edit', { id: typeRoom.id })" class="btn btn-tbl-edit btn-xs">
+                                        <Link :href="route('customers.edit', { id: customer.id })" class="btn btn-tbl-edit btn-xs">
                                             <i class="fa fa-pencil"></i>
                                         </Link>
-                                        <Link :href="route('types-room.destroy', { id: typeRoom.id })" method="delete" class="btn btn-tbl-delete btn-xs">
+                                        <Link :href="route('customers.destroy', { id: customer.id })" method="delete" class="btn btn-tbl-delete btn-xs">
                                             <i class="fa fa-trash-o "></i>
                                         </Link>
                                     </td>

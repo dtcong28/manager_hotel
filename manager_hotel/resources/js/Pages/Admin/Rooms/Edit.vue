@@ -19,7 +19,7 @@ const form = useForm({
     name: props.room.name,
     type_room_id: props.room.type_room_id,
     status: props.room.status,
-    max_person: props.room.max_person,
+    number_people: props.room.number_people,
     size: props.room.size,
     view: props.room.view,
     number_bed: props.room.number_bed,
@@ -45,7 +45,7 @@ const updateRoom = () => {
         name: form.name,
         type_room_id: form.type_room_id,
         status: form.status,
-        max_person: form.max_person,
+        number_people: form.number_people,
         size: form.size,
         view: form.view,
         number_bed: form.number_bed,
@@ -105,8 +105,8 @@ const updateRoom = () => {
                                 </div>
                                 <div class="col-lg-6 p-t-20">
                                     <div class="form-group">
-                                        <label for="max_person">Number people</label>
-                                        <input type="number" name="max_person" v-model="form.max_person" class="form-control" id="max_person" placeholder="Enter number people">
+                                        <label for="number_people">Number people</label>
+                                        <input type="number" name="number_people" v-model="form.number_people" class="form-control" id="number_people" placeholder="Enter number people">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 p-t-20">
@@ -138,7 +138,7 @@ const updateRoom = () => {
                                         class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width is-upgraded"
                                         data-upgraded=",MaterialTextfield">
                                         <label for="images">Images</label>
-                                        <input type="file" name="images[]" multiple @input="form.images = $event.target.files" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                                        <input type="file" name="images[]" id="images" multiple @input="form.images = $event.target.files" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                                     </div>
                                     <div v-for="image in form.images">
                                         <img :src="image" :alt="image" class="w-20 h-20 shadow">
@@ -148,7 +148,7 @@ const updateRoom = () => {
                             <div class="col-lg-12 p-t-20">
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" v-model="form.description" class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                                    <textarea name="description" id="description" v-model="form.description" class="form-control" rows="3" placeholder="Enter ..."></textarea>
                                 </div>
                             </div>
                             <div class="col-lg-12 p-t-20 text-center">

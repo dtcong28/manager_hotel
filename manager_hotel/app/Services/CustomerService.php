@@ -2,14 +2,14 @@
 
 namespace App\Services;
 
-use App\Repositories\Eloquent\RoomRepository;
+use App\Repositories\Eloquent\CustomerRepository;
 
-class RoomService extends CustomService
+class CustomerService extends CustomService
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setRepository(app(RoomRepository::class));
+        $this->setRepository(app(CustomerRepository::class));
     }
 
     public function store($params)
@@ -39,13 +39,6 @@ class RoomService extends CustomService
 
     protected function prepareSave(&$data)
     {
-        $data['type_room_id'] = $data['type_room_id']['id'];
-        $data['status'] = $data['status']['value'];
-        $images = $data['images'];
-
-        if (!empty($images)) {
-            $data['hasFile'] = $images;
-            unset($data['images']);
-        }
+        $data['gender'] = $data['gender']['value'];
     }
 }

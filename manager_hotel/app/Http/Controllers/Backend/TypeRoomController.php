@@ -45,8 +45,7 @@ class TypeRoomController extends BackendController
     public function store(TypeRoomRequest $request)
     {
         try {
-            $this->setFormData($request->all());
-            $params = $this->getFormData();
+            $params = $request->all();
 
             if (!$this->typeRoomService->store($params)) {
                 session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
@@ -59,8 +58,6 @@ class TypeRoomController extends BackendController
             Log::error($exception);
             session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
         }
-
-        $this->cleanFormData();
 
         return Redirect::route('types-room.index');
     }
@@ -86,8 +83,7 @@ class TypeRoomController extends BackendController
 
     public function update(Request $request, $id)
     {
-        $this->setFormData($request->all());
-        $params = $this->getFormData();
+        $params = $request->all();
 
         try {
             if (empty($id) || empty($params)) {
@@ -95,7 +91,6 @@ class TypeRoomController extends BackendController
             }
 
             if (!$this->typeRoomService->update($id, $params)) {
-                $this->cleanFormData();
                 session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
 
                 return Redirect::route('types-room.index');
@@ -106,8 +101,6 @@ class TypeRoomController extends BackendController
             Log::error($exception);
             session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
         }
-
-        $this->cleanFormData();
 
         return Redirect::route('types-room.index');
     }

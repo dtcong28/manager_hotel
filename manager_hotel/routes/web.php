@@ -3,6 +3,8 @@
 use App\Http\Controllers\Backend\EmployeeController;
 use App\Http\Controllers\Backend\TypeRoomController;
 use App\Http\Controllers\Backend\RoomController;
+use App\Http\Controllers\Backend\CustomerController;
+use App\Http\Controllers\Backend\BookingController;
 use App\Http\Controllers\Backend\ProfileBackendController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +47,13 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     // rooms
     Route::resource('rooms', RoomController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
+
+    // customers
+    Route::resource('customers', CustomerController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
+
+    // booking
+    Route::resource('booking', BookingController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
+    Route::post('/booking/filter_room', [BookingController::class, 'filterRoom'])->name('booking.filter_room');
 });
 
 require __DIR__.'/auth.php';

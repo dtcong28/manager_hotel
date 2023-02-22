@@ -24,7 +24,7 @@ const data = ref({
 })
 
 const filterRoom = () => {
-    form.post(route('booking.filter_room'))
+    form.get(route('booking.filter_room'))
 };
 </script>
 

@@ -53,7 +53,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     // booking
     Route::resource('booking', BookingController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
-    Route::post('/booking/filter_room', [BookingController::class, 'filterRoom'])->name('booking.filter_room');
+    Route::get('/booking/filter_room', [BookingController::class, 'filterRoom'])->name('booking.filter_room');
 });
 
 require __DIR__.'/auth.php';

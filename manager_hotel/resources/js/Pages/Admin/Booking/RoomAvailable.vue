@@ -2,11 +2,14 @@
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
 import {Link} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
+import {ref} from "vue";
 
 const props = defineProps({
-    rooms: Array
+    rooms: Array,
+    bookingInfor: Array
 })
 
+const selectRoom = ref([])
 </script>
 
 <template>
@@ -31,10 +34,10 @@ const props = defineProps({
             {{ $page.props.flash.action_failed }}
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-10">
                 <div class="card card-box">
                     <div class="card-head">
-                        <header>Rooms Available</header>
+                        <header>Rooms Available For {{ bookingInfor.customer.name }} - {{ bookingInfor.number_room }} Room: From {{ bookingInfor.time_check_in }} to {{ bookingInfor.time_check_out }}</header>
                         <div class="tools">
                             <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
                             <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
@@ -46,6 +49,7 @@ const props = defineProps({
                             <table class="table table-hover table-checkable order-column full-width" id="example4">
                                 <thead>
                                 <tr>
+                                    <th class="center"> Select</th>
                                     <th class="center"> img</th>
                                     <th class="center"> #</th>
                                     <th class="center"> Type</th>
@@ -58,6 +62,7 @@ const props = defineProps({
                                 </thead>
                                 <tbody>
                                 <tr v-for="room in rooms" :key="room.id" class="odd gradeX">
+                                    <td><input type="checkbox" id="checkbox" :value="room.id" v-model="selectRoom" /></td>
                                     <td class="user-circle-img">
                                         <img :src="room.image" :alt="room.image" class="w-20 h-20 shadow">
                                     </td>
@@ -71,6 +76,25 @@ const props = defineProps({
                                 </tr>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card card-box">
+                    <div class="card-head">
+                        <header>Total</header>
+                        <div class="tools">
+                            <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
+                            <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
+                            <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
+                        </div>
+                        <div class="card-body" v-for="value in selectRoom">
+                            <div v-for="room in rooms" :key="room.id">
+                                <span class="center" v-if="value === room.id">
+                                    {{ room.name }}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>

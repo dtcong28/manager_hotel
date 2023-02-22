@@ -9,6 +9,7 @@ use App\Repositories\Eloquent\RoomRepository;
 use App\Services\BookingService;
 use App\Services\CustomerService;
 use App\Services\RoomService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
@@ -63,20 +64,15 @@ class BookingController extends BackendController
 
     public function filterRoom(BookingRequest $request)
     {
-        $data = $request->all();
+        $params = $request->all();
+//        dd($params);
+//        $params["name"] = $params["name"]["id"];
+//        $params["type_booking"] = $params["type_booking"]["value"];
+//        $params["time_check_in"] = $params["range"]["start"];
+//        $params["time_check_out"] = $params["range"]["end"];
+//        unset($params["range"]);
 
-        $params['number_people_lteq'] = $data['number_people'];
-        $params['status_eq'] = \App\Models\Enums\RoomStatusEnum::VACANT->value;
-
-        $data["name"] = $data["name"]["id"];
-        $data["type_booking"] = $data["type_booking"]["value"];
-        $data["time_check_in"] = $data["range"]["start"];
-        $data["time_check_out"] = $data["range"]["end"];
-        unset($data["range"]);
-
-        $request->session()->put('booking', $data);
-
-        $record = $this->roomService->index($params);
+        $record = $this->roomRepository->getListFilterRoom($params['number_people']);
 
         return Inertia::render('Admin/Booking/RoomAvailable', [
             'rooms' => $record->map(function ($value) {
@@ -94,7 +90,13 @@ class BookingController extends BackendController
                     'image' => ($value->getMedia('images'))[0]->getUrl(),
                 ];
             }),
-            ''
+            'bookingInfor' => [
+                'customer' => $params["name"],
+                'type_booking' => $params["type_booking"],
+                'time_check_in' => $params["range"]['start'],
+                'time_check_out' => $params["range"]['end'],
+                'number_room' => $params["number_room"],
+            ]
         ]);
     }
 

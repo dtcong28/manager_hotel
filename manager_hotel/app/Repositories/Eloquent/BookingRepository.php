@@ -24,6 +24,6 @@ class BookingRepository extends CustomRepository
         $params['direction'] = 'desc';
         $params['id_eq'] = $id;
 
-        return $this->search($params)->with(['bookingRoom','bookingRoom.room'])->first();
+        return $this->search($params)->with(['bookingRoom','bookingRoom.room', 'customer'])->first();
     }
 }

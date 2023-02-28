@@ -33,6 +33,7 @@ class RoomController extends BackendController
     {
         $data = request()->all();
         $record = $this->roomService->index($data);
+
         $typesRoom = $this->typeRoomService->index($data);
         return Inertia::render('Admin/Rooms/Index', [
             'rooms' => $record->map(function ($value) {

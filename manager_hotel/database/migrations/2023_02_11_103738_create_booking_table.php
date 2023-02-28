@@ -18,7 +18,12 @@ return new class extends Migration {
             $table->char('type_booking', 1);
             $table->dateTime('time_check_in');
             $table->dateTime('time_check_out');
-            $table->text('feedback');
+            $table->integer('number_rooms');
+            $table->text('feedback')->nullable();
+            $table->dateTime('payment_date');
+            $table->char('method_payment', 1);
+            $table->char('status_payment', 1);
+            $table->float('total_money');
 
             $table->timestamps();
         });

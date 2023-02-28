@@ -22,10 +22,20 @@ class Booking extends Model
         'time_check_out',
         'type_booking',
         'feedback',
+        'number_rooms',
+        'payment_date',
+        'method_payment',
+        'status_payment',
+        'total_money',
     ];
 
     public function bookingRoom()
     {
         return $this->hasMany(BookingRoom::class);
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
     }
 }

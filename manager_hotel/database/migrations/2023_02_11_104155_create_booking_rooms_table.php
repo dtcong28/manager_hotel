@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->integer('id', true);
             $table->integer('booking_id');
             $table->integer('room_id');
+            $table->float('price');
             $table->integer('number_people');
 
             $table->timestamps();

@@ -50,6 +50,7 @@ class BaseService
         try {
             $this->prepareBeforeStore($params);
             $data = $this->getRepository()->create(Arr::except($params, ['hasFile']));
+            session()->put('last_id', $data->id);
 
             if (!empty($params['hasFile'])) {
                 $this->uploadImage($data, $params['hasFile']);

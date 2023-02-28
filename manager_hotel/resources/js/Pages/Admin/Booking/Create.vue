@@ -8,8 +8,8 @@ import FormPicker from '@/Components/Admin/FormPicker.vue';
 const form = useForm({
     name: '',
     type_booking: '',
-    number_people: '',
     number_room: '',
+    room: [],
     range: '',
 });
 
@@ -21,6 +21,12 @@ const props = defineProps({
 const data = ref({
     customers: props.customers,
     typeBooking: props.typeBooking,
+    numberRooms: [
+        {value : 1},
+        {value : 2},
+        {value : 3},
+        {value : 4},
+    ],
 })
 
 const filterRoom = () => {
@@ -64,25 +70,29 @@ const filterRoom = () => {
                             </div>
                             <div class="col-lg-6 p-t-20">
                                 <div class="form-group">
+                                    <FormPicker v-model="form.range"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 p-t-20">
+                                <div class="form-group">
                                     <label class="typo__label">Type Booking</label>
                                     <multiselect v-model="form.type_booking" deselect-label="Can't remove this value" track-by="name" label="name" placeholder="Select one" :options="data.typeBooking" :searchable="false" :allow-empty="false"></multiselect>
                                 </div>
                             </div>
                             <div class="col-lg-6 p-t-20">
                                 <div class="form-group">
-                                    <label for="number_people">Number people</label>
-                                    <input type="number" name="number_people" v-model="form.number_people" class="form-control" id="number_people" placeholder="Enter number people">
+                                    <label class="typo__label">Number Rooms</label>
+                                    <multiselect v-model="form.number_room" deselect-label="Can't remove this value" track-by="value" label="value" placeholder="Select one" :options="data.numberRooms" :searchable="false" :allow-empty="false"></multiselect>
                                 </div>
                             </div>
-                            <div class="col-lg-6 p-t-20">
+                            <div class="col-lg-3 p-t-20" v-for="room in form.number_room.value" :key="room">
                                 <div class="form-group">
-                                    <label for="number_room">Number room</label>
-                                    <input type="number" name="number_room" v-model="form.number_room" class="form-control" id="number_room" placeholder="Enter number room">
+                                    <label :for="'room_'+room" class="typo__label">Room {{ room }} - Number People</label>
+                                    <input type="number" :name="'room_'+room" v-model="form.room[room]" class="form-control"
+                                           :id="'room_'+room" placeholder="Enter number people">
                                 </div>
                             </div>
-                            <div class="col-lg-6 p-t-20">
-                                <FormPicker v-model="form.range"/>
-                            </div>
+
                             <div class="col-lg-12 p-t-20 text-center">
                                 <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink" data-upgraded=",MaterialButton,MaterialRipple">Continue<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
                                 <Link :href="route('booking.index')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default" data-upgraded=",MaterialButton,MaterialRipple">Cancel<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></Link>

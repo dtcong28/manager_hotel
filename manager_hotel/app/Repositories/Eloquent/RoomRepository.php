@@ -18,11 +18,14 @@ class RoomRepository extends CustomRepository
     {
         $data['sort'] = empty($params['sort']) ? 'id' : $params['sort'];
         $data['direction'] = empty($params['direction']) ? 'desc' : $params['direction'];
-        $data['number_people_gteq'] = $params;
         $data['status_eq'] = \App\Models\Enums\RoomStatusEnum::VACANT->value;
 
-        $query = $this->search($data);
+        foreach ($params as $key=>$param)
+        {
+            $data['number_people_eq'] = $param;
+            $query[$key] = $this->search($data)->get()->toArray();
+        }
 
-        return $query->get();
+        return $query;
     }
 }

@@ -12,4 +12,18 @@ class BookingRepository extends CustomRepository
     {
         parent::__construct();
     }
+
+    public function getListBooking()
+    {
+        return $this->with(['bookingRoom', 'customer'])->get();
+    }
+
+    public function getDetailBooking($id)
+    {
+        $params['sort'] = 'id';
+        $params['direction'] = 'desc';
+        $params['id_eq'] = $id;
+
+        return $this->search($params)->with(['bookingRoom','bookingRoom.room'])->first();
+    }
 }

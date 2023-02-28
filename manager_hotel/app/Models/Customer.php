@@ -24,4 +24,9 @@ class Customer extends Model
         'email',
         'identity_card',
     ];
+
+    public function booking()
+    {
+        return $this->hasMany(Booking::class);
+    }
 }

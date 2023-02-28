@@ -27,9 +27,14 @@ class BookingService extends CustomService
         return parent::destroy($id);
     }
 
-//    protected function prepareBeforeStore(&$data)
-//    {
-//    }
+    protected function prepareBeforeStore(&$data)
+    {
+        $data['customer_id'] = $data['customer']['id'];
+        $data['type_booking'] = $data['type_booking']['value'];
+        $data['number_rooms'] = count($data['rooms']);
+        unset($data['customer']);
+        unset($data['rooms']);
+    }
 //
 //    protected function prepareBeforeUpdate(&$data)
 //    {

@@ -1,43 +1,58 @@
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
-import {Link, useForm} from '@inertiajs/vue3'
+import {Link, router, useForm} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 import {computed, ref} from "vue";
 
-const props = defineProps({
-    rooms: Array,
-    bookingInfor: Array
+let props = defineProps({
+    bookRoom: Array,
+    bookingInfor: Array,
+    filterRoom: Array,
+    idBooking: Array,
 })
 
-const selectRoom = ref([])
-const sum = ref([])
+let selectRoom = ref([])
+let sum = ref([])
+let count = 0
 
-const form = useForm({
-    customer: props.bookingInfor.customer,
+props.bookRoom.forEach((room) => {
+    if(room.id) {
+        selectRoom.value.push(room)
+        sum.value.push(room.rent_per_night * props.bookingInfor.time_stay)
+        count = count + 1
+    }
+})
+
+console.log(count)
+
+
+
+let form = useForm({
     type_booking: props.bookingInfor.type_booking,
-    number_people: props.bookingInfor.number_people,
     time_check_in: props.bookingInfor.time_check_in,
     time_check_out: props.bookingInfor.time_check_out,
-    rooms: selectRoom,
+    select_rooms: selectRoom,
+    book_room: props.bookRoom,
     price_each_room: sum,
 });
 
 // Merge và loại bỏ những giá trị giống nhau trong mảng, khi khách đặt các phòng có số lượng người giống nhau
-const mergedRoom = [].concat.apply([], props.rooms);
+let mergedRoom = (props.filterRoom) ? [].concat.apply([], props.filterRoom) : '';
 
-const uniqueElementsBy = (arr, fn) =>
+let uniqueElementsBy = (arr, fn) =>
     arr.reduce((acc, v) => {
         if (!acc.some(x => fn(v, x))) acc.push(v);
         return acc;
     }, []);
 
-const arrayRoom = uniqueElementsBy(mergedRoom, (a, b) => a.id == b.id);
+let arrayRoom = (mergedRoom) ? uniqueElementsBy(mergedRoom, (a, b) => a.id == b.id) : '';
 //----------------------------------------
 
-console.log(sum)
-
-const storeBooking = () => {
-    form.post(route('booking.store'))
+const updateBooking = () => {
+    router.post(`/admin/booking/${props.idBooking}`, {
+        _method: 'put',
+        form
+    })
 };
 </script>
 
@@ -75,7 +90,6 @@ const storeBooking = () => {
                             <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
                         </div>
                     </div>
-                    {{ form.price_each_room }}
                     <div class="card-body ">
                         <div class="table-scrollable">
                             <table class="table table-hover table-checkable order-column full-width" id="example4">
@@ -93,10 +107,10 @@ const storeBooking = () => {
                                     <th class="center"> Rent {{ bookingInfor.time_stay }} night</th>
                                 </tr>
                                 </thead>
-                                <tbody v-for="(room,key) in rooms">
+                                <tbody v-for="(room,key) in props.filterRoom">
                                 <h3>Room {{ key + 1 }}</h3>
                                 <tr v-for="data in room" class="odd gradeX">
-                                    <td><input type="radio" id="radio" :value="data.id" v-model="selectRoom[key]" :disabled="selectRoom.includes(data.id)"/></td>
+                                    <td><input type="radio" id="radio" :value="data.id" v-model="selectRoom[count + key]" :disabled="selectRoom.includes(data.id)"/></td>
                                     <td class="user-circle-img">
                                         <img :src="data.image" :alt="data.image" class="w-20 h-20 shadow">
                                     </td>
@@ -111,9 +125,14 @@ const storeBooking = () => {
                                 </tr>
                                 </tbody>
                             </table>
+                            <div v-for="(room,key) in props.bookRoom" class="odd gradeX">
+                                <h3 v-if="!!room.id">
+                                    Room {{ room.name }} : {{ room.number_people }} people - {{ room.rent_per_night * bookingInfor.time_stay }} VND
+                                </h3>
+                            </div>
                         </div>
                     </div>
-                    <form @submit.prevent="storeBooking">
+                    <form @submit.prevent="updateBooking">
                         <div class="col-lg-12 p-t-20 text-center">
                             <button type="submit"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
@@ -138,6 +157,9 @@ const storeBooking = () => {
                         </div>
                     </div>
                     <div class="card-body" v-for="(value, index) in selectRoom">
+                        <span class="center" v-if="value.name">
+                            Room {{ value.name }} : {{ value.rent_per_night * bookingInfor.time_stay }} VND
+                        </span>
                         <div v-for="room in arrayRoom" :key="room.id">
                             <span class="center" v-if="value === room.id" :id="room.id">
                                 Room {{ room.name }} : {{ room.rent_per_night * bookingInfor.time_stay }} VND

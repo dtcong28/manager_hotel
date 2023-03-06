@@ -1,6 +1,6 @@
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
-import {Head, Link, useForm} from '@inertiajs/vue3';
+import {Head, Link, router, useForm} from '@inertiajs/vue3';
 import Multiselect from 'vue-multiselect'
 import {reactive, ref} from "vue";
 import FormPicker from '@/Components/Admin/FormPicker.vue';
@@ -8,18 +8,30 @@ import FormPicker from '@/Components/Admin/FormPicker.vue';
 const props = defineProps({
     typeBooking: Array,
     bookingRoom: Object,
+    idBooking: Array,
+})
+
+const newBooking = props.bookingRoom.booking_room.map(function (booking) {
+    return {
+        'id': booking.room.id,
+        'name': booking.room.name,
+        'number_people': booking.room.number_people,
+    }
 })
 
 const data = ref({
     typeBooking: props.typeBooking,
-    numberRooms: [
-        {value : 1},
-        {value : 2},
-        {value : 3},
-        {value : 4},
-    ],
     counter: 0,
+    rooms: newBooking,
 })
+
+function addField(rooms) {
+    data.value.rooms.push({});
+}
+
+function removeField(index, rooms) {
+    data.value.rooms.splice(index, 1);
+}
 
 const range = ref({
     start: props.bookingRoom.time_check_in,
@@ -30,8 +42,8 @@ const form = useForm({
     name: props.bookingRoom.customer.name,
     range: range,
     type_booking: '',
-    number_room: '',
-    rooms : props.bookingRoom.booking_room,
+    rooms : data.value.rooms,
+    id_booking: props.idBooking
 });
 
 data.value.typeBooking.forEach((type) => {
@@ -40,16 +52,9 @@ data.value.typeBooking.forEach((type) => {
     }
 })
 
-data.value.numberRooms.forEach((data) => {
-    if (data.value == props.bookingRoom.booking_room.length) {
-        form.number_room = data;
-    }
-})
-
-function handleClick() {
-    this.active = true;
-}
-
+const filterRoom = () => {
+    form.get(route('booking.edit_filter_room'))
+};
 </script>
 
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
@@ -72,19 +77,21 @@ function handleClick() {
                 </ol>
             </div>
         </div>
+        {{ form.rooms}}
+        {{ props.idBooking}}
         <div class="row">
             <div class="col-sm-12">
                 <div class="card-box">
                     <div class="card-head">
                         <header>Edit Booking Details</header>
                     </div>
-                    <pre>{{ props.bookingRoom }}</pre>
                     <form @submit.prevent="filterRoom">
-                        <div class="card-body row pl-5 pr-5">
+                        <div class="card-body row pl-5 pr-5" id="edit-form">
                             <div class="col-lg-6 p-t-20">
                                 <div class="form-group">
                                     <label class="typo__label">Name Customer</label>
-                                    <input type="text" readonly class="form-control" id="name" name="name" v-model="form.name">
+                                    <input type="text" readonly class="form-control" id="name" name="name"
+                                           v-model="form.name">
                                 </div>
                             </div>
                             <div class="col-lg-6 p-t-20">
@@ -98,35 +105,34 @@ function handleClick() {
                                     <label class="typo__label">Type Booking</label>
                                     <multiselect v-model="form.type_booking" deselect-label="Can't remove this value" track-by="name" label="name" placeholder="Select one" :options="data.typeBooking" :searchable="false" :allow-empty="false"></multiselect>
                                 </div>
-
                             </div>
 
-                            <div class="col-lg-12 p-t-20" v-if="form.rooms.length < 4 && (form.rooms.length + data.counter) < 4">
-                                <i class="fa fa-plus-square" @click="data.counter += 1"></i> Add Room
-                            </div>
-
-                            <div class="col-lg-3 p-t-20" v-for="data in form.rooms" :id="data.room.name">
-                                <div class="form-group">
-                                    <label class="typo__label">Room {{ data.room.name }}</label>
-                                    <input type="number" name="rooms" v-model="data.room.number_people" class="form-control">
+                            <div class="col-lg-3 p-t-20" v-for="(input, index) in data.rooms" :id="`room-$(index)`">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="typo__label">Room {{ input.name }} - Number People</label>
+                                        <input type="number" name="rooms" v-model="input.number_people"
+                                               class="form-control">
+                                    </div>
+                                    <div>
+                                        <a @click.prevent="addField(rooms)" href=""><i
+                                            class="fa fa-plus-circle"></i></a>
+                                        <a v-if="index != 0" @click.prevent="removeField(index, rooms)" href=""><i
+                                            class="fa fa-minus-circle text-danger"></i></a>
+                                    </div>
                                 </div>
-                                <i class="fa fa-minus-square" @click="handleClick"></i>
                             </div>
+                        </div>
 
-                            <div class="col-lg-3 p-t-20" v-for="index in data.counter" :id="index">
-                                <div class="form-group">
-                                    <label class="typo__label">Room - Number People</label>
-                                    <input type="number" name="rooms" v-model="data.room" class="form-control">
-                                </div>
-                                <i class="fa fa-minus-square"></i>
-                            </div>
-
-
-
-                            <div class="col-lg-12 p-t-20 text-center">
-                                <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink" data-upgraded=",MaterialButton,MaterialRipple">Continue<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
-                                <Link :href="route('booking.index')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default" data-upgraded=",MaterialButton,MaterialRipple">Cancel<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></Link>
-                            </div>
+                        <div class="col-lg-12 p-t-20 text-center">
+                            <button type="submit"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
+                                    data-upgraded=",MaterialButton,MaterialRipple">Continue<span
+                                class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
+                            <Link :href="route('booking.index')"
+                                  class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default"
+                                  data-upgraded=",MaterialButton,MaterialRipple">Cancel<span
+                                class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></Link>
                         </div>
                     </form>
                 </div>

@@ -28,4 +28,13 @@ class RoomRepository extends CustomRepository
 
         return $query;
     }
+
+    public function getDetailRoom($id)
+    {
+        $data['sort'] = empty($params['sort']) ? 'id' : $params['sort'];
+        $data['direction'] = empty($params['direction']) ? 'desc' : $params['direction'];
+        $data['id_eq'] = $id;
+
+        return $this->search($data)->first()->toArray();
+    }
 }

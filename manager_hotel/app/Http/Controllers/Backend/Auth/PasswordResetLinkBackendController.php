@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Backend\Auth;
 
-use App\Http\Controllers\Backend\BackendController;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -10,7 +9,7 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class PasswordResetLinkBackendController extends BackendController
+class PasswordResetLinkBackendController
 {
     /**
      * Display the password reset link request view.

@@ -27,12 +27,6 @@ const props = defineProps({
                 </ol>
             </div>
         </div>
-        <div v-if="$page.props.flash.action_success" class="alert alert-success">
-            {{ $page.props.flash.action_success }}
-        </div>
-        <div v-if="$page.props.flash.action_failed" class="alert alert-danger">
-            {{ $page.props.flash.action_failed }}
-        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card card-box">

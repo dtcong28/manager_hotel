@@ -1,9 +1,11 @@
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
 import {Link,Head} from '@inertiajs/vue3';
+import {ref} from "vue";
 
 const props = defineProps({
-    employees: Array
+    employees: Object,
+    gender: Array,
 })
 
 </script>
@@ -14,49 +16,77 @@ const props = defineProps({
         <div class="page-bar">
             <div class="page-title-breadcrumb">
                 <div class=" pull-left">
-                    <div class="page-title">All Staffs</div>
+                    <div class="page-title">All Employees</div>
                 </div>
                 <ol class="breadcrumb page-breadcrumb pull-right">
                     <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index.html">Home</a>&nbsp;<i
                         class="fa fa-angle-right"></i>
                     </li>
-                    <li><a class="parent-item" href="">Staffs</a>&nbsp;<i class="fa fa-angle-right"></i>
+                    <li><a class="parent-item" href="">Employees</a>&nbsp;<i class="fa fa-angle-right"></i>
                     </li>
-                    <li class="active">All Staffs</li>
+                    <li class="active">All Employees</li>
                 </ol>
             </div>
         </div>
-        <ul class="nav nav-pills nav-pills-rose">
-            <li class="nav-item tab-all"><a class="nav-link active show" href="#tab1" data-toggle="tab">List View</a>
-            </li>
-            <li class="nav-item tab-all"><a class="nav-link" href="#tab2" data-toggle="tab">Grid View</a></li>
-        </ul>
-        <div class="tab-content tab-space">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Action</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                <tr v-for="employee in employees" :key="employee.id">
-                    <th scope="row">{{ employee.id }}</th>
-                    <td>{{ employee.name }}</td>
-                    <td>{{ employee.email }}</td>
-                    <td>
-                        <Link :href="`/admin/employees/${employee.id}/edit`">Edit</Link>
-                        <br/>
-                        <Link :href="`/admin/employees/${employee.id}`" method="delete" type="button">Delete</Link>
-                    </td>
-
-                </tr>
-
-                </tbody>
-            </table>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-box">
+                    <div class="card-head">
+                        <header>All Employees</header>
+                        <div class="tools">
+                            <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
+                            <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
+                            <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
+                        </div>
+                    </div>
+                    <div class="card-body ">
+                        <div class="row p-b-20">
+                            <div class="col-md-6 col-sm-6 col-6">
+                                <div class="btn-group">
+                                    <a :href="route('employees.create')" id="addRow" class="btn btn-info">
+                                        Add New <i class="fa fa-plus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-scrollable">
+                            <table class="table table-hover table-checkable order-column full-width" id="example4">
+                                <thead>
+                                <tr>
+                                    <th class="center"> #</th>
+                                    <th class="center"> Name</th>
+                                    <th class="center"> Gender</th>
+                                    <th class="center"> Phone</th>
+                                    <th class="center"> Email</th>
+                                    <th class="center"> Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="employee in employees.data" :key="employee.id" class="odd gradeX">
+                                    <td class="center">{{ employee.id }}</td>
+                                    <td class="center">{{ employee.name }}</td>
+                                    <td class="center">
+                                        <div v-for="data in gender">
+                                            <span v-if="data.value==employee.gender">{{ data.name }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="center">{{ employee.phone }}</td>
+                                    <td class="center">{{ employee.email }}</td>
+                                    <td class="center">
+                                        <Link :href="route('employees.edit', { id: employee.id })" class="btn btn-tbl-edit btn-xs">
+                                            <i class="fa fa-pencil"></i>
+                                        </Link>
+                                        <Link :href="route('employees.destroy', { id: employee.id })" method="delete" class="btn btn-tbl-delete btn-xs">
+                                            <i class="fa fa-trash-o "></i>
+                                        </Link>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </AdminLayout>
 </template>

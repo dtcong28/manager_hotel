@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\StatefulGuard;
+use Core\Helpers\Url;
 
 if (!function_exists('getConfig')) {
     /**
@@ -219,6 +220,18 @@ if (!function_exists('is_json')) {
         } catch (\Exception $exception) {
             return false;
         }
+    }
+}
+
+if (!function_exists('getBackUrl')) {
+    /**
+     * @param bool $fromConfirm
+     * @param bool $fullUrl
+     * @return mixed|string
+     */
+    function getBackUrl(bool $fromConfirm = false, bool $fullUrl = true)
+    {
+        return $fromConfirm ? Url::getOldUrl() : Url::getBackUrl($fullUrl);
     }
 }
 

@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Employee extends Model
+class Restaurant extends Model
 {
     use HasFactory;
 
-    public $table = 'employees';
+    public $table = 'restaurants';
 
     /**
      * The attributes that are mass assignable.
@@ -18,9 +18,6 @@ class Employee extends Model
      */
     protected $fillable = [
         'name',
-        'email',
-        'password',
-        'phone',
-        'gender',
+        'introduce',
     ];
 }

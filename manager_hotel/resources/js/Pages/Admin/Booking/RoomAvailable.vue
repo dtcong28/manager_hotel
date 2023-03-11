@@ -6,7 +6,9 @@ import {computed, ref} from "vue";
 
 const props = defineProps({
     rooms: Array,
-    bookingInfor: Array
+    bookingInfor: Array,
+    typesRoom: Array,
+    status: Array,
 })
 
 const selectRoom = ref([])
@@ -56,12 +58,6 @@ const storeBooking = () => {
                 </ol>
             </div>
         </div>
-        <div v-if="$page.props.flash.action_success" class="alert alert-success">
-            {{ $page.props.flash.action_success }}
-        </div>
-        <div v-if="$page.props.flash.action_failed" class="alert alert-danger">
-            {{ $page.props.flash.action_failed }}
-        </div>
         <div class="row">
             <div class="col-md-10">
                 <div class="card card-box">
@@ -75,7 +71,6 @@ const storeBooking = () => {
                             <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
                         </div>
                     </div>
-                    {{ form.price_each_room }}
                     <div class="card-body ">
                         <div class="table-scrollable">
                             <table class="table table-hover table-checkable order-column full-width" id="example4">
@@ -101,9 +96,17 @@ const storeBooking = () => {
                                         <img :src="data.image" :alt="data.image" class="w-20 h-20 shadow">
                                     </td>
                                     <td class="center">{{ data.id }}</td>
-                                    <td class="center">{{ data.type_room_id }}</td>
+                                    <td class="center">
+                                        <div v-for="item in typesRoom.data">
+                                            <span v-if="item.id==data.type_room_id">{{ item.name }}</span>
+                                        </div>
+                                    </td>
                                     <td class="center">{{ data.name }}</td>
-                                    <td class="center">{{ data.status }}</td>
+                                    <td class="center">
+                                        <div v-for="item in status">
+                                            <span v-if="item.value==data.status">{{ item.name }}</span>
+                                        </div>
+                                    </td>
                                     <td class="center">{{ data.number_people }}</td>
                                     <td class="center">{{ data.number_bed }}</td>
                                     <td class="center">{{ data.rent_per_night }}</td>

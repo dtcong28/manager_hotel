@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Backend\Auth;
 
-use App\Http\Controllers\Backend\BackendController;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -14,7 +13,7 @@ use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class RegisteredUserBackendController extends BackendController
+class RegisteredUserBackendController
 {
     /**
      * Display the registration view.

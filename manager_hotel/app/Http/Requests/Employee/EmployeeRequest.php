@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Customer;
+namespace App\Http\Requests\Employee;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CustomerRequest extends FormRequest
+class EmployeeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +25,10 @@ class CustomerRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'address' => ['required'],
             'gender' => ['required'],
-            'phone' => ['required'],
+            'phone' => ['required','numeric','min:10'],
             'email' => ['required'],
-            'identity_card' => ['required'],
+            'password' => ['required','confirmed','min:6'],
         ];
     }
 }

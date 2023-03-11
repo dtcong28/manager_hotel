@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class ProfileBackendController extends BackendController
+class ProfileBackendController
 {
     /**
      * Display the user's profile form.

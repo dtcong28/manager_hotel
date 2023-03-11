@@ -2,17 +2,15 @@
 
 namespace App\Models\Enums;
 
-enum CustomerGenderEnum: int
+enum GenderEnum: int
 {
     use HasEnumLabel;
 
-case
-    FEMALE = 0;
-case
-    MALE = 1;
+    case FEMALE = 0;
 
-    public
-    function label(): string
+    case MALE = 1;
+
+    public function label(): string
     {
         return match ($this) {
             self::FEMALE => 'Female',

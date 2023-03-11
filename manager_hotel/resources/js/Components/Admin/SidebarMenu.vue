@@ -2,16 +2,16 @@
 import SidebarMenuItem from "@/Components/Admin/SidebarMenuItem.vue";
 const menus = [
     {
-        name: 'Staff',
+        name: 'Employee',
         icon: 'group',
         route: false,
         children: [
             {
-                name: 'View All Staffs',
+                name: 'View All Employees',
                 route: 'employees.index',
             },
             {
-                name: 'Add Staff Details',
+                name: 'Add Employee Details',
                 route: 'employees.create',
             },
 
@@ -111,10 +111,12 @@ const menus = [
                                    data-original-title="Chat">
                                     <i class="material-icons">chat</i>
                                 </a>
-                                <a class="tooltips" href="login.html" data-placement="top"
-                                   data-original-title="Logout">
-                                    <i class="material-icons">input</i>
-                                </a>
+                                <form method="post" :action="route('logout')">
+                                    <button class="tooltips" data-placement="top"
+                                       data-original-title="Logout">
+                                        <i class="material-icons">input</i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </li>

@@ -23,10 +23,6 @@ props.bookRoom.forEach((room) => {
     }
 })
 
-console.log(count)
-
-
-
 let form = useForm({
     type_booking: props.bookingInfor.type_booking,
     time_check_in: props.bookingInfor.time_check_in,
@@ -71,17 +67,11 @@ const updateBooking = () => {
                 </ol>
             </div>
         </div>
-        <div v-if="$page.props.flash.action_success" class="alert alert-success">
-            {{ $page.props.flash.action_success }}
-        </div>
-        <div v-if="$page.props.flash.action_failed" class="alert alert-danger">
-            {{ $page.props.flash.action_failed }}
-        </div>
         <div class="row">
             <div class="col-md-10">
                 <div class="card card-box">
                     <div class="card-head">
-                        <header>Rooms Available For {{ bookingInfor.customer.name }} - {{ bookingInfor.number_room }}
+                        <header>Rooms Available {{ bookingInfor.customer.name }} - {{ bookingInfor.number_room }}
                             From {{ bookingInfor.time_check_in }} to {{ bookingInfor.time_check_out }}
                         </header>
                         <div class="tools">
@@ -92,7 +82,7 @@ const updateBooking = () => {
                     </div>
                     <div class="card-body ">
                         <div class="table-scrollable">
-                            <table class="table table-hover table-checkable order-column full-width" id="example4">
+                            <table v-if="props.filterRoom" class="table table-hover table-checkable order-column full-width" id="example4">
                                 <thead>
                                 <tr>
                                     <th class="center"> Select</th>

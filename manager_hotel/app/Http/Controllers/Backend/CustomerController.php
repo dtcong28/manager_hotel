@@ -2,49 +2,46 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Requests\Room\RoomRequest;
+use App\Http\Requests\Customer\CustomerRequest;
 use App\Repositories\Eloquent\CustomerRepository;
 use App\Services\CustomerService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class CustomerController extends BackendController
 {
-    protected $customerRepository;
-    protected $customerService;
+    protected $repository;
+    protected $service;
 
-    public function __construct(CustomerRepository $customerRepository, CustomerService $customerService)
+    public function __construct()
     {
         parent::__construct();
-        $this->customerRepository = $customerRepository;
-        $this->customerService = $customerService;
+        $this->repository = app(CustomerRepository::class);
+        $this->service = app(CustomerService::class);
     }
 
     public function index()
     {
         $params = request()->all();
-        $record = $this->customerService->index($params);
+        $record = $this->service->index($params);
+
+        foreach (\App\Models\Enums\GenderEnum::cases() as $key => $data) {
+            $gender[$key] = [
+                'value' => $data->value,
+                'name' => $data->label(),
+            ];
+        }
 
         return Inertia::render('Admin/Customers/Index', [
-            'customers' => $record->map(function ($value) {
-                return [
-                    'id' => $value->id,
-                    'name' => $value->name,
-                    'address' => $value->address,
-                    'gender' => $value->gender,
-                    'phone' => $value->phone,
-                    'email' => $value->email,
-                    'identity_card' => $value->identity_card,
-                ];
-            }),
+            'customers' => $record,
+            'gender' => $gender,
         ]);
     }
 
     public function create()
     {
-        foreach (\App\Models\Enums\CustomerGenderEnum::cases() as $key => $data) {
+        foreach (\App\Models\Enums\GenderEnum::cases() as $key => $data) {
             $gender[$key] = [
                 'value' => $data->value,
                 'name' => $data->label(),
@@ -56,12 +53,12 @@ class CustomerController extends BackendController
         ]);
     }
 
-    public function store(RoomRequest $request)
+    public function store(CustomerRequest $request)
     {
         try {
             $params = $request->all();
 
-            if ($this->customerService->store($params)) {
+            if ($this->service->store($params)) {
                 session()->flash('action_success', getConstant('messages.CREATE_SUCCESS'));
             } else {
                 session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
@@ -80,7 +77,7 @@ class CustomerController extends BackendController
             return Redirect::route('customers.index');
         }
 
-        $record = $this->customerRepository->find($id)->toArray();
+        $record = $this->repository->find($id)->toArray();
 
         if (empty($record)) {
             session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
@@ -88,7 +85,7 @@ class CustomerController extends BackendController
             return Redirect::route('customers.index');
         }
 
-        foreach (\App\Models\Enums\CustomerGenderEnum::cases() as $key => $data) {
+        foreach (\App\Models\Enums\GenderEnum::cases() as $key => $data) {
             $gender[$key] = [
                 'value' => $data->value,
                 'name' => $data->label(),
@@ -101,7 +98,7 @@ class CustomerController extends BackendController
         ]);
     }
 
-    public function update(RoomRequest $request, $id)
+    public function update(CustomerRequest $request, $id)
     {
         try {
             if (empty($id) || empty($request)) {
@@ -110,7 +107,7 @@ class CustomerController extends BackendController
 
             $params = $request->all();
 
-            if ($this->customerService->update($id, $params)) {
+            if ($this->service->update($id, $params)) {
                 session()->flash('action_success', getConstant('messages.UPDATE_SUCCESS'));
             } else {
                 session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
@@ -122,33 +119,4 @@ class CustomerController extends BackendController
 
         return Redirect::route('customers.index');
     }
-
-    public function destroy($id)
-    {
-        try {
-            if (empty($id)) {
-                return Redirect::route('customers.index');
-            }
-
-            if (empty($this->customerRepository->find($id))) {
-                session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
-
-                return Redirect::route('customers.index');
-            }
-
-            if (!$this->customerService->destroy($id)) {
-                session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
-
-                return Redirect::route('customers.index');
-            }
-
-            session()->flash('action_success', getConstant('messages.DELETE_SUCCESS'));
-        } catch (\Exception $exception) {
-            Log::error($exception);
-            session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
-        }
-
-        return Redirect::route('customers.index');
-    }
-
 }

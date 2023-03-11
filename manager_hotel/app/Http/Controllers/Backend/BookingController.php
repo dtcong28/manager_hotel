@@ -11,8 +11,8 @@ use App\Services\BookingRoomService;
 use App\Services\BookingService;
 use App\Services\CustomerService;
 use App\Services\RoomService;
+use App\Services\TypeRoomService;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
@@ -20,31 +20,33 @@ use Inertia\Inertia;
 
 class BookingController extends BackendController
 {
-    protected $bookingRepository;
+    protected $repository;
     protected $bookingRoomRepository;
     protected $customerRepository;
     protected $roomRepository;
-    protected $bookingService;
+    protected $service;
     protected $customerService;
     protected $roomService;
     protected $bookingRoomService;
+    protected $typeRoomService;
 
-    public function __construct(BookingRoomRepository $bookingRoomRepository, BookingRoomService $bookingRoomService, BookingRepository $bookingRepository, BookingService $bookingService, CustomerRepository $customerRepository, CustomerService $customerService, RoomRepository $roomRepository, RoomService $roomService)
+    public function __construct()
     {
         parent::__construct();
-        $this->bookingRepository = $bookingRepository;
-        $this->bookingRoomRepository = $bookingRoomRepository;
-        $this->customerRepository = $customerRepository;
-        $this->roomRepository = $roomRepository;
-        $this->bookingService = $bookingService;
-        $this->customerService = $customerService;
-        $this->roomService = $roomService;
-        $this->bookingRoomService = $bookingRoomService;
+        $this->repository = app(BookingRepository::class);
+        $this->bookingRoomRepository = app(BookingRoomRepository::class);
+        $this->customerRepository = app(CustomerRepository::class);
+        $this->roomRepository = app(RoomRepository::class);
+        $this->service = app(BookingService::class);
+        $this->customerService = app(CustomerService::class);
+        $this->roomService = app(RoomService::class);
+        $this->bookingRoomService = app(BookingRoomService::class);
+        $this->typeRoomService = app(TypeRoomService::class);
     }
 
     public function index()
     {
-        $record = $this->bookingRepository->getListBooking();
+        $record = $this->repository->getListBooking();
 
         return Inertia::render('Admin/Booking/Index', [
             'bookings' => $record,
@@ -83,6 +85,15 @@ class BookingController extends BackendController
         $start = Carbon::createFromFormat('Y-m-d',  date('Y-m-d', strtotime($params["range"]['start'])));
         $end = Carbon::createFromFormat('Y-m-d',  date('Y-m-d', strtotime($params["range"]['end'])));
 
+        $typesRoom = $this->typeRoomService->index([]);
+
+        foreach (\App\Models\Enums\RoomStatusEnum::cases() as $key => $data) {
+            $status[$key] = [
+                'value' => $data->value,
+                'name' => $data->label(),
+            ];
+        }
+
         return Inertia::render('Admin/Booking/RoomAvailable', [
             'rooms' => $record,
             'bookingInfor' => [
@@ -91,14 +102,15 @@ class BookingController extends BackendController
                 'time_check_in' => date('Y-m-d', strtotime($params["range"]['start'])),
                 'time_check_out' => date('Y-m-d', strtotime($params["range"]['end'])),
                 'time_stay' => $start->diffInDays($end),
-            ]
+            ],
+            'typesRoom' => $typesRoom,
+            'status' => $status,
         ]);
     }
 
     public function editFilterRoom(BookingRequest $request)
     {
         // chưa lấy được ảnh
-
         $params = $request->all();
 
         // Xử lí lại dữ liệu
@@ -161,7 +173,7 @@ class BookingController extends BackendController
         try {
             $params = $request->all();
 
-            if (!$this->bookingService->store($params)) {
+            if (!$this->service->store($params)) {
                 DB::rollback();
                 session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
 
@@ -173,6 +185,9 @@ class BookingController extends BackendController
                 $data['room_id'] = $value;
                 $data['booking_id'] = $lastId;
                 $data['price'] = data_get($params, 'price_each_room')[$key];
+
+                $room = $this->roomRepository->find($value);
+                $data['number_people'] = $room->number_people;
 
                 if (!$this->bookingRoomService->store($data)) {
                     DB::rollback();
@@ -211,7 +226,7 @@ class BookingController extends BackendController
                 'name' => $data->label(),
             ];
         }
-        $data = $this->bookingRepository->getDetailBooking($id);
+        $data = $this->repository->getDetailBooking($id);
 
         if (empty($data)) {
             session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
@@ -245,7 +260,6 @@ class BookingController extends BackendController
             foreach ($oldBookRoom as $room) {
                 if (!in_array($room['room_id'], $newBookedRoom)) {
                     // delete booking
-                    //$this->bookingRoomService->destroy($room['id']);
                     if (!$this->bookingRoomService->destroy($room['id'])) {
                         DB::rollback();
                         session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
@@ -263,9 +277,10 @@ class BookingController extends BackendController
                     //update number_people
                     $booked = $this->bookingRoomRepository->find($room['id']);
 
-                    foreach (data_get($params, 'book_room') as $value) {
+                    foreach (data_get($params, 'book_room') as $key=>$value) {
                         if (data_get($value, 'id') == $room['room_id']) {
                             $booked->number_people = data_get($value, 'number_people');
+                            $booked->price = data_get($params, 'price_each_room')[$key];
                             $booked->save();
                         }
                     }
@@ -273,30 +288,33 @@ class BookingController extends BackendController
             }
 
             // New Rooms is added
-            foreach (data_get($params, 'select_rooms') as $value) {
+            foreach (data_get($params, 'select_rooms') as $key=>$value) {
                 // add new booking with room_id
-                $data = [
-                    'booking_id' => $id,
-                    'room_id' => $value,
-                ];
-               // $this->bookingRoomService->store($data);
-                if (!$this->bookingRoomService->store($data)) {
-                    DB::rollback();
-                    session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
+                if (is_int($value)) {
+                    $data = [
+                        'booking_id' => $id,
+                        'room_id' => $value,
+                        'price' => data_get($params, 'price_each_room')[$key],
+                    ];
 
-                    return Redirect::route('booking.index');
-                }
+                    if (!$this->bookingRoomService->store($data)) {
+                        DB::rollback();
+                        session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
 
-                // update status room is occupied
-                $room = $this->roomRepository->find($value);
-                if (!empty($room)) {
-                    $room->status = \App\Models\Enums\RoomStatusEnum::OCCUPIED->value;
+                        return Redirect::route('booking.index');
+                    }
+
+                    // update status room is occupied
+                    $room = $this->roomRepository->find($value);
+                    if (!empty($room)) {
+                        $room->status = \App\Models\Enums\RoomStatusEnum::OCCUPIED->value;
                     $room->save();
+                }
                 }
             }
 
             // update info booking
-            $booking = $this->bookingRepository->find($id);
+            $booking = $this->repository->find($id);
             if (!empty($booking)) {
                 $booking->type_booking = $params['type_booking']['value'];
                 $booking->time_check_in = $params['time_check_in'];
@@ -322,7 +340,7 @@ class BookingController extends BackendController
                 return Redirect::route('booking.index');
             }
 
-            if (empty($this->bookingRepository->find($id))) {
+            if (empty($this->repository->find($id))) {
                 session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
 
                 return Redirect::route('booking.index');
@@ -339,7 +357,7 @@ class BookingController extends BackendController
                 $this->bookingRoomRepository->destroy($value->id);
             }
 
-            $this->bookingRepository->destroy($id);
+            $this->repository->destroy($id);
 
             session()->flash('action_success', getConstant('messages.DELETE_SUCCESS'));
         } catch (\Exception $exception) {
@@ -349,5 +367,4 @@ class BookingController extends BackendController
 
         return redirect()->back();
     }
-
 }

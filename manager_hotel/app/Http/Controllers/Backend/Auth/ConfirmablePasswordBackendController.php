@@ -11,7 +11,7 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class ConfirmablePasswordBackendController extends BackendController
+class ConfirmablePasswordBackendController
 {
     /**
      * Show the confirm password view.

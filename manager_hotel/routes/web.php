@@ -31,7 +31,7 @@ Route::get('/', function () {
 });
 
 Route::prefix('admin')->get('/dashboard', function () {
-    return Inertia::render('Admin/Employees/Index');
+    return Inertia::render('Admin/DashBoard/Index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::prefix('admin')->middleware('auth')->group(function () {

@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Backend\Auth;
 
-
-use App\Http\Controllers\Backend\BackendController;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
-class PasswordBackendController extends BackendController
+class PasswordBackendController
 {
     /**
      * Update the user's password.

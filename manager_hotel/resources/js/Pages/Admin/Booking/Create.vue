@@ -66,30 +66,34 @@ const filterRoom = () => {
                                 <div class="form-group">
                                     <label class="typo__label">Name Customer</label>
                                     <multiselect v-model="form.name" deselect-label="Can't remove this value" track-by="name" label="name" placeholder="Select one" :options="data.customers" :searchable="false" :allow-empty="false"></multiselect>
+                                    <div v-if="form.errors.name" style="color: red">{{ form.errors.name[0] }}</div>
                                 </div>
                             </div>
                             <div class="col-lg-6 p-t-20">
                                 <div class="form-group">
                                     <FormPicker v-model="form.range"/>
                                 </div>
+                                <div v-if="form.errors.range" style="color: red">{{ form.errors.range[0] }}</div>
                             </div>
                             <div class="col-lg-6 p-t-20">
                                 <div class="form-group">
                                     <label class="typo__label">Type Booking</label>
                                     <multiselect v-model="form.type_booking" deselect-label="Can't remove this value" track-by="name" label="name" placeholder="Select one" :options="data.typeBooking" :searchable="false" :allow-empty="false"></multiselect>
+                                    <div v-if="form.errors.type_booking" style="color: red">{{ form.errors.type_booking[0] }}</div>
                                 </div>
                             </div>
                             <div class="col-lg-6 p-t-20">
                                 <div class="form-group">
                                     <label class="typo__label">Number Rooms</label>
                                     <multiselect v-model="form.number_room" deselect-label="Can't remove this value" track-by="value" label="value" placeholder="Select one" :options="data.numberRooms" :searchable="false" :allow-empty="false"></multiselect>
+                                    <div v-if="form.errors.number_room" style="color: red">{{ form.errors.number_room[0] }}</div>
                                 </div>
                             </div>
                             <div class="col-lg-3 p-t-20" v-for="room in form.number_room.value" :key="room">
                                 <div class="form-group">
                                     <label :for="'room_'+room" class="typo__label">Room {{ room }} - Number People</label>
-                                    <input type="number" :name="'room_'+room" v-model="form.room[room]" class="form-control"
-                                           :id="'room_'+room" placeholder="Enter number people">
+                                    <input type="number" :name="'room_'+room" v-model="form.room[room]" class="form-control" :id="'room_'+room" placeholder="Enter number people">
+                                    <div v-if="form.errors.room" style="color: red">{{ form.errors.room[0] }}</div>
                                 </div>
                             </div>
 

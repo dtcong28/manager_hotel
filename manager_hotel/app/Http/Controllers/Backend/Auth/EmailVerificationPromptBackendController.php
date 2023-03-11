@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Backend\Auth;
 
-use App\Http\Controllers\Backend\BackendController;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class EmailVerificationPromptBackendController extends BackendController
+class EmailVerificationPromptBackendController
 {
     /**
      * Display the email verification prompt.

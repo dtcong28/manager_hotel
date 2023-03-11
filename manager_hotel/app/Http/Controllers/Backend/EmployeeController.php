@@ -2,62 +2,121 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Models\Employee;
-use Illuminate\Http\Request;
+use App\Repositories\Eloquent\EmployeeRepository;
+use App\Services\EmployeeService;
+use App\Http\Requests\Employee\EmployeeRequest;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class EmployeeController extends BackendController
 {
+    protected $repository;
+    protected $service;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->repository = app(EmployeeRepository::class);
+        $this->service = app(EmployeeService::class);;
+    }
+
     public function index()
     {
+        $params = request()->all();
+        $record = $this->service->index($params);
+
+        foreach (\App\Models\Enums\GenderEnum::cases() as $key => $data) {
+            $gender[$key] = [
+                'value' => $data->value,
+                'name' => $data->label(),
+            ];
+        }
+
         return Inertia::render('Admin/Employees/Index', [
-            'employees' => Employee::all()->map(function ($employees) {
-                return [
-                    'id' => $employees->id,
-                    'name' => $employees->name,
-                    'email' => $employees->email,
-                ];
-            })
+            'employees' => $record,
+            'gender' => $gender,
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Admin/Employees/Create', []);
+        foreach (\App\Models\Enums\GenderEnum::cases() as $key => $data) {
+            $gender[$key] = [
+                'value' => $data->value,
+                'name' => $data->label(),
+            ];
+        }
+
+        return Inertia::render('Admin/Employees/Create', [
+            'gender' => $gender,
+        ]);
     }
 
-    public function store(Request $request)
+    public function store(EmployeeRequest $request)
     {
-        Employee::create([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
+        try {
+            $params = $request->all();
+
+            if ($this->service->store($params)) {
+                session()->flash('action_success', getConstant('messages.CREATE_SUCCESS'));
+            } else {
+                session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
+            }
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
+        }
 
         return Redirect::route('employees.index');
     }
 
-    public function edit(Employee $employee)
+    public function edit($id)
     {
+        if (empty($id)) {
+            return Redirect::route('employees.index');
+        }
+
+        $record = $this->repository->find($id)->toArray();
+
+        if (empty($record)) {
+            session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
+
+            return Redirect::route('employees.index');
+        }
+
+        foreach (\App\Models\Enums\GenderEnum::cases() as $key => $data) {
+            $gender[$key] = [
+                'value' => $data->value,
+                'name' => $data->label(),
+            ];
+        }
+
         return Inertia::render('Admin/Employees/Edit', [
-            'employee' => $employee
+            'employee' => $record,
+            'gender' => $gender,
         ]);
     }
 
-    public function update(Employee $employee)
+    public function update(EmployeeRequest $request, $id)
     {
-       // dd(json_decode(Request()->all('name')));
-        $employee->update([
-            'name' => request()->all()["name"],
-            'email' => request()->all()["email"],
-        ]);
+        try {
+            if (empty($id) || empty($request)) {
+                return Redirect::route('employees.index');
+            }
 
-        return Redirect::route('employees.index');
-    }
+            $params = $request->all();
 
-    public function destroy(Employee $employee)
-    {
-        $employee->delete();
+            if ($this->service->update($id, $params)) {
+                session()->flash('action_success', getConstant('messages.UPDATE_SUCCESS'));
+            } else {
+                session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
+            }
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
+        }
+
         return Redirect::route('employees.index');
     }
 }

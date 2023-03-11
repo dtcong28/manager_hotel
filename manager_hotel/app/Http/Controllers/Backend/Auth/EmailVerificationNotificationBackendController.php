@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Backend\Auth;
 
-use App\Http\Controllers\Backend\BackendController;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class EmailVerificationNotificationBackendController extends BackendController
+class EmailVerificationNotificationBackendController
 {
     /**
      * Send a new email verification notification.

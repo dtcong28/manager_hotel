@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Requests\Room\TypeRoomRequest;
+use App\Repositories\Eloquent\RoomRepository;
 use App\Repositories\Eloquent\TypeRoomRepository;
 use App\Services\TypeRoomService;
 use Illuminate\Http\Request;
@@ -12,20 +13,22 @@ use Inertia\Inertia;
 
 class TypeRoomController extends BackendController
 {
-    protected $typeRoomRepository;
-    protected $typeRoomService;
+    protected $repository;
+    protected $service;
+    protected $roomRepository;
 
-    public function __construct(TypeRoomRepository $typeRoomRepository, TypeRoomService $typeRoomService)
+    public function __construct()
     {
         parent::__construct();
-        $this->typeRoomRepository = $typeRoomRepository;
-        $this->typeRoomService = $typeRoomService;
+        $this->repository = app(TypeRoomRepository::class);
+        $this->roomRepository = app(RoomRepository::class);
+        $this->service = app(TypeRoomService::class);
     }
 
     public function index()
     {
         $data = request()->all();
-        $record = $this->typeRoomService->index($data);
+        $record = $this->service->index($data);
 
         return Inertia::render('Admin/TypesRoom/Index', [
             'typesRoom' => $record->map(function ($value) {
@@ -47,7 +50,7 @@ class TypeRoomController extends BackendController
         try {
             $params = $request->all();
 
-            if (!$this->typeRoomService->store($params)) {
+            if (!$this->service->store($params)) {
                 session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
 
                 return Redirect::route('types-room.index');
@@ -68,7 +71,7 @@ class TypeRoomController extends BackendController
             return Redirect::route('types-room.index');
         }
 
-        $record = $this->typeRoomRepository->find($id)->toArray();
+        $record = $this->repository->find($id)->toArray();
 
         if (empty($record)) {
             session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
@@ -90,7 +93,7 @@ class TypeRoomController extends BackendController
                 return Redirect::route('types-room.index');
             }
 
-            if (!$this->typeRoomService->update($id, $params)) {
+            if (!$this->service->update($id, $params)) {
                 session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
 
                 return Redirect::route('types-room.index');
@@ -112,13 +115,18 @@ class TypeRoomController extends BackendController
                 return Redirect::route('types-room.index');
             }
 
-            if (empty($this->typeRoomRepository->find($id))) {
+            if (empty($this->repository->find($id))) {
                 session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
 
                 return Redirect::route('types-room.index');
             }
 
-            if (!$this->typeRoomService->destroy($id)) {
+            $rooms = $this->roomRepository->findByField('type_room_id', $id);
+            foreach ($rooms as $value) {
+                $this->roomRepository->destroy($value->id);
+            }
+
+            if (!$this->service->destroy($id)) {
                 session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
 
                 return Redirect::route('types-room.index');

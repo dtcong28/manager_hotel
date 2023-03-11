@@ -4,7 +4,8 @@ import {Link} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 
 const props = defineProps({
-    customers: Array
+    customers: Object,
+    gender: Array,
 })
 
 </script>
@@ -26,12 +27,6 @@ const props = defineProps({
                     <li class="active">All Customers</li>
                 </ol>
             </div>
-        </div>
-        <div v-if="$page.props.flash.action_success" class="alert alert-success">
-            {{ $page.props.flash.action_success }}
-        </div>
-        <div v-if="$page.props.flash.action_failed" class="alert alert-danger">
-            {{ $page.props.flash.action_failed }}
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -69,11 +64,15 @@ const props = defineProps({
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="customer in customers" :key="customer.id" class="odd gradeX">
+                                <tr v-for="customer in customers.data" :key="customer.id" class="odd gradeX">
                                     <td class="center">{{ customer.id }}</td>
                                     <td class="center">{{ customer.name }}</td>
                                     <td class="center">{{ customer.address }}</td>
-                                    <td class="center">{{ customer.gender }}</td>
+                                    <td class="center">
+                                        <div v-for="data in gender">
+                                            <span v-if="data.value==customer.gender">{{ data.name }}</span>
+                                        </div>
+                                    </td>
                                     <td class="center">{{ customer.phone }}</td>
                                     <td class="center">{{ customer.email }}</td>
                                     <td class="center">{{ customer.identity_card }}</td>

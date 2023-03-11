@@ -17,6 +17,12 @@ import Setting from "@/Components/Admin/Setting.vue";
             <!-- start page content -->
             <div class="page-content-wrapper">
                 <div class="page-content">
+                    <div v-if="$page.props.flash.action_success" class="alert alert-success">
+                        {{ $page.props.flash.action_success }}
+                    </div>
+                    <div v-if="$page.props.flash.action_failed" class="alert alert-danger">
+                        {{ $page.props.flash.action_failed }}
+                    </div>
                     <slot />
                 </div>
             </div>

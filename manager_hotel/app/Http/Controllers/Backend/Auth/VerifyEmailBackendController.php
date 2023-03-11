@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Backend\Auth;
 
-use App\Http\Controllers\Backend\BackendController;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
 
-class VerifyEmailBackendController extends BackendController
+class VerifyEmailBackendController
 {
     /**
      * Mark the authenticated user's email address as verified.

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Requests\Room\RoomRequest;
 use App\Models\Enums\RoomStatusEnum;
 use App\Repositories\Eloquent\RoomRepository;
+use App\Repositories\Eloquent\TypeRoomRepository;
 use App\Services\RoomService;
 use App\Services\TypeRoomService;
 use Illuminate\Support\Facades\Log;
@@ -16,6 +17,7 @@ class RoomController extends BackendController
     protected $repository;
     protected $service;
     protected $typeRoomService;
+    protected $typeRoomRepository;
 
     public function __construct()
     {
@@ -23,6 +25,7 @@ class RoomController extends BackendController
         $this->repository = app(RoomRepository::class);
         $this->service = app(RoomService::class);
         $this->typeRoomService = app(TypeRoomService::class);
+        $this->typeRoomRepository = app(TypeRoomRepository::class);
     }
 
     public function index()
@@ -30,7 +33,7 @@ class RoomController extends BackendController
         $data = request()->all();
         $record = $this->service->index($data);
 
-        $typesRoom = $this->typeRoomService->index($data);
+        $typesRoom = $this->typeRoomRepository->get();
 
         foreach (\App\Models\Enums\RoomStatusEnum::cases() as $key => $data) {
             $status[$key] = [

@@ -72,7 +72,23 @@ const menus = [
             },
 
         ],
-    }
+    },
+    {
+        name: 'Restaurant',
+        icon: 'store',
+        route: false,
+        children: [
+            {
+                name: 'Food',
+                route: 'food.index',
+            },
+            {
+                name: 'Add Food',
+                route: 'food.create',
+            },
+
+        ],
+    },
 ]
 </script>
 

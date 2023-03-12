@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('food', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('restaurant_id');
             $table->string('name');
             $table->float('price');
             $table->text('description')->nullable();

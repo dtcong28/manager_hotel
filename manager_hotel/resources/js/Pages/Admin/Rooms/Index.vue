@@ -72,7 +72,7 @@ const props = defineProps({
                                     </td>
                                     <td class="center">{{ room.id }}</td>
                                     <td class="center">
-                                        <div v-for="data in typesRoom.data">
+                                        <div v-for="data in typesRoom">
                                             <span v-if="data.id==room.type_room_id">{{ data.name }}</span>
                                         </div>
                                     </td>

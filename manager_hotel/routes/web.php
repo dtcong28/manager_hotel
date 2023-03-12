@@ -5,6 +5,8 @@ use App\Http\Controllers\Backend\TypeRoomController;
 use App\Http\Controllers\Backend\RoomController;
 use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\BookingController;
+use App\Http\Controllers\Backend\BookingFoodController;
+use App\Http\Controllers\Backend\FoodController;
 use App\Http\Controllers\Backend\ProfileBackendController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -48,13 +50,22 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     // rooms
     Route::resource('rooms', RoomController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
 
+    // food
+    Route::resource('food', FoodController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
+
     // customers
     Route::resource('customers', CustomerController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
 
-    // booking
+    // booking rooms
     Route::resource('booking', BookingController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
-    Route::get('/booking/filter_room', [BookingController::class, 'filterRoom'])->name('booking.filter_room');
-    Route::get('/booking/edit/filter_room', [BookingController::class, 'editFilterRoom'])->name('booking.edit_filter_room');
+    Route::get('/booking/filter-room', [BookingController::class, 'filterRoom'])->name('booking.filter_room');
+    Route::get('/booking/edit/filter-room', [BookingController::class, 'editFilterRoom'])->name('booking.edit_filter_room');
+    Route::get('/booking/{id}/bill', [BookingController::class, 'bill'])->name('booking.bill');
+    Route::patch('/booking/{id}/update-payment', [BookingController::class, 'updatePayment'])->name('booking.update_payment');
+
+    // booking food
+    Route::get('booking/{id}/booking-food', [BookingFoodController::class, 'create'])->name('booking_food.create');
+    Route::resource('booking_food', BookingFoodController::class)->only(['index', 'store']);
 });
 
 require __DIR__.'/auth.php';

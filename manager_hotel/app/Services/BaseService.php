@@ -116,9 +116,12 @@ class BaseService
 
     protected function updateImage(&$params, $images)
     {
-        $params->clearMediaCollection('images');
-        foreach ($images as $image) {
-            $params->addMedia($image)->toMediaCollection('images');
+        if (is_object($images[0]))
+        {
+            $params->clearMediaCollection('images');
+            foreach ($images as $image) {
+                $params->addMedia($image)->toMediaCollection('images');
+            }
         }
     }
 

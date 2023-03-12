@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('id', true);
             $table->integer('booking_id');
             $table->integer('food_id');
-            $table->float('price');
+            $table->float('price')->nullable();
             $table->float('amount');
 
             $table->timestamps();

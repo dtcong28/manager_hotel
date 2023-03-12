@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Food extends Model
+class Food extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
 
     public $table = 'food';
 
@@ -18,15 +20,9 @@ class Food extends Model
      */
     protected $fillable = [
         'name',
-        'restaurant_id',
         'price',
         'description',
     ];
-
-    public function restaurant()
-    {
-        return $this->belongsTo(Restaurant::class);
-    }
 
     public function bookingFood() {
         return $this->hasMany(BookingFood::class);

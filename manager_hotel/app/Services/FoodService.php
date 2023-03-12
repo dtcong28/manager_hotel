@@ -28,13 +28,23 @@ class FoodService extends CustomService
         return parent::destroy($id);
     }
 
-//    protected function prepareBeforeStore(&$data)
-//    {
-//
-//    }
-//
-//    protected function prepareBeforeUpdate(&$data)
-//    {
-//
-//    }
+    protected function prepareBeforeStore(&$data)
+    {
+        $this->prepareSave($data);
+    }
+
+    protected function prepareBeforeUpdate(&$data)
+    {
+        $this->prepareSave($data);
+    }
+
+    protected function prepareSave(&$data)
+    {
+        $images = $data['images'];
+
+        if (!empty($images)) {
+            $data['hasFile'] = $images;
+            unset($data['images']);
+        }
+    }
 }

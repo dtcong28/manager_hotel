@@ -36,8 +36,6 @@ const uniqueElementsBy = (arr, fn) =>
 const arrayRoom = uniqueElementsBy(mergedRoom, (a, b) => a.id == b.id);
 //----------------------------------------
 
-console.log(sum)
-
 const storeBooking = () => {
     form.post(route('booking.store'))
 };
@@ -71,7 +69,7 @@ const storeBooking = () => {
                             <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
                         </div>
                     </div>
-                    <div class="card-body ">
+                    <div class="card-body">
                         <div class="table-scrollable">
                             <table class="table table-hover table-checkable order-column full-width" id="example4">
                                 <thead>

@@ -20,6 +20,7 @@
     "dependencies": {
         "tb-vue3-laravel-inertiajs-file-upload": "^1.8.4",
         "v-calendar": "^3.0.0-alpha.8",
+        "vue-head": "^2.2.0",
         "vue-hotel-datepicker": "^4.6.0",
         "vue-media-upload": "^1.2.1",
         "vue-multiselect": "^3.0.0-beta.1",

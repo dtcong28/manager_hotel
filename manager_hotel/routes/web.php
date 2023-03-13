@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\BookingController;
 use App\Http\Controllers\Backend\BookingFoodController;
 use App\Http\Controllers\Backend\FoodController;
 use App\Http\Controllers\Backend\ProfileBackendController;
+use App\Http\Controllers\Frontend\HomeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -23,14 +24,14 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Admin/Auth/Login', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+//Route::get('/', function () {
+//    return Inertia::render('Admin/Auth/Login', [
+//        'canLogin' => Route::has('login'),
+//        'canRegister' => Route::has('register'),
+//        'laravelVersion' => Application::VERSION,
+//        'phpVersion' => PHP_VERSION,
+//    ]);
+//});
 
 Route::prefix('admin')->get('/dashboard', function () {
     return Inertia::render('Admin/DashBoard/Index');
@@ -66,6 +67,10 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     // booking food
     Route::get('booking/{id}/booking-food', [BookingFoodController::class, 'create'])->name('booking_food.create');
     Route::resource('booking_food', BookingFoodController::class)->only(['index', 'store']);
+});
+
+Route::group(['as' => 'web'], function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 });
 
 require __DIR__.'/auth.php';

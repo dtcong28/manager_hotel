@@ -1,5 +1,4 @@
 <script>
-import VueHead from 'vue-head'
 export default {
     mounted() {
         const scripts = [
@@ -30,9 +29,36 @@ export default {
                 document.head.appendChild(tag);
             }
         });
+
+        const styles = [
+            "https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700",
+            "https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i",
+            "frontend/css/open-iconic-bootstrap.min.css",
+            "frontend/css/animate.css",
+            "frontend/css/owl.carousel.min.css",
+            "frontend/css/owl.theme.default.min.css",
+            "frontend/css/magnific-popup.css",
+            "frontend/css/aos.css",
+            "frontend/css/ionicons.min.css",
+            "frontend/css/bootstrap-datepicker.css",
+            "frontend/css/jquery.timepicker.css",
+            "frontend/css/flaticon.css",
+            "frontend/css/icomoon.css",
+            "frontend/css/style.css",
+        ];
+        styles.forEach(style => {
+            let tag = document.head.querySelector(`[src="${style}"`);
+            if (!tag) {
+                tag = document.createElement("link");
+                tag.setAttribute("href", style);
+                tag.setAttribute("rel", 'stylesheet');
+                document.head.appendChild(tag);
+            }
+        });
     }
 }
 </script>
+
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
 import {Link} from '@inertiajs/vue3'
@@ -40,33 +66,12 @@ import {Head} from '@inertiajs/vue3';
 </script>
 
 <template>
-
-<!--    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700" rel="stylesheet">-->
-<!--    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i" rel="stylesheet">-->
-
-<!--    <link rel="stylesheet" href="{{ asset('frontend') }}/css/open-iconic-bootstrap.min.css">-->
-<!--    <link rel="stylesheet" href="{{ asset('frontend') }}/css/animate.css">-->
-
-<!--    <link rel="stylesheet" href="{{ asset('frontend') }}/css/owl.carousel.min.css">-->
-<!--    <link rel="stylesheet" href="{{ asset('frontend') }}/css/owl.theme.default.min.css">-->
-<!--    <link rel="stylesheet" href="{{ asset('frontend') }}/css/magnific-popup.css">-->
-
-<!--    <link rel="stylesheet" href="{{ asset('frontend') }}/css/aos.css">-->
-
-<!--    <link rel="stylesheet" href="{{ asset('frontend') }}/css/ionicons.min.css">-->
-
-<!--    <link rel="stylesheet" href="{{ asset('frontend') }}/css/bootstrap-datepicker.css">-->
-<!--    <link rel="stylesheet" href="{{ asset('frontend') }}/css/jquery.timepicker.css">-->
-
-<!--    <link rel="stylesheet" href="{{ asset('frontend') }}/css/flaticon.css">-->
-<!--    <link rel="stylesheet" href="{{ asset('frontend') }}/css/icomoon.css">-->
-<!--    <link rel="stylesheet" href="{{ asset('frontend') }}/css/style.css">-->
     <body>
-
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <div class="container">
             <a class="navbar-brand" href="index.html">Deluxe</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+                    aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="oi oi-menu"></span> Menu
             </button>
 
@@ -124,7 +129,8 @@ import {Head} from '@inertiajs/vue3';
                                 <div class="form-group p-4 align-self-stretch d-flex align-items-end">
                                     <div class="wrap">
                                         <label for="#">Check-in Date</label>
-                                        <input type="text" class="form-control checkin_date" placeholder="Check-in date">
+                                        <input type="text" class="form-control checkin_date"
+                                               placeholder="Check-in date">
                                     </div>
                                 </div>
                             </div>
@@ -132,7 +138,8 @@ import {Head} from '@inertiajs/vue3';
                                 <div class="form-group p-4 align-self-stretch d-flex align-items-end">
                                     <div class="wrap">
                                         <label for="#">Check-out Date</label>
-                                        <input type="text" class="form-control checkout_date" placeholder="Check-out date">
+                                        <input type="text" class="form-control checkout_date"
+                                               placeholder="Check-out date">
                                     </div>
                                 </div>
                             </div>
@@ -178,7 +185,8 @@ import {Head} from '@inertiajs/vue3';
                             </div>
                             <div class="col-md d-flex">
                                 <div class="form-group d-flex align-self-stretch">
-                                    <input type="submit" value="Check Availability" class="btn btn-primary py-3 px-4 align-self-stretch">
+                                    <input type="submit" value="Check Availability"
+                                           class="btn btn-primary py-3 px-4 align-self-stretch">
                                 </div>
                             </div>
                         </div>
@@ -192,8 +200,10 @@ import {Head} from '@inertiajs/vue3';
     <section class="ftco-section ftc-no-pb ftc-no-pt">
         <div class="container">
             <div class="row">
-                <div class="col-md-5 p-md-5 img img-2 d-flex justify-content-center align-items-center" v-bind:style="{ 'background-image': 'url(frontend/images/bg_2.jpg)' }">
-                    <a href="https://vimeo.com/45830194" class="icon popup-vimeo d-flex justify-content-center align-items-center">
+                <div class="col-md-5 p-md-5 img img-2 d-flex justify-content-center align-items-center"
+                     v-bind:style="{ 'background-image': 'url(frontend/images/bg_2.jpg)' }">
+                    <a href="https://vimeo.com/45830194"
+                       class="icon popup-vimeo d-flex justify-content-center align-items-center">
                         <span class="icon-play"></span>
                     </a>
                 </div>
@@ -205,8 +215,16 @@ import {Head} from '@inertiajs/vue3';
                         </div>
                     </div>
                     <div class="pb-md-5">
-                        <p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn’t take long until a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and dragged her into their agency, where they abused her for their.</p>
-                        <p>When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way.</p>
+                        <p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it
+                            would have been rewritten a thousand times and everything that was left from its origin
+                            would be the word "and" and the Little Blind Text should turn around and return to its own,
+                            safe country. But nothing the copy said could convince her and so it didn’t take long until
+                            a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and dragged
+                            her into their agency, where they abused her for their.</p>
+                        <p>When she reached the first hills of the Italic Mountains, she had a last view back on the
+                            skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of
+                            her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she
+                            continued her way.</p>
                         <ul class="ftco-social d-flex">
                             <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
                             <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
@@ -288,7 +306,8 @@ import {Head} from '@inertiajs/vue3';
             <div class="row">
                 <div class="col-sm col-md-6 col-lg-4 ftco-animate">
                     <div class="room">
-                        <a href="rooms.html" class="img d-flex justify-content-center align-items-center" v-bind:style="{ 'background-image': 'url(frontend/images/room-1.jpg)' }">
+                        <a href="rooms.html" class="img d-flex justify-content-center align-items-center"
+                           v-bind:style="{ 'background-image': 'url(frontend/images/room-1.jpg)' }">
                             <div class="icon d-flex justify-content-center align-items-center">
                                 <span class="icon-search2"></span>
                             </div>
@@ -297,13 +316,15 @@ import {Head} from '@inertiajs/vue3';
                             <h3 class="mb-3"><a href="rooms.html">Suite Room</a></h3>
                             <p><span class="price mr-2">$120.00</span> <span class="per">per night</span></p>
                             <hr>
-                            <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span class="icon-long-arrow-right"></span></a></p>
+                            <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span
+                                class="icon-long-arrow-right"></span></a></p>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm col-md-6 col-lg-4 ftco-animate">
                     <div class="room">
-                        <a href="rooms.html" class="img d-flex justify-content-center align-items-center" v-bind:style="{ 'background-image': 'url(frontend/images/room-2.jpg)' }">
+                        <a href="rooms.html" class="img d-flex justify-content-center align-items-center"
+                           v-bind:style="{ 'background-image': 'url(frontend/images/room-2.jpg)' }">
                             <div class="icon d-flex justify-content-center align-items-center">
                                 <span class="icon-search2"></span>
                             </div>
@@ -312,13 +333,15 @@ import {Head} from '@inertiajs/vue3';
                             <h3 class="mb-3"><a href="rooms.html">Family Room</a></h3>
                             <p><span class="price mr-2">$20.00</span> <span class="per">per night</span></p>
                             <hr>
-                            <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span class="icon-long-arrow-right"></span></a></p>
+                            <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span
+                                class="icon-long-arrow-right"></span></a></p>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm col-md-6 col-lg-4 ftco-animate">
                     <div class="room">
-                        <a href="rooms.html" class="img d-flex justify-content-center align-items-center" v-bind:style="{ 'background-image': 'url(frontend/images/room-3.jpg)' }">
+                        <a href="rooms.html" class="img d-flex justify-content-center align-items-center"
+                           v-bind:style="{ 'background-image': 'url(frontend/images/room-3.jpg)' }">
                             <div class="icon d-flex justify-content-center align-items-center">
                                 <span class="icon-search2"></span>
                             </div>
@@ -327,13 +350,15 @@ import {Head} from '@inertiajs/vue3';
                             <h3 class="mb-3"><a href="rooms.html">Deluxe Room</a></h3>
                             <p><span class="price mr-2">$150.00</span> <span class="per">per night</span></p>
                             <hr>
-                            <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span class="icon-long-arrow-right"></span></a></p>
+                            <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span
+                                class="icon-long-arrow-right"></span></a></p>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm col-md-6 col-lg-4 ftco-animate">
                     <div class="room">
-                        <a href="rooms.html" class="img d-flex justify-content-center align-items-center" v-bind:style="{ 'background-image': 'url(frontend/images/room-4.jpg)' }">
+                        <a href="rooms.html" class="img d-flex justify-content-center align-items-center"
+                           v-bind:style="{ 'background-image': 'url(frontend/images/room-4.jpg)' }">
                             <div class="icon d-flex justify-content-center align-items-center">
                                 <span class="icon-search2"></span>
                             </div>
@@ -342,13 +367,15 @@ import {Head} from '@inertiajs/vue3';
                             <h3 class="mb-3"><a href="rooms.html">Classic Room</a></h3>
                             <p><span class="price mr-2">$130.00</span> <span class="per">per night</span></p>
                             <hr>
-                            <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span class="icon-long-arrow-right"></span></a></p>
+                            <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span
+                                class="icon-long-arrow-right"></span></a></p>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm col-md-6 col-lg-4 ftco-animate">
                     <div class="room">
-                        <a href="rooms.html" class="img d-flex justify-content-center align-items-center" v-bind:style="{ 'background-image': 'url(frontend/images/room-5.jpg)' }">
+                        <a href="rooms.html" class="img d-flex justify-content-center align-items-center"
+                           v-bind:style="{ 'background-image': 'url(frontend/images/room-5.jpg)' }">
                             <div class="icon d-flex justify-content-center align-items-center">
                                 <span class="icon-search2"></span>
                             </div>
@@ -357,13 +384,15 @@ import {Head} from '@inertiajs/vue3';
                             <h3 class="mb-3"><a href="rooms.html">Superior Room</a></h3>
                             <p><span class="price mr-2">$300.00</span> <span class="per">per night</span></p>
                             <hr>
-                            <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span class="icon-long-arrow-right"></span></a></p>
+                            <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span
+                                class="icon-long-arrow-right"></span></a></p>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm col-md-6 col-lg-4 ftco-animate">
                     <div class="room">
-                        <a href="rooms.html" class="img d-flex justify-content-center align-items-center" v-bind:style="{ 'background-image': 'url(frontend/images/room-6.jpg)' }">
+                        <a href="rooms.html" class="img d-flex justify-content-center align-items-center"
+                           v-bind:style="{ 'background-image': 'url(frontend/images/room-6.jpg)' }">
                             <div class="icon d-flex justify-content-center align-items-center">
                                 <span class="icon-search2"></span>
                             </div>
@@ -372,7 +401,8 @@ import {Head} from '@inertiajs/vue3';
                             <h3 class="mb-3"><a href="rooms.html">Luxury Room</a></h3>
                             <p><span class="price mr-2">$500.00</span> <span class="per">per night</span></p>
                             <hr>
-                            <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span class="icon-long-arrow-right"></span></a></p>
+                            <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span
+                                class="icon-long-arrow-right"></span></a></p>
                         </div>
                     </div>
                 </div>
@@ -380,7 +410,8 @@ import {Head} from '@inertiajs/vue3';
         </div>
     </section>
 
-    <section class="ftco-section ftco-counter img" id="section-counter" v-bind:style="{ 'background-image': 'url(frontend/images/bg_1.jpg)' }">
+    <section class="ftco-section ftco-counter img" id="section-counter"
+             v-bind:style="{ 'background-image': 'url(frontend/images/bg_1.jpg)' }">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-10">
@@ -433,13 +464,16 @@ import {Head} from '@inertiajs/vue3';
                             <div class="carousel-testimony owl-carousel ftco-owl">
                                 <div class="item">
                                     <div class="testimony-wrap py-4 pb-5">
-                                        <div class="user-img mb-4" v-bind:style="{ 'background-image': 'url(frontend/images/person_1.jpg)' }">
-		                    <span class="quote d-flex align-items-center justify-content-center">
-		                      <i class="icon-quote-left"></i>
-		                    </span>
+                                        <div class="user-img mb-4"
+                                             v-bind:style="{ 'background-image': 'url(frontend/images/person_1.jpg)' }">
+                                <span class="quote d-flex align-items-center justify-content-center">
+                                  <i class="icon-quote-left"></i>
+                                </span>
                                         </div>
                                         <div class="text text-center">
-                                            <p class="mb-4">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+                                            <p class="mb-4">A small river named Duden flows by their place and supplies
+                                                it with the necessary regelialia. It is a paradisematic country, in
+                                                which roasted parts of sentences fly into your mouth.</p>
                                             <p class="name">Nathan Smith</p>
                                             <span class="position">Guests</span>
                                         </div>
@@ -447,13 +481,16 @@ import {Head} from '@inertiajs/vue3';
                                 </div>
                                 <div class="item">
                                     <div class="testimony-wrap py-4 pb-5">
-                                        <div class="user-img mb-4" v-bind:style="{ 'background-image': 'url(frontend/images/person_2.jpg)' }">
-		                    <span class="quote d-flex align-items-center justify-content-center">
-		                      <i class="icon-quote-left"></i>
-		                    </span>
+                                        <div class="user-img mb-4"
+                                             v-bind:style="{ 'background-image': 'url(frontend/images/person_2.jpg)' }">
+                                <span class="quote d-flex align-items-center justify-content-center">
+                                  <i class="icon-quote-left"></i>
+                                </span>
                                         </div>
                                         <div class="text text-center">
-                                            <p class="mb-4">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+                                            <p class="mb-4">A small river named Duden flows by their place and supplies
+                                                it with the necessary regelialia. It is a paradisematic country, in
+                                                which roasted parts of sentences fly into your mouth.</p>
                                             <p class="name">Nathan Smith</p>
                                             <span class="position">Guests</span>
                                         </div>
@@ -461,13 +498,16 @@ import {Head} from '@inertiajs/vue3';
                                 </div>
                                 <div class="item">
                                     <div class="testimony-wrap py-4 pb-5">
-                                        <div class="user-img mb-4" v-bind:style="{ 'background-image': 'url(frontend/images/person_3.jpg)' }">
-		                    <span class="quote d-flex align-items-center justify-content-center">
-		                      <i class="icon-quote-left"></i>
-		                    </span>
+                                        <div class="user-img mb-4"
+                                             v-bind:style="{ 'background-image': 'url(frontend/images/person_3.jpg)' }">
+                                <span class="quote d-flex align-items-center justify-content-center">
+                                  <i class="icon-quote-left"></i>
+                                </span>
                                         </div>
                                         <div class="text text-center">
-                                            <p class="mb-4">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+                                            <p class="mb-4">A small river named Duden flows by their place and supplies
+                                                it with the necessary regelialia. It is a paradisematic country, in
+                                                which roasted parts of sentences fly into your mouth.</p>
                                             <p class="name">Nathan Smith</p>
                                             <span class="position">Guests</span>
                                         </div>
@@ -475,13 +515,16 @@ import {Head} from '@inertiajs/vue3';
                                 </div>
                                 <div class="item">
                                     <div class="testimony-wrap py-4 pb-5">
-                                        <div class="user-img mb-4" v-bind:style="{ 'background-image': 'url(frontend/images/person_1.jpg)' }">
-		                    <span class="quote d-flex align-items-center justify-content-center">
-		                      <i class="icon-quote-left"></i>
-		                    </span>
+                                        <div class="user-img mb-4"
+                                             v-bind:style="{ 'background-image': 'url(frontend/images/person_1.jpg)' }">
+                                <span class="quote d-flex align-items-center justify-content-center">
+                                  <i class="icon-quote-left"></i>
+                                </span>
                                         </div>
                                         <div class="text text-center">
-                                            <p class="mb-4">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+                                            <p class="mb-4">A small river named Duden flows by their place and supplies
+                                                it with the necessary regelialia. It is a paradisematic country, in
+                                                which roasted parts of sentences fly into your mouth.</p>
                                             <p class="name">Nathan Smith</p>
                                             <span class="position">Guests</span>
                                         </div>
@@ -489,13 +532,16 @@ import {Head} from '@inertiajs/vue3';
                                 </div>
                                 <div class="item">
                                     <div class="testimony-wrap py-4 pb-5">
-                                        <div class="user-img mb-4" v-bind:style="{ 'background-image': 'url(frontend/images/person_1.jpg)' }">
-		                    <span class="quote d-flex align-items-center justify-content-center">
-		                      <i class="icon-quote-left"></i>
-		                    </span>
+                                        <div class="user-img mb-4"
+                                             v-bind:style="{ 'background-image': 'url(frontend/images/person_1.jpg)' }">
+                                <span class="quote d-flex align-items-center justify-content-center">
+                                  <i class="icon-quote-left"></i>
+                                </span>
                                         </div>
                                         <div class="text text-center">
-                                            <p class="mb-4">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+                                            <p class="mb-4">A small river named Duden flows by their place and supplies
+                                                it with the necessary regelialia. It is a paradisematic country, in
+                                                which roasted parts of sentences fly into your mouth.</p>
                                             <p class="name">Nathan Smith</p>
                                             <span class="position">Guests</span>
                                         </div>
@@ -520,10 +566,12 @@ import {Head} from '@inertiajs/vue3';
             <div class="row d-flex">
                 <div class="col-md-3 d-flex ftco-animate">
                     <div class="blog-entry align-self-stretch">
-                        <a href="blog-single.html" class="block-20" v-bind:style="{ 'background-image': 'url(frontend/images/image_1.jpg)' }">
+                        <a href="blog-single.html" class="block-20"
+                           v-bind:style="{ 'background-image': 'url(frontend/images/image_1.jpg)' }">
                         </a>
                         <div class="text mt-3 d-block">
-                            <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+                            <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the
+                                blind texts</a></h3>
                             <div class="meta mb-3">
                                 <div><a href="#">Dec 6, 2018</a></div>
                                 <div><a href="#">Admin</a></div>
@@ -534,10 +582,12 @@ import {Head} from '@inertiajs/vue3';
                 </div>
                 <div class="col-md-3 d-flex ftco-animate">
                     <div class="blog-entry align-self-stretch">
-                        <a href="blog-single.html" class="block-20" v-bind:style="{ 'background-image': 'url(frontend/images/image_2.jpg)' }">
+                        <a href="blog-single.html" class="block-20"
+                           v-bind:style="{ 'background-image': 'url(frontend/images/image_2.jpg)' }">
                         </a>
                         <div class="text mt-3">
-                            <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+                            <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the
+                                blind texts</a></h3>
                             <div class="meta mb-3">
                                 <div><a href="#">Dec 6, 2018</a></div>
                                 <div><a href="#">Admin</a></div>
@@ -548,10 +598,12 @@ import {Head} from '@inertiajs/vue3';
                 </div>
                 <div class="col-md-3 d-flex ftco-animate">
                     <div class="blog-entry align-self-stretch">
-                        <a href="blog-single.html" class="block-20" v-bind:style="{ 'background-image': 'url(frontend/images/image_3.jpg)' }">
+                        <a href="blog-single.html" class="block-20"
+                           v-bind:style="{ 'background-image': 'url(frontend/images/image_3.jpg)' }">
                         </a>
                         <div class="text mt-3">
-                            <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+                            <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the
+                                blind texts</a></h3>
                             <div class="meta mb-3">
                                 <div><a href="#">Dec 6, 2018</a></div>
                                 <div><a href="#">Admin</a></div>
@@ -562,10 +614,12 @@ import {Head} from '@inertiajs/vue3';
                 </div>
                 <div class="col-md-3 d-flex ftco-animate">
                     <div class="blog-entry align-self-stretch">
-                        <a href="blog-single.html" class="block-20" v-bind:style="{ 'background-image': 'url(frontend/images/image_4.jpg)' }">
+                        <a href="blog-single.html" class="block-20"
+                           v-bind:style="{ 'background-image': 'url(frontend/images/image_4.jpg)' }">
                         </a>
                         <div class="text mt-3">
-                            <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+                            <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the
+                                blind texts</a></h3>
                             <div class="meta mb-3">
                                 <div><a href="#">Dec 6, 2018</a></div>
                                 <div><a href="#">Admin</a></div>
@@ -587,35 +641,40 @@ import {Head} from '@inertiajs/vue3';
             </div>
             <div class="row no-gutters">
                 <div class="col-sm-12 col-md ftco-animate">
-                    <a href="images/insta-1.jpg" class="insta-img image-popup" v-bind:style="{ 'background-image': 'url(frontend/images/insta-1.jpg)' }">
+                    <a href="images/insta-1.jpg" class="insta-img image-popup"
+                       v-bind:style="{ 'background-image': 'url(frontend/images/insta-1.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
                         </div>
                     </a>
                 </div>
                 <div class="col-sm-12 col-md ftco-animate">
-                    <a href="images/insta-2.jpg" class="insta-img image-popup" v-bind:style="{ 'background-image': 'url(frontend/images/insta-2.jpg)' }">
+                    <a href="images/insta-2.jpg" class="insta-img image-popup"
+                       v-bind:style="{ 'background-image': 'url(frontend/images/insta-2.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
                         </div>
                     </a>
                 </div>
                 <div class="col-sm-12 col-md ftco-animate">
-                    <a href="images/insta-3.jpg" class="insta-img image-popup" v-bind:style="{ 'background-image': 'url(frontend/images/insta-3.jpg)' }">
+                    <a href="images/insta-3.jpg" class="insta-img image-popup"
+                       v-bind:style="{ 'background-image': 'url(frontend/images/insta-3.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
                         </div>
                     </a>
                 </div>
                 <div class="col-sm-12 col-md ftco-animate">
-                    <a href="images/insta-4.jpg" class="insta-img image-popup" v-bind:style="{ 'background-image': 'url(frontend/images/insta-4.jpg)' }">
+                    <a href="images/insta-4.jpg" class="insta-img image-popup"
+                       v-bind:style="{ 'background-image': 'url(frontend/images/insta-4.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
                         </div>
                     </a>
                 </div>
                 <div class="col-sm-12 col-md ftco-animate">
-                    <a href="images/insta-5.jpg" class="insta-img image-popup" v-bind:style="{ 'background-image': 'url(frontend/images/insta-5.jpg)' }">
+                    <a href="images/insta-5.jpg" class="insta-img image-popup"
+                       v-bind:style="{ 'background-image': 'url(frontend/images/insta-5.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
                         </div>
@@ -631,7 +690,8 @@ import {Head} from '@inertiajs/vue3';
                 <div class="col-md">
                     <div class="ftco-footer-widget mb-4">
                         <h2 class="ftco-heading-2">Deluxe Hotel</h2>
-                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia,
+                            there live the blind texts.</p>
                         <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
                             <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
                             <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
@@ -666,9 +726,12 @@ import {Head} from '@inertiajs/vue3';
                         <h2 class="ftco-heading-2">Have a Questions?</h2>
                         <div class="block-23 mb-3">
                             <ul>
-                                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-                                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-                                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a></li>
+                                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span>
+                                </li>
+                                <li><a href="#"><span class="icon icon-phone"></span><span
+                                    class="text">+2 392 3929 210</span></a></li>
+                                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -678,7 +741,7 @@ import {Head} from '@inertiajs/vue3';
                 <div class="col-md-12 text-center">
 
                     <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-<!--                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>-->
+                        <!--                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>-->
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                 </div>
             </div>
@@ -686,10 +749,14 @@ import {Head} from '@inertiajs/vue3';
     </footer>
 
 
-
     <!-- loader -->
-    <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
-
+    <div id="ftco-loader" class="show fullscreen">
+        <svg class="circular" width="48px" height="48px">
+            <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
+            <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+                    stroke="#F96D00"/>
+        </svg>
+    </div>
     </body>
 </template>
 

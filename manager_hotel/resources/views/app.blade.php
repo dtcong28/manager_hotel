@@ -11,31 +11,31 @@
 
     <!-- Included in every pages -->
 
-    <!--bootstrap -->
-    <link href="{{ asset('backend') }}/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <!-- Material Design Lite CSS -->
-    <link rel="stylesheet" href="{{ asset('backend') }}/assets/plugins/material/material.min.css">
-    <link rel="stylesheet" href="{{ asset('backend') }}/assets/css/material_style.css">
-    <!-- data tables -->
-    <link href="{{ asset('backend') }}/assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
-    <!-- animation -->
-    <link href="{{ asset('backend') }}/assets/css/pages/animate_page.css" rel="stylesheet">
-    <!-- Template Styles -->
+{{--    <!--bootstrap -->--}}
+{{--    <link href="{{ asset('backend') }}/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />--}}
+{{--    <!-- Material Design Lite CSS -->--}}
+{{--    <link rel="stylesheet" href="{{ asset('backend') }}/assets/plugins/material/material.min.css">--}}
+{{--    <link rel="stylesheet" href="{{ asset('backend') }}/assets/css/material_style.css">--}}
+{{--    <!-- data tables -->--}}
+{{--    <link href="{{ asset('backend') }}/assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css"/>--}}
+{{--    <!-- animation -->--}}
+{{--    <link href="{{ asset('backend') }}/assets/css/pages/animate_page.css" rel="stylesheet">--}}
+{{--    <!-- Template Styles -->--}}
     <link href="{{ asset('backend') }}/assets/css/plugins.min.css" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('backend') }}/assets/css/style.css" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('backend') }}/assets/css/responsive.css" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('backend') }}/assets/css/theme-color.css" rel="stylesheet" type="text/css" />
+{{--    <link href="{{ asset('backend') }}/assets/css/style.css" rel="stylesheet" type="text/css" />--}}
+{{--    <link href="{{ asset('backend') }}/assets/css/responsive.css" rel="stylesheet" type="text/css" />--}}
+{{--    <link href="{{ asset('backend') }}/assets/css/theme-color.css" rel="stylesheet" type="text/css" />--}}
 
-    <!-- End included in every pages -->
+{{--    <!-- End included in every pages -->--}}
 
-    <!-- google font -->
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet" type="text/css" />
-    <!-- icons -->
-    <link href="{{ asset('backend') }}/assets/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('backend') }}/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+{{--    <!-- google font -->--}}
+{{--    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet" type="text/css" />--}}
+{{--    <!-- icons -->--}}
+{{--    <link href="{{ asset('backend') }}/assets/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />--}}
+{{--    <link href="{{ asset('backend') }}/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>--}}
 
-    <!-- favicon -->
-    <link rel="shortcut icon" href="{{ asset('backend') }}/assets/img/favicon.ico"/>
+{{--    <!-- favicon -->--}}
+{{--    <link rel="shortcut icon" href="{{ asset('backend') }}/assets/img/favicon.ico"/>--}}
 
     <!-- Scripts -->
     @routes
@@ -50,9 +50,9 @@
 
 <!-- start js include path -->
 <script src="{{ asset('backend') }}/assets/plugins/jquery/jquery.min.js" ></script>
-<script src="{{ asset('backend') }}/assets/plugins/popper/popper.min.js" ></script>
-<script src="{{ asset('backend') }}/assets/plugins/jquery-blockui/jquery.blockui.min.js" ></script>
-<script src="{{ asset('backend') }}/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+{{--<script src="{{ asset('backend') }}/assets/plugins/popper/popper.min.js" ></script>--}}
+{{--<script src="{{ asset('backend') }}/assets/plugins/jquery-blockui/jquery.blockui.min.js" ></script>--}}
+{{--<script src="{{ asset('backend') }}/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>--}}
 
 <!-- bootstrap -->
 {{--<script src="{{ asset('backend') }}/assets/plugins/bootstrap/js/bootstrap.min.js" ></script>--}}

@@ -8,7 +8,7 @@ import Setting from "@/Components/Admin/Setting.vue";
 <template>
     <div class="page-wrapper">
         <Header></Header>
-
+        <body class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md header-white dark-sidebar-color logo-dark">
         <!-- start page container -->
         <div class="page-container">
 
@@ -34,6 +34,7 @@ import Setting from "@/Components/Admin/Setting.vue";
         <!-- end page container -->
 
         <Footer></Footer>
+        </body>
     </div>
 </template>
 

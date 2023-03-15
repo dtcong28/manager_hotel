@@ -75,7 +75,7 @@ import {Head} from '@inertiajs/vue3';
                 <span class="oi oi-menu"></span> Menu
             </button>
 
-            <div class="collapse navbar-collapse" id="ftco-nav">
+            <div class="navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
                     <li class="nav-item"><a href="rooms.html" class="nav-link">Rooms</a></li>

@@ -69,8 +69,10 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('booking_food', BookingFoodController::class)->only(['index', 'store']);
 });
 
-Route::group(['as' => 'web'], function () {
+Route::group(['as' => 'web.'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
+
+    Route::get('/booking/filter-room', [\App\Http\Controllers\Frontend\BookingController::class, 'filterRoom'])->name('booking.filter_room');
 });
 
 require __DIR__.'/auth.php';

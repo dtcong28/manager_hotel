@@ -3,6 +3,8 @@ import SidebarMenu from '@/Components/Admin/SidebarMenu.vue';
 import Header from "@/Components/Admin/Header.vue";
 import Footer from "@/Components/Admin/Footer.vue";
 import Setting from "@/Components/Admin/Setting.vue";
+import {Link, Head} from '@inertiajs/vue3'
+import { onMounted } from 'vue';
 
 import '/public/backend/assets/plugins/bootstrap/css/bootstrap.min.css';
 import '/public/backend/assets/plugins/material/material.min.css';
@@ -17,21 +19,43 @@ import '/public/backend/assets/plugins/simple-line-icons/simple-line-icons.min.c
 import '/public/backend/assets/plugins/font-awesome/css/font-awesome.min.css';
 import '/public/backend/assets/img/favicon.ico';
 
-import '/public/backend/assets/plugins/popper/popper.min.js';
+onMounted(() => {
+    let style = document.createElement('link');
+    style.type = "text/css";
+    style.rel = "stylesheet";
+    style.href = 'https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700';
+    document.head.appendChild(style);
+
+    const scripts = [
+        "/backend/assets/plugins/bootstrap/js/bootstrap.min.js",
+        "/backend/assets/js/app.js",
+        "/backend/assets/js/layout.js",
+        "/backend/assets/js/theme-color.js",
+        "/backend/assets/plugins/datatables/jquery.dataTables.min.js",
+        "/backend/assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.js",
+        "/backend/assets/js/pages/table/table_data.js",
+        "/backend/assets/plugins/material/material.min.js",
+        "/backend/assets/js/pages/material_select/getmdl-select.js",
+        "/backend/assets/plugins/material-datetimepicker/moment-with-locales.min.js",
+        "/backend/assets/plugins/material-datetimepicker/bootstrap-material-datetimepicker.js",
+        "/backend/assets/plugins/material-datetimepicker/datetimepicker.js",
+        "/backend/assets/js/pages/ui/animations.js",
+        "/backend/assets/plugins/popper/popper.min.js",
+        "/backend/assets/plugins/jquery-blockui/jquery.blockui.min.js",
+        "/backend/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js",
+    ];
+    scripts.forEach(script => {
+        let tag = document.head.querySelector(`[src="${script}"`);
+        if (!tag) {
+            tag = document.createElement("script");
+            tag.setAttribute("src", script);
+            tag.setAttribute("type", 'text/javascript');
+            document.head.appendChild(tag);
+        }
+    });
+})
 </script>
 
-<script>
-export default {
-    mounted()
-    {
-        let style = document.createElement('link');
-        style.type = "text/css";
-        style.rel = "stylesheet";
-        style.href = 'https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700';
-        document.head.appendChild(style);
-    }
-}
-</script>
 <template>
     <div class="page-wrapper">
         <Header>
@@ -74,6 +98,7 @@ export default {
         <!-- end page container -->
 
         <Footer></Footer>
+<!--        <script src="{{ mix('backend/assets/plugins/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>-->
         </body>
     </div>
 </template>

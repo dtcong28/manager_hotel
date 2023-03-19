@@ -96,7 +96,7 @@ onMounted(() => {
             <div class="row no-gutters">
                 <div class="col-sm-12 col-md ftco-animate">
                     <a href="images/insta-1.jpg" class="insta-img image-popup"
-                       v-bind:style="{ 'background-image': 'url(frontend/images/insta-1.jpg)' }">
+                       v-bind:style="{ 'background-image': 'url(/frontend/images/insta-1.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
                         </div>
@@ -104,7 +104,7 @@ onMounted(() => {
                 </div>
                 <div class="col-sm-12 col-md ftco-animate">
                     <a href="images/insta-2.jpg" class="insta-img image-popup"
-                       v-bind:style="{ 'background-image': 'url(frontend/images/insta-2.jpg)' }">
+                       v-bind:style="{ 'background-image': 'url(/frontend/images/insta-2.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
                         </div>
@@ -112,7 +112,7 @@ onMounted(() => {
                 </div>
                 <div class="col-sm-12 col-md ftco-animate">
                     <a href="images/insta-3.jpg" class="insta-img image-popup"
-                       v-bind:style="{ 'background-image': 'url(frontend/images/insta-3.jpg)' }">
+                       v-bind:style="{ 'background-image': 'url(/frontend/images/insta-3.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
                         </div>
@@ -120,7 +120,7 @@ onMounted(() => {
                 </div>
                 <div class="col-sm-12 col-md ftco-animate">
                     <a href="images/insta-4.jpg" class="insta-img image-popup"
-                       v-bind:style="{ 'background-image': 'url(frontend/images/insta-4.jpg)' }">
+                       v-bind:style="{ 'background-image': 'url(/frontend/images/insta-4.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
                         </div>
@@ -128,7 +128,7 @@ onMounted(() => {
                 </div>
                 <div class="col-sm-12 col-md ftco-animate">
                     <a href="images/insta-5.jpg" class="insta-img image-popup"
-                       v-bind:style="{ 'background-image': 'url(frontend/images/insta-5.jpg)' }">
+                       v-bind:style="{ 'background-image': 'url(/frontend/images/insta-5.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
                         </div>
@@ -204,13 +204,13 @@ onMounted(() => {
 
 
     <!-- loader -->
-    <div id="ftco-loader" class="show fullscreen">
-        <svg class="circular" width="48px" height="48px">
-            <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
-            <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
-                    stroke="#F96D00"/>
-        </svg>
-    </div>
+<!--    <div id="ftco-loader" class="show fullscreen">-->
+<!--        <svg class="circular" width="48px" height="48px">-->
+<!--            <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>-->
+<!--            <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"-->
+<!--                    stroke="#F96D00"/>-->
+<!--        </svg>-->
+<!--    </div>-->
     </body>
 
 </template>

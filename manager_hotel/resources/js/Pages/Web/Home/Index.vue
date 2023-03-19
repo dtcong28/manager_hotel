@@ -7,7 +7,7 @@ const form = useForm({
     check_in: '',
     check_out: '',
     number_room: '',
-    number_people: '',
+    room: [],
 });
 
 const filterRoom = () => {
@@ -19,7 +19,7 @@ const filterRoom = () => {
     <Head title="Home"/>
     <WebLayout>
         <section class="home-slider owl-carousel">
-            <div class="slider-item" v-bind:style="{ 'background-image': 'url(frontend/images/bg_1.jpg)' }">
+            <div class="slider-item" v-bind:style="{ 'background-image': 'url(/frontend/images/bg_1.jpg)' }">
                 <div class="overlay"></div>
                 <div class="container">
                     <div class="row no-gutters slider-text align-items-center justify-content-center">
@@ -33,7 +33,7 @@ const filterRoom = () => {
                 </div>
             </div>
 
-            <div class="slider-item" v-bind:style="{ 'background-image': 'url(frontend/images/bg_2.jpg)' }">
+            <div class="slider-item" v-bind:style="{ 'background-image': 'url(/frontend/images/bg_2.jpg)' }">
                 <div class="overlay"></div>
                 <div class="container">
                     <div class="row no-gutters slider-text align-items-center justify-content-center">
@@ -49,35 +49,35 @@ const filterRoom = () => {
         </section>
 
         <section class="ftco-booking">
-            <div class="container">
+            <div class="container" style="max-width: 80%">
                 <div class="row">
                     <div class="col-lg-12">
-                        <form action="{{web.booking.filter_room}}" class="booking-form" target="_blank">
+                        <form method="get" action="/booking/filter-room" class="booking-form" target="_blank">
                             <div class="row">
-                                <div class="col-md-3 d-flex">
+                                <div class="col-md-2.5 d-flex">
                                     <div class="form-group p-4 align-self-stretch d-flex align-items-end">
                                         <div class="wrap">
                                             <label for="check_in">Check-in Date</label>
-                                            <input name="check_in" v-model="form.check_in" type="date" class="form-control" placeholder="Check-in date">
+                                            <input name="check_in" id="check_in" v-model="form.check_in" type="date" class="form-control" placeholder="Check-in date">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3 d-flex">
+                                <div class="col-md-2.5 d-flex">
                                     <div class="form-group p-4 align-self-stretch d-flex align-items-end">
                                         <div class="wrap">
                                             <label for="check_out">Check-out Date</label>
-                                            <input name="check_out" v-model="form.check_out" type="date" class="form-control" placeholder="Check-out date">
+                                            <input name="check_out" id="check_out" v-model="form.check_out" type="date" class="form-control" placeholder="Check-out date">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md d-flex">
+                                <div class="col-md-2.5 d-flex">
                                     <div class="form-group p-4 align-self-stretch d-flex align-items-end">
                                         <div class="wrap">
-                                            <label for="#">Room</label>
+                                            <label for="number_room">Number Room</label>
                                             <div class="form-field">
                                                 <div class="select-wrap">
                                                     <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                                                    <select name="number_room" v-model="form.number_room" id="" class="form-control">
+                                                    <select name="number_room" v-model="form.number_room" id="number_room" class="form-control">
                                                         <option value="1">1</option>
                                                         <option value="2">2</option>
                                                         <option value="3">3</option>
@@ -88,14 +88,14 @@ const filterRoom = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md d-flex">
+                                <div class="col-md-1.5 d-flex" v-for="room in Number(form.number_room)" :key="room">
                                     <div class="form-group p-4 align-self-stretch d-flex align-items-end">
                                         <div class="wrap">
-                                            <label for="#">Customer</label>
+                                            <label>Room {{ room }}</label>
                                             <div class="form-field">
                                                 <div class="select-wrap">
                                                     <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                                                    <select name="number_people" v-model="form.number_people" id="" class="form-control">
+                                                    <select name="room[]" v-model="form.room[room]" class="form-control">
                                                         <option value="1">1 Adult</option>
                                                         <option value="2">2 Adult</option>
                                                         <option value="3">3 Adult</option>
@@ -106,7 +106,7 @@ const filterRoom = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md d-flex">
+                                <div class="col-md-1.5 d-flex">
                                     <div class="form-group d-flex align-self-stretch">
                                         <button type="submit" value="Check Availability" class="btn btn-primary py-3 px-4 align-self-stretch">Check Availability</button>
                                     </div>
@@ -122,7 +122,7 @@ const filterRoom = () => {
             <div class="container">
                 <div class="row">
                     <div class="col-md-5 p-md-5 img img-2 d-flex justify-content-center align-items-center"
-                         v-bind:style="{ 'background-image': 'url(frontend/images/bg_2.jpg)' }">
+                         v-bind:style="{ 'background-image': 'url(/frontend/images/bg_2.jpg)' }">
                         <a href="https://vimeo.com/45830194"
                            class="icon popup-vimeo d-flex justify-content-center align-items-center">
                             <span class="icon-play"></span>
@@ -233,7 +233,7 @@ const filterRoom = () => {
                     <div class="col-sm col-md-6 col-lg-4 ftco-animate">
                         <div class="room">
                             <a href="rooms.html" class="img d-flex justify-content-center align-items-center"
-                               v-bind:style="{ 'background-image': 'url(frontend/images/room-1.jpg)' }">
+                               v-bind:style="{ 'background-image': 'url(/frontend/images/room-1.jpg)' }">
                                 <div class="icon d-flex justify-content-center align-items-center">
                                     <span class="icon-search2"></span>
                                 </div>
@@ -250,7 +250,7 @@ const filterRoom = () => {
                     <div class="col-sm col-md-6 col-lg-4 ftco-animate">
                         <div class="room">
                             <a href="rooms.html" class="img d-flex justify-content-center align-items-center"
-                               v-bind:style="{ 'background-image': 'url(frontend/images/room-2.jpg)' }">
+                               v-bind:style="{ 'background-image': 'url(/frontend/images/room-2.jpg)' }">
                                 <div class="icon d-flex justify-content-center align-items-center">
                                     <span class="icon-search2"></span>
                                 </div>
@@ -267,7 +267,7 @@ const filterRoom = () => {
                     <div class="col-sm col-md-6 col-lg-4 ftco-animate">
                         <div class="room">
                             <a href="rooms.html" class="img d-flex justify-content-center align-items-center"
-                               v-bind:style="{ 'background-image': 'url(frontend/images/room-3.jpg)' }">
+                               v-bind:style="{ 'background-image': 'url(/frontend/images/room-3.jpg)' }">
                                 <div class="icon d-flex justify-content-center align-items-center">
                                     <span class="icon-search2"></span>
                                 </div>
@@ -284,7 +284,7 @@ const filterRoom = () => {
                     <div class="col-sm col-md-6 col-lg-4 ftco-animate">
                         <div class="room">
                             <a href="rooms.html" class="img d-flex justify-content-center align-items-center"
-                               v-bind:style="{ 'background-image': 'url(frontend/images/room-4.jpg)' }">
+                               v-bind:style="{ 'background-image': 'url(/frontend/images/room-4.jpg)' }">
                                 <div class="icon d-flex justify-content-center align-items-center">
                                     <span class="icon-search2"></span>
                                 </div>
@@ -301,7 +301,7 @@ const filterRoom = () => {
                     <div class="col-sm col-md-6 col-lg-4 ftco-animate">
                         <div class="room">
                             <a href="rooms.html" class="img d-flex justify-content-center align-items-center"
-                               v-bind:style="{ 'background-image': 'url(frontend/images/room-5.jpg)' }">
+                               v-bind:style="{ 'background-image': 'url(/frontend/images/room-5.jpg)' }">
                                 <div class="icon d-flex justify-content-center align-items-center">
                                     <span class="icon-search2"></span>
                                 </div>
@@ -318,7 +318,7 @@ const filterRoom = () => {
                     <div class="col-sm col-md-6 col-lg-4 ftco-animate">
                         <div class="room">
                             <a href="rooms.html" class="img d-flex justify-content-center align-items-center"
-                               v-bind:style="{ 'background-image': 'url(frontend/images/room-6.jpg)' }">
+                               v-bind:style="{ 'background-image': 'url(/frontend/images/room-6.jpg)' }">
                                 <div class="icon d-flex justify-content-center align-items-center">
                                     <span class="icon-search2"></span>
                                 </div>
@@ -337,7 +337,7 @@ const filterRoom = () => {
         </section>
 
         <section class="ftco-section ftco-counter img" id="section-counter"
-                 v-bind:style="{ 'background-image': 'url(frontend/images/bg_1.jpg)' }">
+                 v-bind:style="{ 'background-image': 'url(/frontend/images/bg_1.jpg)' }">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-10">
@@ -391,7 +391,7 @@ const filterRoom = () => {
                                     <div class="item">
                                         <div class="testimony-wrap py-4 pb-5">
                                             <div class="user-img mb-4"
-                                                 v-bind:style="{ 'background-image': 'url(frontend/images/person_1.jpg)' }">
+                                                 v-bind:style="{ 'background-image': 'url(/frontend/images/person_1.jpg)' }">
                                 <span class="quote d-flex align-items-center justify-content-center">
                                   <i class="icon-quote-left"></i>
                                 </span>
@@ -409,7 +409,7 @@ const filterRoom = () => {
                                     <div class="item">
                                         <div class="testimony-wrap py-4 pb-5">
                                             <div class="user-img mb-4"
-                                                 v-bind:style="{ 'background-image': 'url(frontend/images/person_2.jpg)' }">
+                                                 v-bind:style="{ 'background-image': 'url(/frontend/images/person_2.jpg)' }">
                                 <span class="quote d-flex align-items-center justify-content-center">
                                   <i class="icon-quote-left"></i>
                                 </span>
@@ -427,7 +427,7 @@ const filterRoom = () => {
                                     <div class="item">
                                         <div class="testimony-wrap py-4 pb-5">
                                             <div class="user-img mb-4"
-                                                 v-bind:style="{ 'background-image': 'url(frontend/images/person_3.jpg)' }">
+                                                 v-bind:style="{ 'background-image': 'url(/frontend/images/person_3.jpg)' }">
                                 <span class="quote d-flex align-items-center justify-content-center">
                                   <i class="icon-quote-left"></i>
                                 </span>
@@ -445,7 +445,7 @@ const filterRoom = () => {
                                     <div class="item">
                                         <div class="testimony-wrap py-4 pb-5">
                                             <div class="user-img mb-4"
-                                                 v-bind:style="{ 'background-image': 'url(frontend/images/person_1.jpg)' }">
+                                                 v-bind:style="{ 'background-image': 'url(/frontend/images/person_1.jpg)' }">
                                 <span class="quote d-flex align-items-center justify-content-center">
                                   <i class="icon-quote-left"></i>
                                 </span>
@@ -463,7 +463,7 @@ const filterRoom = () => {
                                     <div class="item">
                                         <div class="testimony-wrap py-4 pb-5">
                                             <div class="user-img mb-4"
-                                                 v-bind:style="{ 'background-image': 'url(frontend/images/person_1.jpg)' }">
+                                                 v-bind:style="{ 'background-image': 'url(/frontend/images/person_1.jpg)' }">
                                 <span class="quote d-flex align-items-center justify-content-center">
                                   <i class="icon-quote-left"></i>
                                 </span>
@@ -498,7 +498,7 @@ const filterRoom = () => {
                     <div class="col-md-3 d-flex ftco-animate">
                         <div class="blog-entry align-self-stretch">
                             <a href="blog-single.html" class="block-20"
-                               v-bind:style="{ 'background-image': 'url(frontend/images/image_1.jpg)' }">
+                               v-bind:style="{ 'background-image': 'url(/frontend/images/image_1.jpg)' }">
                             </a>
                             <div class="text mt-3 d-block">
                                 <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about
@@ -515,7 +515,7 @@ const filterRoom = () => {
                     <div class="col-md-3 d-flex ftco-animate">
                         <div class="blog-entry align-self-stretch">
                             <a href="blog-single.html" class="block-20"
-                               v-bind:style="{ 'background-image': 'url(frontend/images/image_2.jpg)' }">
+                               v-bind:style="{ 'background-image': 'url(/frontend/images/image_2.jpg)' }">
                             </a>
                             <div class="text mt-3">
                                 <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about
@@ -532,7 +532,7 @@ const filterRoom = () => {
                     <div class="col-md-3 d-flex ftco-animate">
                         <div class="blog-entry align-self-stretch">
                             <a href="blog-single.html" class="block-20"
-                               v-bind:style="{ 'background-image': 'url(frontend/images/image_3.jpg)' }">
+                               v-bind:style="{ 'background-image': 'url(/frontend/images/image_3.jpg)' }">
                             </a>
                             <div class="text mt-3">
                                 <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about
@@ -549,7 +549,7 @@ const filterRoom = () => {
                     <div class="col-md-3 d-flex ftco-animate">
                         <div class="blog-entry align-self-stretch">
                             <a href="blog-single.html" class="block-20"
-                               v-bind:style="{ 'background-image': 'url(frontend/images/image_4.jpg)' }">
+                               v-bind:style="{ 'background-image': 'url(/frontend/images/image_4.jpg)' }">
                             </a>
                             <div class="text mt-3">
                                 <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about

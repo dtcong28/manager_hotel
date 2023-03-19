@@ -73,6 +73,9 @@ Route::group(['as' => 'web.'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
     Route::get('/booking/filter-room', [\App\Http\Controllers\Frontend\BookingController::class, 'filterRoom'])->name('booking.filter_room');
+    Route::get('/booking/food', [\App\Http\Controllers\Frontend\BookingController::class, 'bookFood'])->name('booking.food');
+    Route::get('/booking/confirm', [\App\Http\Controllers\Frontend\BookingController::class, 'confirm'])->name('booking.confirm');
+    Route::get('/booking/payment', [\App\Http\Controllers\Frontend\BookingController::class, 'payment'])->name('booking.payment');
 });
 
 require __DIR__.'/auth.php';

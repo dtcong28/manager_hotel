@@ -37,4 +37,18 @@ class RoomRepository extends CustomRepository
 
         return $this->search($data)->first()->toArray();
     }
+
+    public function getListSelectRoom($params)
+    {
+        $data['sort'] = empty($params['sort']) ? 'id' : $params['sort'];
+        $data['direction'] = empty($params['direction']) ? 'desc' : $params['direction'];
+
+        foreach ($params as $key=>$param)
+        {
+            $data['id_eq'] = $param;
+            $query[$key] = $this->search($data)->first()->toArray();
+        }
+
+        return $query;
+    }
 }

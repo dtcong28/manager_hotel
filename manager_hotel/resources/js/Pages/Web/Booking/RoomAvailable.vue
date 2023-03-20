@@ -43,7 +43,7 @@ const confirmBooking = () => {
             <div class="overlay"></div>
             <div class="container">
                 <div class="row no-gutters slider-text d-flex align-itemd-end justify-content-center">
-                    <div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center">
+                    <div class="col-md-9 text-center d-flex align-items-end justify-content-center">
                         <div class="text">
                             <p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home</a></span> <span>About</span></p>
                             <h1 class="mb-4 bread">Choose Your Rooms</h1>
@@ -59,7 +59,7 @@ const confirmBooking = () => {
                         <div v-for="(room,key) in rooms">
                             <h3>Room {{ key + 1 }}</h3>
                             <div class="row" v-for="data in room">
-                                <div class="col-sm col-md-6 col-lg-11 ftco-animate">
+                                <div class="col-sm col-md-6 col-lg-11">
                                     <div class="room">
                                         <a href="rooms-single.html" class="img d-flex justify-content-center align-items-center" v-bind:style="{'background-image': 'url(/frontend/images/room-1.jpg)'}">
                                             <div class="icon d-flex justify-content-center align-items-center">
@@ -84,7 +84,7 @@ const confirmBooking = () => {
                         </div>
                     </div>
                     <div class="col-lg-4 sidebar">
-                        <div class="sidebar-wrap bg-light ftco-animate">
+                        <div class="sidebar-wrap bg-light">
                             <h3 class="heading mb-4">Your Stay</h3>
                             <form @submit.prevent="confirmBooking">
                                 <div class="fields">

@@ -36,7 +36,7 @@ const confirm = () => {
             <div class="overlay"></div>
             <div class="container">
                 <div class="row no-gutters slider-text d-flex align-itemd-end justify-content-center">
-                    <div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center">
+                    <div class="col-md-9 text-center d-flex align-items-end justify-content-center">
                         <div class="text">
                             <p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home</a></span> <span>About</span>
                             </p>
@@ -53,12 +53,12 @@ const confirm = () => {
                         <section class="ftco-section" style="padding-top: 0px">
                             <div class="container">
                                 <div class="row justify-content-center mb-5 pb-3">
-                                    <div class="col-md-7 heading-section text-center ftco-animate">
+                                    <div class="col-md-7 heading-section text-center">
                                         <h2>Our Menu</h2>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="pricing-entry d-flex ftco-animate" v-for="(food,key) in foods" :key="food.id">
+                                    <div class="pricing-entry d-flex" v-for="(food,key) in foods" :key="food.id">
                                         <div class="img" v-bind:style="{ 'background-image': 'url(/frontend/images/menu-1.jpg)' }"></div>
                                         <div class="desc pl-3">
                                             <div class="d-flex text align-items-center">
@@ -77,7 +77,7 @@ const confirm = () => {
                         </section>
                     </div>
                     <div class="col-lg-4 sidebar">
-                        <div class="sidebar-wrap bg-light ftco-animate">
+                        <div class="sidebar-wrap bg-light">
                             <h3 class="heading mb-4">Your Stay</h3>
 
                             <div class="fields">

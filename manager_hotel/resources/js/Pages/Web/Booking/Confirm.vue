@@ -5,8 +5,9 @@ import WebLayout from '@/Layouts/Web/WebLayout.vue';
 import {ref} from "vue";
 
 const props = defineProps({
-    info_booking: Array,
+    booking: Array,
     select_rooms: Array,
+    select_foods: Array,
 })
 
 const form = useForm({
@@ -16,10 +17,13 @@ const form = useForm({
     phone: '',
     email: '',
     identity_card: '',
-    info_booking: props.info_booking,
+    booking: props.booking,
 });
 
-// const price_each_room = props.info_booking.price_each_room.map(Number);
+const price_each_room = props.booking.info_booking.price_each_room.map(Number);
+function sum(obj) {
+    return Object.keys(obj).reduce((sum,key)=>sum+parseFloat(obj[key]||0),0);
+}
 
 const payment = () => {
     form.get(route('web.booking.payment'))
@@ -33,7 +37,7 @@ const payment = () => {
             <div class="overlay"></div>
             <div class="container">
                 <div class="row no-gutters slider-text d-flex align-itemd-end justify-content-center">
-                    <div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center">
+                    <div class="col-md-9 text-center d-flex align-items-end justify-content-center">
                         <div class="text">
                             <p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home</a></span> <span>About</span>
                             </p>
@@ -81,26 +85,31 @@ const payment = () => {
                                        placeholder="Identity card">
                             </div>
                             <div class="form-group" style="text-align: center; padding: 20px">
-                                <button type="submit" class="btn btn-primary py-3 px-5">Submit</button>
+                                <button type="submit" class="btn btn-primary py-3 px-5">Confirm</button>
                             </div>
                         </form>
                     </div>
                     <div class="col-lg-4 sidebar">
-                        <div class="sidebar-wrap bg-light ftco-animate">
+                        <div class="sidebar-wrap bg-light">
                             <h3 class="heading mb-4">Your Stay</h3>
 
                             <div class="fields">
-<!--                                <div class="form-group">-->
-<!--                                    From {{ info_booking.time_check_in }} to {{ info_booking.time_check_out }}<br>-->
-<!--                                </div>-->
-<!--                                <div class="form-group" v-for="(value, index) in select_rooms">-->
-<!--                                    <div>-->
-<!--                                        <span>Room {{value.name }} : {{info_booking.price_each_room[index]}}VND</span>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="form-group">-->
-<!--&lt;!&ndash;                                    Total: {{ price_each_room.reduce((partialSum, a) => partialSum + a, 0) }}VND&ndash;&gt;-->
-<!--                                </div>-->
+                                <div class="form-group">
+                                    From {{ booking.info_booking.time_check_in }} to {{ booking.info_booking.time_check_out }}<br>
+                                </div>
+                                <div class="form-group" v-for="(value, index) in select_rooms">
+                                    <div>
+                                        <span>Room {{value.name }} : {{booking.info_booking.price_each_room[index]}}VND</span>
+                                    </div>
+                                </div>
+                                <div class="form-group" v-for="(value, index) in select_foods">
+                                    <div>
+                                        <span>{{value.name }} - Amount {{ booking.select_food[value.id] }} : {{ booking.price_food[value.id] }} VND</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    Total: {{ price_each_room.reduce((partialSum, a) => partialSum + a, 0) + sum(booking.price_food) }} VND
+                                </div>
                             </div>
                         </div>
                     </div>

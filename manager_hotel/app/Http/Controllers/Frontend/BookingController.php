@@ -82,11 +82,21 @@ class BookingController extends FrontendController
     public function confirm(Request $request)
     {
         $params = $request->all();
-        $record = $this->roomRepository->getListSelectRoom(data_get(data_get($params, 'info_booking'),'rooms'));
-//        dd($params, $record);
+        $rooms = $this->roomRepository->getListSelectRoom(data_get(data_get($params, 'info_booking'),'rooms'));
+        $foods = $this->foodRepository->getListSelectFood(data_get($params, 'select_food'));
+
+        foreach ($rooms as $key=>$room) {
+            $request->session()->push('rooms', $room['name']);
+        }
+        foreach ($foods as $key=>$food) {
+            $request->session()->push('foods', [$food['name'],$food['id']]);
+        }
+//        session()->forget('foods');
+        dd(session('foods'));
         return Inertia::render('Web/Booking/Confirm', [
-            'info_booking' => $params,
-            'select_rooms' => $record,
+            'booking' => $params,
+            'select_rooms' => $rooms,
+            'select_foods' => $foods,
         ]);
     }
 
@@ -96,6 +106,8 @@ class BookingController extends FrontendController
 
         return Inertia::render('Web/Booking/Payment', [
             'info_booking' => $params,
+            'select_rooms' => session('rooms'),
+            'select_foods' => session('foods'),
         ]);
     }
 

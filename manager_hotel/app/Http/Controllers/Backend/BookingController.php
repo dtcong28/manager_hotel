@@ -200,7 +200,7 @@ class BookingController extends BackendController
                     return Redirect::route('booking.index');
                 }
 
-                $room = $this->roomRepository->find($value);
+//                $room = $this->roomRepository->find($value);
                 if (!empty($room)) {
                     $room->status = \App\Models\Enums\RoomStatusEnum::OCCUPIED->value;
                     $room->save();

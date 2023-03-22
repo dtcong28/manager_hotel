@@ -1,4 +1,4 @@
-console.log(666)
+
 /**
  *  Document   : app.js
  *  Author     : redstar

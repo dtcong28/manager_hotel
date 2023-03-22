@@ -4,12 +4,6 @@ import {Head} from '@inertiajs/vue3';
 import WebLayout from '@/Layouts/Web/WebLayout.vue';
 import {ref} from "vue";
 
-const props = defineProps({
-    booking: Array,
-    select_rooms: Array,
-    select_foods: Array,
-})
-
 const form = useForm({
     name: '',
     address: '',
@@ -19,6 +13,12 @@ const form = useForm({
     identity_card: '',
     booking: props.booking,
 });
+
+const props = defineProps({
+    booking: Array,
+    select_rooms: Array,
+    select_foods: Array,
+})
 
 const price_each_room = props.booking.info_booking.price_each_room.map(Number);
 function sum(obj) {
@@ -54,7 +54,8 @@ const payment = () => {
                         <form @submit.prevent="payment" class="bg-white p-5 contact-form">
                             <div class="form-group">
                                 <label>Name *</label>
-                                <input type="text" v-model="form.name" class="form-control" placeholder="Your Name">
+                                <input type="text" name="name" v-model="form.name" class="form-control" placeholder="Your Name">
+                                <div v-if="$page.props.errors.name" style="color: red">{{ $page.props.errors.name[0] }}</div>
                             </div>
                             <div class="form-group">
                                 <label>Gender *</label><br>
@@ -66,23 +67,27 @@ const payment = () => {
                                     <input type="radio" name="gender" value="0" v-model="form.gender">
                                     <label style="font-weight: bold">Female</label>
                                 </div>
+                                <div v-if="$page.props.errors.gender" style="color: red">{{ $page.props.errors.gender[0] }}</div>
                             </div>
                             <div class="form-group">
                                 <label>Email * (to receive your booking confirmation)</label>
-                                <input type="email" v-model="form.email" class="form-control" placeholder="Your Email">
+                                <input type="email" name="email" v-model="form.email" class="form-control" placeholder="Your Email">
+                                <div v-if="$page.props.errors.email" style="color: red">{{ $page.props.errors.email[0] }}</div>
                             </div>
                             <div class="form-group">
                                 <label>Address *</label>
                                 <input type="text" v-model="form.address" class="form-control" placeholder="Address">
+                                <div v-if="$page.props.errors.address" style="color: red">{{ $page.props.errors.address[0] }}</div>
                             </div>
                             <div class="form-group">
                                 <label>Phone *</label>
                                 <input type="text" v-model="form.phone" class="form-control" placeholder="Phone">
+                                <div v-if="$page.props.errors.phone" style="color: red">{{ $page.props.errors.phone[0] }}</div>
                             </div>
                             <div class="form-group">
                                 <label>Identity card *</label>
-                                <input type="text" v-model="form.identity_card" class="form-control"
-                                       placeholder="Identity card">
+                                <input type="text" v-model="form.identity_card" class="form-control" placeholder="Identity card">
+                                <div v-if="$page.props.errors.identity_card" style="color: red">{{ $page.props.errors.identity_card[0] }}</div>
                             </div>
                             <div class="form-group" style="text-align: center; padding: 20px">
                                 <button type="submit" class="btn btn-primary py-3 px-5">Confirm</button>

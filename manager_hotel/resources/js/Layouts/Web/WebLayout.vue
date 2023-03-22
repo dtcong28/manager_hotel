@@ -22,6 +22,7 @@ onMounted(() => {
         "https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false",
         "/frontend/js/google-map.js",
         "/frontend/js/main.js",
+        // "https://js.stripe.com/v3/",
     ];
     scripts.forEach(script => {
         let tag = document.head.querySelector(`[src="${script}"`);

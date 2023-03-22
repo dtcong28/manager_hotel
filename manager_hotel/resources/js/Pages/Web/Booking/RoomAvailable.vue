@@ -1,6 +1,6 @@
 <script setup>
 import {Link, useForm} from '@inertiajs/vue3'
-import {Head} from '@inertiajs/vue3';
+import {Head, useRemember} from '@inertiajs/vue3';
 import WebLayout from '@/Layouts/Web/WebLayout.vue';
 import {ref} from "vue";
 

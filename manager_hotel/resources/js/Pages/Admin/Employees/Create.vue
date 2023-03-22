@@ -25,8 +25,9 @@ const data = ref({
 const storeEmployee = () => {
     form.post(route('employees.store'))
 };
-
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
 
 <template>
     <Head title="Employees"/>

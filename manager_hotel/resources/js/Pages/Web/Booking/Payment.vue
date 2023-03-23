@@ -77,6 +77,7 @@ function sum(obj) {
 
 <script>
 import { loadStripe } from '@stripe/stripe-js';
+import {router} from "@inertiajs/vue3";
 
 export default {
     props: {
@@ -120,8 +121,8 @@ export default {
                         // gender: this.info_booking.gender,
                         // identity_card: this.info_booking.identity_card,
                         // booking: this.info_booking.booking
-                    }
-                }
+                    },
+                },
             );
             if (error) {
                 this.paymentProcessing = false;
@@ -134,6 +135,7 @@ export default {
                     .then((response) => {
                         this.paymentProcessing = false;
                         console.log(response);
+                        window.location.href = route('web.booking.complete');
                     })
                     .catch((error) => {
                         this.paymentProcessing = false;
@@ -162,7 +164,6 @@ export default {
                 </div>
             </div>
         </div>
-        {{ info_booking }}
         <section class="ftco-section bg-light">
             <div class="container">
                 <div class="row">

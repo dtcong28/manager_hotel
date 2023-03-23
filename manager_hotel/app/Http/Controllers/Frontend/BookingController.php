@@ -203,7 +203,6 @@ class BookingController extends FrontendController
                 }
             }
 
-            // dan sang trang complete
             return $booking;
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);

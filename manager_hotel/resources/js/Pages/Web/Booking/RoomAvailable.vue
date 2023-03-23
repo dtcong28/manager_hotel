@@ -76,7 +76,7 @@ const confirmBooking = () => {
                                                 <li><span>Bed:</span> {{ data.number_bed }}</li>
                                             </ul>
                                             <hr>
-                                            <p class="pt-1"><a href="#" class="btn-custom">Select Room <input type="radio" id="radio" :value="data.id" v-model="selectRoom[key]" :disabled="selectRoom.includes(data.id)"/><span class="icon-long-arrow-right"></span></a></p>
+                                            <p class="pt-1">Select Room <input type="radio" id="radio" :value="data.id" v-model="selectRoom[key]" :disabled="selectRoom.includes(data.id)"/><span class="icon-long-arrow-right"></span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -103,7 +103,7 @@ const confirmBooking = () => {
                                     <div class="form-group">
                                         Total: {{ sum.reduce((partialSum, a) => partialSum + a, 0) }}
                                     </div>
-                                    <div class="form-group">
+                                    <div v-if="selectRoom.length" class="form-group">
                                         <button type="submit" class="btn btn-primary py-3 px-5">Continue</button>
                                     </div>
                                 </div>

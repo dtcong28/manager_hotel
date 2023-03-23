@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Room;
 use Illuminate\Support\Facades\Session;
+use App\Models\Enums\RoomStatusEnum;
 
 class RoomRepository extends CustomRepository
 {
@@ -14,19 +15,25 @@ class RoomRepository extends CustomRepository
         parent::__construct();
     }
 
-    public function getListFilterRoom($params)
+    public function getListFilterRoom($numberPeople, $checkIn)
     {
-        $data['sort'] = empty($params['sort']) ? 'id' : $params['sort'];
-        $data['direction'] = empty($params['direction']) ? 'desc' : $params['direction'];
-        $data['status_eq'] = \App\Models\Enums\RoomStatusEnum::VACANT->value;
+        $data['sort'] = 'id';
+        $data['direction'] = 'desc';
 
-        foreach ($params as $key=>$param)
-        {
+        foreach ($numberPeople as $key => $param) {
             $data['number_people_eq'] = $param;
-            $query[$key] = $this->search($data)->get()->toArray();
+            $results[$key] = $this->search($data)
+                ->where(function ($query) use ($checkIn) {
+                    $query->where('status', '=', RoomStatusEnum::VACANT->value)
+                        ->orWhere(function ($q) use ($checkIn) {
+                        $q->where('status', '=', RoomStatusEnum::OCCUPIED->value)
+                            ->where('time_check_out', '<=', $checkIn);
+                    });
+                })
+                ->get()->toArray();
         }
 
-        return $query;
+        return $results;
     }
 
     public function getDetailRoom($id)
@@ -43,8 +50,7 @@ class RoomRepository extends CustomRepository
         $data['sort'] = empty($params['sort']) ? 'id' : $params['sort'];
         $data['direction'] = empty($params['direction']) ? 'desc' : $params['direction'];
 
-        foreach ($params as $key=>$param)
-        {
+        foreach ($params as $key => $param) {
             $data['id_eq'] = $param;
             $query[$key] = $this->search($data)->first()->toArray();
         }

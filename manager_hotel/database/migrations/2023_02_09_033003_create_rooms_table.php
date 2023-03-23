@@ -23,6 +23,8 @@ return new class extends Migration {
             $table->integer('number_bed');
             $table->float('rent_per_night');
             $table->text('description')->nullable();
+            $table->dateTime('time_check_in')->nullable();
+            $table->dateTime('time_check_out')->nullable();
 
             $table->timestamps();
         });

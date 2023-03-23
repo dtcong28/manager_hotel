@@ -83,7 +83,10 @@ class BookingController extends BackendController
     {
         $params = $request->all();
 
-        $record = $this->roomRepository->getListFilterRoom(data_get($params, 'room'));
+        $numberPeople = data_get($params, 'room');
+        $checkIn = date('Y-m-d', strtotime($params["range"]['start']));
+
+        $record = $this->roomRepository->getListFilterRoom($numberPeople, $checkIn);
 
         $start = Carbon::createFromFormat('Y-m-d', date('Y-m-d', strtotime($params["range"]['start'])));
         $end = Carbon::createFromFormat('Y-m-d', date('Y-m-d', strtotime($params["range"]['end'])));
@@ -200,9 +203,10 @@ class BookingController extends BackendController
                     return Redirect::route('booking.index');
                 }
 
-//                $room = $this->roomRepository->find($value);
                 if (!empty($room)) {
                     $room->status = \App\Models\Enums\RoomStatusEnum::OCCUPIED->value;
+                    $room->time_check_in = $params['time_check_in'];
+                    $room->time_check_out = $params['time_check_out'];
                     $room->save();
                 }
             }
@@ -356,6 +360,8 @@ class BookingController extends BackendController
                 $room = $this->roomRepository->find($roomId);
                 if (!empty($room)) {
                     $room->status = \App\Models\Enums\RoomStatusEnum::VACANT->value;
+                    $room->time_check_in = NULL;
+                    $room->time_check_out = NULL;
                     $room->save();
                 }
                 $this->bookingRoomRepository->destroy($value->id);

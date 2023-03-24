@@ -26,6 +26,7 @@ class Booking extends Model
         'payment_date',
         'method_payment',
         'status_payment',
+        'status_booking',
         'total_money',
     ];
 

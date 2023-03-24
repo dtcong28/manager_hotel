@@ -61,8 +61,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('booking', BookingController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
     Route::get('/booking/filter-room', [BookingController::class, 'filterRoom'])->name('booking.filter_room');
     Route::get('/booking/edit/filter-room', [BookingController::class, 'editFilterRoom'])->name('booking.edit_filter_room');
-    Route::get('/booking/{id}/bill', [BookingController::class, 'bill'])->name('booking.bill');
-    Route::patch('/booking/{id}/update-payment', [BookingController::class, 'updatePayment'])->name('booking.update_payment');
+    Route::get('/booking/{id}/detail', [BookingController::class, 'detail'])->name('booking.detail');
+    Route::patch('/booking/{id}/update-status', [BookingController::class, 'updateStatus'])->name('booking.update_status');
 
     // booking food
     Route::get('booking/{id}/booking-food', [BookingFoodController::class, 'create'])->name('booking_food.create');

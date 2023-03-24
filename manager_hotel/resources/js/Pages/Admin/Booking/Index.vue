@@ -4,11 +4,9 @@ import {Link} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 
 const props = defineProps({
-    bookings: Array
+    bookings: Array,
+    status: Array,
 })
-
-const unpaid = 0;
-const paid = 1;
 
 </script>
 
@@ -61,22 +59,21 @@ const paid = 1;
                                     <th class="center"> Check in</th>
                                     <th class="center"> Check out</th>
                                     <th class="center"> Payment</th>
-                                    <th class="center"> Bill</th>
+                                    <th class="center"> Status</th>
+                                    <th class="center"> Detail</th>
                                     <th class="center"> Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="booking in props.bookings" :key="booking.id" class="odd gradeX">
+                                <tr v-for="(booking, key) in props.bookings" :key="booking.id" class="odd gradeX">
                                     <td class="center">{{ booking.customer.name }}</td>
                                     <td class="center">{{ booking.customer.phone }}</td>
                                     <td class="center">{{ booking.customer.email }}</td>
                                     <td class="center">{{ booking.time_check_in }}</td>
                                     <td class="center">{{ booking.time_check_out }}</td>
-                                    <td class="center">
-                                        <span v-if="booking.status_payment==unpaid" class="label label-sm label-danger">unpaid</span>
-                                        <span v-if="booking.status_payment==paid" class="label label-sm label-success">paid</span>
-                                    </td>
-                                    <td class="center"><a :href="route('booking.bill', { id: booking.id })" class="btn deepPink btn-outline btn-circle m-b-10">View</a></td>
+                                    <td class="center"><span  :class="status[key].payment.class">{{ status[key].payment.label }}</span></td>
+                                    <td class="center"><span  :class="status[key].booking.class">{{ status[key].booking.label }}</span></td>
+                                    <td class="center"><a :href="route('booking.detail', { id: booking.id })" class="btn deepPink btn-outline btn-circle m-b-10">View</a></td>
                                     <td class="center">
                                         <Link :href="route('booking.edit', { id: booking.id })" class="btn btn-tbl-edit btn-xs">
                                             <i class="fa fa-pencil"></i>

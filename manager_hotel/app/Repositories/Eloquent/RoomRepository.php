@@ -15,7 +15,7 @@ class RoomRepository extends CustomRepository
         parent::__construct();
     }
 
-    public function getListFilterRoom($numberPeople, $checkIn)
+    public function getListFilterRoom($numberPeople, $checkIn, $checkOut)
     {
         $data['sort'] = 'id';
         $data['direction'] = 'desc';
@@ -26,9 +26,9 @@ class RoomRepository extends CustomRepository
                 ->where(function ($query) use ($checkIn) {
                     $query->where('status', '=', RoomStatusEnum::VACANT->value)
                         ->orWhere(function ($q) use ($checkIn) {
-                        $q->where('status', '=', RoomStatusEnum::OCCUPIED->value)
-                            ->where('time_check_out', '<=', $checkIn);
-                    });
+                            $q->where('status', '=', RoomStatusEnum::OCCUPIED->value)
+                                ->where('time_check_out', '<=', $checkIn);
+                        });
                 })
                 ->get()->toArray();
         }

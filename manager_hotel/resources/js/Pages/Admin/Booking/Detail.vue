@@ -23,12 +23,17 @@ props.bookingFood.forEach((food) => {
 
 const form = useForm({
     status_payment: props.booking.status_payment,
+    status_booking: props.booking.status_booking,
 });
 
-const updatePayment = () => {
-    router.post(`/admin/booking/${props.booking.id}/update-payment`, {
+const updateStatus= () => {
+    router.post(`/admin/booking/${props.booking.id}/update-status`, {
         _method: 'PATCH',
         status_payment: form.status_payment,
+        status_booking: form.status_booking,
+        time_check_in: props.booking.time_check_in,
+        time_check_out: props.booking.time_check_out,
+        rooms: props.bookingRoom,
     })
 };
 </script>
@@ -41,7 +46,7 @@ const updatePayment = () => {
         <div class="page-bar">
             <div class="page-title-breadcrumb">
                 <div class=" pull-left">
-                    <div class="page-title">Bill</div>
+                    <div class="page-title">Detail</div>
                 </div>
                 <ol class="breadcrumb page-breadcrumb pull-right">
                     <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index.html">Home</a>&nbsp;<i
@@ -49,7 +54,7 @@ const updatePayment = () => {
                     </li>
                     <li><a class="parent-item" href="">Booking</a>&nbsp;<i class="fa fa-angle-right"></i>
                     </li>
-                    <li class="active">Detail bill</li>
+                    <li class="active">Detail booking</li>
                 </ol>
             </div>
         </div>
@@ -57,7 +62,7 @@ const updatePayment = () => {
             <div class="col-sm-12">
                 <div class="card-box">
                     <div class="card-head">
-                        <header>Information Bill</header>
+                        <header>Information Booking</header>
                     </div>
                     <div class="row">
                         <div class="card-body pl-5 pr-5" style="line-height: 0.4">
@@ -70,6 +75,40 @@ const updatePayment = () => {
                         <div class="card-body pl-5 pr-5" style="line-height: 0.4">
                             <h4>Check in: {{ booking.time_check_in }} - Check out: {{ booking.time_check_out }}</h4><br>
                             <h4>Number rooms: {{ booking.number_rooms }}</h4><br>
+                            <h4>Status:
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label class="btn btn-warning deepPink-bgcolor">
+                                            <input type="radio" name="status_booking" v-model="form.status_booking"
+                                                   value="2" :checked="form.status_booking == 2"> Expected arrival
+                                        </label>
+                                        <label class="btn btn-info deepPink-bgcolor">
+                                            <input type="radio" name="status_booking" v-model="form.status_booking"
+                                                   value="1" :checked="form.status_booking == 1"> Check in
+                                        </label>
+                                        <label class="btn btn-danger deepPink-bgcolor">
+                                            <input type="radio" name="status_booking" v-model="form.status_booking"
+                                                   value="0" :checked="form.status_booking == 0"> Check out
+                                        </label>
+                                    </div>
+                                </div>
+                            </h4><br>
+                            <h4>Payment:
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label class="btn btn-success deepPink-bgcolor">
+                                            <input type="radio" name="payment" v-model="form.status_payment" value="1"
+                                                   :checked="form.status_payment == 1"> Paid
+                                        </label>
+                                        <label class="btn btn-danger deepPink-bgcolor">
+                                            <input type="radio" name="payment" v-model="form.status_payment" value="0"
+                                                   :checked="form.status_payment == 0"> Unpaid
+                                        </label>
+                                    </div>
+                                </div>
+                            </h4>
+                            <br>
+                            <h4>Total Money: {{ sum.reduce((partialSum, a) => partialSum + a, 0) }}</h4>
                         </div>
                     </div>
                     <div class="row">
@@ -118,22 +157,7 @@ const updatePayment = () => {
                             </div>
                         </div>
                     </div>
-                    <form @submit.prevent="updatePayment">
-                        <div class="row">
-                            <div class="card-body pl-5 pr-5" style="line-height: 0.4">
-                                <h3>Total Money: {{ sum.reduce((partialSum, a) => partialSum + a, 0) }}</h3>
-                                <label class="mdl-radio mdl-js-radio" for="paid">
-                                    <input type="radio" id="paid" name="payment" v-model="form.status_payment" value="1"
-                                           class="mdl-radio__button" :checked="form.status_payment == 1">
-                                    <span class="mdl-radio__label">Paid</span>
-                                </label><br>
-                                <label class="mdl-radio mdl-js-radio" for="unpaid">
-                                    <input type="radio" id="unpaid" name="payment" v-model="form.status_payment"
-                                           value="0" class="mdl-radio__button" :checked="form.status_payment == 0">
-                                    <span class="mdl-radio__label">Unpaid</span>
-                                </label>
-                            </div>
-                        </div>
+                    <form @submit.prevent="updateStatus">
                         <div class="col-lg-12 p-t-20 text-center">
                             <button type="submit"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"

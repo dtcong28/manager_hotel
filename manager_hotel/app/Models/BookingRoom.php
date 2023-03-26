@@ -21,6 +21,8 @@ class BookingRoom extends Model
         'room_id',
         'price',
         'number_people',
+        'time_check_in',
+        'time_check_out',
     ];
 
     public function room()

@@ -118,6 +118,7 @@ const updateBooking = () => {
                             <div v-for="(room,key) in props.bookRoom" class="odd gradeX">
                                 <h3 v-if="!!room.id">
                                     Room {{ room.name }} : {{ room.number_people }} people - {{ room.rent_per_night * bookingInfor.time_stay }} VND
+                                    <img :src="room.image" :alt="room.image" class="w-20 h-20 shadow">
                                 </h3>
                             </div>
                         </div>

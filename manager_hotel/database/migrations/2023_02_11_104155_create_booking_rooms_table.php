@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->integer('room_id');
             $table->float('price');
             $table->integer('number_people')->nullable();
+            $table->dateTime('time_check_in')->nullable();
+            $table->dateTime('time_check_out')->nullable();
 
             $table->timestamps();
         });

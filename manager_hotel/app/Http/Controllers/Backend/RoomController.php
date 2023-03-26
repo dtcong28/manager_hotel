@@ -41,6 +41,7 @@ class RoomController extends BackendController
                 'name' => $data->label(),
             ];
         }
+
         return Inertia::render('Admin/Rooms/Index', [
             'rooms' => $record->map(function ($value) {
                 return [

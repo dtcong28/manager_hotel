@@ -69,7 +69,7 @@ class BookingController extends FrontendController
         $numberPeople = data_get($params, 'room');
         $checkIn = data_get($params, 'check_in');
 
-        $record = $this->roomRepository->getListFilterRoom($numberPeople, $checkIn);
+        $record = $this->roomRepository->getListRoomByPeople($numberPeople, $checkIn);
 
         $checkIn = Carbon::createFromFormat('Y-m-d', data_get($params, 'check_in'));
         $checkOut = Carbon::createFromFormat('Y-m-d', data_get($params, 'check_out'));

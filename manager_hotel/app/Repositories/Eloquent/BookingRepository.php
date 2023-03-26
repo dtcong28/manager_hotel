@@ -15,7 +15,8 @@ class BookingRepository extends CustomRepository
 
     public function getListBooking()
     {
-        return $this->with(['bookingRoom', 'customer'])->get();
+        return $this->with(['bookingRoom', 'customer'])->paginate(5);
+//        return $this->where('customer_id', 'LIKE', '%' . $params . '%')->with(['bookingRoom', 'customer'])->paginate(5);
     }
 
     public function getDetailBooking($id)

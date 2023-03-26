@@ -15,7 +15,7 @@ const newBooking = props.bookingRoom.booking_room.map(function (booking) {
     return {
         'id': booking.room.id,
         'name': booking.room.name,
-        'number_people': booking.room.number_people,
+        'number_people': booking.number_people,
     }
 })
 

@@ -15,22 +15,17 @@ class RoomRepository extends CustomRepository
         parent::__construct();
     }
 
-    public function getListFilterRoom($numberPeople, $checkIn, $checkOut)
+    public function getListRoomByPeople($numberPeople)
     {
         $data['sort'] = 'id';
         $data['direction'] = 'desc';
 
         foreach ($numberPeople as $key => $param) {
             $data['number_people_eq'] = $param;
-            $results[$key] = $this->search($data)
-                ->where(function ($query) use ($checkIn) {
-                    $query->where('status', '=', RoomStatusEnum::VACANT->value)
-                        ->orWhere(function ($q) use ($checkIn) {
-                            $q->where('status', '=', RoomStatusEnum::OCCUPIED->value)
-                                ->where('time_check_out', '<=', $checkIn);
-                        });
-                })
-                ->get()->toArray();
+            foreach ($this->search($data)->get() as $index=>$item) {
+                $item->image = $item->getMedia('images')[0]->getUrl();
+                $results[$key][$index] = $item;
+            }
         }
 
         return $results;
@@ -42,7 +37,7 @@ class RoomRepository extends CustomRepository
         $data['direction'] = empty($params['direction']) ? 'desc' : $params['direction'];
         $data['id_eq'] = $id;
 
-        return $this->search($data)->first()->toArray();
+        return $this->search($data)->first();
     }
 
     public function getListSelectRoom($params)

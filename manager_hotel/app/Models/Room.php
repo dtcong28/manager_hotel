@@ -31,8 +31,6 @@ class Room extends Model implements HasMedia
         'rent_per_night',
         'description',
         'status_label',
-        'time_check_in',
-        'time_check_out',
     ];
 
     protected $appends = [

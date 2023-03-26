@@ -1,5 +1,6 @@
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
+import Pagination from '@/Components/Admin/Pagination.vue'
 import {Link} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 
@@ -53,9 +54,10 @@ const props = defineProps({
                             <table class="table table-hover table-checkable order-column full-width" id="example4">
                                 <thead>
                                 <tr>
-                                    <th class="center"> Name </th>
-                                    <th class="center"> Phone </th>
-                                    <th class="center"> Email </th>
+                                    <th class="center"> ID</th>
+                                    <th class="center"> Name</th>
+                                    <th class="center"> Phone</th>
+                                    <th class="center"> Email</th>
                                     <th class="center"> Check in</th>
                                     <th class="center"> Check out</th>
                                     <th class="center"> Payment</th>
@@ -65,29 +67,40 @@ const props = defineProps({
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="(booking, key) in props.bookings" :key="booking.id" class="odd gradeX">
+                                <tr v-for="(booking, key) in props.bookings.data" :key="booking.id" class="odd gradeX">
+                                    <td class="center">{{ booking.id }}</td>
                                     <td class="center">{{ booking.customer.name }}</td>
                                     <td class="center">{{ booking.customer.phone }}</td>
                                     <td class="center">{{ booking.customer.email }}</td>
                                     <td class="center">{{ booking.time_check_in }}</td>
                                     <td class="center">{{ booking.time_check_out }}</td>
-                                    <td class="center"><span  :class="status[key].payment.class">{{ status[key].payment.label }}</span></td>
-                                    <td class="center"><span  :class="status[key].booking.class">{{ status[key].booking.label }}</span></td>
-                                    <td class="center"><a :href="route('booking.detail', { id: booking.id })" class="btn deepPink btn-outline btn-circle m-b-10">View</a></td>
+                                    <td class="center"><span
+                                        :class="status[key].payment.class">{{ status[key].payment.label }}</span></td>
+                                    <td class="center"><span
+                                        :class="status[key].booking.class">{{ status[key].booking.label }}</span></td>
+                                    <td class="center"><a :href="route('booking.detail', { id: booking.id })"
+                                                          class="btn deepPink btn-outline btn-circle m-b-10">View</a>
+                                    </td>
                                     <td class="center">
-                                        <Link :href="route('booking.edit', { id: booking.id })" class="btn btn-tbl-edit btn-xs">
+                                        <Link :href="route('booking.edit', { id: booking.id })"
+                                              class="btn btn-tbl-edit btn-xs">
                                             <i class="fa fa-pencil"></i>
                                         </Link>
-                                        <Link :href="route('booking.destroy', { id: booking.id })" method="delete" class="btn btn-tbl-delete btn-xs">
+                                        <Link :href="route('booking.destroy', { id: booking.id })" method="delete"
+                                              class="btn btn-tbl-delete btn-xs">
                                             <i class="fa fa-trash-o "></i>
                                         </Link>
-                                        <Link :href="route('booking_food.create', { id: booking.id })" class="btn btn-tbl-delete btn-info btn-xs">
+                                        <Link :href="route('booking_food.create', { id: booking.id })"
+                                              class="btn btn-tbl-delete btn-info btn-xs">
                                             <i class="fa fa-cutlery "></i>
                                         </Link>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="col-sm-12 col-md-7">
+                            <pagination class="mt-6" :links="props.bookings.links"/>
                         </div>
                     </div>
                 </div>

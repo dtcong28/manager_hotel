@@ -9,6 +9,7 @@ const props = defineProps({
     customer: Array,
     bookingRoom: Array,
     bookingFood: Array,
+    status: Array,
 })
 
 const sum = ref([])
@@ -80,15 +81,18 @@ const updateStatus= () => {
                                     <div class="col-md-12">
                                         <label class="btn btn-warning deepPink-bgcolor">
                                             <input type="radio" name="status_booking" v-model="form.status_booking"
-                                                   value="2" :checked="form.status_booking == 2"> Expected arrival
+                                                   value="2" :checked="form.status_booking == 2" :disabled="booking.status_booking == 0 || booking.status_booking == 1" v-bind:style= "[booking.status_booking == 0 || booking.status_booking == 1 ? 'opacity: 0.3' : '']">
+                                            Expected arrival
                                         </label>
                                         <label class="btn btn-info deepPink-bgcolor">
                                             <input type="radio" name="status_booking" v-model="form.status_booking"
-                                                   value="1" :checked="form.status_booking == 1"> Check in
+                                                   value="1" :checked="form.status_booking == 1" :disabled="booking.status_booking == 0" v-bind:style= "[booking.status_booking == 0 ? 'opacity: 0.3' : '']">
+                                            Check in
                                         </label>
                                         <label class="btn btn-danger deepPink-bgcolor">
                                             <input type="radio" name="status_booking" v-model="form.status_booking"
-                                                   value="0" :checked="form.status_booking == 0"> Check out
+                                                   value="0" :checked="form.status_booking == 0" :disabled="booking.status_booking == 2" v-bind:style= "[booking.status_booking == 2 ? 'opacity: 0.3' : '']">
+                                            Check out
                                         </label>
                                     </div>
                                 </div>
@@ -119,6 +123,7 @@ const updateStatus= () => {
                                     <tr>
                                         <th> #</th>
                                         <th> Room</th>
+                                        <th> Status</th>
                                         <th> Number people</th>
                                         <th> Price</th>
                                     </tr>
@@ -127,6 +132,11 @@ const updateStatus= () => {
                                     <tr v-for="(value, key) in bookingRoom" :key="value.id">
                                         <td> {{ key }}</td>
                                         <td> {{ value.room.name }}</td>
+                                        <td>
+                                            <div v-for="data in status">
+                                                <span v-if="data.value==value.room.status">{{ data.name }}</span>
+                                            </div>
+                                        </td>
                                         <td> {{ value.number_people }}</td>
                                         <td> {{ value.price }}</td>
                                     </tr>

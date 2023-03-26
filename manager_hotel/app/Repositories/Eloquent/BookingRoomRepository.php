@@ -13,13 +13,20 @@ class BookingRoomRepository extends CustomRepository
         parent::__construct();
     }
 
-    public function getListRoomBooked($param)
+    public function getRoomBooked($param)
     {
         $data['sort'] = empty($params['sort']) ? 'id' : $params['sort'];
         $data['direction'] = empty($params['direction']) ? 'desc' : $params['direction'];
         $data['booking_id_eq'] = $param;
 
         $query = $this->search($data)->select('id','room_id')->get()->toArray();
+
+        return $query;
+    }
+
+    public function getListRoomBooked()
+    {
+        $query = $this->get()->toArray();
 
         return $query;
     }

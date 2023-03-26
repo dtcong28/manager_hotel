@@ -95,7 +95,7 @@ const storeBooking = () => {
                                     </td>
                                     <td class="center">{{ data.id }}</td>
                                     <td class="center">
-                                        <div v-for="item in typesRoom.data">
+                                        <div v-for="item in typesRoom">
                                             <span v-if="item.id==data.type_room_id">{{ item.name }}</span>
                                         </div>
                                     </td>

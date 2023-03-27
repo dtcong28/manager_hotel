@@ -24,7 +24,7 @@ return new class extends Migration {
             $table->char('method_payment', 1)->nullable();
             $table->char('status_payment', 1)->nullable();
             $table->char('status_booking', 1)->nullable();
-            $table->float('total_money')->nullable();
+            $table->integer('total_money')->nullable();
 
             $table->timestamps();
         });

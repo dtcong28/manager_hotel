@@ -3,11 +3,21 @@ import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
 import Pagination from '@/Components/Admin/Pagination.vue'
 import {Link} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
+import { router } from '@inertiajs/vue3'
+import { createInertiaApp } from '@inertiajs/inertia-vue3'
+import {ref} from "vue";
 
 const props = defineProps({
     bookings: Array,
     status: Array,
 })
+
+const search = ref('')
+const payment = ref('')
+
+function searchData() {
+    router.get('booking', { search: search.value }, { preserveState: true })
+}
 
 </script>
 
@@ -50,6 +60,13 @@ const props = defineProps({
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div id="example4_filter" class="dataTables_filter">
+                                <label>Search:
+                                    <input type="search" id="search" v-model="search" @keyup="searchData" class="form-control form-control-sm" placeholder="" aria-controls="example4">
+                                </label>
+                            </div>
+                        </div>
                         <div class="table-scrollable">
                             <table class="table table-hover table-checkable order-column full-width" id="example4">
                                 <thead>
@@ -69,9 +86,9 @@ const props = defineProps({
                                 <tbody>
                                 <tr v-for="(booking, key) in props.bookings.data" :key="booking.id" class="odd gradeX">
                                     <td class="center">{{ booking.id }}</td>
-                                    <td class="center">{{ booking.customer.name }}</td>
-                                    <td class="center">{{ booking.customer.phone }}</td>
-                                    <td class="center">{{ booking.customer.email }}</td>
+                                    <td class="center">{{ booking.name }}</td>
+                                    <td class="center">{{ booking.phone }}</td>
+                                    <td class="center">{{ booking.email }}</td>
                                     <td class="center">{{ booking.time_check_in }}</td>
                                     <td class="center">{{ booking.time_check_out }}</td>
                                     <td class="center"><span

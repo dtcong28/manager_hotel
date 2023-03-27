@@ -13,10 +13,23 @@ class BookingRepository extends CustomRepository
         parent::__construct();
     }
 
-    public function getListBooking()
+    public function getListBooking($params)
     {
-        return $this->with(['bookingRoom', 'customer'])->paginate(5);
-//        return $this->where('customer_id', 'LIKE', '%' . $params . '%')->with(['bookingRoom', 'customer'])->paginate(5);
+        $query = $this->select('booking.id','booking.time_check_in','booking.time_check_out','booking.status_payment','booking.status_booking', 'customers.name','customers.email','customers.phone')
+            ->join('customers', 'customers.id', 'booking.customer_id')
+            ->where('customers.name', 'LIKE', '%' . $params . '%')
+            ->orWhere('customers.phone', 'LIKE', '%' . $params . '%')
+            ->orWhere('customers.email', 'LIKE', '%' . $params . '%')
+            ->orWhere('booking.time_check_in', 'LIKE', '%' . $params . '%')
+            ->orWhere('booking.time_check_out', 'LIKE', '%' . $params . '%')
+            ->when(str_contains('unpaid', $params), function ($q) {
+                $q->orWhere('booking.status_payment', '=', 0);
+            })
+            ->when(str_contains('paid', $params), function ($q) {
+                $q->orWhere('booking.status_payment', '=', 1);
+            });
+//        dd($query->get());
+        return $query->paginate(5);
     }
 
     public function getDetailBooking($id)

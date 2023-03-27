@@ -17,7 +17,8 @@ if (!function_exists('listFilterRoom')) {
                 foreach ($bookedRoom as $data) {
                     if ($data['room_id'] == $room['id']) {
                         if ((checkInRange($data['time_check_in'], $data['time_check_out'], $checkIn) || checkInRange($data['time_check_in'], $data['time_check_out'], $checkOut)) && ($checkIn != date('Y-m-d', strtotime($data['time_check_out'])))) {
-                            unset($listRoom[$index][$key]);
+                            // Remove elements from array $listRoom at index is $key and re-index:
+                            array_splice($listRoom[$index], $key, 1);
                             break;
                         }
                     }

@@ -56,21 +56,19 @@ class BookingController extends BackendController
 
     public function index(Request $request)
     {
-//        dd($request->term);
-        // dang lam search
-        $record = $this->repository->getListBooking();
+        $record = $this->repository->getListBooking($request->search);
 
         return Inertia::render('Admin/Booking/Index', [
             'bookings' => $record,
             'status' => $record->map(function ($value) {
                 return [
                     'booking' => [
-                        'label' => BookingStatusEnum::statusLabel((int)$value->status_booking),
-                        'class' => BookingStatusEnum::statusBg((int)$value->status_booking),
+                        'label' => $value->status_booking_label,
+                        'class' => BookingStatusEnum::statusBg($value->status_booking->value),
                     ],
                     'payment' => [
-                        'label' => PaymentStatusEnum::statusLabel((int)$value->status_payment),
-                        'class' => PaymentStatusEnum::statusBg((int)$value->status_payment),
+                        'label' => $value->status_payment_label,
+                        'class' => PaymentStatusEnum::statusBg($value->status_payment->value),
                     ]
                 ];
             }),
@@ -127,7 +125,7 @@ class BookingController extends BackendController
         ]);
     }
 
-    public function editFilterRoom(BookingRequest $request)
+    public function editFilterRoom(Request $request)
     {
         $params = $request->all();
         $rooms = formatDataRoom(data_get($params, 'rooms'), $this->roomRepository);

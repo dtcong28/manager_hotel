@@ -24,11 +24,11 @@ class BookingRequest extends FormRequest
     public function rules()
     {
         return [
-//            'name' => ['required'],
-//            'type_booking' => ['required'],
-//            'number_room' => ['required'],
-//            'room' => ['required'],
-//            'range' => ['required'],
+            'name' => ['required'],
+            'type_booking' => ['required'],
+            'number_room' => ['required'],
+            'room' => ['required'],
+            'range' => ['required'],
         ];
     }
 }

@@ -120,7 +120,7 @@ const storeBooking = () => {
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
                                     data-upgraded=",MaterialButton,MaterialRipple">Continue<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
-                            <Link :href="route('booking.index')"
+                            <Link :href="route('booking.create')"
                                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default"
                                   data-upgraded=",MaterialButton,MaterialRipple">Cancel<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></Link>

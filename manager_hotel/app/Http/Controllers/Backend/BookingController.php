@@ -56,7 +56,7 @@ class BookingController extends BackendController
 
     public function index(Request $request)
     {
-        $record = $this->repository->getListBooking($request->search);
+        $record = $this->repository->getSearchBooking($request->search);
 
         return Inertia::render('Admin/Booking/Index', [
             'bookings' => $record,
@@ -110,7 +110,7 @@ class BookingController extends BackendController
                 'name' => $data->label(),
             ];
         }
-
+        // check lai lich khoang thoi gian
         return Inertia::render('Admin/Booking/RoomAvailable', [
             'rooms' => listFilterRoom($listRoom, $bookedRoom, formatDate($params["range"]['start']), formatDate($params["range"]['end'])),
             'bookingInfor' => [
@@ -130,14 +130,24 @@ class BookingController extends BackendController
         $params = $request->all();
         $rooms = formatDataRoom(data_get($params, 'rooms'), $this->roomRepository);
         $numberPeople = [];
-
+        // check lai lich khoang thoi gian
         foreach ($rooms as $room) {
             if (empty($room['id'])) {
                 array_push($numberPeople, $room['number_people']);
+            } else {
+                $listBookingByRoom = $this->repository->getListBookingByRoom($room['id'], $params['id_booking']);
+
+                foreach ($listBookingByRoom as $data){
+                    if(checkInRange($data['time_check_in'], $data['time_check_out'], $params['range']['start']) || checkInRange($data['time_check_in'], $data['time_check_out'], $params['range']['end'])){
+                        session()->flash('action_failed', "Time is not suitable");
+                        return Redirect::route('booking.edit', ['booking' => $params['id_booking']]);
+                    }
+                }
             }
         }
 
-        $record = !empty($numberPeople) ? $this->roomRepository->getListRoomByPeople($numberPeople) : '';
+        $listRoom = !empty($numberPeople) ? $this->roomRepository->getListRoomByPeople($numberPeople) : [];
+        $bookedRoom = $this->bookingRoomRepository->getListRoomBooked();
 
         return Inertia::render('Admin/Booking/RoomAvailableForUpdate', [
             'bookRoom' => $rooms, // information old rooms
@@ -148,7 +158,7 @@ class BookingController extends BackendController
                 'time_check_out' => formatDate($params["range"]['end']),
                 'time_stay' => timeStay($params["range"]['start'], $params["range"]['end']),
             ],
-            'filterRoom' => $record, // information new rooms is booked
+            'filterRoom' => listFilterRoom($listRoom, $bookedRoom, formatDate($params["range"]['start']), formatDate($params["range"]['end'])), // information new rooms is booked
             'idBooking' => data_get($params, 'id_booking')
         ]);
 
@@ -228,7 +238,7 @@ class BookingController extends BackendController
         ]);
     }
 
-    public function update(BookingRequest $request, $id)
+    public function update(Request $request, $id)
     {
         DB::beginTransaction();
         try {
@@ -303,7 +313,7 @@ class BookingController extends BackendController
             // update info booking
             $booking = $this->repository->find($id);
             if (!empty($booking)) {
-                $booking->type_booking = $params['type_booking']['value'];
+                $booking->type_booking = $params['type_booking'];
                 $booking->time_check_in = $params['time_check_in'];
                 $booking->time_check_out = $params['time_check_out'];
                 $booking->number_rooms = count($params['book_room']);

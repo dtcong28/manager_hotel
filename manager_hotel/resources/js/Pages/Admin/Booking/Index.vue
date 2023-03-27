@@ -4,7 +4,6 @@ import Pagination from '@/Components/Admin/Pagination.vue'
 import {Link} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 import { router } from '@inertiajs/vue3'
-import { createInertiaApp } from '@inertiajs/inertia-vue3'
 import {ref} from "vue";
 
 const props = defineProps({

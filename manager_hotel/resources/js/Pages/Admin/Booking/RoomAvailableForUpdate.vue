@@ -24,7 +24,7 @@ props.bookRoom.forEach((room) => {
 })
 
 let form = useForm({
-    type_booking: props.bookingInfor.type_booking,
+    type_booking: props.bookingInfor.type_booking.value,
     time_check_in: props.bookingInfor.time_check_in,
     time_check_out: props.bookingInfor.time_check_out,
     select_rooms: selectRoom,
@@ -82,7 +82,7 @@ const updateBooking = () => {
                     </div>
                     <div class="card-body ">
                         <div class="table-scrollable">
-                            <table v-if="props.filterRoom" class="table table-hover table-checkable order-column full-width" id="example4">
+                            <table v-if="props.filterRoom!=''" class="table table-hover table-checkable order-column full-width" id="example4">
                                 <thead>
                                 <tr>
                                     <th class="center"> Select</th>

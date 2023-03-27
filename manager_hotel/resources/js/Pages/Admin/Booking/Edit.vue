@@ -109,11 +109,10 @@ const filterRoom = () => {
                                 <div class="row">
                                     <div class="form-group">
                                         <label class="typo__label">Room {{ input.name }} - Number People</label>
-                                        <input type="number" name="rooms" v-model="input.number_people"
-                                               class="form-control">
+                                        <input type="number" :readonly="input.name" name="rooms" v-model="input.number_people" class="form-control">
                                     </div>
                                     <div>
-                                        <a @click.prevent="addField(rooms)" href=""><i
+                                        <a v-bind:style= "[data.rooms.length == 4 ? 'display:none' : '']" @click.prevent="addField(rooms)" href=""><i
                                             class="fa fa-plus-circle"></i></a>
                                         <a v-if="index != 0" @click.prevent="removeField(index, rooms)" href=""><i
                                             class="fa fa-minus-circle text-danger"></i></a>

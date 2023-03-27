@@ -5,7 +5,14 @@ use Carbon\Carbon;
 if (!function_exists('checkInRange')) {
     function checkInRange($start_date, $end_date, $date)
     {
-        return (($date >= $start_date) && ($date <= $end_date));
+        return (($date > $start_date) && ($date <= $end_date));
+    }
+}
+
+if (!function_exists('checkOutRange')) {
+    function checkOutRange($start_date, $end_date, $date)
+    {
+        return (($date >= $start_date) && ($date < $end_date));
     }
 }
 
@@ -16,7 +23,9 @@ if (!function_exists('listFilterRoom')) {
             foreach ($rooms as $key => $room) {
                 foreach ($bookedRoom as $data) {
                     if ($data['room_id'] == $room['id']) {
-                        if ((checkInRange($data['time_check_in'], $data['time_check_out'], $checkIn) || checkInRange($data['time_check_in'], $data['time_check_out'], $checkOut)) && ($checkIn != date('Y-m-d', strtotime($data['time_check_out'])))) {
+//                        dd($checkIn);
+//                        dd( date('Y-m-d',strtotime($data['time_check_out'])), $checkIn);
+                        if ((checkInRange(date('Y-m-d',strtotime($data['time_check_in'])), date('Y-m-d',strtotime($data['time_check_out'])), $checkIn) || checkOutRange(date('Y-m-d',strtotime($data['time_check_in'])), date('Y-m-d',strtotime($data['time_check_out'])), $checkOut))) {
                             // Remove elements from array $listRoom at index is $key and re-index:
                             array_splice($listRoom[$index], $key, 1);
                             break;

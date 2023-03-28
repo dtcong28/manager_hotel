@@ -6,7 +6,7 @@ import {ref} from "vue";
 
 const props = defineProps({
     foods: Array,
-    booking_id: Array,
+    booking: Array,
     booked_food: Array,
 })
 
@@ -20,7 +20,7 @@ if(props.booked_food) {
 
 const form = useForm({
     select_food: selectFood,
-    booking_id: props.booking_id,
+    booking: props.booking[0].id,
 });
 
 const storeBookingFood = () => {
@@ -89,7 +89,7 @@ const storeBookingFood = () => {
                         </div>
 
                         <div class="col-lg-12 p-t-20 text-center">
-                            <button type="submit"
+                            <button type="submit" v-if="booking[0].status_booking != 0"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
                                     data-upgraded=",MaterialButton,MaterialRipple">Continue<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>

@@ -76,6 +76,7 @@ const props = defineProps({
                                         </Link>
                                         </td>
                                 </tr>
+                                <tr v-if="food==''"><span style="color: red">No data</span></tr>
                                 </tbody>
                             </table>
                         </div>

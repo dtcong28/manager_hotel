@@ -19,6 +19,7 @@ class RoomRepository extends CustomRepository
     {
         $data['sort'] = 'id';
         $data['direction'] = 'desc';
+        $results = [];
 
         foreach ($numberPeople as $key => $param) {
             $data['number_people_eq'] = $param;
@@ -28,7 +29,8 @@ class RoomRepository extends CustomRepository
             }
         }
 
-        return $results;
+        // array_values is re-index
+        return array_values($results);
     }
 
     public function getDetailRoom($id)

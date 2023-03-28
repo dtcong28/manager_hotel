@@ -5,14 +5,14 @@ use Carbon\Carbon;
 if (!function_exists('checkInRange')) {
     function checkInRange($start_date, $end_date, $date)
     {
-        return (($date > $start_date) && ($date <= $end_date));
+        return (($date >= $start_date) && ($date < $end_date));
     }
 }
 
 if (!function_exists('checkOutRange')) {
     function checkOutRange($start_date, $end_date, $date)
     {
-        return (($date >= $start_date) && ($date < $end_date));
+        return (($date > $start_date) && ($date <= $end_date));
     }
 }
 
@@ -23,9 +23,7 @@ if (!function_exists('listFilterRoom')) {
             foreach ($rooms as $key => $room) {
                 foreach ($bookedRoom as $data) {
                     if ($data['room_id'] == $room['id']) {
-//                        dd($checkIn);
-//                        dd( date('Y-m-d',strtotime($data['time_check_out'])), $checkIn);
-                        if ((checkInRange(date('Y-m-d',strtotime($data['time_check_in'])), date('Y-m-d',strtotime($data['time_check_out'])), $checkIn) || checkOutRange(date('Y-m-d',strtotime($data['time_check_in'])), date('Y-m-d',strtotime($data['time_check_out'])), $checkOut))) {
+                        if ((checkInRange($data['time_check_in'], $data['time_check_out'], $checkIn) || checkOutRange($data['time_check_in'], $data['time_check_out'], $checkOut))) {
                             // Remove elements from array $listRoom at index is $key and re-index:
                             array_splice($listRoom[$index], $key, 1);
                             break;
@@ -42,8 +40,8 @@ if (!function_exists('listFilterRoom')) {
 if (!function_exists('timeStay')) {
     function timeStay($start, $end)
     {
-        $start_date = Carbon::createFromFormat('Y-m-d', date('Y-m-d', strtotime($start)));
-        $end_date = Carbon::createFromFormat('Y-m-d', date('Y-m-d', strtotime($end)));
+        $start_date = Carbon::createFromFormat('Y-m-d', $start);
+        $end_date = Carbon::createFromFormat('Y-m-d', $end);
         return $start_date->diffInDays($end_date);
     }
 }

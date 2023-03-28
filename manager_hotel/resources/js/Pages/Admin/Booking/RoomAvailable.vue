@@ -111,12 +111,13 @@ const storeBooking = () => {
                                     <td class="center">{{ data.rent_per_night * bookingInfor.time_stay }}</td>
                                 </tr>
                                 </tbody>
+                                <tr v-if="rooms==''" style="color: red">No Data</tr>
                             </table>
                         </div>
                     </div>
                     <form @submit.prevent="storeBooking">
                         <div class="col-lg-12 p-t-20 text-center">
-                            <button type="submit"
+                            <button type="submit" v-if="rooms != ''"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
                                     data-upgraded=",MaterialButton,MaterialRipple">Continue<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>

@@ -3,7 +3,6 @@ import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
 import {Head, Link, router, useForm} from '@inertiajs/vue3';
 import Multiselect from 'vue-multiselect'
 import {reactive, ref} from "vue";
-import FormPicker from '@/Components/Admin/FormPicker.vue';
 
 const props = defineProps({
     typeBooking: Array,
@@ -33,14 +32,10 @@ function removeField(index, rooms) {
     data.value.rooms.splice(index, 1);
 }
 
-const range = ref({
-    start: props.bookingRoom.time_check_in,
-    end: props.bookingRoom.time_check_out,
-})
-
 const form = useForm({
     name: props.bookingRoom.customer.name,
-    range: range,
+    time_check_in: props.bookingRoom.time_check_in,
+    time_check_out: props.bookingRoom.time_check_out,
     type_booking: '',
     rooms : data.value.rooms,
     id_booking: props.idBooking
@@ -92,12 +87,18 @@ const filterRoom = () => {
                                            v-model="form.name">
                                 </div>
                             </div>
-                            <div class="col-lg-6 p-t-20">
-                                <div class="form-group">
-                                    <FormPicker v-model="form.range"/>
+                            <div class="col-lg-3 p-t-20">
+                                <div class="wrap">
+                                    <label for="check_in">Check-in Date</label>
+                                    <input name="time_check_in" id="check_in" v-model="form.time_check_in" type="date" class="form-control" placeholder="Check-in date">
                                 </div>
                             </div>
-
+                            <div class="col-lg-3 p-t-20">
+                                <div class="wrap">
+                                    <label for="check_out">Check-out Date</label>
+                                    <input name="time_check_out" id="check_out" v-model="form.time_check_out" type="date" class="form-control" placeholder="Check-out date">
+                                </div>
+                            </div>
                             <div class="col-lg-12 p-t-20">
                                 <div class="form-group">
                                     <label class="typo__label">Type Booking</label>
@@ -122,7 +123,7 @@ const filterRoom = () => {
                         </div>
 
                         <div class="col-lg-12 p-t-20 text-center">
-                            <button type="submit"
+                            <button v-if="bookingRoom.status_booking!=0" type="submit"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
                                     data-upgraded=",MaterialButton,MaterialRipple">Continue<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>

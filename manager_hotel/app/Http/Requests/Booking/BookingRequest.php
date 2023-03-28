@@ -28,7 +28,8 @@ class BookingRequest extends FormRequest
             'type_booking' => ['required'],
             'number_room' => ['required'],
             'room' => ['required'],
-            'range' => ['required'],
+            'time_check_in' => ['required'],
+            'time_check_out' => ['required'],
         ];
     }
 }

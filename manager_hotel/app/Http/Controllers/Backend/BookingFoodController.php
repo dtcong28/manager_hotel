@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Requests\Booking\BookingFoodRequest;
 use App\Repositories\Eloquent\BookingFoodRepository;
+use App\Repositories\Eloquent\BookingRepository;
 use App\Repositories\Eloquent\FoodRepository;
 use App\Services\BookingFoodService;
 use App\Services\FoodService;
@@ -16,6 +17,7 @@ class BookingFoodController extends BackendController
 {
     protected $repository;
     protected $foodRepository;
+    protected $bookingRepository;
     protected $service;
     protected $foodService;
 
@@ -24,6 +26,7 @@ class BookingFoodController extends BackendController
         parent::__construct();
         $this->repository = app(BookingFoodRepository::class);
         $this->foodRepository = app(FoodRepository::class);
+        $this->bookingRepository = app(BookingRepository::class);
         $this->service = app(BookingFoodService::class);
         $this->foodService = app(FoodService::class);
 
@@ -39,8 +42,6 @@ class BookingFoodController extends BackendController
     {
         $foods = $this->foodRepository->get();
 
-        $bookedFood = $this->repository->findByField('booking_id', request()->route('id'));
-
         return Inertia::render('Admin/BookingFood/Create',[
             'foods' => $foods->map(function ($value) {
                 return [
@@ -51,8 +52,8 @@ class BookingFoodController extends BackendController
                     'image' => ($value->getMedia('images'))[0]->getUrl(),
                 ];
             }),
-            'booking_id' => request()->route('id'),
-            'booked_food' => $bookedFood,
+            'booking' => $this->bookingRepository->findByField('id', request()->route('id')),
+            'booked_food' => $this->repository->findByField('booking_id', request()->route('id')),
         ]);
     }
 
@@ -66,7 +67,7 @@ class BookingFoodController extends BackendController
                 return Redirect::route('booking.index');
             }
 
-            $bookedFood = $this->repository->findByField('booking_id', $params['booking_id']);
+            $bookedFood = $this->repository->findByField('booking_id', $params['booking']);
             foreach ($bookedFood as $value)
             {
                 $this->service->destroy($value->id);
@@ -78,7 +79,7 @@ class BookingFoodController extends BackendController
                 {
                     $data['food_id'] = $key;
                     $data['amount'] = $value;
-                    $data['booking_id'] = $params['booking_id'];
+                    $data['booking_id'] = $params['booking'];
 
                     $food = $this->foodRepository->find($key);
                     $data['price'] = $value*$food->price;

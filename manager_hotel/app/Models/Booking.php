@@ -43,6 +43,8 @@ class Booking extends Model
     protected $casts = [
         'status_payment' => PaymentStatusEnum::class,
         'status_booking' => BookingStatusEnum::class,
+        'time_check_in' => 'datetime:Y-m-d',
+        'time_check_out' => 'datetime:Y-m-d',
     ];
 
     protected function statusPaymentLabel(): Attribute

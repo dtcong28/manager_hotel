@@ -25,6 +25,11 @@ class BookingRoom extends Model
         'time_check_out',
     ];
 
+    protected $casts = [
+        'time_check_in' => 'datetime:Y-m-d',
+        'time_check_out' => 'datetime:Y-m-d',
+    ];
+
     public function room()
     {
         return $this->belongsTo(Room::class);

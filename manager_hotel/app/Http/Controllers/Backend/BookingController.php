@@ -100,6 +100,7 @@ class BookingController extends BackendController
     public function filterRoom(BookingRequest $request)
     {
         $params = $request->all();
+
         $listRoom = $this->roomRepository->getListRoomByPeople(data_get($params, 'room'));
         $bookedRoom = $this->bookingRoomRepository->getListRoomBooked();
         $typesRoom = $this->typeRoomRepository->get();
@@ -110,15 +111,15 @@ class BookingController extends BackendController
                 'name' => $data->label(),
             ];
         }
-        // check lai lich khoang thoi gian
+
         return Inertia::render('Admin/Booking/RoomAvailable', [
-            'rooms' => listFilterRoom($listRoom, $bookedRoom, formatDate($params["range"]['start']), formatDate($params["range"]['end'])),
+            'rooms' => listFilterRoom($listRoom, $bookedRoom, $params["time_check_in"], $params["time_check_out"]),
             'bookingInfor' => [
                 'customer' => $params["name"],
                 'type_booking' => $params["type_booking"],
-                'time_check_in' => formatDate($params["range"]['start']),
-                'time_check_out' => formatDate($params["range"]['end']),
-                'time_stay' => timeStay($params["range"]['start'], $params["range"]['end']),
+                'time_check_in' => $params["time_check_in"],
+                'time_check_out' => $params["time_check_out"],
+                'time_stay' => timeStay($params["time_check_in"], $params["time_check_out"]),
             ],
             'typesRoom' => $typesRoom,
             'status' => $status,
@@ -130,7 +131,7 @@ class BookingController extends BackendController
         $params = $request->all();
         $rooms = formatDataRoom(data_get($params, 'rooms'), $this->roomRepository);
         $numberPeople = [];
-        // check lai lich khoang thoi gian
+
         foreach ($rooms as $room) {
             if (empty($room['id'])) {
                 array_push($numberPeople, $room['number_people']);
@@ -138,8 +139,8 @@ class BookingController extends BackendController
                 $listBookingByRoom = $this->repository->getListBookingByRoom($room['id'], $params['id_booking']);
 
                 foreach ($listBookingByRoom as $data){
-                    if(checkInRange($data['time_check_in'], $data['time_check_out'], $params['range']['start']) || checkInRange($data['time_check_in'], $data['time_check_out'], $params['range']['end'])){
-                        session()->flash('action_failed', "Time is not suitable");
+                    if(checkInRange($data['time_check_in'], $data['time_check_out'], $params['time_check_in']) || checkOutRange($data['time_check_in'], $data['time_check_out'], $params['time_check_out'])){
+                        session()->flash('action_failed', "Check-in and check-out time is not suitable");
                         return Redirect::route('booking.edit', ['booking' => $params['id_booking']]);
                     }
                 }
@@ -154,17 +155,17 @@ class BookingController extends BackendController
             'bookingInfor' => [
                 'customer' => $params["name"],
                 'type_booking' => $params["type_booking"],
-                'time_check_in' => formatDate($params["range"]['start']),
-                'time_check_out' => formatDate($params["range"]['end']),
-                'time_stay' => timeStay($params["range"]['start'], $params["range"]['end']),
+                'time_check_in' => $params["time_check_in"],
+                'time_check_out' => $params["time_check_out"],
+                'time_stay' => timeStay($params["time_check_in"], $params["time_check_out"]),
             ],
-            'filterRoom' => listFilterRoom($listRoom, $bookedRoom, formatDate($params["range"]['start']), formatDate($params["range"]['end'])), // information new rooms is booked
+            'filterRoom' => listFilterRoom($listRoom, $bookedRoom, $params["time_check_in"], $params["time_check_out"]), // information new rooms is booked
             'idBooking' => data_get($params, 'id_booking')
         ]);
 
     }
 
-    public function store(BookingRequest $request)
+    public function store(Request $request)
     {
         DB::beginTransaction();
         try {
@@ -277,6 +278,8 @@ class BookingController extends BackendController
                         if (data_get($value, 'id') == $room['room_id']) {
                             $booked->number_people = data_get($value, 'number_people');
                             $booked->price = data_get($params, 'price_each_room')[$key];
+                            $booked->time_check_in = $params['time_check_in'];
+                            $booked->time_check_out = $params['time_check_out'];
                             $booked->save();
                         }
                     }
@@ -410,7 +413,7 @@ class BookingController extends BackendController
                 ];
             }
 
-             if ($booking->status_booking == $statusBooking) {
+             if ($booking->status_booking->value == $statusBooking) {
                  session()->flash('action_success', getConstant('messages.UPDATE_SUCCESS'));
                  return Redirect::route('booking.detail', ['id' => $id]);
              }

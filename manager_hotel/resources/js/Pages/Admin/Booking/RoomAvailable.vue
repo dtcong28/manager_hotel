@@ -39,6 +39,10 @@ const arrayRoom = uniqueElementsBy(mergedRoom, (a, b) => a.id == b.id);
 const storeBooking = () => {
     form.post(route('booking.store'))
 };
+
+const handleBack = () => {
+    window.history.back();
+};
 </script>
 
 <template>
@@ -119,11 +123,11 @@ const storeBooking = () => {
                         <div class="col-lg-12 p-t-20 text-center">
                             <button type="submit" v-if="rooms != ''"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
-                                    data-upgraded=",MaterialButton,MaterialRipple">Continue<span
+                                    data-upgraded=",MaterialButton,MaterialRipple">Submit<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
-                            <Link :href="route('booking.create')"
+                            <Link @click="handleBack"
                                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default"
-                                  data-upgraded=",MaterialButton,MaterialRipple">Cancel<span
+                                  data-upgraded=",MaterialButton,MaterialRipple">Back<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></Link>
                         </div>
                     </form>

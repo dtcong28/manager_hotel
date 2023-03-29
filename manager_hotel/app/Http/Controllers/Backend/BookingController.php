@@ -20,6 +20,7 @@ use App\Services\TypeRoomService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
@@ -200,6 +201,8 @@ class BookingController extends BackendController
                     return Redirect::route('booking.index');
                 }
             }
+            
+            Mail::to()
 
             DB::commit();
             session()->flash('action_success', getConstant('messages.CREATE_SUCCESS'));

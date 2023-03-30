@@ -112,7 +112,7 @@ const updateStatus= () => {
                                 </div>
                             </h4>
                             <br>
-                            <h4>Total Money: {{ sum.reduce((partialSum, a) => partialSum + a, 0) }}</h4>
+                            <h4>Total Money: {{ sum.reduce((partialSum, a) => partialSum + a, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</h4>
                         </div>
                     </div>
                     <div class="row">

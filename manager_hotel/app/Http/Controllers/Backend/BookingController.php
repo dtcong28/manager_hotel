@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Requests\Booking\BookingRequest;
+use App\Mail\BookingMail;
 use App\Models\Enums\BookingStatusEnum;
 use App\Models\Enums\PaymentStatusEnum;
 use App\Models\Enums\RoomStatusEnum;
@@ -173,6 +174,7 @@ class BookingController extends BackendController
             $params = $request->all();
             $params['status_payment'] = \App\Models\Enums\PaymentStatusEnum::UNPAID->value;
             $params['status_booking'] = \App\Models\Enums\BookingStatusEnum::EXPECTED_ARRIVAL->value;
+            $customer = $this->customerRepository->find(data_get(data_get($params, 'customer'),'id'));
 
             if (!$this->service->store($params)) {
                 DB::rollback();
@@ -185,7 +187,7 @@ class BookingController extends BackendController
             foreach (data_get($params, 'rooms') as $key => $value) {
                 $room = $this->roomRepository->find($value);
 
-                $data = [
+                $data[$key] = [
                     'room_id' => $value,
                     'booking_id' => $lastId,
                     'price' => data_get($params, 'price_each_room')[$key],
@@ -194,15 +196,16 @@ class BookingController extends BackendController
                     'time_check_out' => data_get($params, 'time_check_out'),
                 ];
 
-                if (!$this->bookingRoomService->store($data)) {
+                if (!$this->bookingRoomService->store($data[$key])) {
                     DB::rollback();
                     session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
 
                     return Redirect::route('booking.index');
                 }
+                $data[$key]['room_name'] = $room->name;
             }
-            
-            Mail::to()
+
+            Mail::to($customer->email)->send(new BookingMail($data));
 
             DB::commit();
             session()->flash('action_success', getConstant('messages.CREATE_SUCCESS'));

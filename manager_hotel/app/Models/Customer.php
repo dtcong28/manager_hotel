@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Enums\GenderEnum;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Cashier\Billable;
@@ -25,6 +27,21 @@ class Customer extends Model
         'email',
         'identity_card',
     ];
+
+    protected $appends = [
+        'gender_label',
+    ];
+
+    protected $casts = [
+        'gender' => GenderEnum::class,
+    ];
+
+    protected function genderLabel(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $this->gender?->label()
+        );
+    }
 
     public function booking()
     {

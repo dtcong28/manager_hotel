@@ -8,6 +8,7 @@ use App\Repositories\Eloquent\RoomRepository;
 use App\Repositories\Eloquent\TypeRoomRepository;
 use App\Services\RoomService;
 use App\Services\TypeRoomService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -28,27 +29,19 @@ class RoomController extends BackendController
         $this->typeRoomRepository = app(TypeRoomRepository::class);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = request()->all();
-        $record = $this->service->index($data);
-
+        $record = $this->repository->getSearchRoom($request->search);
         $typesRoom = $this->typeRoomRepository->get();
-
-        foreach (\App\Models\Enums\RoomStatusEnum::cases() as $key => $data) {
-            $status[$key] = [
-                'value' => $data->value,
-                'name' => $data->label(),
-            ];
-        }
 
         return Inertia::render('Admin/Rooms/Index', [
             'rooms' => $record->map(function ($value) {
                 return [
                     'id' => $value->id,
                     'name' => $value->name,
-                    'type_room_id' => $value->type_room_id,
+                    'type_room' => data_get($value,'typeRoom.name'),
                     'status' => $value->status,
+                    'status_label' => $value->status_label,
                     'note' => $value->note,
                     'number_people' => $value->number_people,
                     'size' => $value->size,
@@ -58,14 +51,13 @@ class RoomController extends BackendController
                     'image' => ($value->getMedia('images'))[0]->getUrl(),
                 ];
             }),
-            'typesRoom' => $typesRoom,
-            'status' => $status,
+            'record' => $record,
         ]);
     }
 
     public function create()
     {
-        $typesRoom = $this->typeRoomService->index(request()->all());
+        $typesRoom = $this->typeRoomRepository->get();
 
         foreach (\App\Models\Enums\RoomStatusEnum::cases() as $key => $data) {
             $status[$key] = [
@@ -86,14 +78,16 @@ class RoomController extends BackendController
             $params = $request->all();
 
             if (empty($params)) {
+                session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
                 return Redirect::route('rooms.index');
             }
 
-            if ($this->service->store($params)) {
-                session()->flash('action_success', getConstant('messages.CREATE_SUCCESS'));
-            } else {
+            if (!($this->service->store($params))) {
                 session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
-            }
+                return Redirect::route('rooms.index');
+            };
+
+            session()->flash('action_success', getConstant('messages.CREATE_SUCCESS'));
         } catch (\Exception $exception) {
             Log::error($exception);
             session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
@@ -121,7 +115,7 @@ class RoomController extends BackendController
             return Redirect::route('rooms.index');
         }
 
-        $typesRoom = $this->typeRoomService->index(request()->all());
+        $typesRoom = $this->typeRoomRepository->get();;
 
         foreach (\App\Models\Enums\RoomStatusEnum::cases() as $key => $data) {
             $status[$key] = [
@@ -141,16 +135,20 @@ class RoomController extends BackendController
     {
         try {
             if (empty($id) || empty($request)) {
+                session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
+
                 return Redirect::route('rooms.index');
             }
 
             $params = $request->all();
 
-            if ($this->service->update($id, $params)) {
-                session()->flash('action_success', getConstant('messages.UPDATE_SUCCESS'));
-            } else {
+            if (!($this->service->update($id, $params))) {
                 session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
-            }
+
+                return Redirect::route('rooms.index');
+            };
+
+            session()->flash('action_success', getConstant('messages.UPDATE_SUCCESS'));
         } catch (\Exception $exception) {
             Log::error($exception);
             session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));

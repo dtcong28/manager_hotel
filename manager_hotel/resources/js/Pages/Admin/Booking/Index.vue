@@ -1,9 +1,9 @@
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
-import Pagination from '@/Components/Admin/Pagination.vue'
-import {Link} from '@inertiajs/vue3'
+import Pagination from '@/Components/Admin/Pagination.vue';
+import {Link} from '@inertiajs/vue3';
 import {Head} from '@inertiajs/vue3';
-import { router } from '@inertiajs/vue3'
+import { router } from '@inertiajs/vue3';
 import {ref} from "vue";
 
 const props = defineProps({
@@ -91,9 +91,9 @@ function searchData() {
                                     <td class="center">{{ booking.time_check_in }}</td>
                                     <td class="center">{{ booking.time_check_out }}</td>
                                     <td class="center"><span
-                                        :class="status[key].payment.class">{{ status[key].payment.label }}</span></td>
+                                        :class="status[key].payment_class">{{ booking.status_payment_label }}</span></td>
                                     <td class="center"><span
-                                        :class="status[key].booking.class">{{ status[key].booking.label }}</span></td>
+                                        :class="status[key].booking_class">{{ booking.status_booking_label }}</span></td>
                                     <td class="center"><a :href="route('booking.detail', { id: booking.id })"
                                                           class="btn deepPink btn-outline btn-circle m-b-10">View</a>
                                     </td>

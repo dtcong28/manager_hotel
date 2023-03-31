@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Repositories\Eloquent\EmployeeRepository;
 use App\Services\EmployeeService;
 use App\Http\Requests\Employee\EmployeeRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -21,21 +22,12 @@ class EmployeeController extends BackendController
         $this->service = app(EmployeeService::class);;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $params = request()->all();
-        $record = $this->service->index($params);
-
-        foreach (\App\Models\Enums\GenderEnum::cases() as $key => $data) {
-            $gender[$key] = [
-                'value' => $data->value,
-                'name' => $data->label(),
-            ];
-        }
+        $record = $this->repository->getSearchEmployee($request->search);
 
         return Inertia::render('Admin/Employees/Index', [
             'employees' => $record,
-            'gender' => $gender,
         ]);
     }
 
@@ -98,20 +90,24 @@ class EmployeeController extends BackendController
         ]);
     }
 
-    public function update(EmployeeRequest $request, $id)
+    public function update(Request $request, $id)
     {
         try {
             if (empty($id) || empty($request)) {
+                session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
+
                 return Redirect::route('employees.index');
             }
 
             $params = $request->all();
 
-            if ($this->service->update($id, $params)) {
-                session()->flash('action_success', getConstant('messages.UPDATE_SUCCESS'));
-            } else {
+            if (!($this->service->update($id, $params))) {
                 session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
-            }
+
+                return Redirect::route('employees.index');
+            };
+
+            session()->flash('action_success', getConstant('messages.UPDATE_SUCCESS'));
         } catch (\Exception $exception) {
             Log::error($exception);
             session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));

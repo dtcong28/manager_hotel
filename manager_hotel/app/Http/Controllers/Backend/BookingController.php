@@ -64,14 +64,8 @@ class BookingController extends BackendController
             'bookings' => $record,
             'status' => $record->map(function ($value) {
                 return [
-                    'booking' => [
-                        'label' => $value->status_booking_label,
-                        'class' => BookingStatusEnum::statusBg($value->status_booking->value),
-                    ],
-                    'payment' => [
-                        'label' => $value->status_payment_label,
-                        'class' => PaymentStatusEnum::statusBg($value->status_payment->value),
-                    ]
+                    'booking_class' => BookingStatusEnum::statusBg($value->status_booking->value),
+                    'payment_class' => PaymentStatusEnum::statusBg($value->status_payment->value),
                 ];
             }),
         ]);
@@ -105,14 +99,6 @@ class BookingController extends BackendController
 
         $listRoom = $this->roomRepository->getListRoomByPeople(data_get($params, 'room'));
         $bookedRoom = $this->bookingRoomRepository->getListRoomBooked();
-        $typesRoom = $this->typeRoomRepository->get();
-
-        foreach (\App\Models\Enums\RoomStatusEnum::cases() as $key => $data) {
-            $status[$key] = [
-                'value' => $data->value,
-                'name' => $data->label(),
-            ];
-        }
 
         return Inertia::render('Admin/Booking/RoomAvailable', [
             'rooms' => listFilterRoom($listRoom, $bookedRoom, $params["time_check_in"], $params["time_check_out"]),
@@ -122,9 +108,7 @@ class BookingController extends BackendController
                 'time_check_in' => $params["time_check_in"],
                 'time_check_out' => $params["time_check_out"],
                 'time_stay' => timeStay($params["time_check_in"], $params["time_check_out"]),
-            ],
-            'typesRoom' => $typesRoom,
-            'status' => $status,
+            ]
         ]);
     }
 

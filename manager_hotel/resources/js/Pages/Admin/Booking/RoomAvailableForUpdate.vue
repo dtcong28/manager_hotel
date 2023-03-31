@@ -67,6 +67,7 @@ const updateBooking = () => {
                 </ol>
             </div>
         </div>
+        <pre>{{ filterRoom[0] }}</pre>
         <div class="row">
             <div class="col-md-10">
                 <div class="card card-box">
@@ -105,13 +106,13 @@ const updateBooking = () => {
                                         <img :src="data.image" :alt="data.image" class="w-20 h-20 shadow">
                                     </td>
                                     <td class="center">{{ data.id }}</td>
-                                    <td class="center">{{ data.type_room_id }}</td>
+                                    <td class="center">{{ data.type_room.name }}</td>
                                     <td class="center">{{ data.name }}</td>
-                                    <td class="center">{{ data.status }}</td>
+                                    <td class="center">{{ data.status_label }}</td>
                                     <td class="center">{{ data.number_people }}</td>
                                     <td class="center">{{ data.number_bed }}</td>
-                                    <td class="center">{{ data.rent_per_night }}</td>
-                                    <td class="center">{{ data.rent_per_night * bookingInfor.time_stay }}</td>
+                                    <td class="center">{{ data.rent_per_night.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</td>
+                                    <td class="center">{{ (data.rent_per_night * bookingInfor.time_stay).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -149,17 +150,17 @@ const updateBooking = () => {
                     </div>
                     <div class="card-body" v-for="(value, index) in selectRoom">
                         <span class="center" v-if="value.name">
-                            Room {{ value.name }} : {{ value.rent_per_night * bookingInfor.time_stay }} VND
+                            Room {{ value.name }} : {{ (value.rent_per_night * bookingInfor.time_stay).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
                         </span>
                         <div v-for="room in arrayRoom" :key="room.id">
                             <span class="center" v-if="value === room.id" :id="room.id">
-                                Room {{ room.name }} : {{ room.rent_per_night * bookingInfor.time_stay }} VND
+                                Room {{ room.name }} : {{ (room.rent_per_night * bookingInfor.time_stay).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
                                 <div class="d-none">{{ sum[index] = room.rent_per_night * bookingInfor.time_stay }}</div>
                             </span>
                         </div>
                     </div>
                     <div class="card-body">
-                        <h4>Sum: {{ sum.reduce((partialSum, a) => partialSum + a, 0) }}</h4>
+                        <h4>Sum: {{ sum.reduce((partialSum, a) => partialSum + a, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</h4>
                     </div>
                 </div>
             </div>

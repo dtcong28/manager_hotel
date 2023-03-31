@@ -35,7 +35,7 @@ class EmployeeService extends CustomService
 
     protected function prepareBeforeUpdate(&$data)
     {
-        $this->prepareSave($data);
+        $data['gender'] = $data['gender']['value'];
     }
 
     protected function prepareSave(&$data)

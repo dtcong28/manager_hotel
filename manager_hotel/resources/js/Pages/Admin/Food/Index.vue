@@ -1,11 +1,17 @@
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
-import {Link} from '@inertiajs/vue3'
+import {Link, router} from '@inertiajs/vue3';
 import {Head} from '@inertiajs/vue3';
+import Pagination from '@/Components/Admin/Pagination.vue';
 
 const props = defineProps({
     food: Array,
+    record: Array,
 })
+
+function searchData() {
+    router.get('food', { search: search.value }, { preserveState: true })
+}
 
 </script>
 
@@ -48,6 +54,13 @@ const props = defineProps({
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div id="example4_filter" class="dataTables_filter">
+                                <label>Search:
+                                    <input type="search" id="search" v-model="search" @keyup="searchData" class="form-control form-control-sm" placeholder="" aria-controls="example4">
+                                </label>
+                            </div>
+                        </div>
                         <div class="table-scrollable">
                             <table class="table table-hover table-checkable order-column full-width" id="example4">
                                 <thead>
@@ -66,7 +79,7 @@ const props = defineProps({
                                         <img :src="value.image" :alt="value.image" class="w-20 h-20 shadow">
                                     </td>
                                     <td class="center">{{ value.name }}</td>
-                                    <td class="center">{{ value.price }}</td>
+                                    <td class="center">{{ value.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</td>
                                     <td class="center">
                                         <Link :href="route('food.edit', { id: value.id })" class="btn btn-tbl-edit btn-xs">
                                             <i class="fa fa-pencil"></i>
@@ -79,6 +92,9 @@ const props = defineProps({
                                 <tr v-if="food==''"><span style="color: red">No data</span></tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="col-sm-12 col-md-7">
+                            <pagination class="mt-6" :links="record.links"/>
                         </div>
                     </div>
                 </div>

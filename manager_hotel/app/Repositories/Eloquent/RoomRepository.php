@@ -23,7 +23,7 @@ class RoomRepository extends CustomRepository
 
         foreach ($numberPeople as $key => $param) {
             $data['number_people_eq'] = $param;
-            foreach ($this->search($data)->get() as $index=>$item) {
+            foreach ($this->search($data)->with(['typeRoom'])->get() as $index=>$item) {
                 $item->image = $item->getMedia('images')[0]->getUrl();
                 $results[$key][$index] = $item;
             }
@@ -53,5 +53,17 @@ class RoomRepository extends CustomRepository
         }
 
         return $query;
+    }
+
+    public function getSearchRoom($params)
+    {
+        $query = $this->select()
+            ->where('name', 'LIKE', '%' . $params . '%')
+            ->orWhere('number_people', 'LIKE', '%' . $params . '%')
+            ->orWhere('number_bed', 'LIKE', '%' . $params . '%')
+            ->orWhere('rent_per_night', 'LIKE', '%' . $params . '%')
+            ->orderBy('id', 'desc');
+
+        return $query->with(['typeRoom'])->paginate(getConfig('page_number'));
     }
 }

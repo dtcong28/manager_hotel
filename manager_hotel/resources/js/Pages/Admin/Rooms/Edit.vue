@@ -11,7 +11,7 @@ const props = defineProps({
 })
 
 const data = ref({
-    options: props.typesRoom.data,
+    options: props.typesRoom,
     statusOptions: props.status,
 })
 

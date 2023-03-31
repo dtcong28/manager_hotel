@@ -7,6 +7,7 @@ use App\Repositories\Eloquent\BookingFoodRepository;
 use App\Repositories\Eloquent\FoodRepository;
 use App\Services\BookingFoodService;
 use App\Services\FoodService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -27,10 +28,9 @@ class FoodController extends BackendController
         $this->bookFoodService = app(BookingFoodService::class);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = request()->all();
-        $record = $this->service->index($data);
+        $record = $this->repository->getSearchFood($request->search);
 
         return Inertia::render('Admin/Food/Index', [
             'food' => $record->map(function ($value) {
@@ -42,6 +42,7 @@ class FoodController extends BackendController
                     'image' => ($value->getMedia('images'))[0]->getUrl(),
                 ];
             }),
+            'record' => $record,
         ]);
     }
 

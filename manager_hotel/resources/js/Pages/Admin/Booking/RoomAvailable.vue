@@ -3,6 +3,7 @@ import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
 import {Link, useForm} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 import {computed, ref} from "vue";
+import ConfirmationDialog from '@/Components/Admin/ConfirmationDialog.vue';
 
 const props = defineProps({
     rooms: Array,
@@ -98,21 +99,13 @@ const handleBack = () => {
                                         <img :src="data.image" :alt="data.image" class="w-20 h-20 shadow">
                                     </td>
                                     <td class="center">{{ data.id }}</td>
-                                    <td class="center">
-                                        <div v-for="item in typesRoom">
-                                            <span v-if="item.id==data.type_room_id">{{ item.name }}</span>
-                                        </div>
-                                    </td>
+                                    <td class="center">{{ data.type_room.name }}</td>
                                     <td class="center">{{ data.name }}</td>
-                                    <td class="center">
-                                        <div v-for="item in status">
-                                            <span v-if="item.value==data.status">{{ item.name }}</span>
-                                        </div>
-                                    </td>
+                                    <td class="center">{{ data.status_label }}</td>
                                     <td class="center">{{ data.number_people }}</td>
                                     <td class="center">{{ data.number_bed }}</td>
-                                    <td class="center">{{ data.rent_per_night }}</td>
-                                    <td class="center">{{ data.rent_per_night * bookingInfor.time_stay }}</td>
+                                    <td class="center">{{ data.rent_per_night.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</td>
+                                    <td class="center">{{ (data.rent_per_night * bookingInfor.time_stay).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</td>
                                 </tr>
                                 </tbody>
                                 <tr v-if="rooms==''" style="color: red">No Data</tr>
@@ -146,13 +139,13 @@ const handleBack = () => {
                     <div class="card-body" v-for="(value, index) in selectRoom">
                         <div v-for="room in arrayRoom" :key="room.id">
                             <span class="center" v-if="value === room.id" :id="room.id">
-                                Room {{ room.name }} : {{ room.rent_per_night * bookingInfor.time_stay }} VND
+                                Room {{ room.name }} : {{ (room.rent_per_night * bookingInfor.time_stay).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
                                 <div class="d-none">{{ sum[index] = room.rent_per_night * bookingInfor.time_stay }}</div>
                             </span>
                         </div>
                     </div>
                     <div class="card-body">
-                        <h4>Sum: {{ sum.reduce((partialSum, a) => partialSum + a, 0) }}</h4>
+                        <h4>Sum: {{ sum.reduce((partialSum, a) => partialSum + a, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</h4>
                     </div>
                 </div>
             </div>

@@ -3,8 +3,14 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Requests\Customer\CustomerRequest;
+use App\Repositories\Eloquent\BookingFoodRepository;
+use App\Repositories\Eloquent\BookingRepository;
 use App\Repositories\Eloquent\CustomerRepository;
+use App\Services\BookingFoodService;
+use App\Services\BookingService;
 use App\Services\CustomerService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -12,30 +18,29 @@ use Inertia\Inertia;
 class CustomerController extends BackendController
 {
     protected $repository;
+    protected $bookingRepository;
+    protected $bookingFoodRepository;
     protected $service;
+    protected $bookingService;
+    protected $bookingFoodService;
 
     public function __construct()
     {
         parent::__construct();
         $this->repository = app(CustomerRepository::class);
+        $this->bookingRepository = app(BookingRepository::class);
+        $this->bookingFoodRepository = app(BookingFoodRepository::class);
         $this->service = app(CustomerService::class);
+        $this->bookingService = app(BookingService::class);
+        $this->bookingFoodService = app(BookingFoodService::class);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $params = request()->all();
-        $record = $this->service->index($params);
-
-        foreach (\App\Models\Enums\GenderEnum::cases() as $key => $data) {
-            $gender[$key] = [
-                'value' => $data->value,
-                'name' => $data->label(),
-            ];
-        }
+        $record = $this->repository->getSearchCustomer($request->search);
 
         return Inertia::render('Admin/Customers/Index', [
             'customers' => $record,
-            'gender' => $gender,
         ]);
     }
 
@@ -58,11 +63,12 @@ class CustomerController extends BackendController
         try {
             $params = $request->all();
 
-            if ($this->service->store($params)) {
-                session()->flash('action_success', getConstant('messages.CREATE_SUCCESS'));
-            } else {
-                session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
+            if (!($this->service->store($params))) {
+                session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));;
+                return Redirect::route('customers.index');
             }
+
+            session()->flash('action_success', getConstant('messages.CREATE_SUCCESS'));
         } catch (\Exception $exception) {
             Log::error($exception);
             session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
@@ -107,16 +113,63 @@ class CustomerController extends BackendController
 
             $params = $request->all();
 
-            if ($this->service->update($id, $params)) {
-                session()->flash('action_success', getConstant('messages.UPDATE_SUCCESS'));
-            } else {
+            if (!($this->service->update($id, $params))) {
                 session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
-            }
+
+                return Redirect::route('customers.index');
+            };
+
+            session()->flash('action_success', getConstant('messages.UPDATE_SUCCESS'));
         } catch (\Exception $exception) {
             Log::error($exception);
             session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
         }
 
         return Redirect::route('customers.index');
+    }
+
+    public function destroy($id)
+    {
+        DB::beginTransaction();
+        try {
+            $customer = $this->repository->find($id);
+
+            if (empty($customer)) {
+                DB::rollback();
+                session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+
+                return redirect(getBackUrl());
+            }
+
+            $booked = $this->bookingRepository->findByField('customer_id', $id);
+
+            foreach ($booked as $value) {
+                if(!($value->bookingRoom()->delete()) || !($value->bookingFood()->delete())){
+                    session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+
+                    return redirect(getBackUrl());
+                }
+            }
+
+            if(!($customer->booking()->delete())){
+                session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+
+                return redirect(getBackUrl());
+            }
+
+            if(!($customer->delete())){
+                session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+
+                return redirect(getBackUrl());
+            }
+
+            DB::commit();
+            session()->flash('action_success', getConstant('messages.DELETE_SUCCESS'));
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+        }
+
+        return redirect(getBackUrl());
     }
 }

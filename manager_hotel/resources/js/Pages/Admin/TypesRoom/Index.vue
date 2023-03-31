@@ -1,11 +1,16 @@
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
-import {Link} from '@inertiajs/vue3'
+import Pagination from '@/Components/Admin/Pagination.vue';
+import {Link, router} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 
 const props = defineProps({
     typesRoom: Array
 })
+
+function searchData() {
+    router.get('types-room', { search: search.value }, { preserveState: true })
+}
 </script>
 
 <template>
@@ -47,6 +52,13 @@ const props = defineProps({
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div id="example4_filter" class="dataTables_filter">
+                                <label>Search:
+                                    <input type="search" id="search" v-model="search" @keyup="searchData" class="form-control form-control-sm" placeholder="" aria-controls="example4">
+                                </label>
+                            </div>
+                        </div>
                         <div class="table-scrollable">
                             <table class="table table-hover table-checkable order-column full-width" id="example4">
                                 <thead>
@@ -57,7 +69,7 @@ const props = defineProps({
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="typeRoom in typesRoom" :key="typeRoom.id" class="odd gradeX">
+                                <tr v-for="typeRoom in typesRoom.data" :key="typeRoom.id" class="odd gradeX">
                                     <td class="center">{{ typeRoom.id }}</td>
                                     <td class="center">{{ typeRoom.name }}</td>
                                     <td class="center">
@@ -71,6 +83,9 @@ const props = defineProps({
                                 </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="col-sm-12 col-md-7">
+                            <pagination class="mt-6" :links="props.typesRoom.links"/>
                         </div>
                     </div>
                 </div>

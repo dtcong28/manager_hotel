@@ -1,17 +1,21 @@
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
-import {Link} from '@inertiajs/vue3'
+import {Link, router} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
+import Pagination from '@/Components/Admin/Pagination.vue';
 
 const props = defineProps({
     customers: Object,
-    gender: Array,
 })
+
+function searchData() {
+    router.get('customers', { search: search.value }, { preserveState: true })
+}
 
 </script>
 
 <template>
-    <Head title="Employees"/>
+    <Head title="Customers"/>
     <AdminLayout>
         <div class="page-bar">
             <div class="page-title-breadcrumb">
@@ -49,6 +53,13 @@ const props = defineProps({
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div id="example4_filter" class="dataTables_filter">
+                                <label>Search:
+                                    <input type="search" id="search" v-model="search" @keyup="searchData" class="form-control form-control-sm" placeholder="" aria-controls="example4">
+                                </label>
+                            </div>
+                        </div>
                         <div class="table-scrollable">
                             <table class="table table-hover table-checkable order-column full-width" id="example4">
                                 <thead>
@@ -68,11 +79,7 @@ const props = defineProps({
                                     <td class="center">{{ customer.id }}</td>
                                     <td class="center">{{ customer.name }}</td>
                                     <td class="center">{{ customer.address }}</td>
-                                    <td class="center">
-                                        <div v-for="data in gender">
-                                            <span v-if="data.value==customer.gender">{{ data.name }}</span>
-                                        </div>
-                                    </td>
+                                    <td class="center">{{ customer.gender_label }}</td>
                                     <td class="center">{{ customer.phone }}</td>
                                     <td class="center">{{ customer.email }}</td>
                                     <td class="center">{{ customer.identity_card }}</td>
@@ -87,6 +94,9 @@ const props = defineProps({
                                 </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="col-sm-12 col-md-7">
+                            <pagination class="mt-6" :links="customers.links"/>
                         </div>
                     </div>
                 </div>

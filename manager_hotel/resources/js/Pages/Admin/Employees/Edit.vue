@@ -42,6 +42,8 @@ const updateEmployee = () => {
 };
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
+
 <template>
     <Head title="Employees"/>
     <AdminLayout>

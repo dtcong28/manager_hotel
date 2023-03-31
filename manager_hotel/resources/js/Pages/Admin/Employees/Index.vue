@@ -1,12 +1,16 @@
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
-import {Link,Head} from '@inertiajs/vue3';
+import Pagination from '@/Components/Admin/Pagination.vue';
+import {Link, Head, router} from '@inertiajs/vue3';
 import {ref} from "vue";
 
 const props = defineProps({
     employees: Object,
-    gender: Array,
 })
+
+function searchData() {
+    router.get('employees', { search: search.value }, { preserveState: true })
+}
 
 </script>
 
@@ -49,6 +53,13 @@ const props = defineProps({
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div id="example4_filter" class="dataTables_filter">
+                                <label>Search:
+                                    <input type="search" id="search" v-model="search" @keyup="searchData" class="form-control form-control-sm" placeholder="" aria-controls="example4">
+                                </label>
+                            </div>
+                        </div>
                         <div class="table-scrollable">
                             <table class="table table-hover table-checkable order-column full-width" id="example4">
                                 <thead>
@@ -65,11 +76,7 @@ const props = defineProps({
                                 <tr v-for="employee in employees.data" :key="employee.id" class="odd gradeX">
                                     <td class="center">{{ employee.id }}</td>
                                     <td class="center">{{ employee.name }}</td>
-                                    <td class="center">
-                                        <div v-for="data in gender">
-                                            <span v-if="data.value==employee.gender">{{ data.name }}</span>
-                                        </div>
-                                    </td>
+                                    <td class="center">{{ employee.gender_label }}</td>
                                     <td class="center">{{ employee.phone }}</td>
                                     <td class="center">{{ employee.email }}</td>
                                     <td class="center">
@@ -83,6 +90,9 @@ const props = defineProps({
                                 </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="col-sm-12 col-md-7">
+                            <pagination class="mt-6" :links="employees.links"/>
                         </div>
                     </div>
                 </div>

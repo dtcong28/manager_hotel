@@ -25,18 +25,12 @@ class TypeRoomController extends BackendController
         $this->service = app(TypeRoomService::class);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = request()->all();
-        $record = $this->service->index($data);
+        $record = $this->repository->getSearchTypeRoom($request->search);
 
         return Inertia::render('Admin/TypesRoom/Index', [
-            'typesRoom' => $record->map(function ($value) {
-                return [
-                    'id' => $value->id,
-                    'name' => $value->name,
-                ];
-            })
+            'typesRoom' => $record,
         ]);
     }
 

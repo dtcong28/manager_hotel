@@ -138,7 +138,7 @@ const updateStatus= () => {
                                             </div>
                                         </td>
                                         <td> {{ value.number_people }}</td>
-                                        <td> {{ value.price }}</td>
+                                        <td> {{ value.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -160,7 +160,7 @@ const updateStatus= () => {
                                         <td> {{ key }}</td>
                                         <td> {{ value.food.name }}</td>
                                         <td> {{ value.amount }}</td>
-                                        <td> {{ value.price }}</td>
+                                        <td> {{ value.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</td>
                                     </tr>
                                     </tbody>
                                 </table>

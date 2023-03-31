@@ -1,13 +1,17 @@
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
-import {Link} from '@inertiajs/vue3'
+import Pagination from '@/Components/Admin/Pagination.vue';
+import {Link, router} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 
 const props = defineProps({
     rooms: Array,
-    typesRoom: Array,
-    status: Array,
+    record: Array,
 })
+
+function searchData() {
+    router.get('rooms', { search: search.value }, { preserveState: true })
+}
 
 </script>
 
@@ -50,6 +54,13 @@ const props = defineProps({
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div id="example4_filter" class="dataTables_filter">
+                                <label>Search:
+                                    <input type="search" id="search" v-model="search" @keyup="searchData" class="form-control form-control-sm" placeholder="" aria-controls="example4">
+                                </label>
+                            </div>
+                        </div>
                         <div class="table-scrollable">
                             <table class="table table-hover table-checkable order-column full-width" id="example4">
                                 <thead>
@@ -71,20 +82,12 @@ const props = defineProps({
                                         <img :src="room.image" :alt="room.image" class="w-20 h-20 shadow">
                                     </td>
                                     <td class="center">{{ room.id }}</td>
-                                    <td class="center">
-                                        <div v-for="data in typesRoom">
-                                            <span v-if="data.id==room.type_room_id">{{ data.name }}</span>
-                                        </div>
-                                    </td>
+                                    <td class="center">{{ room.type_room }}</td>
                                     <td class="center">{{ room.name }}</td>
-                                    <td class="center">
-                                        <div v-for="data in status">
-                                            <span v-if="data.value==room.status">{{ data.name }}</span>
-                                        </div>
-                                    </td>
+                                    <td class="center">{{ room.status_label }}</td>
                                     <td class="center">{{ room.number_people }}</td>
                                     <td class="center">{{ room.number_bed }}</td>
-                                    <td class="center">{{ room.rent_per_night }}</td>
+                                    <td class="center">{{ room.rent_per_night.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</td>
                                     <td class="center">
                                         <Link :href="route('rooms.edit', { id: room.id })" class="btn btn-tbl-edit btn-xs">
                                             <i class="fa fa-pencil"></i>
@@ -96,6 +99,9 @@ const props = defineProps({
                                 </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="col-sm-12 col-md-7">
+                            <pagination class="mt-6" :links="record.links"/>
                         </div>
                     </div>
                 </div>

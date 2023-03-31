@@ -79,7 +79,7 @@ const storeBookingFood = () => {
                                             <img :src="food.image" :alt="food.image" class="w-20 h-20 shadow">
                                         </td>
                                         <td class="center">{{ food.name }}</td>
-                                        <td class="center">{{ food.price }}</td>
+                                        <td class="center">{{ food.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</td>
                                         <td class="center"><input type="number" v-model="selectFood[food.id]" min="1">
                                         </td>
                                     </tr>

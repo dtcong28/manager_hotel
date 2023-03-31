@@ -22,7 +22,7 @@ class BookingRepository extends CustomRepository
             ->orWhere('customers.phone', 'LIKE', '%' . $params . '%')
             ->orWhere('customers.email', 'LIKE', '%' . $params . '%')
             ->orWhere('booking.time_check_in', 'LIKE', '%' . $params . '%')
-            ->orWhere('booking.time_check_out', 'LIKE', '%' . $params . '%');
+            ->orWhere('booking.time_check_out', 'LIKE', '%' . $params . '%')->orderBy('id','desc');
 //            ->when(str_contains('unpaid', $params), function ($q) {
 //                $q->orWhere('booking.status_payment', '=', 0);
 //            })
@@ -30,7 +30,7 @@ class BookingRepository extends CustomRepository
 //                $q->orWhere('booking.status_payment', '=', 1);
 //            });
 
-        return $query->paginate(5);
+        return $query->paginate(getConfig('page_number'));
     }
 
     public function getDetailBooking($id)

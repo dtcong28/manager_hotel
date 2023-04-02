@@ -142,7 +142,7 @@ class CustomerController extends BackendController
             }
 
             $booked = $this->bookingRepository->findByField('customer_id', $id);
-
+            dd($booked);
             foreach ($booked as $value) {
                 if(!($value->bookingRoom()->delete()) || !($value->bookingFood()->delete())){
                     session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));

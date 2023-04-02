@@ -16,27 +16,6 @@ if (!function_exists('checkOutRange')) {
     }
 }
 
-if (!function_exists('listFilterRoom')) {
-    function listFilterRoom($listRoom, $bookedRoom, $checkIn, $checkOut)
-    {
-        foreach ($listRoom as $index => $rooms) {
-            foreach ($rooms as $key => $room) {
-                foreach ($bookedRoom as $data) {
-                    if ($data['room_id'] == $room['id']) {
-                        if ((checkInRange($data['time_check_in'], $data['time_check_out'], $checkIn) || checkOutRange($data['time_check_in'], $data['time_check_out'], $checkOut))) {
-                            // Remove elements from array $listRoom at index is $key and re-index:
-                            array_splice($listRoom[$index], $key, 1);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        return $listRoom;
-    }
-}
-
 if (!function_exists('timeStay')) {
     function timeStay($start, $end)
     {

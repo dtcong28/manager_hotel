@@ -59,11 +59,11 @@ const confirm = () => {
                                 </div>
                                 <div class="row">
                                     <div class="pricing-entry d-flex" v-for="(food,key) in foods" :key="food.id">
-                                        <div class="img" v-bind:style="{ 'background-image': 'url(/frontend/images/menu-1.jpg)' }"></div>
+                                        <div class="img" :style="{ backgroundImage: 'url(' + food.image + ')' }"></div>
                                         <div class="desc pl-3">
                                             <div class="d-flex text align-items-center">
                                                 <h3><span>{{ food.name }}</span></h3>
-                                                <span class="price">{{ food.price }}VND</span>
+                                                <span class="price">{{ food.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</span>
                                             </div>
                                             <div class="d-block">
                                                 <p>{{ food.description }}</p>
@@ -87,20 +87,20 @@ const confirm = () => {
                                     </div>
                                     <div class="form-group" v-for="(value, index) in select_rooms">
                                         <div>
-                                            <span>Room {{value.name }} : {{info_booking.price_each_room[index]}}VND</span>
+                                            <span>Room {{value.name }} : {{ parseInt(info_booking.price_each_room[index]).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</span>
                                         </div>
                                     </div>
                                     <div class="form-group" v-for="(value, key) in selectFood">
                                         <div v-for="(data, index) in foods">
                                         <span v-if="data.id == key && value">
-                                            {{ data.name }}: {{ data.price*value }}VND
+                                            {{ data.name }}: {{ (data.price*value).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}}
                                             <div class="d-none">{{ price_each_food[key] = data.price*value }}</div>
                                         </span>
                                         </div>
                                         <div class="d-none" v-if="value == ''">{{price_each_food[key] = null}}</div>
                                     </div>
                                     <div class="form-group">
-                                        Total: {{ price_each_room.reduce((partialSum, a) => partialSum + a, 0) + sum(price_each_food) }}VND
+                                        Total: {{ (price_each_room.reduce((partialSum, a) => partialSum + a, 0) + sum(price_each_food)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary py-3 px-5">Continue</button>

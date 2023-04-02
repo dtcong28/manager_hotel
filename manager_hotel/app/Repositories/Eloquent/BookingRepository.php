@@ -49,7 +49,7 @@ class BookingRepository extends CustomRepository
             ->where('booking.status_booking', '!=', BookingStatusEnum::CHECK_OUT->value)
             ->where('booking_rooms.room_id', '=', $roomId)
             ->where('booking.id', '!=', $bookingId);
-//        dd($query->toSql(), $query->getBindings());
+
         return $query->get()->toArray();
     }
 }

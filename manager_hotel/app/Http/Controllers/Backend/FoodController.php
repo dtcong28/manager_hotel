@@ -144,7 +144,8 @@ class FoodController extends BackendController
                     $this->bookFoodService->destroy($data['id']);
                 }
             }
-            // gui mail cho user dat mon an do
+            // booking có status = checkin, EA -> gui mail cho user dat mon an do, xin loi vi da huy mon an
+            // booking có status = check out -> thì k gửi mail nữa, trong bill sẽ ghi là món đã bị hủy
 
             session()->flash('action_success', getConstant('messages.DELETE_SUCCESS'));
         } catch (\Exception $exception) {

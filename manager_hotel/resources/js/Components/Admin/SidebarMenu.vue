@@ -1,5 +1,6 @@
 <script setup>
 import SidebarMenuItem from "@/Components/Admin/SidebarMenuItem.vue";
+import { Link } from '@inertiajs/vue3'
 const menus = [
     {
         name: 'Employee',
@@ -111,14 +112,14 @@ const menus = [
                                 </div>
                             </div>
                             <div class="profile-usertitle">
-                                <div class="sidebar-userpic-name"> John Deo</div>
-                                <div class="profile-usertitle-job"> Manager</div>
+                                <div class="sidebar-userpic-name">{{ $page.props.auth.user.name }}</div>
+                                <div class="profile-usertitle-job"> Admin</div>
                             </div>
                             <div class="sidebar-userpic-btn">
-                                <a class="tooltips" href="user_profile.html" data-placement="top"
+                                <Link class="tooltips" :href="route('profile.edit')" data-placement="top"
                                    data-original-title="Profile">
                                     <i class="material-icons">person_outline</i>
-                                </a>
+                                </Link>
                                 <a class="tooltips" href="email_inbox.html" data-placement="top"
                                    data-original-title="Mail">
                                     <i class="material-icons">mail_outline</i>
@@ -127,17 +128,14 @@ const menus = [
                                    data-original-title="Chat">
                                     <i class="material-icons">chat</i>
                                 </a>
-                                <form method="post" :action="route('logout')">
+                                <Link :href="route('logout')" method="post">
                                     <button class="tooltips" data-placement="top"
                                        data-original-title="Logout">
                                         <i class="material-icons">input</i>
                                     </button>
-                                </form>
+                                </Link>
                             </div>
                         </div>
-                    </li>
-                    <li class="menu-heading">
-                        <span>-- Main</span>
                     </li>
                     <SidebarMenuItem v-for="(menu,index) in menus" :key="index" :menuItem="menu"/>
                 </ul>

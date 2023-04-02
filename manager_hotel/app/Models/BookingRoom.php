@@ -21,13 +21,6 @@ class BookingRoom extends Model
         'room_id',
         'price',
         'number_people',
-        'time_check_in',
-        'time_check_out',
-    ];
-
-    protected $casts = [
-        'time_check_in' => 'datetime:Y-m-d',
-        'time_check_out' => 'datetime:Y-m-d',
     ];
 
     public function room()

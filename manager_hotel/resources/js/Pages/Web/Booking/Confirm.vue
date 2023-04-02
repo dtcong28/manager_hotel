@@ -21,9 +21,12 @@ const props = defineProps({
 })
 
 const price_each_room = props.booking.info_booking.price_each_room.map(Number);
+
 function sum(obj) {
     return Object.keys(obj).reduce((sum,key)=>sum+parseFloat(obj[key]||0),0);
 }
+
+const totalMoney = props.booking.price_food ? price_each_room.reduce((partialSum, a) => partialSum + a, 0) + sum(props.booking.price_food) : price_each_room.reduce((partialSum, a) => partialSum + a, 0)
 
 const payment = () => {
     form.get(route('web.booking.payment'))
@@ -97,23 +100,22 @@ const payment = () => {
                     <div class="col-lg-4 sidebar">
                         <div class="sidebar-wrap bg-light">
                             <h3 class="heading mb-4">Your Stay</h3>
-
                             <div class="fields">
                                 <div class="form-group">
                                     From {{ booking.info_booking.time_check_in }} to {{ booking.info_booking.time_check_out }}<br>
                                 </div>
                                 <div class="form-group" v-for="(value, index) in select_rooms">
                                     <div>
-                                        <span>Room {{value.name }} : {{booking.info_booking.price_each_room[index]}}VND</span>
+                                        <span>Room {{value.name }} : {{parseInt(booking.info_booking.price_each_room[index]).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}}</span>
                                     </div>
                                 </div>
                                 <div class="form-group" v-for="(value, index) in select_foods">
                                     <div>
-                                        <span>{{value.name }} - Amount {{ booking.select_food[value.id] }} : {{ booking.price_food[value.id] }} VND</span>
+                                        <span>{{value.name }} - Amount {{ booking.select_food[value.id] }} : {{ parseInt(booking.price_food[value.id]).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    Total: {{ price_each_room.reduce((partialSum, a) => partialSum + a, 0) + sum(booking.price_food) }} VND
+                                    Total: {{ totalMoney.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
                                 </div>
                             </div>
                         </div>

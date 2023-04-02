@@ -14,6 +14,7 @@ let props = defineProps({
 let selectRoom = ref([])
 let sum = ref([])
 let count = 0
+let submitForm = true
 
 props.bookRoom.forEach((room) => {
     if(room.id) {
@@ -67,7 +68,6 @@ const updateBooking = () => {
                 </ol>
             </div>
         </div>
-        <pre>{{ filterRoom[0] }}</pre>
         <div class="row">
             <div class="col-md-10">
                 <div class="card card-box">
@@ -118,15 +118,19 @@ const updateBooking = () => {
                             </table>
                             <div v-for="(room,key) in props.bookRoom" class="odd gradeX">
                                 <h3 v-if="!!room.id">
-                                    Room {{ room.name }} : {{ room.number_people }} people - {{ room.rent_per_night * bookingInfor.time_stay }} VND
+                                    Room {{ room.name }} : {{ room.number_people }} people - {{ (room.rent_per_night * bookingInfor.time_stay).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
                                     <img :src="room.image" :alt="room.image" class="w-20 h-20 shadow">
+                                </h3>
+                                <h3 v-if="room.id=='' && filterRoom==''" style="color: red">
+                                    <div class="d-none">{{submitForm = false}}</div>
+                                    No room available for {{ room.number_people }} people
                                 </h3>
                             </div>
                         </div>
                     </div>
                     <form @submit.prevent="updateBooking">
                         <div class="col-lg-12 p-t-20 text-center">
-                            <button type="submit"
+                            <button type="submit" v-if="submitForm"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
                                     data-upgraded=",MaterialButton,MaterialRipple">Submit<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>

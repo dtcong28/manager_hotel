@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Eloquent;
 
+use App\Models\BookingRoom;
 use App\Models\Room;
 use Illuminate\Support\Facades\Session;
 use App\Models\Enums\RoomStatusEnum;
@@ -15,22 +16,35 @@ class RoomRepository extends CustomRepository
         parent::__construct();
     }
 
-    public function getListRoomByPeople($numberPeople)
-    {
-        $data['sort'] = 'id';
-        $data['direction'] = 'desc';
-        $results = [];
+    public function getListRoomInRangeTimeBooking($checkIn,$checkOut) {
+        $query = BookingRoom::select('booking_rooms.room_id')->join('booking', 'booking_rooms.booking_id', 'booking.id')
+            ->whereNot(function ($q) use ($checkIn,$checkOut) {
+                $q->where('booking.time_check_out','<=',$checkIn)
+                    ->orWhere('booking.time_check_in','>=',$checkOut);
+            });
+        return $query->get();
+    }
 
-        foreach ($numberPeople as $key => $param) {
-            $data['number_people_eq'] = $param;
-            foreach ($this->search($data)->with(['typeRoom'])->get() as $index=>$item) {
-                $item->image = $item->getMedia('images')[0]->getUrl();
-                $results[$key][$index] = $item;
+    public function getListFilterRoom($data)
+    {
+        $results = [];
+        $roomInRangeTimeBooking = $this->getListRoomInRangeTimeBooking($data['time_check_in'],$data['time_check_out']);
+
+        foreach ($data['number_people'] as $key => $value) {
+            $filterRoom = $this->where('number_people','=',$value)->whereNotIn('id',$roomInRangeTimeBooking)->with(['typeRoom'])->get();
+            if($filterRoom->isNotEmpty()) {
+                foreach ($filterRoom as $index=>$item) {
+                    $item->image = $item->getMedia('images')[0]->getUrl();
+                    $results[$key][$index] = $item;
+                }
+            } else {
+                $results[$key] = [];
             }
+
         }
 
         // array_values is re-index
-        return array_values($results);
+        return $results;
     }
 
     public function getDetailRoom($id)

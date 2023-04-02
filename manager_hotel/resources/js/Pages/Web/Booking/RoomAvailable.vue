@@ -61,20 +61,24 @@ const confirmBooking = () => {
                             <div class="row" v-for="data in room">
                                 <div class="col-sm col-md-6 col-lg-11">
                                     <div class="room">
-                                        <a href="rooms-single.html" class="img d-flex justify-content-center align-items-center" v-bind:style="{'background-image': 'url(/frontend/images/room-1.jpg)'}">
+                                        <a href="rooms-single.html" class="img d-flex justify-content-center align-items-center" :style="{ backgroundImage: 'url(' + data.image + ')' }">
                                             <div class="icon d-flex justify-content-center align-items-center">
                                                 <span class="icon-search2"></span>
                                             </div>
                                         </a>
                                         <div class="text p-3 text-center">
                                             <h3 class="mb-3"><a href="rooms-single.html">Room {{ data.name }}</a></h3>
-                                            <p><span class="price mr-2">{{ data.rent_per_night }}</span> <span class="per">per night</span></p>
-                                            <ul class="list">
-                                                <li><span>Max:</span> {{ data.number_people}} Persons</li>
-                                                <li><span>Size:</span> {{ data.size }}</li>
-                                                <li><span>View:</span> {{ data.view }}</li>
-                                                <li><span>Bed:</span> {{ data.number_bed }}</li>
-                                            </ul>
+                                            <p><span class="price mr-2">{{ data.rent_per_night.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</span> <span class="per">per night</span></p>
+                                            <div class="row">
+                                                <ul class="list col">
+                                                    <li><span>Max:</span> {{ data.number_people}} Persons</li>
+                                                    <li><span>Size:</span> {{ data.size }}</li>
+                                                </ul>
+                                                <ul class="list col">
+                                                    <li><span>View:</span> {{ data.view }}</li>
+                                                    <li><span>Bed:</span> {{ data.number_bed }}</li>
+                                                </ul>
+                                            </div>
                                             <hr>
                                             <p class="pt-1">Select Room <input type="radio" id="radio" :value="data.id" v-model="selectRoom[key]" :disabled="selectRoom.includes(data.id)"/><span class="icon-long-arrow-right"></span></p>
                                         </div>
@@ -95,13 +99,13 @@ const confirmBooking = () => {
                                     <div class="form-group" v-for="(value, index) in selectRoom">
                                         <div v-for="room in arrayRoom" :key="room.id">
                                             <span v-if="value === room.id" :id="room.id">
-                                                Room {{ room.name }} : {{ room.rent_per_night * info_booking.time_stay }} VND
+                                                Room {{ room.name }} : {{ (room.rent_per_night * info_booking.time_stay).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}} VND
                                                 <div class="d-none">{{sum[index] = room.rent_per_night * info_booking.time_stay }}</div>
                                             </span>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        Total: {{ sum.reduce((partialSum, a) => partialSum + a, 0) }}
+                                        Total: {{ sum.reduce((partialSum, a) => partialSum + a, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
                                     </div>
                                     <div v-if="selectRoom.length" class="form-group">
                                         <button type="submit" class="btn btn-primary py-3 px-5">Continue</button>

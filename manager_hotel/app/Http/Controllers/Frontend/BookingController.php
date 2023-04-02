@@ -65,21 +65,18 @@ class BookingController extends FrontendController
     public function filterRoom(Request $request)
     {
         $params = $request->all();
-
-        $numberPeople = data_get($params, 'room');
-        $checkIn = data_get($params, 'check_in');
-
-        $record = $this->roomRepository->getListRoomByPeople($numberPeople, $checkIn);
-
-        $checkIn = Carbon::createFromFormat('Y-m-d', data_get($params, 'check_in'));
-        $checkOut = Carbon::createFromFormat('Y-m-d', data_get($params, 'check_out'));
+        $data = [
+            'time_check_in' => data_get($params, 'time_check_in'),
+            'time_check_out' => data_get($params, 'time_check_out'),
+            'number_people' => data_get($params, 'room'),
+        ];
 
         return Inertia::render('Web/Booking/RoomAvailable', [
-            'rooms' => $record,
+            'rooms' => $this->roomRepository->getListFilterRoom($data),
             'info_booking' => [
-                'time_check_in' => data_get($params, 'check_in'),
-                'time_check_out' => data_get($params, 'check_out'),
-                'time_stay' => $checkIn->diffInDays($checkOut),
+                'time_check_in' => data_get($params, 'time_check_in'),
+                'time_check_out' => data_get($params, 'time_check_out'),
+                'time_stay' => timeStay(data_get($params, 'time_check_in'), data_get($params, 'time_check_out'))
             ],
         ]);
     }
@@ -87,6 +84,7 @@ class BookingController extends FrontendController
     public function bookFood(Request $request)
     {
         $params = $request->all();
+
         $record = $this->roomRepository->getListSelectRoom(data_get($params, 'rooms'));
         $foods = $this->foodRepository->get();
 
@@ -108,8 +106,9 @@ class BookingController extends FrontendController
     public function confirm(Request $request)
     {
         $params = $request->all();
+
         $rooms = $this->roomRepository->getListSelectRoom(data_get(data_get($params, 'info_booking'), 'rooms'));
-        $foods = $this->foodRepository->getListSelectFood(data_get($params, 'select_food'));
+        $foods = array_key_exists("select_food",$params) ? $this->foodRepository->getListSelectFood(data_get($params, 'select_food')) : [];
 
         session()->forget('rooms');
         session()->forget('foods');
@@ -130,7 +129,7 @@ class BookingController extends FrontendController
     public function payment(FEbookingRequest $request)
     {
         $params = $request->all();
-
+//        dd(session('rooms'),session('foods'));
         return Inertia::render('Web/Booking/Payment', [
             'info_booking' => $params,
             'select_rooms' => session('rooms'),

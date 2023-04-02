@@ -33,7 +33,7 @@ class BookingService extends CustomService
             $data['customer_id'] = $data['customer']['id'];
         }
 
-        if(!empty($data['type_booking']['value'])){
+        if(!empty($data['type_booking'])){
             $data['type_booking'] = $data['type_booking']['value'];
         }
 

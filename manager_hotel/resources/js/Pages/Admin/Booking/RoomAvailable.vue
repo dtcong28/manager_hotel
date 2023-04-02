@@ -8,12 +8,11 @@ import ConfirmationDialog from '@/Components/Admin/ConfirmationDialog.vue';
 const props = defineProps({
     rooms: Array,
     bookingInfor: Array,
-    typesRoom: Array,
-    status: Array,
 })
 
 const selectRoom = ref([])
 const sum = ref([])
+const submitForm = true;
 
 const form = useForm({
     customer: props.bookingInfor.customer,
@@ -93,6 +92,10 @@ const handleBack = () => {
                                 </thead>
                                 <tbody v-for="(room,key) in rooms">
                                 <h3>Room {{ key + 1 }}</h3>
+                                <span v-if="room==''" style="color: red">
+                                    <div class="d-none">{{ submitForm = false}}</div>
+                                    No room available
+                                </span>
                                 <tr v-for="data in room" class="odd gradeX">
                                     <td><input type="radio" id="radio" :value="data.id" v-model="selectRoom[key]" :disabled="selectRoom.includes(data.id)"/></td>
                                     <td class="user-circle-img">
@@ -108,13 +111,13 @@ const handleBack = () => {
                                     <td class="center">{{ (data.rent_per_night * bookingInfor.time_stay).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</td>
                                 </tr>
                                 </tbody>
-                                <tr v-if="rooms==''" style="color: red">No Data</tr>
+                                <tr v-if="rooms==''" style="color: red">No room available</tr>
                             </table>
                         </div>
                     </div>
                     <form @submit.prevent="storeBooking">
                         <div class="col-lg-12 p-t-20 text-center">
-                            <button type="submit" v-if="rooms != ''"
+                            <button type="submit" v-if="submitForm"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
                                     data-upgraded=",MaterialButton,MaterialRipple">Submit<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>

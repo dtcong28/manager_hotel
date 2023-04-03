@@ -108,7 +108,7 @@ class BookingController extends FrontendController
         $params = $request->all();
 
         $rooms = $this->roomRepository->getListSelectRoom(data_get(data_get($params, 'info_booking'), 'rooms'));
-        $foods = array_key_exists("select_food",$params) ? $this->foodRepository->getListSelectFood(data_get($params, 'select_food')) : [];
+        $foods = array_key_exists("select_food", $params) ? $this->foodRepository->getListSelectFood(data_get($params, 'select_food')) : [];
 
         session()->forget('rooms');
         session()->forget('foods');
@@ -211,8 +211,37 @@ class BookingController extends FrontendController
         }
     }
 
-    public function webhook(){
-        Log::info("webhook");
+    public function webhook(Request $request)
+    {
+        // This is your Stripe CLI webhook secret for testing your endpoint locally.
+        $endpoint_secret = env('STRIPE_WEBHOOK_SECRET');
+
+        $payload = @file_get_contents('php://input');
+        $sig_header = $request->header('Stripe-Signature');
+        $event = null;
+
+        try {
+            $event = \Stripe\Webhook::constructEvent(
+                $payload, $sig_header, $endpoint_secret
+            );
+        } catch (\UnexpectedValueException $e) {
+            // Invalid payload
+            return response('',400);
+        } catch (\Stripe\Exception\SignatureVerificationException $e) {
+            // Invalid signature
+            return response('',400);
+        }
+
+// Handle the event
+        switch ($event->type) {
+            case 'charge.succeeded':
+                $charge = $event->data->object;
+            // ... handle other event types
+            default:
+                echo 'Received unknown event type ' . $event->type;
+        }
+
+        http_response_code(200);
     }
 
     public function complete()

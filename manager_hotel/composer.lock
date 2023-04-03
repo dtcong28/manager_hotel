@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a169b54ba1477bbfebd6b94f6cc2f1d",
+    "content-hash": "2758e0ef1ef3af0b947a80077cbf041c",
     "packages": [
         {
             "name": "bensampo/laravel-enum",
@@ -4065,16 +4065,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v10.10.0",
+            "version": "v10.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "2c641079093167c2e448d82bd0bd02160e20fec1"
+                "reference": "ef2b761e4c69de59892c95d0453e2caa25162faf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/2c641079093167c2e448d82bd0bd02160e20fec1",
-                "reference": "2c641079093167c2e448d82bd0bd02160e20fec1",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/ef2b761e4c69de59892c95d0453e2caa25162faf",
+                "reference": "ef2b761e4c69de59892c95d0453e2caa25162faf",
                 "shasum": ""
             },
             "require": {
@@ -4120,9 +4120,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v10.10.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v10.12.0"
             },
-            "time": "2023-03-17T01:59:34+00:00"
+            "time": "2023-03-30T20:27:06+00:00"
         },
         {
             "name": "symfony/console",

@@ -129,7 +129,6 @@ class BookingController extends FrontendController
     public function payment(FEbookingRequest $request)
     {
         $params = $request->all();
-//        dd(session('rooms'),session('foods'));
         return Inertia::render('Web/Booking/Payment', [
             'info_booking' => $params,
             'select_rooms' => session('rooms'),
@@ -170,6 +169,7 @@ class BookingController extends FrontendController
                 'payment_date' => date('Y-m-d H:i:s'),
                 'method_payment' => 1,
                 'status_payment' => 1,
+                'status_booking' => 2,
                 'total_money' => $request['amount'],
             ];
             $booking = $this->repository->create($dataBooking);
@@ -209,6 +209,10 @@ class BookingController extends FrontendController
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
+    }
+
+    public function webhook(){
+        Log::info("webhook");
     }
 
     public function complete()

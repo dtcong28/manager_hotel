@@ -59,7 +59,6 @@ class BookingController extends BackendController
     public function index(Request $request)
     {
         $record = $this->repository->getSearchBooking($request->search);
-
         return Inertia::render('Admin/Booking/Index', [
             'bookings' => $record,
             'status' => $record->map(function ($value) {

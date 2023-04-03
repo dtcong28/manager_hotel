@@ -77,6 +77,7 @@ Route::group(['as' => 'web.'], function () {
     Route::get('/booking/confirm', [\App\Http\Controllers\Frontend\BookingController::class, 'confirm'])->name('booking.confirm');
     Route::get('/booking/payment', [\App\Http\Controllers\Frontend\BookingController::class, 'payment'])->name('booking.payment');
     Route::get('/booking/complete', [\App\Http\Controllers\Frontend\BookingController::class, 'complete'])->name('booking.complete');
+    Route::post('/booking/webhook', [\App\Http\Controllers\Frontend\BookingController::class, 'webhook'])->name('booking.webhook');
     Route::resource('booking', \App\Http\Controllers\Frontend\BookingController::class)->only(['store']);
 });
 

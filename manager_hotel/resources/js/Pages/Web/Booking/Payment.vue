@@ -14,7 +14,7 @@ const props = defineProps({
 })
 
 const data = ref({
-    selectMethod : {name: 'Visa', value: 1},
+    selectMethod : {name: 'Momo',value: 2},
     methodPayment: [
         {name: 'Visa', value: 1},
         {name: 'Momo',value: 2},
@@ -143,7 +143,7 @@ export default {
                 console.log(paymentMethod);
                 this.info_booking.payment_method_id = paymentMethod.id;
                 this.info_booking.amount = this.price_each_room.reduce((partialSum, a) => partialSum + a, 0) + this.sum(this.info_booking.booking.price_food);
-                axios.post('/booking',  this.info_booking)
+                axios.post('/booking/webhook')
                     .then((response) => {
                         this.paymentProcessing = false;
                         console.log(response);
@@ -178,7 +178,6 @@ export default {
                 </div>
             </div>
         </div>
-        {{ data.selectMethod.value }}
         <section class="ftco-section bg-light">
             <div class="container">
                 <div class="row">
@@ -189,7 +188,7 @@ export default {
                                      :options="data.methodPayment" :searchable="false"
                                      :allow-empty="false"></multiselect>
 
-                        <div class="flex flex-wrap -mx-2 mt-4" v-if="data.selectMethod.value == 1">
+                        <div class="flex flex-wrap -mx-2 mt-4" v-bind:style= "data.selectMethod.value != 1 ? {'display' : 'none'} : ''">
                             <div class="p-2 w-full">
                                 <div class="relative">
                                     <label for="card-element" class="leading-7 text-sm text-gray-600">Credit Card Info</label>
@@ -202,7 +201,11 @@ export default {
                                 ></button>
                             </div>
                         </div>
-
+                        <div class="p-5 w-full" v-if="data.selectMethod.value == 3">
+                            <button class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg" @click="booking">
+                                Submit
+                            </button>
+                        </div>
                     </div>
                     <div class="col-lg-4 sidebar">
                         <div class="sidebar-wrap bg-light">

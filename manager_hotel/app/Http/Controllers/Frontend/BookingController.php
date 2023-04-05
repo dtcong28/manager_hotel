@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Requests\Booking\FEbookingRequest;
 use App\Http\Requests\Customer\CustomerRequest;
+use App\Models\Booking;
 use App\Models\Customer;
 use App\Repositories\Eloquent\BookingFoodRepository;
 use App\Repositories\Eloquent\BookingRepository;
@@ -21,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Stripe\PaymentIntent;
 
 class BookingController extends FrontendController
 {
@@ -152,13 +154,6 @@ class BookingController extends FrontendController
         );
 
         try {
-            $payment = $customer->charge(
-                $request['amount'],
-                $request['payment_method_id'],
-            );
-
-            $payment = $payment->asStripePaymentIntent();
-
             // booking
             $dataBooking = [
                 'customer_id' => $customer->id,
@@ -166,11 +161,11 @@ class BookingController extends FrontendController
                 'time_check_in' => $request['booking']['info_booking']['time_check_in'],
                 'time_check_out' => $request['booking']['info_booking']['time_check_out'],
                 'number_rooms' => count($request['booking']['info_booking']['rooms']),
-                'payment_date' => date('Y-m-d H:i:s'),
-                'method_payment' => 1,
-                'status_payment' => 1,
+//                'payment_date' => date('Y-m-d H:i:s'),
+//                'method_payment' => 1,
+//                'status_payment' => 1,
                 'status_booking' => 2,
-                'total_money' => $request['amount'],
+//                'total_money' => $request['amount'],
             ];
             $booking = $this->repository->create($dataBooking);
 
@@ -205,19 +200,31 @@ class BookingController extends FrontendController
                 }
             }
 
-            return $booking;
+            $payment = $customer->charge(
+                $request['amount'],
+                $request['payment_method_id'],
+            );
+            $paymentIntent = $payment->asStripePaymentIntent();
+
+//            $paymentIntent = $payment->asStripePaymentIntent();
+//            $metadata = $paymentIntent->metadata;
+//            $metadata['booking_id'] = '1';
+//
+//            $paymentIntent->metadata = $metadata;
+//            $paymentIntent->save();
+
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 
-    public function webhook(Request $request)
+    public function webhook()
     {
         // This is your Stripe CLI webhook secret for testing your endpoint locally.
         $endpoint_secret = env('STRIPE_WEBHOOK_SECRET');
 
         $payload = @file_get_contents('php://input');
-        $sig_header = $request->header('Stripe-Signature');
+        $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
         $event = null;
 
         try {
@@ -232,10 +239,16 @@ class BookingController extends FrontendController
             return response('',400);
         }
 
-// Handle the event
+        // Handle the event
         switch ($event->type) {
             case 'charge.succeeded':
                 $charge = $event->data->object;
+//                $dataPayment = [
+//                    'payment_date' => date('Y-m-d H:i:s'),
+//                    'method_payment' => 1,
+//                    'status_payment' => 0,
+//                    'total_money' => $event->data->amount,
+//                ];
             // ... handle other event types
             default:
                 echo 'Received unknown event type ' . $event->type;

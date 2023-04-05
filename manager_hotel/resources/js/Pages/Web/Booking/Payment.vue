@@ -2,7 +2,7 @@
 import {Link, useForm} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 import WebLayout from '@/Layouts/Web/WebLayout.vue';
-import { loadStripe } from '@stripe/stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
 import {ref, onMounted} from "vue";
 import Multiselect from 'vue-multiselect'
 import axios from 'axios';
@@ -14,17 +14,18 @@ const props = defineProps({
 })
 
 const data = ref({
-    selectMethod : {name: 'Momo',value: 2},
+    selectMethod: {name: 'Momo', value: 2},
     methodPayment: [
         {name: 'Visa', value: 1},
-        {name: 'Momo',value: 2},
-        {name: 'Thanh toán trực tiếp',value: 3},
+        {name: 'Momo', value: 2},
+        {name: 'Thanh toán trực tiếp', value: 3},
     ]
 })
 
 const price_each_room = props.info_booking.booking.info_booking.price_each_room.map(Number);
+
 function sum(obj) {
-    return Object.keys(obj).reduce((sum,key)=>sum+parseFloat(obj[key]||0),0);
+    return Object.keys(obj).reduce((sum, key) => sum + parseFloat(obj[key] || 0), 0);
 }
 
 const totalMoney = props.info_booking.booking.price_food ? price_each_room.reduce((partialSum, a) => partialSum + a, 0) + sum(props.info_booking.booking.price_food) : price_each_room.reduce((partialSum, a) => partialSum + a, 0)
@@ -88,7 +89,7 @@ const totalMoney = props.info_booking.booking.price_food ? price_each_room.reduc
 </script>
 
 <script>
-import { loadStripe } from '@stripe/stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
 import {router} from "@inertiajs/vue3";
 
 export default {
@@ -119,7 +120,7 @@ export default {
     },
     methods: {
         sum(obj) {
-            return Object.keys(obj).reduce((sum,key)=>sum+parseFloat(obj[key]||0),0);
+            return Object.keys(obj).reduce((sum, key) => sum + parseFloat(obj[key] || 0), 0);
         },
         async processPayment() {
             this.paymentProcessing = true;
@@ -143,7 +144,7 @@ export default {
                 console.log(paymentMethod);
                 this.info_booking.payment_method_id = paymentMethod.id;
                 this.info_booking.amount = this.price_each_room.reduce((partialSum, a) => partialSum + a, 0) + this.sum(this.info_booking.booking.price_food);
-                axios.post('/booking/webhook')
+                axios.post('/booking', this.info_booking)
                     .then((response) => {
                         this.paymentProcessing = false;
                         console.log(response);
@@ -171,7 +172,8 @@ export default {
                 <div class="row no-gutters slider-text d-flex align-itemd-end justify-content-center">
                     <div class="col-md-9 text-center d-flex align-items-end justify-content-center">
                         <div class="text">
-                            <p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home</a></span> <span>About</span></p>
+                            <p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home</a></span> <span>About</span>
+                            </p>
                             <h1 class="mb-4 bread">Payment your booking</h1>
                         </div>
                     </div>
@@ -188,21 +190,27 @@ export default {
                                      :options="data.methodPayment" :searchable="false"
                                      :allow-empty="false"></multiselect>
 
-                        <div class="flex flex-wrap -mx-2 mt-4" v-bind:style= "data.selectMethod.value != 1 ? {'display' : 'none'} : ''">
+                        <div class="flex flex-wrap -mx-2 mt-4"
+                             v-bind:style="data.selectMethod.value != 1 ? {'display' : 'none'} : ''">
                             <div class="p-2 w-full">
                                 <div class="relative">
-                                    <label for="card-element" class="leading-7 text-sm text-gray-600">Credit Card Info</label>
+                                    <label for="card-element" class="leading-7 text-sm text-gray-600">Credit Card
+                                        Info</label>
                                     <div id="card-element"></div>
                                 </div>
                             </div>
                             <div class="p-2 w-full">
                                 <button
-                                    class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg" @click="processPayment" :disabled="paymentProcessing" v-text="paymentProcessing ? 'Processing' : 'Pay Now'"
+                                    class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+                                    @click="processPayment" :disabled="paymentProcessing"
+                                    v-text="paymentProcessing ? 'Processing' : 'Pay Now'"
                                 ></button>
                             </div>
                         </div>
                         <div class="p-5 w-full" v-if="data.selectMethod.value == 3">
-                            <button class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg" @click="booking">
+                            <button
+                                class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+                                @click="booking">
                                 Submit
                             </button>
                         </div>
@@ -213,20 +221,35 @@ export default {
 
                             <div class="fields">
                                 <div class="form-group">
-                                    From {{ info_booking.booking.info_booking.time_check_in }} to {{ info_booking.booking.info_booking.time_check_out }}<br>
+                                    From {{ info_booking.booking.info_booking.time_check_in }} to
+                                    {{ info_booking.booking.info_booking.time_check_out }}<br>
                                 </div>
                                 <div v-if="select_rooms" class="form-group" v-for="(value, index) in select_rooms">
                                     <div>
-                                        <span>Room {{value }} : {{ parseInt(info_booking.booking.info_booking.price_each_room[index]).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}}</span>
+                                        <span>Room {{
+                                                value
+                                            }} : {{
+                                                parseInt(info_booking.booking.info_booking.price_each_room[index]).toLocaleString('vi-VN', {
+                                                    style: 'currency',
+                                                    currency: 'VND'
+                                                })
+                                            }}</span>
                                     </div>
                                 </div>
                                 <div v-if="select_foods" class="form-group" v-for="value in select_foods">
                                     <div>
-                                        <span>{{value[0] }} - Amount {{ info_booking.booking.select_food[value[1]] }} : {{ parseInt(info_booking.booking.price_food[value[1]]).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}}</span>
+                                        <span>{{ value[0] }} - Amount {{ info_booking.booking.select_food[value[1]] }} : {{
+                                                parseInt(info_booking.booking.price_food[value[1]]).toLocaleString('vi-VN', {
+                                                    style: 'currency',
+                                                    currency: 'VND'
+                                                })
+                                            }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    Total: {{ totalMoney.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
+                                    Total: {{
+                                        totalMoney.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
+                                    }}
                                 </div>
                             </div>
                         </div>

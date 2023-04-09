@@ -135,29 +135,38 @@ class CustomerController extends BackendController
             $customer = $this->repository->find($id);
 
             if (empty($customer)) {
-                DB::rollback();
                 session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
 
                 return redirect(getBackUrl());
             }
 
-            $booked = $this->bookingRepository->findByField('customer_id', $id);
-            dd($booked);
-            foreach ($booked as $value) {
-                if(!($value->bookingRoom()->delete()) || !($value->bookingFood()->delete())){
+            $booked = $customer->booking()->get();
+            foreach ($booked as $value)
+            {
+                $bookRoom = $value->bookingRoom()->get();
+                $bookFood = $value->bookingFood()->get();
+                if($bookRoom->isNotEmpty() && !$value->bookingRoom()->delete()  ) {
                     session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+                    DB::rollback();
+                    return redirect(getBackUrl());
+                }
+                //neu phong da duoc khach check in => cap nhat tinh trang phong la trong
 
+                if($bookFood->isNotEmpty() && !$value->bookingFood()->delete()) {
+                    session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+                    DB::rollback();
                     return redirect(getBackUrl());
                 }
             }
 
-            if(!($customer->booking()->delete())){
+            if($booked->isNotEmpty() && !$customer->booking()->delete()){
                 session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
-
+                DB::rollback();
                 return redirect(getBackUrl());
             }
 
             if(!($customer->delete())){
+                DB::rollback();
                 session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
 
                 return redirect(getBackUrl());
@@ -166,6 +175,7 @@ class CustomerController extends BackendController
             DB::commit();
             session()->flash('action_success', getConstant('messages.DELETE_SUCCESS'));
         } catch (\Exception $exception) {
+            DB::rollback();
             Log::error($exception);
             session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
         }

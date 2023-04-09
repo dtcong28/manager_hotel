@@ -1,7 +1,7 @@
 <script setup>
 import {Link, useForm} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
-import WebLayout from '@/Layouts/Web/WebLayout.vue';
+import LayoutBooking from '@/Layouts/Web/LayoutBooking.vue';
 import {ref} from "vue";
 
 const form = useForm({
@@ -29,21 +29,19 @@ function sum(obj) {
 const totalMoney = props.booking.price_food ? price_each_room.reduce((partialSum, a) => partialSum + a, 0) + sum(props.booking.price_food) : price_each_room.reduce((partialSum, a) => partialSum + a, 0)
 
 const payment = () => {
-    form.get(route('web.booking.payment'))
+    form.get(route('web.booking.payment'), { preserveState: true })
 };
 </script>
 
 <template>
     <Head title="Confirm booking"/>
-    <WebLayout>
+    <LayoutBooking>
         <div class="hero-wrap" v-bind:style="{'background-image': 'url(/frontend/images/bg_1.jpg)'}">
             <div class="overlay"></div>
             <div class="container">
                 <div class="row no-gutters slider-text d-flex align-itemd-end justify-content-center">
                     <div class="col-md-9 text-center d-flex align-items-end justify-content-center">
                         <div class="text">
-                            <p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home</a></span> <span>About</span>
-                            </p>
                             <h1 class="mb-4 bread">Complete your booking</h1>
                         </div>
                     </div>
@@ -98,7 +96,7 @@ const payment = () => {
                         </form>
                     </div>
                     <div class="col-lg-4 sidebar">
-                        <div class="sidebar-wrap bg-light">
+                        <div class="sidebar-wrap bg-light box-detail">
                             <h3 class="heading mb-4">Your Stay</h3>
                             <div class="fields">
                                 <div class="form-group">
@@ -110,7 +108,7 @@ const payment = () => {
                                     </div>
                                 </div>
                                 <div class="form-group" v-for="(value, index) in select_foods">
-                                    <div>
+                                    <div v-if="booking.price_food[value.id]!=null">
                                         <span>{{value.name }} - Amount {{ booking.select_food[value.id] }} : {{ parseInt(booking.price_food[value.id]).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</span>
                                     </div>
                                 </div>
@@ -123,5 +121,5 @@ const payment = () => {
                 </div>
             </div>
         </section>
-    </WebLayout>
+    </LayoutBooking>
 </template>

@@ -2,7 +2,7 @@
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
 import {Head, Link, router, useForm} from '@inertiajs/vue3';
 import Multiselect from 'vue-multiselect'
-import {ref} from "vue";
+import {ref,computed} from "vue";
 
 const props = defineProps({
     booking: Array,
@@ -27,6 +27,8 @@ const form = useForm({
     status_booking: props.booking.status_booking,
 });
 
+const totalMoney = sum.value.reduce((partialSum, a) => partialSum + a, 0)
+
 const updateStatus= () => {
     router.post(`/admin/booking/${props.booking.id}/update-status`, {
         _method: 'PATCH',
@@ -35,6 +37,7 @@ const updateStatus= () => {
         time_check_in: props.booking.time_check_in,
         time_check_out: props.booking.time_check_out,
         rooms: props.bookingRoom,
+        total_money: totalMoney,
     })
 };
 </script>
@@ -112,7 +115,7 @@ const updateStatus= () => {
                                 </div>
                             </h4>
                             <br>
-                            <h4>Total Money: {{ sum.reduce((partialSum, a) => partialSum + a, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</h4>
+                            <h4>Total Money: {{ totalMoney.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</h4>
                         </div>
                     </div>
                     <div class="row">

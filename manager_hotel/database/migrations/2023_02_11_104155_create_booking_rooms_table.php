@@ -18,8 +18,8 @@ return new class extends Migration {
             $table->integer('room_id');
             $table->integer('price');
             $table->integer('number_people')->nullable();
-
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

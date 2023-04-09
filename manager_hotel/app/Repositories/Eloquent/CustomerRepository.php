@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Customer;
+use App\Models\Enums\GenderEnum;
 
 class CustomerRepository extends CustomRepository
 {
@@ -21,6 +22,13 @@ class CustomerRepository extends CustomRepository
             ->orWhere('phone', 'LIKE', '%' . $params . '%')
             ->orWhere('email', 'LIKE', '%' . $params . '%')
             ->orWhere('identity_card', 'LIKE', '%' . $params . '%')
+            ->when(!empty($params), function ($q) use ($params) {
+                foreach (GenderEnum::cases() as $data) {
+                    if(str_contains(strtolower($data->name), strtolower($params))){
+                        $q->orWhere('gender', '=', $data->value);
+                    }
+                }
+            })
             ->orderBy('id', 'desc');
 
         return $query->paginate(getConfig('page_number'));

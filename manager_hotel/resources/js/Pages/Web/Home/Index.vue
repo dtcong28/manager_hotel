@@ -3,6 +3,15 @@ import {Link, useForm} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 import WebLayout from '@/Layouts/Web/WebLayout.vue';
 
+const props = defineProps({
+    rooms: Array,
+    typesRoom: Array,
+    totalRooms: Array,
+    totalEmployee: Array,
+    totalCustomer: Array,
+    totalFood: Array,
+})
+
 const form = useForm({
     time_check_in: '',
     time_check_out: '',
@@ -52,7 +61,7 @@ const filterRoom = () => {
             <div class="container" style="max-width: 80%">
                 <div class="row">
                     <div class="col-lg-12">
-                        <form method="get" action="/booking/filter-room" class="booking-form" target="_blank">
+                        <form method="get" action="/booking/filter-room" class="booking-form" target="_blank" style="display: flex; justify-content: center;">
                             <div class="row">
                                 <div class="col-md-2.5 d-flex">
                                     <div class="form-group p-4 align-self-stretch d-flex align-items-end">
@@ -81,7 +90,6 @@ const filterRoom = () => {
                                                         <option value="1">1</option>
                                                         <option value="2">2</option>
                                                         <option value="3">3</option>
-                                                        <option value="4">4</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -100,6 +108,7 @@ const filterRoom = () => {
                                                         <option value="2">2 Adult</option>
                                                         <option value="3">3 Adult</option>
                                                         <option value="4">4 Adult</option>
+                                                        <option value="5">5 Adult</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -230,112 +239,27 @@ const filterRoom = () => {
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm col-md-6 col-lg-4 ftco-animate">
+                    <div class="col-sm col-md-6 col-lg-4" v-for="room in rooms" :key="room.id">
                         <div class="room">
-                            <a href="rooms.html" class="img d-flex justify-content-center align-items-center"
-                               v-bind:style="{ 'background-image': 'url(/frontend/images/room-1.jpg)' }">
+                            <Link :href="route('web.rooms.detail', { id: room.id })" class="img d-flex justify-content-center align-items-center"
+                               :style="{ backgroundImage: 'url(' + room.image + ')' }">
                                 <div class="icon d-flex justify-content-center align-items-center">
                                     <span class="icon-search2"></span>
                                 </div>
-                            </a>
+                            </Link>
                             <div class="text p-3 text-center">
-                                <h3 class="mb-3"><a href="rooms.html">Suite Room</a></h3>
-                                <p><span class="price mr-2">$120.00</span> <span class="per">per night</span></p>
+                                <h3 class="mb-3"><Link :href="route('web.rooms.detail', { id: room.id })">Room {{ room.name }}</Link></h3>
+                                <span>Type room: {{ room.type_room }}</span>
+                                <p><span class="price mr-2">{{ room.rent_per_night.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</span> <span class="per">per night</span></p>
                                 <hr>
-                                <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span
-                                    class="icon-long-arrow-right"></span></a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm col-md-6 col-lg-4 ftco-animate">
-                        <div class="room">
-                            <a href="rooms.html" class="img d-flex justify-content-center align-items-center"
-                               v-bind:style="{ 'background-image': 'url(/frontend/images/room-2.jpg)' }">
-                                <div class="icon d-flex justify-content-center align-items-center">
-                                    <span class="icon-search2"></span>
-                                </div>
-                            </a>
-                            <div class="text p-3 text-center">
-                                <h3 class="mb-3"><a href="rooms.html">Family Room</a></h3>
-                                <p><span class="price mr-2">$20.00</span> <span class="per">per night</span></p>
-                                <hr>
-                                <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span
-                                    class="icon-long-arrow-right"></span></a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm col-md-6 col-lg-4 ftco-animate">
-                        <div class="room">
-                            <a href="rooms.html" class="img d-flex justify-content-center align-items-center"
-                               v-bind:style="{ 'background-image': 'url(/frontend/images/room-3.jpg)' }">
-                                <div class="icon d-flex justify-content-center align-items-center">
-                                    <span class="icon-search2"></span>
-                                </div>
-                            </a>
-                            <div class="text p-3 text-center">
-                                <h3 class="mb-3"><a href="rooms.html">Deluxe Room</a></h3>
-                                <p><span class="price mr-2">$150.00</span> <span class="per">per night</span></p>
-                                <hr>
-                                <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span
-                                    class="icon-long-arrow-right"></span></a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm col-md-6 col-lg-4 ftco-animate">
-                        <div class="room">
-                            <a href="rooms.html" class="img d-flex justify-content-center align-items-center"
-                               v-bind:style="{ 'background-image': 'url(/frontend/images/room-4.jpg)' }">
-                                <div class="icon d-flex justify-content-center align-items-center">
-                                    <span class="icon-search2"></span>
-                                </div>
-                            </a>
-                            <div class="text p-3 text-center">
-                                <h3 class="mb-3"><a href="rooms.html">Classic Room</a></h3>
-                                <p><span class="price mr-2">$130.00</span> <span class="per">per night</span></p>
-                                <hr>
-                                <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span
-                                    class="icon-long-arrow-right"></span></a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm col-md-6 col-lg-4 ftco-animate">
-                        <div class="room">
-                            <a href="rooms.html" class="img d-flex justify-content-center align-items-center"
-                               v-bind:style="{ 'background-image': 'url(/frontend/images/room-5.jpg)' }">
-                                <div class="icon d-flex justify-content-center align-items-center">
-                                    <span class="icon-search2"></span>
-                                </div>
-                            </a>
-                            <div class="text p-3 text-center">
-                                <h3 class="mb-3"><a href="rooms.html">Superior Room</a></h3>
-                                <p><span class="price mr-2">$300.00</span> <span class="per">per night</span></p>
-                                <hr>
-                                <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span
-                                    class="icon-long-arrow-right"></span></a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm col-md-6 col-lg-4 ftco-animate">
-                        <div class="room">
-                            <a href="rooms.html" class="img d-flex justify-content-center align-items-center"
-                               v-bind:style="{ 'background-image': 'url(/frontend/images/room-6.jpg)' }">
-                                <div class="icon d-flex justify-content-center align-items-center">
-                                    <span class="icon-search2"></span>
-                                </div>
-                            </a>
-                            <div class="text p-3 text-center">
-                                <h3 class="mb-3"><a href="rooms.html">Luxury Room</a></h3>
-                                <p><span class="price mr-2">$500.00</span> <span class="per">per night</span></p>
-                                <hr>
-                                <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span
-                                    class="icon-long-arrow-right"></span></a></p>
+                                <p class="pt-1"><Link :href="route('web.rooms.detail', { id: room.id })" class="btn-custom">View Room Details <span
+                                    class="icon-long-arrow-right"></span></Link></p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
         <section class="ftco-section ftco-counter img" id="section-counter"
                  v-bind:style="{ 'background-image': 'url(/frontend/images/bg_1.jpg)' }">
             <div class="container">
@@ -345,7 +269,7 @@ const filterRoom = () => {
                             <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
                                 <div class="block-18 text-center">
                                     <div class="text">
-                                        <strong class="number" data-number="50000">0</strong>
+                                        <strong class="number" :data-number="props.totalCustomer">{{ props.totalCustomer }}</strong>
                                         <span>Happy Guests</span>
                                     </div>
                                 </div>
@@ -353,7 +277,7 @@ const filterRoom = () => {
                             <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
                                 <div class="block-18 text-center">
                                     <div class="text">
-                                        <strong class="number" data-number="3000">0</strong>
+                                        <strong class="number" :data-number="props.totalRooms">{{ props.totalRooms }}</strong>
                                         <span>Rooms</span>
                                     </div>
                                 </div>
@@ -361,7 +285,7 @@ const filterRoom = () => {
                             <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
                                 <div class="block-18 text-center">
                                     <div class="text">
-                                        <strong class="number" data-number="1000">0</strong>
+                                        <strong class="number" :data-number="props.totalEmployee">{{ props.totalEmployee }}</strong>
                                         <span>Staffs</span>
                                     </div>
                                 </div>
@@ -369,8 +293,8 @@ const filterRoom = () => {
                             <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
                                 <div class="block-18 text-center">
                                     <div class="text">
-                                        <strong class="number" data-number="100">0</strong>
-                                        <span>Destination</span>
+                                        <strong class="number" :data-number="props.totalFood">{{ props.totalFood }}</strong>
+                                        <span>Food</span>
                                     </div>
                                 </div>
                             </div>

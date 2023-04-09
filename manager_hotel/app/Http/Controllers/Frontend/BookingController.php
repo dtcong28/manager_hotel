@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Http\Requests\Booking\BookingWebRequest;
 use App\Http\Requests\Booking\FEbookingRequest;
 use App\Http\Requests\Customer\CustomerRequest;
 use App\Models\Booking;
@@ -19,6 +20,7 @@ use App\Services\CustomerService;
 use App\Services\RoomService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -54,17 +56,7 @@ class BookingController extends FrontendController
         $this->bookingFoodService = app(BookingFoodService::class);
     }
 
-    public function index()
-    {
-//        return Inertia::render('Web/Home/Index');
-    }
-
-    public function create()
-    {
-
-    }
-
-    public function filterRoom(Request $request)
+    public function filterRoom(BookingWebRequest $request)
     {
         $params = $request->all();
         $data = [
@@ -140,34 +132,47 @@ class BookingController extends FrontendController
 
     public function store(Request $request)
     {
-        $customer = $this->customerRepository->firstOrCreate(
-            [
-                'email' => $request['email'],
-            ],
-            [
-                'name' => $request['name'],
-                'address' => $request['address'],
-                'gender' => $request['gender'],
-                'phone' => $request['phone'],
-                'identity_card' => $request['identity_card'],
-            ]
-        );
-
+        DB::beginTransaction();
         try {
+            $customer = $this->customerRepository->firstOrCreate(
+                [
+                    'email' => $request['email'],
+                ],
+                [
+                    'name' => $request['name'],
+                    'address' => $request['address'],
+                    'gender' => $request['gender'],
+                    'phone' => $request['phone'],
+                    'identity_card' => $request['identity_card'],
+                ]
+            );
+            $params = $request->all();
+            if(!$customer){
+                DB::rollback();
+                session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
+
+                return Redirect::route('web.booking.payment');
+            }
+
             // booking
             $dataBooking = [
                 'customer_id' => $customer->id,
-                'type_booking' => 1,
+                'type_booking' => \App\Models\Enums\TypeBookingEnum::ONLINE->value,
                 'time_check_in' => $request['booking']['info_booking']['time_check_in'],
                 'time_check_out' => $request['booking']['info_booking']['time_check_out'],
                 'number_rooms' => count($request['booking']['info_booking']['rooms']),
-//                'payment_date' => date('Y-m-d H:i:s'),
-//                'method_payment' => 1,
-//                'status_payment' => 1,
-                'status_booking' => 2,
-//                'total_money' => $request['amount'],
+                'status_booking' => \App\Models\Enums\BookingStatusEnum::EXPECTED_ARRIVAL->value,
+                'status_payment' => \App\Models\Enums\PaymentStatusEnum::UNPAID->value,
+                'method_payment' => \App\Models\Enums\MethodPaymentEnum::CASH->value,
             ];
+
             $booking = $this->repository->create($dataBooking);
+            if (!$booking) {
+                DB::rollback();
+                session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
+
+                return Redirect::route('web.booking.payment');
+            }
 
             //booking rooms
             if (!empty($request['booking']['info_booking']['rooms'])) {
@@ -179,11 +184,21 @@ class BookingController extends FrontendController
                     $room = $this->roomRepository->find($value);
                     $dataRoom['number_people'] = $room->number_people;
 
-                    $this->bookingRoomService->store($dataRoom);
+                    if (!$this->bookingRoomService->store($dataRoom)) {
+                        DB::rollback();
+                        session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
+
+                        return Redirect::route('web.booking.payment');
+                    }
 
                     if (!empty($room)) {
                         $room->status = \App\Models\Enums\RoomStatusEnum::OCCUPIED->value;
-                        $room->save();
+                        if (!$room->save()) {
+                            DB::rollback();
+                            session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
+
+                            return Redirect::route('web.booking.payment');
+                        }
                     }
                 }
             }
@@ -196,24 +211,32 @@ class BookingController extends FrontendController
                     $dataFood['food_id'] = $key;
                     $dataFood['booking_id'] = $booking->id;
 
-                    $this->bookingFoodService->store($dataFood);
+                    if(!$this->bookingFoodService->store($dataFood)){
+                        DB::rollback();
+                        session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
+
+                        return Redirect::route('web.booking.payment');
+                    }
                 }
             }
 
-            $payment = $customer->charge(
-                $request['amount'],
-                $request['payment_method_id'],
-            );
-            $paymentIntent = $payment->asStripePaymentIntent();
+            if(array_key_exists("payment_method_id",$params)) {
+                $payment = $customer->charge(
+                    $request['amount'],
+                    $request['payment_method_id'],
+                    $options = [
+                        'metadata' => [
+                            'booking_id' => $booking->id,
+                        ]
+                    ],
+                );
+                $paymentIntent = $payment->asStripePaymentIntent();
+            }
 
-//            $paymentIntent = $payment->asStripePaymentIntent();
-//            $metadata = $paymentIntent->metadata;
-//            $metadata['booking_id'] = '1';
-//
-//            $paymentIntent->metadata = $metadata;
-//            $paymentIntent->save();
-
+            DB::commit();
+            return Redirect::route('web.booking.complete');
         } catch (\Exception $e) {
+            DB::rollback();
             return response()->json(['message' => $e->getMessage()], 500);
         }
     }
@@ -233,22 +256,25 @@ class BookingController extends FrontendController
             );
         } catch (\UnexpectedValueException $e) {
             // Invalid payload
-            return response('',400);
+            return response('', 400);
         } catch (\Stripe\Exception\SignatureVerificationException $e) {
             // Invalid signature
-            return response('',400);
+            return response('', 400);
         }
 
         // Handle the event
         switch ($event->type) {
             case 'charge.succeeded':
-                $charge = $event->data->object;
-//                $dataPayment = [
-//                    'payment_date' => date('Y-m-d H:i:s'),
-//                    'method_payment' => 1,
-//                    'status_payment' => 0,
-//                    'total_money' => $event->data->amount,
-//                ];
+                $paymentIntent = $event->data->object;
+                $metadata = $paymentIntent->metadata;
+                $dataPayment = [
+                    'payment_date' => date('Y-m-d H:i:s'),
+                    'method_payment' => \App\Models\Enums\MethodPaymentEnum::BANKING->value,
+                    'status_payment' => \App\Models\Enums\PaymentStatusEnum::PAID->value,
+                    'total_money' => $paymentIntent->amount,
+                ];
+                $booking = $this->repository->update($metadata['booking_id'], $dataPayment);
+
             // ... handle other event types
             default:
                 echo 'Received unknown event type ' . $event->type;
@@ -260,10 +286,5 @@ class BookingController extends FrontendController
     public function complete()
     {
         return Inertia::render('Web/Booking/Complete');
-    }
-
-    public function edit($id)
-    {
-
     }
 }

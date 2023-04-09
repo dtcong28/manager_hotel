@@ -32,7 +32,7 @@ const data = ref({
 })
 
 const filterRoom = () => {
-    form.get(route('booking.filter_room'))
+    form.get(route('booking.filter_room'), { preserveState: true })
 };
 </script>
 

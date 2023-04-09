@@ -19,8 +19,8 @@ return new class extends Migration
             $table->integer('food_id');
             $table->integer('price')->nullable();
             $table->float('amount');
-
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

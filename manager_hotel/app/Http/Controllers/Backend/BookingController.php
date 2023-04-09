@@ -388,6 +388,8 @@ class BookingController extends BackendController
 
             $statusPayment = data_get($params, 'status_payment');
             $statusBooking = data_get($params, 'status_booking');
+            $totalMoney = data_get($params, 'total_money');
+
             $bookingRoom = $this->bookingRoomRepository->where('booking_id', $id)->with(['room'])->get();
             $booking = $this->repository->find($id);
 
@@ -395,7 +397,6 @@ class BookingController extends BackendController
                 return Redirect::route('booking.index');
             }
 
-            $dataRoom = request()->only(['time_check_in', 'time_check_out']);
             $dataRoom['status'] = RoomStatusEnum::OCCUPIED->value;
 
             if ($statusBooking != BookingStatusEnum::CHECK_IN->value) {
@@ -404,35 +405,42 @@ class BookingController extends BackendController
                 ];
             }
 
-             if ($booking->status_booking->value == $statusBooking) {
-                 session()->flash('action_success', getConstant('messages.UPDATE_SUCCESS'));
-                 return Redirect::route('booking.detail', ['id' => $id]);
-             }
-
              foreach ($bookingRoom as $data) {
-                 if ($dataRoom['status'] == data_get($data, 'room.status')->value && data_get($data, 'room.status')->value == RoomStatusEnum::OCCUPIED->value){
+                 if ($booking->status_booking->value != $statusBooking && $dataRoom['status'] == data_get($data, 'room.status')->value && data_get($data, 'room.status')->value == RoomStatusEnum::OCCUPIED->value){
                      session()->flash('action_failed', 'Room ' . data_get($data, 'room.name') . ' does not check out so your reservation cannot check in');
                      return Redirect::route('booking.detail', ['id' => $id]);
                  }
              }
 
-            $booking->status_payment = $statusPayment;
-            $booking->status_booking = $statusBooking;
-            if (!$booking->save()) {
-                DB::rollback();
-                session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
+             if ($booking->status_booking->value != $statusBooking) {
+                 foreach (data_get($params, 'rooms') as $room) {
+                     if (!$this->roomRepository->update(data_get($room, 'room_id'), $dataRoom)) {
+                         DB::rollback();
+                         session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
+                         return Redirect::route('booking.index');
+                     }
+                 }
+             }
 
-                return Redirect::route('booking.index');
-            }
+             if ($booking->status_booking->value != $statusBooking) {
+                 $booking->status_booking = $statusBooking;
+             }
+             if ($booking->status_payment->value != $statusPayment) {
+                 $booking->status_payment = $statusPayment;
+                 if ($statusPayment == PaymentStatusEnum::UNPAID->value){
+                     $booking->total_money = NULL;
+                     $booking->payment_date = NULL;
+                 }else{
+                     $booking->total_money = $totalMoney;
+                     $booking->payment_date = date('Y-m-d H:i:s');
+                 }
+             }
 
-            foreach (data_get($params, 'rooms') as $room) {
-                if (!$this->roomRepository->update(data_get($room, 'room_id'), $dataRoom)) {
-                    DB::rollback();
-                    session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
-
-                    return Redirect::route('booking.index');
-                }
-            }
+             if (!$booking->save()) {
+                 DB::rollback();
+                 session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
+                 return Redirect::route('booking.index');
+             }
 
             DB::commit();
             session()->flash('action_success', getConstant('messages.UPDATE_SUCCESS'));

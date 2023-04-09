@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('password', 64);
             $table->string('phone');
             $table->char('gender', 1);
-
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -12,7 +12,7 @@ const menus = [
                 route: 'employees.index',
             },
             {
-                name: 'Add Employee Details',
+                name: 'Add Employee',
                 route: 'employees.create',
             },
 
@@ -36,7 +36,7 @@ const menus = [
                 route: 'rooms.index',
             },
             {
-                name: 'Add Room Details',
+                name: 'Add Room',
                 route: 'rooms.create',
             },
 
@@ -52,7 +52,7 @@ const menus = [
                 route: 'customers.index',
             },
             {
-                name: 'Add Customers Details',
+                name: 'Add Customers',
                 route: 'customers.create',
             },
 
@@ -68,7 +68,7 @@ const menus = [
                 route: 'booking.index',
             },
             {
-                name: 'Add Booking Details',
+                name: 'Add Booking',
                 route: 'booking.create',
             },
 
@@ -80,7 +80,7 @@ const menus = [
         route: false,
         children: [
             {
-                name: 'Food',
+                name: 'View All Food',
                 route: 'food.index',
             },
             {

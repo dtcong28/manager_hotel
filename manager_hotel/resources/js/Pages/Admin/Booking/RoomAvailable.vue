@@ -111,7 +111,6 @@ const handleBack = () => {
                                     <td class="center">{{ (data.rent_per_night * bookingInfor.time_stay).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</td>
                                 </tr>
                                 </tbody>
-                                <tr v-if="rooms==''" style="color: red">No room available</tr>
                             </table>
                         </div>
                     </div>

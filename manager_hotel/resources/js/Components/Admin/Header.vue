@@ -1,4 +1,5 @@
 <script setup>
+import {Link} from '@inertiajs/vue3'
 
 </script>
 
@@ -7,8 +8,9 @@
         <div class="page-header-inner ">
             <!-- logo start -->
             <div class="page-logo">
-                <a href="index.html">
-                    <span class="logo-default">Spice</span> </a>
+                <Link :href="route('dashboard')">
+                    <span class="logo-default">Spice</span>
+                </Link>
             </div>
             <!-- logo end -->
             <ul class="nav navbar-nav navbar-left in">

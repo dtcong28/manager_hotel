@@ -23,8 +23,8 @@ return new class extends Migration {
             $table->integer('number_bed');
             $table->integer('rent_per_night');
             $table->text('description')->nullable();
-
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

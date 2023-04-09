@@ -140,7 +140,7 @@ const updateRoom = () => {
                                         <label for="images">Images</label>
                                         <input type="file" name="images[]" id="images" multiple @input="form.images = $event.target.files" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                                     </div>
-                                    <div style="display: flex">
+                                    <div style="display: flex" v-if="form.images != '[object FileList]'">
                                         <div v-for="image in form.images">
                                             <img :src="image" :alt="image" class="w-20 h-20 shadow">
                                         </div>

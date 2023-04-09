@@ -35,15 +35,14 @@ const storeEmployee = () => {
         <div class="page-bar">
             <div class="page-title-breadcrumb">
                 <div class=" pull-left">
-                    <div class="page-title">Add Employee Details</div>
+                    <div class="page-title">Add Employee</div>
                 </div>
                 <ol class="breadcrumb page-breadcrumb pull-right">
-                    <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index.html">Home</a>&nbsp;<i
-                        class="fa fa-angle-right"></i>
+                    <li><i class="fa fa-home"></i>&nbsp;<Link class="parent-item" :href="route('dashboard')">Home</Link>&nbsp;<i class="fa fa-angle-right"></i>
                     </li>
-                    <li><a class="parent-item" href="">Employee</a>&nbsp;<i class="fa fa-angle-right"></i>
+                    <li><Link class="parent-item" :href="route('employees.create')">Employee</Link>&nbsp;<i class="fa fa-angle-right"></i>
                     </li>
-                    <li class="active">Add Employee Details</li>
+                    <li class="active">Add Employee</li>
                 </ol>
             </div>
         </div>
@@ -51,7 +50,7 @@ const storeEmployee = () => {
             <div class="col-sm-12">
                 <div class="card-box">
                     <div class="card-head">
-                        <header>Add Employee Details</header>
+                        <header>Add Employee</header>
                     </div>
                     <form @submit.prevent="storeEmployee">
                         <div class="card-body row pl-5 pr-5">

@@ -1,7 +1,7 @@
 <script setup>
 import {Link, useForm} from '@inertiajs/vue3'
 import {Head, useRemember} from '@inertiajs/vue3';
-import WebLayout from '@/Layouts/Web/WebLayout.vue';
+import LayoutBooking from '@/Layouts/Web/LayoutBooking.vue';
 import {ref} from "vue";
 
 const props = defineProps({
@@ -37,15 +37,14 @@ const confirmBooking = () => {
 </script>
 
 <template>
-    <Head title="Booking"/>
-    <WebLayout>
+    <Head title="Booking room"/>
+    <LayoutBooking>
         <div class="hero-wrap" v-bind:style="{'background-image': 'url(/frontend/images/bg_1.jpg)'}">
             <div class="overlay"></div>
             <div class="container">
                 <div class="row no-gutters slider-text d-flex align-itemd-end justify-content-center">
                     <div class="col-md-9 text-center d-flex align-items-end justify-content-center">
                         <div class="text">
-                            <p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home</a></span> <span>About</span></p>
                             <h1 class="mb-4 bread">Choose Your Rooms</h1>
                         </div>
                     </div>
@@ -56,23 +55,26 @@ const confirmBooking = () => {
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8" >
-                        <div v-for="(room,key) in rooms">
+                        <div v-if="rooms" v-for="(room,key) in rooms">
                             <h3>Room {{ key + 1 }}</h3>
+                            <div v-if="room==''">
+                                <span style="color: red">No room available</span>
+                            </div>
                             <div class="row" v-for="data in room">
                                 <div class="col-sm col-md-6 col-lg-11">
                                     <div class="room">
-                                        <a href="rooms-single.html" class="img d-flex justify-content-center align-items-center" :style="{ backgroundImage: 'url(' + data.image + ')' }">
+                                        <Link :href="route('web.rooms.detail', { id: data.id })" class="img d-flex justify-content-center align-items-center" :style="{ backgroundImage: 'url(' + data.image + ')' }">
                                             <div class="icon d-flex justify-content-center align-items-center">
                                                 <span class="icon-search2"></span>
                                             </div>
-                                        </a>
+                                        </Link>
                                         <div class="text p-3 text-center">
-                                            <h3 class="mb-3"><a href="rooms-single.html">Room {{ data.name }}</a></h3>
+                                            <h3 class="mb-3"><Link :href="route('web.rooms.detail', { id: data.id })">Room {{ data.name }}</Link></h3>
                                             <p><span class="price mr-2">{{ data.rent_per_night.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</span> <span class="per">per night</span></p>
                                             <div class="row">
                                                 <ul class="list col">
                                                     <li><span>Max:</span> {{ data.number_people}} Persons</li>
-                                                    <li><span>Size:</span> {{ data.size }}</li>
+                                                    <li><span>Size:</span> {{ data.size }} m2</li>
                                                 </ul>
                                                 <ul class="list col">
                                                     <li><span>View:</span> {{ data.view }}</li>
@@ -80,7 +82,11 @@ const confirmBooking = () => {
                                                 </ul>
                                             </div>
                                             <hr>
-                                            <p class="pt-1">Select Room <input type="radio" id="radio" :value="data.id" v-model="selectRoom[key]" :disabled="selectRoom.includes(data.id)"/><span class="icon-long-arrow-right"></span></p>
+                                            <label :for="data.id" class="pt-1" style="cursor: pointer">
+                                                Select Room
+                                                <input style="cursor: pointer" type="radio" :id="data.id" :value="data.id" v-model="selectRoom[key]" :disabled="selectRoom.includes(data.id)"/>
+                                                <span class="icon-long-arrow-right"></span>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -88,7 +94,7 @@ const confirmBooking = () => {
                         </div>
                     </div>
                     <div class="col-lg-4 sidebar">
-                        <div class="sidebar-wrap bg-light">
+                        <div class="sidebar-wrap bg-light box-detail">
                             <h3 class="heading mb-4">Your Stay</h3>
                             <form @submit.prevent="confirmBooking">
                                 <div class="fields">
@@ -99,7 +105,7 @@ const confirmBooking = () => {
                                     <div class="form-group" v-for="(value, index) in selectRoom">
                                         <div v-for="room in arrayRoom" :key="room.id">
                                             <span v-if="value === room.id" :id="room.id">
-                                                Room {{ room.name }} : {{ (room.rent_per_night * info_booking.time_stay).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}} VND
+                                                Room {{ room.name }} : {{ (room.rent_per_night * info_booking.time_stay).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}}
                                                 <div class="d-none">{{sum[index] = room.rent_per_night * info_booking.time_stay }}</div>
                                             </span>
                                         </div>
@@ -117,5 +123,5 @@ const confirmBooking = () => {
                 </div>
             </div>
         </section>
-    </WebLayout>
+    </LayoutBooking>
 </template>

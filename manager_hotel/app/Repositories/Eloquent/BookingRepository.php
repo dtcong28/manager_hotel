@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Booking;
+use App\Models\Enums\PaymentStatusEnum;
 use App\Models\Enums\BookingStatusEnum;
 
 class BookingRepository extends CustomRepository
@@ -22,13 +23,21 @@ class BookingRepository extends CustomRepository
             ->orWhere('customers.phone', 'LIKE', '%' . $params . '%')
             ->orWhere('customers.email', 'LIKE', '%' . $params . '%')
             ->orWhere('booking.time_check_in', 'LIKE', '%' . $params . '%')
-            ->orWhere('booking.time_check_out', 'LIKE', '%' . $params . '%')->orderBy('id','desc');
-//            ->when(str_contains('unpaid', $params), function ($q) {
-//                $q->orWhere('booking.status_payment', '=', 0);
-//            })
-//            ->when(str_contains('paid', $params), function ($q) {
-//                $q->orWhere('booking.status_payment', '=', 1);
-//            });
+            ->orWhere('booking.time_check_out', 'LIKE', '%' . $params . '%')->orderBy('id','desc')
+            ->when(!empty($params), function ($q) use ($params) {
+                foreach (PaymentStatusEnum::cases() as $data) {
+                    if(str_contains(strtolower($data->name), strtolower($params))){
+                        $q->orWhere('status_payment', '=', $data->value);
+                    }
+                }
+            })
+            ->when(!empty($params), function ($q) use ($params) {
+                foreach (BookingStatusEnum::cases() as $data) {
+                    if(str_contains(strtolower(BookingStatusEnum::statusLabel($data->value)), strtolower($params))){
+                        $q->orWhere('status_booking', '=', $data->value);
+                    }
+                }
+            });
 
         return $query->paginate(getConfig('page_number'));
     }

@@ -9,6 +9,10 @@ use App\Http\Controllers\Backend\BookingFoodController;
 use App\Http\Controllers\Backend\FoodController;
 use App\Http\Controllers\Backend\ProfileBackendController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\RoomFEController;
+use App\Http\Controllers\Frontend\RestaurantController;
+use App\Http\Controllers\Frontend\AboutController;
+use App\Http\Controllers\Frontend\ContactController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -72,13 +76,26 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 Route::group(['as' => 'web.'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
-    Route::get('/booking/filter-room', [\App\Http\Controllers\Frontend\BookingController::class, 'filterRoom'])->name('booking.filter_room');
-    Route::get('/booking/food', [\App\Http\Controllers\Frontend\BookingController::class, 'bookFood'])->name('booking.food');
-    Route::get('/booking/confirm', [\App\Http\Controllers\Frontend\BookingController::class, 'confirm'])->name('booking.confirm');
-    Route::get('/booking/payment', [\App\Http\Controllers\Frontend\BookingController::class, 'payment'])->name('booking.payment');
-    Route::get('/booking/complete', [\App\Http\Controllers\Frontend\BookingController::class, 'complete'])->name('booking.complete');
-    Route::post('/booking/webhook', [\App\Http\Controllers\Frontend\BookingController::class, 'webhook'])->name('booking.webhook');
-    Route::resource('booking', \App\Http\Controllers\Frontend\BookingController::class)->only(['store']);
+    Route::prefix('booking')->group(function () {
+        Route::get('/filter-room', [\App\Http\Controllers\Frontend\BookingController::class, 'filterRoom'])->name('booking.filter_room');
+        Route::get('/food', [\App\Http\Controllers\Frontend\BookingController::class, 'bookFood'])->name('booking.food');
+        Route::get('/confirm', [\App\Http\Controllers\Frontend\BookingController::class, 'confirm'])->name('booking.confirm');
+        Route::get('/payment', [\App\Http\Controllers\Frontend\BookingController::class, 'payment'])->name('booking.payment');
+        Route::get('/complete', [\App\Http\Controllers\Frontend\BookingController::class, 'complete'])->name('booking.complete');
+        Route::post('/webhook', [\App\Http\Controllers\Frontend\BookingController::class, 'webhook'])->name('booking.webhook');
+        Route::resource('/', \App\Http\Controllers\Frontend\BookingController::class)->only(['store']);
+    });
+
+    Route::prefix('room')->as('rooms.')->group(function () {
+        Route::resource('/', RoomFEController::class)->only(['index']);
+        Route::get('/{id}', [RoomFEController::class, 'detail'])->name('detail');
+    });
+
+    Route::resource('/restaurant', RestaurantController::class)->only(['index']);
+
+    Route::resource('/about', AboutController::class)->only(['index']);
+
+    Route::resource('/contact', ContactController::class)->only(['index']);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

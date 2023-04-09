@@ -1,7 +1,7 @@
 <script setup>
 import {Link, useForm} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
-import WebLayout from '@/Layouts/Web/WebLayout.vue';
+import LayoutBooking from '@/Layouts/Web/LayoutBooking.vue';
 import {ref} from "vue";
 
 const props = defineProps({
@@ -31,15 +31,13 @@ const confirm = () => {
 
 <template>
     <Head title="Booking Food"/>
-    <WebLayout>
+    <LayoutBooking>
         <div class="hero-wrap" v-bind:style="{'background-image': 'url(/frontend/images/bg_1.jpg)'}">
             <div class="overlay"></div>
             <div class="container">
                 <div class="row no-gutters slider-text d-flex align-itemd-end justify-content-center">
                     <div class="col-md-9 text-center d-flex align-items-end justify-content-center">
                         <div class="text">
-                            <p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home</a></span> <span>About</span>
-                            </p>
                             <h1 class="mb-4 bread">Booking Food</h1>
                         </div>
                     </div>
@@ -62,14 +60,15 @@ const confirm = () => {
                                         <div class="img" :style="{ backgroundImage: 'url(' + food.image + ')' }"></div>
                                         <div class="desc pl-3">
                                             <div class="d-flex text align-items-center">
-                                                <h3><span>{{ food.name }}</span></h3>
-                                                <span class="price">{{ food.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</span>
+                                                <h3>{{ food.name }}</h3>
+                                                <h4>{{food.price.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'}) }}</h4>
                                             </div>
                                             <div class="d-block">
                                                 <p>{{ food.description }}</p>
+                                                <input type="number" v-model="selectFood[food.id]" min="1"
+                                                       placeholder="Amount" style="width: 110px">
                                             </div>
-                                            <span>Amount</span>
-                                            <input type="number" v-model="selectFood[food.id]" min="1">
+
                                         </div>
                                     </div>
                                 </div>
@@ -77,7 +76,7 @@ const confirm = () => {
                         </section>
                     </div>
                     <div class="col-lg-4 sidebar">
-                        <div class="sidebar-wrap bg-light">
+                        <div class="sidebar-wrap bg-light box-detail">
                             <h3 class="heading mb-4">Your Stay</h3>
 
                             <div class="fields">
@@ -112,5 +111,5 @@ const confirm = () => {
                 </div>
             </div>
         </section>
-    </WebLayout>
+    </LayoutBooking>
 </template>

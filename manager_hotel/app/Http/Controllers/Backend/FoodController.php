@@ -8,6 +8,7 @@ use App\Repositories\Eloquent\FoodRepository;
 use App\Services\BookingFoodService;
 use App\Services\FoodService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -121,34 +122,40 @@ class FoodController extends BackendController
 
     public function destroy($id)
     {
+        DB::beginTransaction();
         try {
             if (empty($id)) {
                 return redirect(getBackUrl());
             }
 
-            if (empty($this->repository->find($id))) {
+            $food = $this->repository->find($id);
+            if (empty($food)) {
                 session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+
+                return redirect(getBackUrl());
+            }
+
+            $bookingFood = $food->bookingFood()->get();
+            if($bookingFood->isNotEmpty() && !$food->bookingFood()->delete()){
+                session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+                DB::rollback();
 
                 return redirect(getBackUrl());
             }
 
             if (!$this->service->destroy($id)) {
                 session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+                DB::rollback();
 
                 return redirect(getBackUrl());
             }
 
-            $bookedFood = $this->bookFoodRepository->where('food_id', $id)->get();
-            if (!empty($bookedFood)) {
-                foreach ($bookedFood as $data) {
-                    $this->bookFoodService->destroy($data['id']);
-                }
-            }
             // booking có status = checkin, EA -> gui mail cho user dat mon an do, xin loi vi da huy mon an
             // booking có status = check out -> thì k gửi mail nữa, trong bill sẽ ghi là món đã bị hủy
-
+            DB::commit();
             session()->flash('action_success', getConstant('messages.DELETE_SUCCESS'));
         } catch (\Exception $exception) {
+            DB::rollback();
             Log::error($exception);
             session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
         }

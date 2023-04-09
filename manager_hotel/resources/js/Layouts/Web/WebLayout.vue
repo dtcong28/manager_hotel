@@ -4,6 +4,32 @@ import {Head} from '@inertiajs/vue3';
 import { onMounted } from 'vue';
 
 onMounted(() => {
+    const styles = [
+        "https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700",
+        "https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i",
+        "/frontend/css/open-iconic-bootstrap.min.css",
+        "/frontend/css/animate.css",
+        "/frontend/css/owl.carousel.min.css",
+        "/frontend/css/owl.theme.default.min.css",
+        "/frontend/css/magnific-popup.css",
+        "/frontend/css/aos.css",
+        "/frontend/css/ionicons.min.css",
+        "/frontend/css/bootstrap-datepicker.css",
+        "/frontend/css/jquery.timepicker.css",
+        "/frontend/css/flaticon.css",
+        "/frontend/css/icomoon.css",
+        "/frontend/css/style.css",
+    ];
+    styles.forEach(style => {
+        let tag = document.head.querySelector(`[src="${style}"`);
+        if (!tag) {
+            tag = document.createElement("link");
+            tag.setAttribute("href", style);
+            tag.setAttribute("rel", 'stylesheet');
+            document.head.appendChild(tag);
+        }
+    });
+
     const scripts = [
         "/frontend/js/jquery.min.js",
         "/frontend/js/jquery-migrate-3.0.1.min.js",
@@ -33,32 +59,6 @@ onMounted(() => {
             document.head.appendChild(tag);
         }
     });
-
-    const styles = [
-        "https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700",
-        "https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i",
-        "/frontend/css/open-iconic-bootstrap.min.css",
-        "/frontend/css/animate.css",
-        "/frontend/css/owl.carousel.min.css",
-        "/frontend/css/owl.theme.default.min.css",
-        "/frontend/css/magnific-popup.css",
-        "/frontend/css/aos.css",
-        "/frontend/css/ionicons.min.css",
-        "/frontend/css/bootstrap-datepicker.css",
-        "/frontend/css/jquery.timepicker.css",
-        "/frontend/css/flaticon.css",
-        "/frontend/css/icomoon.css",
-        "/frontend/css/style.css",
-    ];
-    styles.forEach(style => {
-        let tag = document.head.querySelector(`[src="${style}"`);
-        if (!tag) {
-            tag = document.createElement("link");
-            tag.setAttribute("href", style);
-            tag.setAttribute("rel", 'stylesheet');
-            document.head.appendChild(tag);
-        }
-    });
 })
 </script>
 
@@ -66,7 +66,7 @@ onMounted(() => {
     <body>
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <div class="container">
-            <a class="navbar-brand" :href="route('web.home')">Deluxe</a>
+            <Link class="navbar-brand" :href="route('web.home')">Deluxe</Link>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
                     aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="oi oi-menu"></span> Menu
@@ -74,11 +74,11 @@ onMounted(() => {
 
             <div class="navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active"><a :href="route('web.home')" class="nav-link">Home</a></li>
-                    <li class="nav-item"><a href="rooms.html" class="nav-link">Rooms</a></li>
-                    <li class="nav-item"><a href="restaurant.html" class="nav-link">Restaurant</a></li>
-                    <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-                    <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                    <li class="nav-item active"><Link :href="route('web.home')" class="nav-link">Home</Link></li>
+                    <li class="nav-item"><Link :href="route('web.rooms.index')" class="nav-link">Rooms</Link></li>
+                    <li class="nav-item"><Link :href="route('web.restaurant.index')" class="nav-link">Restaurant</Link></li>
+                    <li class="nav-item"><Link :href="route('web.about.index')" class="nav-link">About</Link></li>
+                    <li class="nav-item"><Link :href="route('web.contact.index')" class="nav-link">Contact</Link></li>
                 </ul>
             </div>
         </div>
@@ -95,23 +95,23 @@ onMounted(() => {
             </div>
             <div class="row no-gutters">
                 <div class="col-sm-12 col-md">
-                    <a href="images/insta-1.jpg" class="insta-img image-popup"
+                    <Link href="/frontend/images/insta-1.jpg" class="insta-img image-popup"
                        v-bind:style="{ 'background-image': 'url(/frontend/images/insta-1.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
                         </div>
-                    </a>
+                    </Link>
                 </div>
                 <div class="col-sm-12 col-md">
-                    <a href="images/insta-2.jpg" class="insta-img image-popup"
+                    <Link href="/frontend/images/insta-2.jpg" class="insta-img image-popup"
                        v-bind:style="{ 'background-image': 'url(/frontend/images/insta-2.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
                         </div>
-                    </a>
+                    </Link>
                 </div>
                 <div class="col-sm-12 col-md">
-                    <a href="images/insta-3.jpg" class="insta-img image-popup"
+                    <a href="/frontend/images/insta-3.jpg" class="insta-img image-popup"
                        v-bind:style="{ 'background-image': 'url(/frontend/images/insta-3.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
@@ -119,20 +119,20 @@ onMounted(() => {
                     </a>
                 </div>
                 <div class="col-sm-12 col-md">
-                    <a href="images/insta-4.jpg" class="insta-img image-popup"
+                    <Link href="/frontend/images/insta-4.jpg" class="insta-img image-popup"
                        v-bind:style="{ 'background-image': 'url(/frontend/images/insta-4.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
                         </div>
-                    </a>
+                    </Link>
                 </div>
                 <div class="col-sm-12 col-md">
-                    <a href="images/insta-5.jpg" class="insta-img image-popup"
+                    <Link href="/frontend/images/insta-5.jpg" class="insta-img image-popup"
                        v-bind:style="{ 'background-image': 'url(/frontend/images/insta-5.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
                         </div>
-                    </a>
+                    </Link>
                 </div>
             </div>
         </div>
@@ -189,14 +189,6 @@ onMounted(() => {
                             </ul>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 text-center">
-
-                    <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        <!--                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>-->
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                 </div>
             </div>
         </div>

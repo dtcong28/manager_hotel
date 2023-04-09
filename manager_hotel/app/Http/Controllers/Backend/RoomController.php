@@ -9,6 +9,7 @@ use App\Repositories\Eloquent\TypeRoomRepository;
 use App\Services\RoomService;
 use App\Services\TypeRoomService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -155,5 +156,45 @@ class RoomController extends BackendController
         }
 
         return Redirect::route('rooms.index');
+    }
+
+    public function destroy($id)
+    {
+        DB::beginTransaction();
+        try {
+            if (empty($id)) {
+                return redirect(getBackUrl());
+            }
+
+            $room = $this->repository->find($id);
+            if (empty($room)) {
+                session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+
+                return redirect(getBackUrl());
+            }
+
+            if(($room->bookingRoom()->get())->isNotEmpty() && !$room->bookingRoom()->delete()){
+                DB::rollback();
+                session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+
+                return redirect(getBackUrl());
+            }
+
+            if (!$this->service->destroy($id)) {
+                DB::rollback();
+                session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+
+                return redirect(getBackUrl());
+            }
+
+            DB::commit();
+            session()->flash('action_success', getConstant('messages.DELETE_SUCCESS'));
+        } catch (\Exception $exception) {
+            DB::rollback();
+            Log::error($exception);
+            session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+        }
+
+        return redirect(getBackUrl());
     }
 }

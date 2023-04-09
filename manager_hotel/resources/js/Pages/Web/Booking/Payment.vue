@@ -1,7 +1,7 @@
 <script setup>
-import {Link, useForm} from '@inertiajs/vue3'
+import {Link, router, useForm} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
-import WebLayout from '@/Layouts/Web/WebLayout.vue';
+import LayoutBooking from '@/Layouts/Web/LayoutBooking.vue';
 import {loadStripe} from '@stripe/stripe-js';
 import {ref, onMounted} from "vue";
 import Multiselect from 'vue-multiselect'
@@ -29,63 +29,10 @@ function sum(obj) {
 }
 
 const totalMoney = props.info_booking.booking.price_food ? price_each_room.reduce((partialSum, a) => partialSum + a, 0) + sum(props.info_booking.booking.price_food) : price_each_room.reduce((partialSum, a) => partialSum + a, 0)
-// payment
-// const stripe = ref({});
-// const cardElement = ref({});
-// const paymentProcessing = ref(false);
-//
-// loadStripe('pk_test_51Jx6KYDUPq2rGFP34yvQKqaB4UGuIS02zayHVDihCvgMmx95EcufynhpzCS9HUCB7Fzar7efixcOob3Nh9wJO39y00qEc9z9cM').then((stripeInstance) => {
-//     stripe.value = stripeInstance;
-//
-//     const elements = stripeInstance.elements();
-//     cardElement.value = elements.create('card', {
-//         classes: {
-//             base: 'bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 p-3 leading-8 transition-colors duration-200 ease-in-out'
-//         }
-//     });
-//
-//     cardElement.value.mount('#card-element');
-// });
-//
-// const processPayment = async () => {
-//     paymentProcessing.value = true;
-//     const { paymentMethod, error } = await stripe.createPaymentMethod(
-//         'card',
-//         cardElement,
-//         {
-//             booking_details: {
-//                 name: props.info_booking.name,
-//                 email: props.info_booking.email,
-//                 address: props.info_booking.address,
-//                 gender: props.info_booking.gender,
-//                 phone: props.info_booking.phone,
-//                 identity_card: props.info_booking.identity_card,
-//                 booking: props.info_booking.booking
-//             },
-//         }
-//     );
-//     if (error) {
-//         paymentProcessing.value = false;
-//         console.error(error);
-//     } else {
-//         console.log(paymentMethod);
-//         axios
-//             .post('/booking')
-//             .then((response) => {
-//                 paymentProcessing.value = false;
-//                 console.log(response);
-//             })
-//             .catch((error) => {
-//                 paymentProcessing.value = false;
-//                 console.error(error);
-//             });
-//     }
-// };
-//
-// onMounted(async () => {
-//     await stripe;
-//     // Stripe is ready to use.
-// });
+
+const booking = () => {
+    router.post(route('web.booking.store'), props.info_booking)
+};
 </script>
 
 <script>
@@ -155,7 +102,7 @@ export default {
                         console.error(error);
                     });
             }
-        }
+        },
     },
 }
 
@@ -164,16 +111,14 @@ export default {
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
 
 <template>
-    <Head title="Confirm booking"/>
-    <WebLayout>
+    <Head title="Payment booking"/>
+    <LayoutBooking>
         <div class="hero-wrap" v-bind:style="{'background-image': 'url(/frontend/images/bg_1.jpg)'}">
             <div class="overlay"></div>
             <div class="container">
                 <div class="row no-gutters slider-text d-flex align-itemd-end justify-content-center">
                     <div class="col-md-9 text-center d-flex align-items-end justify-content-center">
                         <div class="text">
-                            <p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home</a></span> <span>About</span>
-                            </p>
                             <h1 class="mb-4 bread">Payment your booking</h1>
                         </div>
                     </div>
@@ -226,30 +171,16 @@ export default {
                                 </div>
                                 <div v-if="select_rooms" class="form-group" v-for="(value, index) in select_rooms">
                                     <div>
-                                        <span>Room {{
-                                                value
-                                            }} : {{
-                                                parseInt(info_booking.booking.info_booking.price_each_room[index]).toLocaleString('vi-VN', {
-                                                    style: 'currency',
-                                                    currency: 'VND'
-                                                })
-                                            }}</span>
+                                        <span>Room {{value }} : {{parseInt(info_booking.booking.info_booking.price_each_room[index]).toLocaleString('vi-VN', {style: 'currency', currency: 'VND'}) }}</span>
                                     </div>
                                 </div>
                                 <div v-if="select_foods" class="form-group" v-for="value in select_foods">
                                     <div>
-                                        <span>{{ value[0] }} - Amount {{ info_booking.booking.select_food[value[1]] }} : {{
-                                                parseInt(info_booking.booking.price_food[value[1]]).toLocaleString('vi-VN', {
-                                                    style: 'currency',
-                                                    currency: 'VND'
-                                                })
-                                            }}</span>
+                                        <span>{{ value[0] }} - Amount {{ info_booking.booking.select_food[value[1]] }} : {{parseInt(info_booking.booking.price_food[value[1]]).toLocaleString('vi-VN', {style: 'currency', currency: 'VND'}) }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    Total: {{
-                                        totalMoney.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
-                                    }}
+                                    Total: {{totalMoney.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'}) }}
                                 </div>
                             </div>
                         </div>
@@ -257,5 +188,5 @@ export default {
                 </div>
             </div>
         </section>
-    </WebLayout>
+    </LayoutBooking>
 </template>

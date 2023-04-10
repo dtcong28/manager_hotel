@@ -97,7 +97,7 @@ const handleBack = () => {
                                     No room available
                                 </span>
                                 <tr v-for="data in room" class="odd gradeX">
-                                    <td><input type="radio" id="radio" :value="data.id" v-model="selectRoom[key]" :disabled="selectRoom.includes(data.id)"/></td>
+                                    <td><input type="radio" :id="data.id" :value="data.id" v-model="selectRoom[key]" :disabled="selectRoom.includes(data.id)"/></td>
                                     <td class="user-circle-img">
                                         <img :src="data.image" :alt="data.image" class="w-20 h-20 shadow">
                                     </td>

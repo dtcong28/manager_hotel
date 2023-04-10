@@ -67,7 +67,7 @@ onMounted(() => {
     <body>
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <div class="container">
-            <a class="navbar-brand" :href="route('web.home')">Deluxe</a>
+            <Link class="navbar-brand" :href="route('web.home')">Deluxe</Link>
         </div>
     </nav>
     <!-- END nav -->

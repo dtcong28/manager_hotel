@@ -74,9 +74,9 @@ const deleteBooking = (id) => {
                         <div class="row p-b-20">
                             <div class="col-md-6 col-sm-6 col-6">
                                 <div class="btn-group">
-                                    <a :href="route('booking.create')" id="addRow" class="btn btn-info">
+                                    <Link :href="route('booking.create')" id="addRow" class="btn btn-info">
                                         Add New <i class="fa fa-plus"></i>
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -115,8 +115,8 @@ const deleteBooking = (id) => {
                                         :class="status[key].payment_class">{{ booking.status_payment_label }}</span></td>
                                     <td class="center"><span
                                         :class="status[key].booking_class">{{ booking.status_booking_label }}</span></td>
-                                    <td class="center"><a :href="route('booking.detail', { id: booking.id })"
-                                                          class="btn deepPink btn-outline btn-circle m-b-10">View</a>
+                                    <td class="center"><Link :href="route('booking.detail', { id: booking.id })"
+                                                          class="btn deepPink btn-outline btn-circle m-b-10">View</Link>
                                     </td>
                                     <td class="center">
                                         <Link :href="route('booking.edit', { id: booking.id })"

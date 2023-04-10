@@ -70,9 +70,9 @@ const deleteCustomer = (id) => {
                         <div class="row p-b-20">
                             <div class="col-md-6 col-sm-6 col-6">
                                 <div class="btn-group">
-                                    <a :href="route('customers.create')" id="addRow" class="btn btn-info">
+                                    <Link :href="route('customers.create')" id="addRow" class="btn btn-info">
                                         Add New <i class="fa fa-plus"></i>
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

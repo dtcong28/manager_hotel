@@ -38,7 +38,7 @@ const updateStatus= () => {
         time_check_out: props.booking.time_check_out,
         rooms: props.bookingRoom,
         total_money: totalMoney,
-    })
+    }, { preserveState: true })
 };
 </script>
 

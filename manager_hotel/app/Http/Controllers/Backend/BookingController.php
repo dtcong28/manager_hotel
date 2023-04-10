@@ -126,7 +126,11 @@ class BookingController extends BackendController
             } else {
                 $listBookingByRoom = $this->repository->getListBookingByRoom($room['id'], $params['id_booking']);
                 foreach ($listBookingByRoom as $data) {
-                    if (checkInRange($data['time_check_in'], $data['time_check_out'], $params['time_check_in']) || checkOutRange($data['time_check_in'], $data['time_check_out'], $params['time_check_out'])) {
+//                    if (checkInRange($data['time_check_in'], $data['time_check_out'], $params['time_check_in']) || checkOutRange($data['time_check_in'], $data['time_check_out'], $params['time_check_out'])) {
+//                        session()->flash('action_failed', "Check-in and check-out time is not suitable");
+//                        return Redirect::route('booking.edit', ['booking' => $params['id_booking']]);
+//                    }
+                    if(!($data['time_check_out'] <= $params['time_check_in'] || $data['time_check_in'] >= $params['time_check_out'])) {
                         session()->flash('action_failed', "Check-in and check-out time is not suitable");
                         return Redirect::route('booking.edit', ['booking' => $params['id_booking']]);
                     }

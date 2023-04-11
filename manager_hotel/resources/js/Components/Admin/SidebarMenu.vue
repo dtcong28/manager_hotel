@@ -90,6 +90,17 @@ const menus = [
 
         ],
     },
+    {
+        name: 'Hotel',
+        icon: 'store',
+        route: false,
+        children: [
+            {
+                name: 'Information',
+                route: 'hotel.create',
+            },
+        ],
+    },
 ]
 </script>
 

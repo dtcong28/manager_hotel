@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\BookingController;
 use App\Http\Controllers\Backend\BookingFoodController;
 use App\Http\Controllers\Backend\FoodController;
+use App\Http\Controllers\Backend\HotelController;
 use App\Http\Controllers\Backend\ProfileBackendController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\RoomFEController;
@@ -60,6 +61,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     // customers
     Route::resource('customers', CustomerController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
+
+    //hotel
+    Route::resource('hotel', HotelController::class)->only(['create', 'edit', 'store', 'update', 'destroy']);
 
     // booking rooms
     Route::resource('booking', BookingController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);

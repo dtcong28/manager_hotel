@@ -21,6 +21,7 @@
     "dependencies": {
         "@inertiajs/inertia": "^0.11.1",
         "@inertiajs/inertia-vue3": "^0.6.0",
+        "owl.carousel": "^2.3.4",
         "tb-vue3-laravel-inertiajs-file-upload": "^1.8.4",
         "v-calendar": "^3.0.0-alpha.8",
         "vue-datepicker": "^1.3.0",

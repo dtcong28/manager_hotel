@@ -1,7 +1,8 @@
 <script setup>
 import {Link} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
-import { onMounted } from 'vue';
+import {onBeforeMount, onMounted} from 'vue';
+import $ from 'jquery';
 
 onMounted(() => {
     const styles = [
@@ -58,6 +59,11 @@ onMounted(() => {
             tag.setAttribute("type", 'text/javascript');
             document.head.appendChild(tag);
         }
+    });
+    $(document).ready(function() {
+        $('.owl-carousel').owlCarousel({
+            // Your options here
+        });
     });
 })
 </script>

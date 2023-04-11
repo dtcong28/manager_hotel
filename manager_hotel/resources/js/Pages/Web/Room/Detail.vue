@@ -2,12 +2,21 @@
 import {Link, router, useForm} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 import WebLayout from '@/Layouts/Web/WebLayout.vue';
+import { onMounted, onUnmounted } from 'vue'
+import $ from 'jquery';
 
 const props = defineProps({
     room: Object,
     typesRoom: Array,
 })
 
+// onMounted(() => {
+//     $(document).ready(function() {
+//         $('.owl-carousel').owlCarousel({
+//             // Your options here
+//         });
+//     });
+// })
 </script>
 
 <template>

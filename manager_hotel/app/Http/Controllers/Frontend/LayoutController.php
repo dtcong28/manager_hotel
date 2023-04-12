@@ -19,12 +19,7 @@ class LayoutController extends FrontendController
 
     public function index()
     {
-        return Inertia::render('Web/About/Index', [
-            'totalRooms' => $this->roomRepository->get()->count(),
-            'totalEmployee' => $this->employeeRepository->get()->count(),
-            'totalCustomer' => $this->customerRepository->get()->count(),
-            'totalFood' => $this->foodRepository->get()->count(),
-        ]);
+        return Inertia::render('Web/About/Index');
     }
 
 }

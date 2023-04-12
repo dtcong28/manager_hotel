@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Repositories\Eloquent\CustomerRepository;
 use App\Repositories\Eloquent\EmployeeRepository;
 use App\Repositories\Eloquent\FoodRepository;
+use App\Repositories\Eloquent\HotelRepository;
 use App\Repositories\Eloquent\RoomRepository;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,6 +16,7 @@ class AboutController extends FrontendController
     protected $employeeRepository;
     protected $customerRepository;
     protected $foodRepository;
+    protected $hotelRepository;
 
 
     public function __construct()
@@ -24,6 +26,7 @@ class AboutController extends FrontendController
         $this->employeeRepository = app(EmployeeRepository::class);
         $this->customerRepository = app(CustomerRepository::class);
         $this->foodRepository = app(FoodRepository::class);
+        $this->hotelRepository = app(HotelRepository::class);
     }
 
     public function index()
@@ -33,6 +36,7 @@ class AboutController extends FrontendController
             'totalEmployee' => $this->employeeRepository->get()->count(),
             'totalCustomer' => $this->customerRepository->get()->count(),
             'totalFood' => $this->foodRepository->get()->count(),
+            'hotel' => $this->hotelRepository->first(),
         ]);
     }
 

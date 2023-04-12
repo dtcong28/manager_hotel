@@ -3,8 +3,26 @@ import {Link} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 import {onBeforeMount, onMounted} from 'vue';
 import $ from 'jquery';
+import { defineAsyncComponent } from 'vue';
 
 onMounted(() => {
+    // async function loadScrollax() {
+    //     // Create a Promise that resolves when the script is loaded
+    //     const scriptLoaded = new Promise(resolve => {
+    //         const script = document.createElement('script');
+    //         script.src = '/frontend/js/scrollax.min.js';
+    //         script.onload = resolve;
+    //         document.head.appendChild(script);
+    //         console.log('scrollax.min.js has been loaded 123');
+    //     });
+    //
+    //     // Wait for the Promise to resolve
+    //     await scriptLoaded;
+    //
+    //     // Use scrollax here
+    // }
+    // loadScrollax();
+
     const styles = [
         "https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700",
         "https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i",
@@ -49,8 +67,8 @@ onMounted(() => {
         "https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false",
         "/frontend/js/google-map.js",
         "/frontend/js/main.js",
-        // "https://js.stripe.com/v3/",
     ];
+
     scripts.forEach(script => {
         let tag = document.head.querySelector(`[src="${script}"`);
         if (!tag) {
@@ -58,13 +76,15 @@ onMounted(() => {
             tag.setAttribute("src", script);
             tag.setAttribute("type", 'text/javascript');
             document.head.appendChild(tag);
+            console.log('scrollax.min.js has been loaded 123');
         }
     });
-    $(document).ready(function() {
-        $('.owl-carousel').owlCarousel({
-            // Your options here
-        });
-    });
+
+    // $(document).ready(function() {
+    //     $('.owl-carousel').owlCarousel({
+    //         // Your options here
+    //     });
+    // });
 })
 </script>
 
@@ -199,7 +219,6 @@ onMounted(() => {
             </div>
         </div>
     </footer>
-
 
     <!-- loader -->
 <!--    <div id="ftco-loader" class="show fullscreen">-->

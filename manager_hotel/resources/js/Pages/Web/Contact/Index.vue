@@ -3,6 +3,10 @@ import {Link, useForm} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 import WebLayout from '@/Layouts/Web/WebLayout.vue';
 
+const props = defineProps({
+    hotel: Array,
+})
+
 </script>
 
 <template>
@@ -30,22 +34,22 @@ import WebLayout from '@/Layouts/Web/WebLayout.vue';
                     <div class="w-100"></div>
                     <div class="col-md-3 d-flex">
                         <div class="info bg-white p-4">
-                            <p><span>Address:</span> 198 West 21th Street, Suite 721 New York NY 10016</p>
+                            <p><span>Address:</span>{{ props.hotel.address }}</p>
                         </div>
                     </div>
                     <div class="col-md-3 d-flex">
                         <div class="info bg-white p-4">
-                            <p><span>Phone:</span> <a href="tel://1234567920">+ 1235 2355 98</a></p>
+                            <p><span>Phone:</span> <a href="tel://1234567920">{{ props.hotel.phone }}</a></p>
                         </div>
                     </div>
                     <div class="col-md-3 d-flex">
                         <div class="info bg-white p-4">
-                            <p><span>Email:</span> <a href="mailto:info@yoursite.com">info@yoursite.com</a></p>
+                            <p><span>Email:</span> <a href="mailto:info@yoursite.com">{{ props.hotel.email }}</a></p>
                         </div>
                     </div>
                     <div class="col-md-3 d-flex">
                         <div class="info bg-white p-4">
-                            <p><span>Website</span> <a href="#">yoursite.com</a></p>
+                            <p><span>Website</span> <a href="#">{{ props.hotel.website }}</a></p>
                         </div>
                     </div>
                 </div>

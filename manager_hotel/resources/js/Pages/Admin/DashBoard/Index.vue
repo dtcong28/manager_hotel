@@ -2,7 +2,8 @@
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
 import {Link,Head} from '@inertiajs/vue3';
 import {ref} from "vue";
-
+import { usePermission } from "@/Composables/permissions"
+const { hasRole } = usePermission();
 </script>
 
 <template>
@@ -23,6 +24,7 @@ import {ref} from "vue";
                 </ol>
             </div>
         </div>
+        {{ hasRole('admin') }}
         <!-- start widget -->
         <div class="state-overview">
             <div class="row">

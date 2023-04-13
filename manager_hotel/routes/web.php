@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\BookingFoodController;
 use App\Http\Controllers\Backend\FoodController;
 use App\Http\Controllers\Backend\HotelController;
 use App\Http\Controllers\Backend\ProfileBackendController;
+use App\Http\Controllers\Backend\DashBoardController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\RoomFEController;
 use App\Http\Controllers\Frontend\RestaurantController;
@@ -38,11 +39,13 @@ use Inertia\Inertia;
 //    ]);
 //});
 
-Route::prefix('admin')->get('/dashboard', function () {
-    return Inertia::render('Admin/DashBoard/Index');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Route::prefix('admin')->get('/dashboard', function () {
+//    return Inertia::render('Admin/DashBoard/Index');
+//})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('admin/dashboard',[DashBoardController::class, 'index'])->name('dashboard');
 
-Route::prefix('admin')->middleware('auth')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
+
     Route::get('/profile', [ProfileBackendController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileBackendController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileBackendController::class, 'destroy'])->name('profile.destroy');

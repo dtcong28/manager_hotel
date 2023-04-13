@@ -15,7 +15,25 @@ const menus = [
                 name: 'Add Employee',
                 route: 'employees.create',
             },
-
+        ],
+    },
+    {
+        name: 'User',
+        icon: 'group',
+        route: false,
+        children: [
+            {
+                name: 'Role',
+                route: 'roles.index',
+            },
+            {
+                name: 'Permissions',
+                route: 'permissions.index',
+            },
+            {
+                name: 'User',
+                route: 'users.index',
+            },
         ],
     },
     {

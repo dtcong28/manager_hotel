@@ -10,6 +10,9 @@ use App\Http\Controllers\Backend\FoodController;
 use App\Http\Controllers\Backend\HotelController;
 use App\Http\Controllers\Backend\ProfileBackendController;
 use App\Http\Controllers\Backend\DashBoardController;
+use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\Backend\PermissionsController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\RoomFEController;
 use App\Http\Controllers\Frontend\RestaurantController;
@@ -42,9 +45,12 @@ use Inertia\Inertia;
 //Route::prefix('admin')->get('/dashboard', function () {
 //    return Inertia::render('Admin/DashBoard/Index');
 //})->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('admin/dashboard',[DashBoardController::class, 'index'])->name('dashboard');
+Route::get('admin/dashboard',[DashBoardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
+    Route::resource('/users', UserController::class);
+    Route::resource('/roles', RoleController::class);
+    Route::resource('/permissions', PermissionsController::class);
 
     Route::get('/profile', [ProfileBackendController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileBackendController::class, 'update'])->name('profile.update');

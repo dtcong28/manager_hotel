@@ -37,9 +37,6 @@ const deleteUser = (id) => {
     <AdminLayout>
         <div class="page-bar">
             <div class="page-title-breadcrumb">
-                <div class=" pull-left">
-                    <div class="page-title">All User</div>
-                </div>
                 <ol class="breadcrumb page-breadcrumb pull-right">
                     <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index.html">Home</a>&nbsp;<i
                         class="fa fa-angle-right"></i>
@@ -65,7 +62,7 @@ const deleteUser = (id) => {
                         <div class="row p-b-20">
                             <div class="col-md-6 col-sm-6 col-6">
                                 <div class="btn-group">
-                                    <Link :href="route('rooms.create')" id="addRow" class="btn btn-info">
+                                    <Link :href="route('users.create')" id="addRow" class="btn btn-info">
                                         Add New <i class="fa fa-plus"></i>
                                     </Link>
                                 </div>

@@ -37,9 +37,6 @@ const deleteRole = (id) => {
     <AdminLayout>
         <div class="page-bar">
             <div class="page-title-breadcrumb">
-                <div class=" pull-left">
-                    <div class="page-title">All Role</div>
-                </div>
                 <ol class="breadcrumb page-breadcrumb pull-right">
                     <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index.html">Home</a>&nbsp;<i
                         class="fa fa-angle-right"></i>
@@ -65,7 +62,7 @@ const deleteRole = (id) => {
                         <div class="row p-b-20">
                             <div class="col-md-6 col-sm-6 col-6">
                                 <div class="btn-group">
-                                    <Link :href="route('rooms.create')" id="addRow" class="btn btn-info">
+                                    <Link :href="route('roles.create')" id="addRow" class="btn btn-info">
                                         Add New <i class="fa fa-plus"></i>
                                     </Link>
                                 </div>
@@ -93,7 +90,7 @@ const deleteRole = (id) => {
                                     <td class="center">{{ role.id }}</td>
                                     <td class="center">{{ role.name }}</td>
                                     <td class="center">
-                                        <Link :href="route('users.edit', { id: role.id })"
+                                        <Link :href="route('roles.edit', { id: role.id })"
                                               class="btn btn-tbl-edit btn-xs">
                                             <i class="fa fa-pencil"></i>
                                         </Link>

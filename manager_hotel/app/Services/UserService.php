@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\Eloquent\UserRepository;
+use Illuminate\Support\Facades\Hash;
 
 class UserService extends CustomService
 {
@@ -27,9 +28,10 @@ class UserService extends CustomService
         return parent::destroy($id);
     }
 
-//    protected function prepareBeforeStore(&$data)
-//    {
-//    }
+    protected function prepareBeforeStore(&$data)
+    {
+        $data['password'] = Hash::make($data['password']);
+    }
 //
 //    protected function prepareBeforeUpdate(&$data)
 //    {

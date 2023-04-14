@@ -1,19 +1,26 @@
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
-import {Head, Link, useForm} from '@inertiajs/vue3';
+import {Head, Link, router, useForm} from '@inertiajs/vue3';
+
+const props = defineProps({
+    permission: Object,
+})
 
 const form = useForm({
-    name: '',
+    name: props.permission.name,
 });
 
-const storeTypeRoom = () => {
-    form.post(route('types-room.store'))
+const updatePermission = () => {
+    router.post(`/admin/permissions/${props.permission.id}`, {
+        _method: 'put',
+        name: form.name,
+    })
 };
 
 </script>
 
 <template>
-    <Head title="Types Room"/>
+    <Head title="Add Permission"/>
     <AdminLayout>
         <div class="page-bar">
             <div class="page-title-breadcrumb">
@@ -21,9 +28,9 @@ const storeTypeRoom = () => {
                     <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index.html">Home</a>&nbsp;<i
                         class="fa fa-angle-right"></i>
                     </li>
-                    <li><a class="parent-item" href="">Rooms</a>&nbsp;<i class="fa fa-angle-right"></i>
+                    <li><a class="parent-item" href="">Permission</a>&nbsp;<i class="fa fa-angle-right"></i>
                     </li>
-                    <li class="active">Add Type Room</li>
+                    <li class="active">Add Permission</li>
                 </ol>
             </div>
         </div>
@@ -32,14 +39,14 @@ const storeTypeRoom = () => {
                 <div class="col-md-12 col-sm-12">
                     <div class="card card-box">
                         <div class="card-head">
-                            <header>Types Room</header>
+                            <header>Permission</header>
                         </div>
                         <div class="card-body " id="bar-parent">
-                            <form @submit.prevent="storeTypeRoom">
+                            <form @submit.prevent="updatePermission">
                                 <div class="form-group">
-                                    <label for="name">Room Type</label>
-                                    <input type="text" v-model="form.name" class="form-control col-4" id="name" name="name" placeholder="Enter room type">
-                                    <div v-if="form.errors.name" style="color: red">{{ form.errors.name[0] }}</div>
+                                    <label for="name">Name permission</label>
+                                    <input type="text" v-model="form.name" class="form-control col-4" id="name" name="name" placeholder="Enter permission">
+                                    <div v-if="$page.props.errors.name" style="color: red">{{ $page.props.errors.name[0] }}</div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>

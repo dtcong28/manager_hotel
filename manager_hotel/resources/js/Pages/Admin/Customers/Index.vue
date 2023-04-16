@@ -7,6 +7,8 @@ import Modal from '@/Components/Admin/Modal.vue';
 import DangerButton from '@/Components/Admin/DangerButton.vue';
 import SecondaryButton from '@/Components/Admin/SecondaryButton.vue';
 import {ref} from "vue";
+import {usePermission} from "@/Composables/permissions";
+const { hasPermission } = usePermission();
 
 const form = useForm({})
 const props = defineProps({
@@ -57,14 +59,9 @@ const deleteCustomer = (id) => {
                 <div class="card card-box">
                     <div class="card-head">
                         <header>All Customers</header>
-                        <div class="tools">
-                            <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
-                            <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
-                            <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
-                        </div>
                     </div>
-                    <div class="card-body ">
-                        <div class="row p-b-20">
+                    <div class="card-body">
+                        <div v-if="hasPermission('create')" class="row p-b-20">
                             <div class="col-md-6 col-sm-6 col-6">
                                 <div class="btn-group">
                                     <Link :href="route('customers.create')" id="addRow" class="btn btn-info">
@@ -104,10 +101,10 @@ const deleteCustomer = (id) => {
                                     <td class="center">{{ customer.email }}</td>
                                     <td class="center">{{ customer.identity_card }}</td>
                                     <td class="center">
-                                        <Link :href="route('customers.edit', { id: customer.id })" class="btn btn-tbl-edit btn-xs">
+                                        <Link v-if="hasPermission('edit')" :href="route('customers.edit', { id: customer.id })" class="btn btn-tbl-edit btn-xs">
                                             <i class="fa fa-pencil"></i>
                                         </Link>
-                                        <button @click="confirmDelete(customer.id)" class="btn btn-tbl-delete btn-xs"><i class="fa fa-trash-o "></i></button>
+                                        <button v-if="hasPermission('delete')" @click="confirmDelete(customer.id)" class="btn btn-tbl-delete btn-xs"><i class="fa fa-trash-o "></i></button>
                                         <Modal :show="showConfirmDeleteModal" @close="closeModal">
                                             <div class="p-6">
                                                 <h4 class="text-lg font-semibold text-slate-800">Are you sure to delete ?</h4>

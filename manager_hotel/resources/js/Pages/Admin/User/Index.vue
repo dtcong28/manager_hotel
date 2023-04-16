@@ -7,11 +7,17 @@ import Modal from '@/Components/Admin/Modal.vue';
 import DangerButton from '@/Components/Admin/DangerButton.vue';
 import SecondaryButton from '@/Components/Admin/SecondaryButton.vue';
 import {ref} from "vue";
+import {usePermission} from "@/Composables/permissions";
+const { hasPermission } = usePermission();
 
 const form = useForm({})
 const props = defineProps({
     users: Array,
 })
+
+function searchData() {
+    router.get('users', { search: search.value }, { preserveState: true })
+}
 
 const showConfirmDeleteModal = ref(false)
 const deleteID = ref('')
@@ -41,9 +47,9 @@ const deleteUser = (id) => {
                     <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index.html">Home</a>&nbsp;<i
                         class="fa fa-angle-right"></i>
                     </li>
-                    <li><a class="parent-item" href="">User</a>&nbsp;<i class="fa fa-angle-right"></i>
+                    <li><a class="parent-item" href="">Employee</a>&nbsp;<i class="fa fa-angle-right"></i>
                     </li>
-                    <li class="active">All User</li>
+                    <li class="active">All Employee</li>
                 </ol>
             </div>
         </div>
@@ -52,14 +58,9 @@ const deleteUser = (id) => {
                 <div class="card card-box">
                     <div class="card-head">
                         <header>All User</header>
-                        <div class="tools">
-                            <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
-                            <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
-                            <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
-                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="row p-b-20">
+                    <div class="card-body col-9" style="margin: auto">
+                        <div v-if="hasPermission('create')" class="row p-b-20">
                             <div class="col-md-6 col-sm-6 col-6">
                                 <div class="btn-group">
                                     <Link :href="route('users.create')" id="addRow" class="btn btn-info">
@@ -87,16 +88,16 @@ const deleteUser = (id) => {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="user in users" :key="user.id" class="odd gradeX">
+                                <tr v-for="user in users.data" :key="user.id" class="odd gradeX">
                                     <td class="center">{{ user.id }}</td>
                                     <td class="center">{{ user.name }}</td>
                                     <td class="center">{{ user.email }}</td>
                                     <td class="center">
-                                        <Link :href="route('users.edit', { id: user.id })"
+                                        <Link v-if="hasPermission('edit')" :href="route('users.edit', { id: user.id })"
                                               class="btn btn-tbl-edit btn-xs">
                                             <i class="fa fa-pencil"></i>
                                         </Link>
-                                        <button @click="confirmDelete(user.id)" class="btn btn-tbl-delete btn-xs"><i
+                                        <button v-if="hasPermission('delete')" @click="confirmDelete(user.id)" class="btn btn-tbl-delete btn-xs"><i
                                             class="fa fa-trash-o "></i></button>
                                         <Modal :show="showConfirmDeleteModal" @close="closeModal">
                                             <div class="p-6">
@@ -113,7 +114,10 @@ const deleteUser = (id) => {
                                 </tbody>
                             </table>
                         </div>
-                        <div v-if="users == ''" style="color: red; text-align: center">No data</div>
+                        <div v-if="users.data == ''" style="color: red; text-align: center">No data</div>
+                        <div class="col-sm-12 col-md-7">
+                            <pagination class="mt-6" :links="users.links"/>
+                        </div>
                     </div>
                 </div>
             </div>

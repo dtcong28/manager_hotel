@@ -52,11 +52,11 @@ onMounted(() =>{
                         <div class="card-head">
                             <header>Update Role</header>
                         </div>
-                        <div class="card-body " id="bar-parent">
+                        <div class="card-body col-6" style="margin: auto" id="bar-parent">
                             <form @submit.prevent="updateRole">
                                 <div class="form-group">
                                     <label for="name">Name Role</label>
-                                    <input type="text" v-model="form.name" class="form-control col-4" id="name"
+                                    <input type="text" v-model="form.name" class="form-control" id="name"
                                            name="name" placeholder="Enter role">
                                     <div v-if="$page.props.errors.name" style="color: red">{{$page.props.errors.name[0] }}
                                     </div>
@@ -68,7 +68,7 @@ onMounted(() =>{
                                         {{ $page.props.errors.permissions[0] }}
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary" style="display: flex; justify-content: center; margin: 0 auto">Submit</button>
                             </form>
                         </div>
                     </div>

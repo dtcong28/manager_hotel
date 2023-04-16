@@ -54,7 +54,7 @@ const updateCustomer = () => {
                     </li>
                     <li><a class="parent-item" href="">Customer</a>&nbsp;<i class="fa fa-angle-right"></i>
                     </li>
-                    <li class="active">Edit Customer Details</li>
+                    <li class="active">Edit Customer</li>
                 </ol>
             </div>
         </div>
@@ -62,51 +62,51 @@ const updateCustomer = () => {
             <div class="col-sm-12">
                 <div class="card-box">
                     <div class="card-head">
-                        <header>Edit Customer Details</header>
+                        <header>Edit Customer</header>
                     </div>
                     <form @submit.prevent="updateCustomer">
-                        <div class="card-body row pl-5 pr-5">
+                        <div class="card-body col-7" style="margin: auto">
                             <div class="row">
                                 <div class="col-lg-6 p-t-20">
                                     <div class="form-group">
                                         <label for="name">Customer Name</label>
                                         <input type="text" v-model="form.name" class="form-control" id="name" name="name" placeholder="Enter name">
-                                        <div v-if="form.errors.name" style="color: red">{{ form.errors.name[0] }}</div>
+                                        <div v-if="$page.props.errors.name" style="color: red">{{ $page.props.errors.name[0] }}</div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 p-t-20">
                                     <div class="form-group">
                                         <label>Gender</label>
                                         <multiselect v-model="form.gender" deselect-label="Can't remove this value" track-by="name" label="name" placeholder="Select one" :options="data.genderOptions" :searchable="false" :allow-empty="false"></multiselect>
-                                        <div v-if="form.errors.gender" style="color: red">{{ form.errors.gender[0] }}</div>
+                                        <div v-if="$page.props.errors.gender" style="color: red">{{ $page.props.errors.gender[0] }}</div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 p-t-20">
                                     <div class="form-group">
                                         <label for="address">Adress</label>
                                         <input type="text" name="address" v-model="form.address" class="form-control" id="address" placeholder="Enter address">
-                                        <div v-if="form.errors.address" style="color: red">{{ form.errors.address[0] }}</div>
+                                        <div v-if="$page.props.errors.address" style="color: red">{{ $page.props.errors.address[0] }}</div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 p-t-20">
                                     <div class="form-group">
                                         <label for="phone">Phone</label>
                                         <input type="text" name="phone" v-model="form.phone" class="form-control" id="phone" placeholder="Enter phone">
-                                        <div v-if="form.errors.phone" style="color: red">{{ form.errors.phone[0] }}</div>
+                                        <div v-if="$page.props.errors.phone" style="color: red">{{ $page.props.errors.phone[0] }}</div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 p-t-20">
                                     <div class="form-group">
                                         <label for="email">Email</label>
                                         <input type="email" name="email" v-model="form.email" class="form-control" id="email" placeholder="Enter email">
-                                        <div v-if="form.errors.email" style="color: red">{{ form.errors.email[0] }}</div>
+                                        <div v-if="$page.props.errors.email" style="color: red">{{ $page.props.errors.email[0] }}</div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 p-t-20">
                                     <div class="form-group">
                                         <label for="identity_card">Identity card</label>
                                         <input type="text" name="identity_card" v-model="form.identity_card" class="form-control" id="identity_card" placeholder="Enter identity card">
-                                        <div v-if="form.errors.identity_card" style="color: red">{{ form.errors.identity_card[0] }}</div>
+                                        <div v-if="$page.props.errors.identity_card" style="color: red">{{ $page.props.errors.identity_card[0] }}</div>
                                     </div>
                                 </div>
                             </div>

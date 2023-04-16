@@ -8,30 +8,15 @@ const menus = [
         route: false,
         children: [
             {
-                name: 'View All Employees',
-                route: 'employees.index',
-            },
-            {
-                name: 'Add Employee',
-                route: 'employees.create',
-            },
-        ],
-    },
-    {
-        name: 'User',
-        icon: 'group',
-        route: false,
-        children: [
-            {
-                name: 'Role',
+                name: 'List Role',
                 route: 'roles.index',
             },
             {
-                name: 'Permissions',
+                name: 'List Permissions',
                 route: 'permissions.index',
             },
             {
-                name: 'User',
+                name: 'List Employee',
                 route: 'users.index',
             },
         ],
@@ -42,22 +27,13 @@ const menus = [
         route: false,
         children: [
             {
-                name: 'View All Types Room',
+                name: 'List Types Room',
                 route: 'types-room.index',
             },
             {
-                name: 'Add Types Room',
-                route: 'types-room.create',
-            },
-            {
-                name: 'View All Rooms',
+                name: 'List Rooms',
                 route: 'rooms.index',
             },
-            {
-                name: 'Add Room',
-                route: 'rooms.create',
-            },
-
         ],
     },
     {
@@ -66,14 +42,9 @@ const menus = [
         route: false,
         children: [
             {
-                name: 'View All Customers',
+                name: 'List Customers',
                 route: 'customers.index',
             },
-            {
-                name: 'Add Customers',
-                route: 'customers.create',
-            },
-
         ],
     },
     {
@@ -82,14 +53,9 @@ const menus = [
         route: false,
         children: [
             {
-                name: 'View All Booking',
+                name: 'List Booking',
                 route: 'booking.index',
             },
-            {
-                name: 'Add Booking',
-                route: 'booking.create',
-            },
-
         ],
     },
     {
@@ -98,14 +64,9 @@ const menus = [
         route: false,
         children: [
             {
-                name: 'View All Food',
+                name: 'List Food',
                 route: 'food.index',
             },
-            {
-                name: 'Add Food',
-                route: 'food.create',
-            },
-
         ],
     },
     {
@@ -142,7 +103,7 @@ const menus = [
                             </div>
                             <div class="profile-usertitle">
                                 <div class="sidebar-userpic-name">{{ $page.props.auth.user.name }}</div>
-                                <div class="profile-usertitle-job"> Admin</div>
+                                <div class="profile-usertitle-job"> {{ $page.props.auth.user.roles[0] }}</div>
                             </div>
                             <div class="sidebar-userpic-btn">
                                 <Link class="tooltips" :href="route('profile.edit')" data-placement="top"

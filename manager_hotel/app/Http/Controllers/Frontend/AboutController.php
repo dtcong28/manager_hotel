@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Repositories\Eloquent\CustomerRepository;
-use App\Repositories\Eloquent\EmployeeRepository;
+use App\Repositories\Eloquent\UserRepository;
 use App\Repositories\Eloquent\FoodRepository;
 use App\Repositories\Eloquent\HotelRepository;
 use App\Repositories\Eloquent\RoomRepository;
@@ -13,7 +13,7 @@ use Inertia\Inertia;
 class AboutController extends FrontendController
 {
     protected $roomRepository;
-    protected $employeeRepository;
+    protected $userRepository;
     protected $customerRepository;
     protected $foodRepository;
     protected $hotelRepository;
@@ -23,7 +23,7 @@ class AboutController extends FrontendController
     {
         parent::__construct();
         $this->roomRepository = app(RoomRepository::class);
-        $this->employeeRepository = app(EmployeeRepository::class);
+        $this->userRepository = app(UserRepository::class);
         $this->customerRepository = app(CustomerRepository::class);
         $this->foodRepository = app(FoodRepository::class);
         $this->hotelRepository = app(HotelRepository::class);
@@ -33,7 +33,7 @@ class AboutController extends FrontendController
     {
         return Inertia::render('Web/About/Index', [
             'totalRooms' => $this->roomRepository->get()->count(),
-            'totalEmployee' => $this->employeeRepository->get()->count(),
+            'totalEmployee' => $this->userRepository->get()->count(),
             'totalCustomer' => $this->customerRepository->get()->count(),
             'totalFood' => $this->foodRepository->get()->count(),
             'hotel' => $this->hotelRepository->first(),

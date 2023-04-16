@@ -10,6 +10,7 @@ use App\Repositories\Eloquent\UserRepository;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -32,7 +33,7 @@ class UserController extends BackendController
 
     public function index(Request $request)
     {
-        $user = $this->repository->get();
+        $user = $this->repository->getSearchEmployee($request->search);
         return Inertia::render('Admin/User/Index',[
             'users' => $user
         ]);
@@ -43,9 +44,16 @@ class UserController extends BackendController
         $permissions = $this->permissionRepository->get();
         $roles = $this->roleRepository->get();
 
+        foreach (\App\Models\Enums\GenderEnum::cases() as $key => $data) {
+            $gender[$key] = [
+                'value' => $data->value,
+                'name' => $data->label(),
+            ];
+        }
+
         return Inertia::render('Admin/User/Create',[
-            'permissions' => $permissions,
             'roles' => $roles,
+            'gender' => $gender,
         ]);
     }
 
@@ -54,8 +62,10 @@ class UserController extends BackendController
         DB::beginTransaction();
         try {
             $params = $request->all();
-
+            $params['password'] = Hash::make($params['password']);
+            $params['gender'] = $params['gender']['value'];
             $user = $this->repository->create($params);
+
             if (empty($user)) {
                 DB::rollback();
                 session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
@@ -65,15 +75,6 @@ class UserController extends BackendController
 
             if($request->has('roles')){
                 if(!$user->syncRoles($request->input('roles.*.name'))){
-                    DB::rollback();
-                    session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
-
-                    return Redirect::route('roles.index');
-                }
-            }
-
-            if($request->has('permissions')){
-                if(!$user->syncPermissions($request->input('permissions.*.name'))){
                     DB::rollback();
                     session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
 
@@ -99,10 +100,14 @@ class UserController extends BackendController
         }
 
         $record = $this->repository->find($id);
-        $record->load('permissions');
         $record->load('roles');
-        $permissions = $this->permissionRepository->get();
         $roles = $this->roleRepository->get();
+        foreach (\App\Models\Enums\GenderEnum::cases() as $key => $data) {
+            $gender[$key] = [
+                'value' => $data->value,
+                'name' => $data->label(),
+            ];
+        }
 
         if (empty($record)) {
             session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
@@ -112,8 +117,8 @@ class UserController extends BackendController
 
         return Inertia::render('Admin/User/Edit', [
             'user' => $record,
-            'permissions' => $permissions,
             'roles' => $roles,
+            'gender' => $gender,
         ]);
     }
 
@@ -136,13 +141,6 @@ class UserController extends BackendController
             }
 
             if(!$user->syncRoles($request->input('roles.*.name'))){
-                DB::rollback();
-                session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
-
-                return Redirect::route('users.index');
-            }
-
-            if(!$user->syncPermissions($request->input('permissions.*.name'))){
                 DB::rollback();
                 session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
 

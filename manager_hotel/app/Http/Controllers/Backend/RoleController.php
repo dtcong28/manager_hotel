@@ -49,6 +49,7 @@ class RoleController extends BackendController
         DB::beginTransaction();
         try {
             $params = $request->all();
+            $params['name'] = strtolower($params['name']);
 
             $role = $this->repository->create($params);
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Requests\Food\FoodRequest;
+use App\Models\Food;
 use App\Repositories\Eloquent\BookingFoodRepository;
 use App\Repositories\Eloquent\FoodRepository;
 use App\Services\BookingFoodService;
@@ -49,11 +50,15 @@ class FoodController extends BackendController
 
     public function create()
     {
+        $this->authorize('create', Food::class);
+
         return Inertia::render('Admin/Food/Create');
     }
 
     public function store(FoodRequest $request)
     {
+        $this->authorize('create', Food::class);
+
         try {
             $params = $request->all();
 
@@ -76,6 +81,8 @@ class FoodController extends BackendController
 
     public function edit($id)
     {
+        $this->authorize('update', Food::class);
+
         if (empty($id)) {
             return Redirect::route('food.index');
         }
@@ -100,6 +107,8 @@ class FoodController extends BackendController
 
     public function update(FoodRequest $request, $id)
     {
+        $this->authorize('update', Food::class);
+
         try {
             if (empty($id) || empty($request)) {
                 return Redirect::route('food.index');
@@ -122,6 +131,8 @@ class FoodController extends BackendController
 
     public function destroy($id)
     {
+        $this->authorize('delete', Food::class);
+
         DB::beginTransaction();
         try {
             if (empty($id)) {

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Repositories\Eloquent\CustomerRepository;
-use App\Repositories\Eloquent\EmployeeRepository;
+use App\Repositories\Eloquent\UserRepository;
 use App\Repositories\Eloquent\FoodRepository;
 use App\Repositories\Eloquent\RoomRepository;
 use Inertia\Inertia;
@@ -11,7 +11,7 @@ use Inertia\Inertia;
 class HomeController extends FrontendController
 {
     protected $roomRepository;
-    protected $employeeRepository;
+    protected $userRepository;
     protected $customerRepository;
     protected $foodRepository;
 
@@ -20,7 +20,7 @@ class HomeController extends FrontendController
     {
         parent::__construct();
         $this->roomRepository = app(RoomRepository::class);
-        $this->employeeRepository = app(EmployeeRepository::class);
+        $this->userRepository = app(UserRepository::class);
         $this->customerRepository = app(CustomerRepository::class);
         $this->foodRepository = app(FoodRepository::class);
     }
@@ -47,7 +47,7 @@ class HomeController extends FrontendController
                 ];
             }),
             'totalRooms' => $this->roomRepository->get()->count(),
-            'totalEmployee' => $this->employeeRepository->get()->count(),
+            'totalEmployee' => $this->userRepository->get()->count(),
             'totalCustomer' => $this->customerRepository->get()->count(),
             'totalFood' => $this->foodRepository->get()->count(),
         ]);

@@ -27,11 +27,13 @@ class PermissionService extends CustomService
         return parent::destroy($id);
     }
 
-//    protected function prepareBeforeStore(&$data)
-//    {
-//    }
-//
-//    protected function prepareBeforeUpdate(&$data)
-//    {
-//    }
+    protected function prepareBeforeStore(&$data)
+    {
+        $data['name'] = strtolower($data['name']);
+    }
+
+    protected function prepareBeforeUpdate(&$data)
+    {
+        $data['name'] = strtolower($data['name']);
+    }
 }

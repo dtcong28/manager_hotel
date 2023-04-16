@@ -4,6 +4,7 @@ import {Link,Head} from '@inertiajs/vue3';
 import {ref} from "vue";
 import { usePermission } from "@/Composables/permissions"
 const { hasRole } = usePermission();
+const { hasPermission } = usePermission();
 </script>
 
 <template>
@@ -24,7 +25,6 @@ const { hasRole } = usePermission();
                 </ol>
             </div>
         </div>
-        {{ hasRole('admin') }}
         <!-- start widget -->
         <div class="state-overview">
             <div class="row">

@@ -67,11 +67,6 @@ const handleBack = () => {
                         <header>Rooms Available For {{ bookingInfor.customer.name }} - {{ bookingInfor.number_room }}
                             From {{ bookingInfor.time_check_in }} to {{ bookingInfor.time_check_out }}
                         </header>
-                        <div class="tools">
-                            <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
-                            <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
-                            <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
-                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-scrollable">
@@ -128,15 +123,11 @@ const handleBack = () => {
                     </form>
                 </div>
             </div>
+            {{ $page.props.errors}}
             <div class="col-md-2">
                 <div class="card card-box">
                     <div class="card-head">
                         <header>Total</header>
-                        <div class="tools">
-                            <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
-                            <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
-                            <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
-                        </div>
                     </div>
                     <div class="card-body" v-for="(value, index) in selectRoom">
                         <div v-for="room in arrayRoom" :key="room.id">

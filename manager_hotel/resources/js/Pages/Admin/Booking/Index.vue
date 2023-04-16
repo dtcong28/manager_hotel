@@ -8,6 +8,8 @@ import {Link} from '@inertiajs/vue3';
 import {Head} from '@inertiajs/vue3';
 import { router, useForm } from '@inertiajs/vue3';
 import {ref} from "vue";
+import {usePermission} from "@/Composables/permissions";
+const { hasPermission } = usePermission();
 
 const form = useForm({})
 const props = defineProps({
@@ -61,14 +63,9 @@ const deleteBooking = (id) => {
                 <div class="card card-box">
                     <div class="card-head">
                         <header>All Booking</header>
-                        <div class="tools">
-                            <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
-                            <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
-                            <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
-                        </div>
                     </div>
                     <div class="card-body ">
-                        <div class="row p-b-20">
+                        <div v-if="hasPermission('create')" class="row p-b-20">
                             <div class="col-md-6 col-sm-6 col-6">
                                 <div class="btn-group">
                                     <Link :href="route('booking.create')" id="addRow" class="btn btn-info">
@@ -116,7 +113,7 @@ const deleteBooking = (id) => {
                                                           class="btn deepPink btn-outline btn-circle m-b-10">View</Link>
                                     </td>
                                     <td class="center">
-                                        <Link :href="route('booking.edit', { id: booking.id })"
+                                        <Link v-if="hasPermission('edit')" :href="route('booking.edit', { id: booking.id })"
                                               class="btn btn-tbl-edit btn-xs">
                                             <i class="fa fa-pencil"></i>
                                         </Link>
@@ -124,7 +121,7 @@ const deleteBooking = (id) => {
                                               class="btn btn-tbl-delete btn-info btn-xs">
                                             <i class="fa fa-cutlery "></i>
                                         </Link>
-                                        <button @click="confirmDelete(booking.id)" class="btn btn-tbl-delete btn-xs"><i class="fa fa-trash-o "></i></button>
+                                        <button v-if="hasPermission('delete')" @click="confirmDelete(booking.id)" class="btn btn-tbl-delete btn-xs"><i class="fa fa-trash-o "></i></button>
                                         <Modal :show="showConfirmDeleteModal" @close="closeModal">
                                             <div class="p-6">
                                                 <h4 class="text-lg font-semibold text-slate-800">Are you sure to delete ?</h4>

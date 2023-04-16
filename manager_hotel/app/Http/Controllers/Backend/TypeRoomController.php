@@ -79,7 +79,7 @@ class TypeRoomController extends BackendController
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(TypeRoomRequest $request, $id)
     {
         $params = $request->all();
 

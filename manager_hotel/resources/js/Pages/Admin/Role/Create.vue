@@ -18,6 +18,8 @@ const storeRole = () => {
 
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
+
 <template>
     <Head title="Add Role"/>
     <AdminLayout>
@@ -40,11 +42,11 @@ const storeRole = () => {
                         <div class="card-head">
                             <header>Role</header>
                         </div>
-                        <div class="card-body " id="bar-parent">
+                        <div class="card-body col-6" style="margin: auto" id="bar-parent">
                             <form @submit.prevent="storeRole">
                                 <div class="form-group">
                                     <label for="name">Name Role</label>
-                                    <input type="text" v-model="form.name" class="form-control col-4" id="name" name="name" placeholder="Enter role">
+                                    <input type="text" v-model="form.name" class="form-control" id="name" name="name" placeholder="Enter role">
                                     <div v-if="form.errors.name" style="color: red">{{ form.errors.name[0] }}</div>
                                 </div>
                                 <div class="form-group">
@@ -54,7 +56,7 @@ const storeRole = () => {
                                         {{ $page.props.errors.permissions[0] }}
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary" style="display: flex; justify-content: center; margin: 0 auto">Submit</button>
                             </form>
                         </div>
                     </div>

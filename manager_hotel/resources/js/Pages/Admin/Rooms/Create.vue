@@ -29,7 +29,20 @@ const props = defineProps({
 const data = ref({
     options: props.typesRoom,
     statusOptions: props.status,
+    url : [],
 })
+
+function previewImage(e) {
+    const file = e.target.files;
+    if(file){
+        data.value.url = []
+    }
+
+    const arrayFile = Object.entries(file);
+    arrayFile.forEach((value) => {
+        data.value.url[value[0]] = URL.createObjectURL(value[1]);
+    })
+}
 </script>
 
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
@@ -45,7 +58,7 @@ const data = ref({
                     </li>
                     <li><a class="parent-item" href="">Rooms</a>&nbsp;<i class="fa fa-angle-right"></i>
                     </li>
-                    <li class="active">Add Room Details</li>
+                    <li class="active">Add Room</li>
                 </ol>
             </div>
         </div>
@@ -53,10 +66,10 @@ const data = ref({
             <div class="col-sm-12">
                 <div class="card-box">
                     <div class="card-head">
-                        <header>Add Room Details</header>
+                        <header>Add Room</header>
                     </div>
-                    <form @submit.prevent="storeRoom">
-                        <div class="card-body row pl-5 pr-5">
+                    <form @submit.prevent="storeRoom" id="my-dropzone" class="dropzone">
+                        <div class="card-body col-7" style="margin: auto">
                             <div class="row">
                                 <div class="col-lg-6 p-t-20">
                                     <div class="form-group">
@@ -119,18 +132,24 @@ const data = ref({
                                         class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width is-upgraded"
                                         data-upgraded=",MaterialTextfield">
                                         <label for="images">Images</label>
-                                        <input type="file" name="images[]" id="images" multiple @input="form.images = $event.target.files" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                                        <input type="file" @change="previewImage" name="images[]" id="images" multiple @input="form.images = $event.target.files" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                                         <div v-if="form.errors.images" style="color: red">{{ form.errors.images[0] }}</div>
+                                    </div>
+                                    <div style="display: flex">
+                                        <div v-for="url in data.url">
+                                            <img :src="url" :alt="image" class="w-20 h-20 shadow">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 p-t-20">
+                                    <div class="form-group">
+                                        <label for="description">Description</label>
+                                        <textarea id="description" name="description" v-model="form.description" class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                                        <div v-if="form.errors.description" style="color: red">{{ form.errors.description[0] }}</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12 p-t-20">
-                                <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <textarea id="description" name="description" v-model="form.description" class="form-control" rows="3" placeholder="Enter ..."></textarea>
-                                    <div v-if="form.errors.description" style="color: red">{{ form.errors.description[0] }}</div>
-                                </div>
-                            </div>
+
                             <div class="col-lg-12 p-t-20 text-center">
                                 <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink" data-upgraded=",MaterialButton,MaterialRipple">Submit<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
                                 <Link :href="route('rooms.index')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default" data-upgraded=",MaterialButton,MaterialRipple">Cancel<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></Link>

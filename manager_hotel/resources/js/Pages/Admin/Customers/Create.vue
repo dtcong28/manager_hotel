@@ -39,7 +39,7 @@ const storeCustomer = () => {
                     </li>
                     <li><a class="parent-item" href="">Customer</a>&nbsp;<i class="fa fa-angle-right"></i>
                     </li>
-                    <li class="active">Add Customer Details</li>
+                    <li class="active">Add Customer</li>
                 </ol>
             </div>
         </div>
@@ -47,10 +47,10 @@ const storeCustomer = () => {
             <div class="col-sm-12">
                 <div class="card-box">
                     <div class="card-head">
-                        <header>Add Customer Details</header>
+                        <header>Add Customer</header>
                     </div>
                     <form @submit.prevent="storeCustomer">
-                        <div class="card-body row pl-5 pr-5">
+                        <div class="card-body col-7" style="margin: auto">
                             <div class="row">
                                 <div class="col-lg-6 p-t-20">
                                     <div class="form-group">

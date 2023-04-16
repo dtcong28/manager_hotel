@@ -13,4 +13,13 @@ class UserRepository extends CustomRepository
     {
         parent::__construct();
     }
+
+    public function getSearchEmployee($params){
+        $query = $this->select()
+            ->where('name', 'LIKE', '%' . $params . '%')
+            ->orWhere('email', 'LIKE', '%' . $params . '%')
+            ->orderBy('id','desc');
+//        dd($query->toSql(), $query->getBindings());
+        return $query->paginate(getConfig('page_number'));
+    }
 }

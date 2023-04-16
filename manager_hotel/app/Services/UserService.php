@@ -28,12 +28,13 @@ class UserService extends CustomService
         return parent::destroy($id);
     }
 
-    protected function prepareBeforeStore(&$data)
-    {
-        $data['password'] = Hash::make($data['password']);
-    }
-//
-//    protected function prepareBeforeUpdate(&$data)
+//    protected function prepareBeforeStore(&$data)
 //    {
+//
 //    }
+//
+    protected function prepareBeforeUpdate(&$data)
+    {
+        $data['gender'] = $data['gender']['value'];
+    }
 }

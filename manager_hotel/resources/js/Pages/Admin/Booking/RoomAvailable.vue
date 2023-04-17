@@ -12,7 +12,6 @@ const props = defineProps({
 
 const selectRoom = ref([])
 const sum = ref([])
-const submitForm = true;
 
 const form = useForm({
     customer: props.bookingInfor.customer,
@@ -40,13 +39,15 @@ const storeBooking = () => {
     form.post(route('booking.store'))
 };
 
-const handleBack = () => {
-    window.history.back();
+const handleReset = () => {
+    this.selectRoom = [];
 };
 
 function select(key, room){
     this.selectRoom[key] = room;
 }
+
+const totalSelectRoom = computed(() => selectRoom.value.filter(el => el != null).length)
 </script>
 
 <template>
@@ -92,7 +93,6 @@ function select(key, room){
                                 <tbody v-for="(room,key) in rooms">
                                 <h3>Room {{ key + 1 }}</h3>
                                 <span v-if="room==''" style="color: red">
-                                    <div class="d-none">{{ submitForm = false}}</div>
                                     No room available
                                 </span>
                                 <tr @click="select(key, data.id)" v-for="data in room" class="odd gradeX" :style="[selectRoom.includes(data.id) ? {'pointer-events': 'none'} : '']">
@@ -118,13 +118,13 @@ function select(key, room){
                     </div>
                     <form @submit.prevent="storeBooking">
                         <div class="col-lg-12 p-t-20 text-center">
-                            <button type="submit" v-if="submitForm"
+                            <button type="submit" v-if="rooms.length == totalSelectRoom"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
                                     data-upgraded=",MaterialButton,MaterialRipple">Submit<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
-                            <Link @click="handleBack"
+                            <Link @click="handleReset"
                                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default"
-                                  data-upgraded=",MaterialButton,MaterialRipple">Back<span
+                                  data-upgraded=",MaterialButton,MaterialRipple">Reset<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></Link>
                         </div>
                     </form>

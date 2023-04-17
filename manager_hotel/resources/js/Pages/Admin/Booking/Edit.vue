@@ -48,7 +48,7 @@ data.value.typeBooking.forEach((type) => {
 })
 
 const filterRoom = () => {
-    form.get(route('booking.edit_filter_room'))
+    form.get(route('booking.edit_filter_room'), {preserveState: true})
 };
 </script>
 
@@ -89,11 +89,17 @@ const filterRoom = () => {
                                     <label for="check_in">Check-in Date</label>
                                     <input name="time_check_in" id="check_in" v-model="form.time_check_in" type="date"
                                            class="form-control" placeholder="Check-in date">
+                                    <div v-if="$page.props.errors.time_check_in" style="color: red">
+                                        {{ $page.props.errors.time_check_in[0] }}
+                                    </div>
                                 </div>
                                 <div class="wrap col">
                                     <label for="check_out">Check-out Date</label>
                                     <input name="time_check_out" id="check_out" v-model="form.time_check_out"
                                            type="date" class="form-control" placeholder="Check-out date">
+                                    <div v-if="$page.props.errors.time_check_out" style="color: red">
+                                        {{ $page.props.errors.time_check_out[0] }}
+                                    </div>
                                 </div>
                             </div>
                             <div class="p-t-20">
@@ -105,7 +111,6 @@ const filterRoom = () => {
                                                  :allow-empty="false"></multiselect>
                                 </div>
                             </div>
-
                             <div class="p-t-20" v-for="(input, index) in data.rooms" :id="`room-$(index)`">
                                 <div class="form-group">
                                     <label class="typo__label">Room {{ input.name }} - Number People</label>
@@ -116,12 +121,17 @@ const filterRoom = () => {
                                     <a v-bind:style="[data.rooms.length == 4 ? 'display:none' : '']"
                                        @click.prevent="addField(rooms)" href=""><i
                                         class="fa fa-plus-circle"></i></a>
-                                    <a v-if="index != 0" @click.prevent="removeField(index, rooms)" href=""><i
+                                    <a @click.prevent="removeField(index, rooms)" href=""><i
                                         class="fa fa-minus-circle text-danger"></i></a>
                                 </div>
                             </div>
+                            <div v-if="data.rooms.length==0">
+                                <a  @click.prevent="addField(rooms)" href=""><i class="fa fa-plus-circle"></i></a>
+                                <div v-if="$page.props.errors.rooms" style="color: red">
+                                    {{ $page.props.errors.rooms[0] }}
+                                </div>
+                            </div>
                         </div>
-
                         <div class="col-lg-12 p-t-20 text-center">
                             <button v-if="bookingRoom.status_booking!=0" type="submit"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"

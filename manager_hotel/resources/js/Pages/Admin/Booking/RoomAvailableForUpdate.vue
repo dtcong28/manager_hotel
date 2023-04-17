@@ -14,7 +14,6 @@ let props = defineProps({
 let selectRoom = ref([])
 let sum = ref([])
 let count = 0
-let submitForm = true
 
 props.bookRoom.forEach((room) => {
     if(room.id) {
@@ -55,6 +54,12 @@ const updateBooking = () => {
 function select(key, room){
     this.selectRoom[key] = room;
 }
+
+const handleReset = () => {
+    this.selectRoom = [];
+};
+
+const totalSelectRoom = computed(() => selectRoom.value.filter(el => el != null).length)
 </script>
 
 <template>
@@ -85,7 +90,6 @@ function select(key, room){
                             <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
                         </div>
                     </div>
-                    {{ selectRoom }}
                     <div class="card-body ">
                         <div class="table-scrollable">
                             <table v-if="props.filterRoom!=''" class="table table-hover table-checkable order-column full-width" id="example4">
@@ -105,8 +109,11 @@ function select(key, room){
                                 </thead>
                                 <tbody v-for="(room,key) in props.filterRoom">
                                 <h3>Room {{ key + 1 }}</h3>
-                                <tr v-for="data in room" class="odd gradeX" @click="select(count + key, data.id)">
-                                    <td><input type="radio" id="radio" :value="data.id" v-model="selectRoom[count + key]" :disabled="selectRoom.includes(data.id)"/></td>
+                                <tr v-for="data in room" class="odd gradeX" @click="select(count + key, data.id)" :style="[selectRoom.includes(data.id) ? {'pointer-events': 'none'} : '']">
+                                    <td>
+                                        <input type="radio" id="radio" :value="data.id" v-model="selectRoom[count + key]" :disabled="selectRoom.includes(data.id)"/>
+                                        <div style="color: red; font-size: 15px" v-if="selectRoom.includes(data.id)">Selected</div>
+                                    </td>
                                     <td class="user-circle-img">
                                         <img :src="data.image" :alt="data.image" class="w-20 h-20 shadow">
                                     </td>
@@ -127,7 +134,6 @@ function select(key, room){
                                     <img :src="room.image" :alt="room.image" class="w-20 h-20 shadow">
                                 </h3>
                                 <h3 v-if="room.id=='' && filterRoom==''" style="color: red">
-                                    <div class="d-none">{{submitForm = false}}</div>
                                     No room available for {{ room.number_people }} people
                                 </h3>
                             </div>
@@ -135,13 +141,12 @@ function select(key, room){
                     </div>
                     <form @submit.prevent="updateBooking">
                         <div class="col-lg-12 p-t-20 text-center">
-                            <button type="submit" v-if="submitForm"
+                            <button type="submit" v-if="totalSelectRoom == bookRoom.length"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
                                     data-upgraded=",MaterialButton,MaterialRipple">Submit<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
-                            <Link :href="route('booking.edit', { id: idBooking })"
-                                  class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default"
-                                  data-upgraded=",MaterialButton,MaterialRipple">Back<span
+                            <Link @click="handleReset" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default"
+                                  data-upgraded=",MaterialButton,MaterialRipple">Reset<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></Link>
                         </div>
                     </form>

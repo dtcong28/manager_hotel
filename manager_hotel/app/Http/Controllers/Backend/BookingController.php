@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Requests\Booking\BookingRequest;
+use App\Http\Requests\Booking\BookingUpdateRequest;
 use App\Mail\BookingMail;
 use App\Models\Enums\BookingStatusEnum;
 use App\Models\Enums\PaymentStatusEnum;
@@ -114,7 +115,7 @@ class BookingController extends BackendController
         ]);
     }
 
-    public function editFilterRoom(Request $request)
+    public function editFilterRoom(BookingUpdateRequest $request)
     {
         $params = $request->all();
         $rooms = formatDataRoom(data_get($params, 'rooms'), $this->roomRepository);
@@ -126,10 +127,6 @@ class BookingController extends BackendController
             } else {
                 $listBookingByRoom = $this->repository->getListBookingByRoom($room['id'], $params['id_booking']);
                 foreach ($listBookingByRoom as $data) {
-//                    if (checkInRange($data['time_check_in'], $data['time_check_out'], $params['time_check_in']) || checkOutRange($data['time_check_in'], $data['time_check_out'], $params['time_check_out'])) {
-//                        session()->flash('action_failed', "Check-in and check-out time is not suitable");
-//                        return Redirect::route('booking.edit', ['booking' => $params['id_booking']]);
-//                    }
                     if(!($data['time_check_out'] <= $params['time_check_in'] || $data['time_check_in'] >= $params['time_check_out'])) {
                         session()->flash('action_failed', "Check-in and check-out time is not suitable");
                         return Redirect::route('booking.edit', ['booking' => $params['id_booking']]);

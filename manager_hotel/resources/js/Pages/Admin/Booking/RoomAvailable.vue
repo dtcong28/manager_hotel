@@ -43,6 +43,10 @@ const storeBooking = () => {
 const handleBack = () => {
     window.history.back();
 };
+
+function select(key, room){
+    this.selectRoom[key] = room;
+}
 </script>
 
 <template>
@@ -74,8 +78,8 @@ const handleBack = () => {
                                 <thead>
                                 <tr>
                                     <th class="center"> Select</th>
-                                    <th class="center"> img</th>
-                                    <th class="center"> #</th>
+                                    <th class="center"> ID</th>
+                                    <th class="center"> Img</th>
                                     <th class="center"> Type</th>
                                     <th class="center"> Name</th>
                                     <th class="center"> Status</th>
@@ -91,12 +95,15 @@ const handleBack = () => {
                                     <div class="d-none">{{ submitForm = false}}</div>
                                     No room available
                                 </span>
-                                <tr v-for="data in room" class="odd gradeX">
-                                    <td><input type="radio" :id="data.id" :value="data.id" v-model="selectRoom[key]" :disabled="selectRoom.includes(data.id)"/></td>
+                                <tr @click="select(key, data.id)" v-for="data in room" class="odd gradeX" :style="[selectRoom.includes(data.id) ? {'pointer-events': 'none'} : '']">
+                                    <td>
+                                        <input type="radio" :id="data.id" :value="data.id" v-model="selectRoom[key]"/>
+                                        <div style="color: red; font-size: 15px" v-if="selectRoom.includes(data.id)">Selected</div>
+                                    </td>
+                                    <td class="center">{{ data.id }}</td>
                                     <td class="user-circle-img">
                                         <img :src="data.image" :alt="data.image" class="w-20 h-20 shadow">
                                     </td>
-                                    <td class="center">{{ data.id }}</td>
                                     <td class="center">{{ data.type_room.name }}</td>
                                     <td class="center">{{ data.name }}</td>
                                     <td class="center">{{ data.status_label }}</td>
@@ -123,7 +130,6 @@ const handleBack = () => {
                     </form>
                 </div>
             </div>
-            {{ $page.props.errors}}
             <div class="col-md-2">
                 <div class="card card-box">
                     <div class="card-head">

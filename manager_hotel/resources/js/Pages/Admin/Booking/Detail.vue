@@ -65,105 +65,107 @@ const updateStatus= () => {
                     <div class="card-head">
                         <header>Information Booking</header>
                     </div>
-                    <div class="row">
-                        <div class="card-body pl-5 pr-5" style="line-height: 0.4">
-                            <h4>Customer: {{ customer.name }}</h4><br>
-                            <h4>Address: {{ customer.address }}</h4><br>
-                            <h4>Phone: {{ customer.phone }}</h4><br>
-                            <h4>Email: {{ customer.email }}</h4><br>
-                            <h4>Indentity card: {{ customer.identity_card }}</h4><br>
-                        </div>
-                        <div class="card-body pl-5 pr-5" style="line-height: 0.4">
-                            <h4>Check in: {{ booking.time_check_in }} - Check out: {{ booking.time_check_out }}</h4><br>
-                            <h4>Number rooms: {{ booking.number_rooms }}</h4><br>
-                            <h4>Status:
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label class="btn btn-warning deepPink-bgcolor">
-                                            <input type="radio" name="status_booking" v-model="form.status_booking"
-                                                   value="2" :checked="form.status_booking == 2" :disabled="booking.status_booking == 0 || booking.status_booking == 1" v-bind:style= "[booking.status_booking == 0 || booking.status_booking == 1 ? 'opacity: 0.3' : '']">
-                                            Expected arrival
-                                        </label>
-                                        <label class="btn btn-info deepPink-bgcolor">
-                                            <input type="radio" name="status_booking" v-model="form.status_booking"
-                                                   value="1" :checked="form.status_booking == 1" :disabled="booking.status_booking == 0" v-bind:style= "[booking.status_booking == 0 ? 'opacity: 0.3' : '']">
-                                            Check in
-                                        </label>
-                                        <label class="btn btn-danger deepPink-bgcolor">
-                                            <input type="radio" name="status_booking" v-model="form.status_booking"
-                                                   value="0" :checked="form.status_booking == 0" :disabled="booking.status_booking == 2" v-bind:style= "[booking.status_booking == 2 ? 'opacity: 0.3' : '']">
-                                            Check out
-                                        </label>
+                    <div class="col-10" style="margin: auto">
+                        <div class="row">
+                            <div class="card-body pl-5 pr-5" style="line-height: 0.4">
+                                <h4>Customer: {{ customer.name }}</h4><br>
+                                <h4>Address: {{ customer.address }}</h4><br>
+                                <h4>Phone: {{ customer.phone }}</h4><br>
+                                <h4>Email: {{ customer.email }}</h4><br>
+                                <h4>Indentity card: {{ customer.identity_card }}</h4><br>
+                            </div>
+                            <div class="card-body pl-5 pr-5" style="line-height: 0.4">
+                                <h4>Check in: {{ booking.time_check_in }} - Check out: {{ booking.time_check_out }}</h4><br>
+                                <h4>Number rooms: {{ booking.number_rooms }}</h4><br>
+                                <h4>Status:
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="btn btn-warning deepPink-bgcolor">
+                                                <input type="radio" name="status_booking" v-model="form.status_booking"
+                                                       value="2" :checked="form.status_booking == 2" :disabled="booking.status_booking == 0 || booking.status_booking == 1" v-bind:style= "[booking.status_booking == 0 || booking.status_booking == 1 ? 'opacity: 0.3' : '']">
+                                                Expected arrival
+                                            </label>
+                                            <label class="btn btn-info deepPink-bgcolor">
+                                                <input type="radio" name="status_booking" v-model="form.status_booking"
+                                                       value="1" :checked="form.status_booking == 1" :disabled="booking.status_booking == 0" v-bind:style= "[booking.status_booking == 0 ? 'opacity: 0.3' : '']">
+                                                Check in
+                                            </label>
+                                            <label class="btn btn-danger deepPink-bgcolor">
+                                                <input type="radio" name="status_booking" v-model="form.status_booking"
+                                                       value="0" :checked="form.status_booking == 0" :disabled="booking.status_booking == 2" v-bind:style= "[booking.status_booking == 2 ? 'opacity: 0.3' : '']">
+                                                Check out
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
-                            </h4><br>
-                            <h4>Payment:
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label class="btn btn-success deepPink-bgcolor">
-                                            <input type="radio" name="payment" v-model="form.status_payment" value="1"
-                                                   :checked="form.status_payment == 1"> Paid
-                                        </label>
-                                        <label class="btn btn-danger deepPink-bgcolor">
-                                            <input type="radio" name="payment" v-model="form.status_payment" value="0"
-                                                   :checked="form.status_payment == 0"> Unpaid
-                                        </label>
+                                </h4><br>
+                                <h4>Payment:
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="btn btn-success deepPink-bgcolor">
+                                                <input type="radio" name="payment" v-model="form.status_payment" value="1"
+                                                       :checked="form.status_payment == 1"> Paid
+                                            </label>
+                                            <label class="btn btn-danger deepPink-bgcolor">
+                                                <input type="radio" name="payment" v-model="form.status_payment" value="0"
+                                                       :checked="form.status_payment == 0"> Unpaid
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
-                            </h4>
-                            <br>
-                            <h4>Total Money: {{ totalMoney.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</h4>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="card-body" v-if="bookingRoom.length">
-                            <div class="table-scrollable">
-                                <table class="table table-striped table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th> #</th>
-                                        <th> Room</th>
-                                        <th> Status</th>
-                                        <th> Number people</th>
-                                        <th> Price</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr v-for="(value, key) in bookingRoom" :key="value.id">
-                                        <td> {{ key }}</td>
-                                        <td> {{ value.room.name }}</td>
-                                        <td>
-                                            <div v-for="data in status">
-                                                <span v-if="data.value==value.room.status">{{ data.name }}</span>
-                                            </div>
-                                        </td>
-                                        <td> {{ value.number_people }}</td>
-                                        <td> {{ value.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                </h4>
+                                <br>
+                                <h4>Total Money: {{ totalMoney.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</h4>
                             </div>
                         </div>
-                        <div class="card-body" v-if="bookingFood.length">
-                            <div class="table-scrollable">
-                                <table class="table table-striped table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th> #</th>
-                                        <th> Food</th>
-                                        <th> Amount</th>
-                                        <th> Price</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr v-for="(value, key) in bookingFood" :key="value.id">
-                                        <td> {{ key }}</td>
-                                        <td> {{ value.food.name }}</td>
-                                        <td> {{ value.amount }}</td>
-                                        <td> {{ value.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                        <div class="row">
+                            <div class="card-body" v-if="bookingRoom.length">
+                                <div class="table-scrollable">
+                                    <table class="table table-striped table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th> #</th>
+                                            <th> Room</th>
+                                            <th> Status</th>
+                                            <th> Number people</th>
+                                            <th> Price</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr v-for="(value, key) in bookingRoom" :key="value.id">
+                                            <td> {{ key }}</td>
+                                            <td> {{ value.room.name }}</td>
+                                            <td>
+                                                <div v-for="data in status">
+                                                    <span v-if="data.value==value.room.status">{{ data.name }}</span>
+                                                </div>
+                                            </td>
+                                            <td> {{ value.number_people }}</td>
+                                            <td> {{ value.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-body" v-if="bookingFood.length">
+                                <div class="table-scrollable">
+                                    <table class="table table-striped table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th> #</th>
+                                            <th> Food</th>
+                                            <th> Amount</th>
+                                            <th> Price</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr v-for="(value, key) in bookingFood" :key="value.id">
+                                            <td> {{ key }}</td>
+                                            <td> {{ value.food.name }}</td>
+                                            <td> {{ value.amount }}</td>
+                                            <td> {{ value.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

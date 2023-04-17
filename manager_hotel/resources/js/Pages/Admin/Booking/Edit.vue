@@ -37,7 +37,7 @@ const form = useForm({
     time_check_in: props.bookingRoom.time_check_in,
     time_check_out: props.bookingRoom.time_check_out,
     type_booking: '',
-    rooms : data.value.rooms,
+    rooms: data.value.rooms,
     id_booking: props.idBooking
 });
 
@@ -65,7 +65,7 @@ const filterRoom = () => {
                     </li>
                     <li><a class="parent-item" href="">Booking</a>&nbsp;<i class="fa fa-angle-right"></i>
                     </li>
-                    <li class="active">Edit Booking Details</li>
+                    <li class="active">Edit Booking</li>
                 </ol>
             </div>
         </div>
@@ -73,48 +73,51 @@ const filterRoom = () => {
             <div class="col-sm-12">
                 <div class="card-box">
                     <div class="card-head">
-                        <header>Edit Booking Details</header>
+                        <header>Edit Booking</header>
                     </div>
                     <form @submit.prevent="filterRoom">
-                        <div class="card-body row pl-5 pr-5" id="edit-form">
-                            <div class="col-lg-6 p-t-20">
+                        <div class="card-body col-5" style="margin: auto" id="edit-form">
+                            <div class="p-t-20">
                                 <div class="form-group">
                                     <label class="typo__label">Name Customer</label>
                                     <input type="text" readonly class="form-control" id="name" name="name"
                                            v-model="form.name">
                                 </div>
                             </div>
-                            <div class="col-lg-3 p-t-20">
-                                <div class="wrap">
+                            <div class="p-t-20 row">
+                                <div class="wrap col">
                                     <label for="check_in">Check-in Date</label>
-                                    <input name="time_check_in" id="check_in" v-model="form.time_check_in" type="date" class="form-control" placeholder="Check-in date">
+                                    <input name="time_check_in" id="check_in" v-model="form.time_check_in" type="date"
+                                           class="form-control" placeholder="Check-in date">
                                 </div>
-                            </div>
-                            <div class="col-lg-3 p-t-20">
-                                <div class="wrap">
+                                <div class="wrap col">
                                     <label for="check_out">Check-out Date</label>
-                                    <input name="time_check_out" id="check_out" v-model="form.time_check_out" type="date" class="form-control" placeholder="Check-out date">
+                                    <input name="time_check_out" id="check_out" v-model="form.time_check_out"
+                                           type="date" class="form-control" placeholder="Check-out date">
                                 </div>
                             </div>
-                            <div class="col-lg-12 p-t-20">
+                            <div class="p-t-20">
                                 <div class="form-group">
                                     <label class="typo__label">Type Booking</label>
-                                    <multiselect v-model="form.type_booking" deselect-label="Can't remove this value" track-by="name" label="name" placeholder="Select one" :options="data.typeBooking" :searchable="false" :allow-empty="false"></multiselect>
+                                    <multiselect v-model="form.type_booking" deselect-label="Can't remove this value"
+                                                 track-by="name" label="name" placeholder="Select one"
+                                                 :options="data.typeBooking" :searchable="false"
+                                                 :allow-empty="false"></multiselect>
                                 </div>
                             </div>
 
-                            <div class="col-lg-3 p-t-20" v-for="(input, index) in data.rooms" :id="`room-$(index)`">
-                                <div class="row">
-                                    <div class="form-group">
-                                        <label class="typo__label">Room {{ input.name }} - Number People</label>
-                                        <input type="number" :readonly="input.name" name="rooms" v-model="input.number_people" class="form-control">
-                                    </div>
-                                    <div>
-                                        <a v-bind:style= "[data.rooms.length == 4 ? 'display:none' : '']" @click.prevent="addField(rooms)" href=""><i
-                                            class="fa fa-plus-circle"></i></a>
-                                        <a v-if="index != 0" @click.prevent="removeField(index, rooms)" href=""><i
-                                            class="fa fa-minus-circle text-danger"></i></a>
-                                    </div>
+                            <div class="p-t-20" v-for="(input, index) in data.rooms" :id="`room-$(index)`">
+                                <div class="form-group">
+                                    <label class="typo__label">Room {{ input.name }} - Number People</label>
+                                    <input type="number" :readonly="input.name" name="rooms"
+                                           v-model="input.number_people" class="form-control">
+                                </div>
+                                <div>
+                                    <a v-bind:style="[data.rooms.length == 4 ? 'display:none' : '']"
+                                       @click.prevent="addField(rooms)" href=""><i
+                                        class="fa fa-plus-circle"></i></a>
+                                    <a v-if="index != 0" @click.prevent="removeField(index, rooms)" href=""><i
+                                        class="fa fa-minus-circle text-danger"></i></a>
                                 </div>
                             </div>
                         </div>

@@ -51,6 +51,10 @@ const updateBooking = () => {
         form
     })
 };
+
+function select(key, room){
+    this.selectRoom[key] = room;
+}
 </script>
 
 <template>
@@ -81,6 +85,7 @@ const updateBooking = () => {
                             <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
                         </div>
                     </div>
+                    {{ selectRoom }}
                     <div class="card-body ">
                         <div class="table-scrollable">
                             <table v-if="props.filterRoom!=''" class="table table-hover table-checkable order-column full-width" id="example4">
@@ -100,7 +105,7 @@ const updateBooking = () => {
                                 </thead>
                                 <tbody v-for="(room,key) in props.filterRoom">
                                 <h3>Room {{ key + 1 }}</h3>
-                                <tr v-for="data in room" class="odd gradeX">
+                                <tr v-for="data in room" class="odd gradeX" @click="select(count + key, data.id)">
                                     <td><input type="radio" id="radio" :value="data.id" v-model="selectRoom[count + key]" :disabled="selectRoom.includes(data.id)"/></td>
                                     <td class="user-circle-img">
                                         <img :src="data.image" :alt="data.image" class="w-20 h-20 shadow">

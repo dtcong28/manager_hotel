@@ -3,8 +3,8 @@ import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
 import {Head, Link, router} from '@inertiajs/vue3';
 import Multiselect from 'vue-multiselect'
 import {ref} from "vue";
-import { useForm } from '@inertiajs/vue3';
-import { useRemember, usePage } from '@inertiajs/inertia-vue3';
+import {useForm} from '@inertiajs/vue3';
+import {useRemember, usePage} from '@inertiajs/inertia-vue3';
 
 const props = defineProps({
     customers: Array,
@@ -32,7 +32,7 @@ const data = ref({
 })
 
 const filterRoom = () => {
-    form.get(route('booking.filter_room'), { preserveState: true })
+    form.get(route('booking.filter_room'), {preserveState: true})
 };
 </script>
 
@@ -68,29 +68,25 @@ const filterRoom = () => {
                                                  track-by="name" label="name" placeholder="Select one"
                                                  :options="data.customers" :searchable="false"
                                                  :allow-empty="false"></multiselect>
-                                    <div v-if="$page.props.errors.name" style="color: red">{{ $page.props.errors.name[0] }}
+                                    <div v-if="$page.props.errors.name" style="color: red">{{$page.props.errors.name[0] }}
                                     </div>
                                 </div>
                             </div>
                             <div class="row p-t-20">
-                                <div class="col">
-                                    <div class="wrap">
-                                        <label for="check_in">Check-in Date</label>
-                                        <input name="time_check_in" id="check_in" v-model="form.time_check_in" type="date"
-                                               class="form-control" placeholder="Check-in date">
-                                        <div v-if="$page.props.errors.time_check_in" style="color: red">
-                                            {{ $page.props.errors.time_check_in[0] }}
-                                        </div>
+                                <div class="wrap col">
+                                    <label for="check_in">Check-in Date</label>
+                                    <input name="time_check_in" id="check_in" v-model="form.time_check_in" type="date"
+                                           class="form-control" placeholder="Check-in date">
+                                    <div v-if="$page.props.errors.time_check_in" style="color: red">
+                                        {{ $page.props.errors.time_check_in[0] }}
                                     </div>
                                 </div>
-                                <div class="col">
-                                    <div class="wrap">
-                                        <label for="check_out">Check-out Date</label>
-                                        <input name="time_check_out" id="check_out" v-model="form.time_check_out"
-                                               type="date" class="form-control" placeholder="Check-out date">
-                                        <div v-if="$page.props.errors.time_check_out" style="color: red">
-                                            {{ $page.props.errors.time_check_out[0] }}
-                                        </div>
+                                <div class="wrap col">
+                                    <label for="check_out">Check-out Date</label>
+                                    <input name="time_check_out" id="check_out" v-model="form.time_check_out"
+                                           type="date" class="form-control" placeholder="Check-out date">
+                                    <div v-if="$page.props.errors.time_check_out" style="color: red">
+                                        {{ $page.props.errors.time_check_out[0] }}
                                     </div>
                                 </div>
                             </div>

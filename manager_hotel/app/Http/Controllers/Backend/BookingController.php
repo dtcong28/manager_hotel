@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Requests\Booking\BookingRequest;
 use App\Http\Requests\Booking\BookingUpdateRequest;
 use App\Mail\BookingMail;
+use App\Mail\CancelBookingMail;
 use App\Models\Enums\BookingStatusEnum;
 use App\Models\Enums\PaymentStatusEnum;
 use App\Models\Enums\RoomStatusEnum;
@@ -178,6 +179,8 @@ class BookingController extends BackendController
                 $room = $this->roomRepository->find($value);
 
                 $data[$key] = [
+                    'time_check_in' => data_get($params, 'time_check_in'),
+                    'time_check_out' => data_get($params, 'time_check_out'),
                     'room_id' => $value,
                     'booking_id' => $lastId,
                     'price' => data_get($params, 'price_each_room')[$key],
@@ -327,35 +330,64 @@ class BookingController extends BackendController
 
     public function destroy($id)
     {
+        DB::beginTransaction();
         try {
             if (empty($id)) {
                 return Redirect::route('booking.index');
             }
 
-            if (empty($this->repository->find($id))) {
+            $booking = $this->repository->with('customer')->find($id);
+
+            if (empty($booking)) {
                 session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
 
                 return Redirect::route('booking.index');
             }
 
-            $bookingRoom = $this->bookingRoomRepository->findByField('booking_id', $id);
-            foreach ($bookingRoom as $value) {
-                $roomId = $value->room_id;
-                $room = $this->roomRepository->find($roomId);
-                if (!empty($room)) {
-                    $room->status = \App\Models\Enums\RoomStatusEnum::VACANT->value;
-                    $room->save();
+            $bookingRoom = $booking->bookingRoom()->with('room')->get();
+            $bookingFood = $booking->bookingFood()->get();
+
+            // thông tin để gửi mail
+            $emailCustomer = data_get($booking,'customer.email');
+            $infoBooking = [
+                'info' => $booking,
+                'room' => $bookingRoom,
+            ];
+
+            //neu phong da duoc khach check in => phòng đang được dùng => cap nhat tinh trang phong la trống
+            foreach ($bookingRoom as $data) {
+                if (data_get($data, 'room.status.value') == RoomStatusEnum::OCCUPIED->value){
+                    if (!$this->roomRepository->update(data_get($data, 'room_id'), ['status' => RoomStatusEnum::VACANT->value])) {
+                        DB::rollback();
+                        session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+                        return redirect(getBackUrl());
+                    }
                 }
-                $this->bookingRoomRepository->destroy($value->id);
             }
 
-            $bookingFood = $this->bookingFoodRepository->findByField('booking_id', $id);
-            foreach ($bookingFood as $value) {
-                $this->bookingFoodRepository->destroy($value->id);
+            // xóa booking room
+            if($bookingRoom->isNotEmpty() && !$booking->bookingRoom()->delete()  ) {
+                session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+                DB::rollback();
+                return redirect(getBackUrl());
             }
 
-            $this->repository->destroy($id);
+            // xóa booking food
+            if($bookingFood->isNotEmpty() && !$booking->bookingFood()->delete()) {
+                session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+                DB::rollback();
+                return redirect(getBackUrl());
+            }
 
+            // xóa booking
+            if(!$this->repository->destroy($id)) {
+                session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+                DB::rollback();
+                return redirect(getBackUrl());
+            }
+
+            DB::commit();
+            Mail::to($emailCustomer)->send(new CancelBookingMail($infoBooking));
             session()->flash('action_success', getConstant('messages.DELETE_SUCCESS'));
         } catch (\Exception $exception) {
             Log::error($exception);

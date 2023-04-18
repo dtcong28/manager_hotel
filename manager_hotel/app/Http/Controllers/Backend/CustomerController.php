@@ -6,10 +6,12 @@ use App\Http\Requests\Customer\CustomerRequest;
 use App\Repositories\Eloquent\BookingFoodRepository;
 use App\Repositories\Eloquent\BookingRepository;
 use App\Repositories\Eloquent\CustomerRepository;
+use App\Repositories\Eloquent\RoomRepository;
 use App\Services\BookingFoodService;
 use App\Services\BookingService;
 use App\Services\CustomerService;
 use Illuminate\Http\Request;
+use App\Models\Enums\RoomStatusEnum;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
@@ -20,6 +22,7 @@ class CustomerController extends BackendController
     protected $repository;
     protected $bookingRepository;
     protected $bookingFoodRepository;
+    protected $roomRepository;
     protected $service;
     protected $bookingService;
     protected $bookingFoodService;
@@ -29,6 +32,7 @@ class CustomerController extends BackendController
         parent::__construct();
         $this->repository = app(CustomerRepository::class);
         $this->bookingRepository = app(BookingRepository::class);
+        $this->roomRepository = app(RoomRepository::class);
         $this->bookingFoodRepository = app(BookingFoodRepository::class);
         $this->service = app(CustomerService::class);
         $this->bookingService = app(BookingService::class);
@@ -143,14 +147,25 @@ class CustomerController extends BackendController
             $booked = $customer->booking()->get();
             foreach ($booked as $value)
             {
-                $bookRoom = $value->bookingRoom()->get();
+                $bookRoom = $value->bookingRoom()->with('room')->get();
                 $bookFood = $value->bookingFood()->get();
+
+                //neu phong da duoc khach check in => phòng đang được dùng => cap nhat tinh trang phong la trống
+                foreach ($bookRoom as $data){
+                    if(data_get($data,'room.status.value') ==  RoomStatusEnum::OCCUPIED->value){
+                        if (!$this->roomRepository->update(data_get($data, 'room_id'), ['status' => RoomStatusEnum::VACANT->value])) {
+                            DB::rollback();
+                            session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+                            return redirect(getBackUrl());
+                        }
+                    }
+                }
+
                 if($bookRoom->isNotEmpty() && !$value->bookingRoom()->delete()  ) {
                     session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
                     DB::rollback();
                     return redirect(getBackUrl());
                 }
-                //neu phong da duoc khach check in => cap nhat tinh trang phong la trong
 
                 if($bookFood->isNotEmpty() && !$value->bookingFood()->delete()) {
                     session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));

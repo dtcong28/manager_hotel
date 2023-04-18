@@ -126,7 +126,7 @@ const deleteBooking = (id) => {
                                             <div class="p-6">
                                                 <h4 class="text-lg font-semibold text-slate-800">Are you sure to delete ?</h4>
                                                 <div class="mt-6 flex space-x-4">
-                                                    <DangerButton @click="deleteRoom(deleteID)">Delete</DangerButton>
+                                                    <DangerButton @click="deleteBooking(deleteID)">Delete</DangerButton>
                                                     <SecondaryButton @click="closeModal">Cancel</SecondaryButton>
                                                 </div>
                                             </div>

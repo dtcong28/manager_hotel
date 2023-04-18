@@ -1,6 +1,5 @@
 <h2>Confirmation of your reservation: DELUXE Hotel</h2><br>
 DELUXE Hotel Hanoi<br>
-{{--{{  now()->toDateTimeString('Y-m-d') }}--}}
 Check in: {{ data_get($record[0], 'time_check_in') }} - Check out: {{ data_get($record[0], 'time_check_out') }}<br>
 Phone number: 0967400419<br>
 Address: Ha Noi<br>

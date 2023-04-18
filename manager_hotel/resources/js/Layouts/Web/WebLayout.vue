@@ -6,6 +6,7 @@ import $ from 'jquery';
 import { defineAsyncComponent } from 'vue';
 
 onMounted(() => {
+    console.log(123)
     // async function loadScrollax() {
     //     // Create a Promise that resolves when the script is loaded
     //     const scriptLoaded = new Promise(resolve => {
@@ -62,7 +63,7 @@ onMounted(() => {
         "/frontend/js/aos.js",
         "/frontend/js/jquery.animateNumber.min.js",
         "/frontend/js/bootstrap-datepicker.js",
-        "/frontend/js/jquery.timepicker.min.js",
+        // "/frontend/js/jquery.timepicker.min.js",
         "/frontend/js/scrollax.min.js",
         "https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false",
         "/frontend/js/google-map.js",
@@ -70,14 +71,17 @@ onMounted(() => {
     ];
 
     scripts.forEach(script => {
-        let tag = document.head.querySelector(`[src="${script}"`);
-        if (!tag) {
-            tag = document.createElement("script");
-            tag.setAttribute("src", script);
-            tag.setAttribute("type", 'text/javascript');
-            document.head.appendChild(tag);
-            console.log('scrollax.min.js has been loaded 123');
-        }
+        // let tag = document.head.querySelector(`[src="${script}"`);
+        // if (!tag) {
+        //     tag = document.createElement("script");
+        //     tag.setAttribute("src", script);
+        //     tag.setAttribute("type", 'text/javascript');
+        //     document.head.appendChild(tag);
+        //     console.log('scrollax.min.js has been loaded 123');
+        // }
+        const recaptchaScript = document.createElement("script");
+        recaptchaScript.setAttribute("src", script );
+        document.head.appendChild(recaptchaScript);
     });
 
     // $(document).ready(function() {

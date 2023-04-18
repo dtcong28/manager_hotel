@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Requests\Room\RoomRequest;
+use App\Mail\CancelRoomBookingMail;
 use App\Models\Enums\RoomStatusEnum;
 use App\Repositories\Eloquent\RoomRepository;
 use App\Repositories\Eloquent\TypeRoomRepository;
@@ -11,6 +12,7 @@ use App\Services\TypeRoomService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
@@ -173,6 +175,19 @@ class RoomController extends BackendController
                 return redirect(getBackUrl());
             }
 
+            // gửi mail thông báo cho khách hàng phòng bị hủy
+            $bookingRoom = $room->bookingRoom()->with(['booking.customer','room'])->get();
+            foreach ($bookingRoom as $value){
+                $emailCustomer = data_get($value, 'booking.customer.email');
+                $infoBooking = [
+                    'info' => data_get($value, 'booking'),
+                    'room' => data_get($value, 'room.name'),
+                ];
+
+                Mail::to($emailCustomer)->send(new CancelRoomBookingMail($infoBooking));
+            }
+
+            // xóa room trong bảng booking room của phòng tương ứng đó
             if(($room->bookingRoom()->get())->isNotEmpty() && !$room->bookingRoom()->delete()){
                 DB::rollback();
                 session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));

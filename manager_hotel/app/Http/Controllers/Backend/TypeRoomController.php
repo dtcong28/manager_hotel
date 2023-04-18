@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Requests\Room\TypeRoomRequest;
+use App\Mail\CancelRoomBookingMail;
 use App\Repositories\Eloquent\RoomRepository;
 use App\Repositories\Eloquent\TypeRoomRepository;
 use App\Services\TypeRoomService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
@@ -118,15 +120,27 @@ class TypeRoomController extends BackendController
                 return Redirect::route('types-room.index');
             }
 
-            // xóa booking liên quan đến type của phòng đó
+            // xóa room trong bảng booking room có type đó
             $rooms = $typeRoom->room()->get();
             foreach($rooms as $room) {
-                $booking = $room->bookingRoom()->get();
+                $booking = $room->bookingRoom()->with(['booking.customer','room'])->get();
+
                 if($booking->isNotEmpty() && !$room->bookingRoom()->delete()){
                     DB::rollback();
                     session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
 
                     return redirect(getBackUrl());
+                }
+
+                //gửi mail thông báo xóa phòng
+                foreach ($booking as $value){
+                    $emailCustomer = data_get($value, 'booking.customer.email');
+                    $infoBooking = [
+                        'info' => data_get($value, 'booking'),
+                        'room' => data_get($value, 'room.name'),
+                    ];
+
+                    Mail::to($emailCustomer)->send(new CancelRoomBookingMail($infoBooking));
                 }
             }
 

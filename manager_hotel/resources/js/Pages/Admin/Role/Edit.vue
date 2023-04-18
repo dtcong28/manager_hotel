@@ -57,7 +57,7 @@ onMounted(() =>{
                                 <div class="form-group">
                                     <label for="name">Name Role</label>
                                     <input type="text" v-model="form.name" class="form-control" id="name"
-                                           name="name" placeholder="Enter role">
+                                           name="name" placeholder="Enter role" readonly>
                                     <div v-if="$page.props.errors.name" style="color: red">{{$page.props.errors.name[0] }}
                                     </div>
                                 </div>

@@ -7,6 +7,8 @@ import Modal from '@/Components/Admin/Modal.vue';
 import DangerButton from '@/Components/Admin/DangerButton.vue';
 import SecondaryButton from '@/Components/Admin/SecondaryButton.vue';
 import {ref} from "vue";
+import {usePermission} from "@/Composables/permissions";
+const { hasPermission } = usePermission();
 
 const form = useForm({})
 const props = defineProps({
@@ -54,15 +56,15 @@ const deleteRole = (id) => {
                         <header>All Role</header>
                     </div>
                     <div class="card-body col-6" style="margin: auto">
-                        <div class="row p-b-20">
-                            <div class="col-md-6 col-sm-6 col-6">
-                                <div class="btn-group">
-                                    <Link :href="route('roles.create')" id="addRow" class="btn btn-info">
-                                        Add New <i class="fa fa-plus"></i>
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
+<!--                        <div class="row p-b-20">-->
+<!--                            <div class="col-md-6 col-sm-6 col-6">-->
+<!--                                <div class="btn-group">-->
+<!--                                    <Link :href="route('roles.create')" id="addRow" class="btn btn-info">-->
+<!--                                        Add New <i class="fa fa-plus"></i>-->
+<!--                                    </Link>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <table class="table table-hover table-checkable order-column full-width" id="example4">
                             <thead>
                             <tr>
@@ -76,22 +78,22 @@ const deleteRole = (id) => {
                                 <td class="center">{{ role.id }}</td>
                                 <td class="center">{{ role.name }}</td>
                                 <td class="center">
-                                    <Link :href="route('roles.edit', { id: role.id })"
+                                    <Link v-if="hasPermission('edit')" :href="route('roles.edit', { id: role.id })"
                                           class="btn btn-tbl-edit btn-xs">
                                         <i class="fa fa-pencil"></i>
                                     </Link>
-                                    <button @click="confirmDelete(role.id)" class="btn btn-tbl-delete btn-xs"><i
-                                        class="fa fa-trash-o "></i></button>
-                                    <Modal :show="showConfirmDeleteModal" @close="closeModal">
-                                        <div class="p-6">
-                                            <h4 class="text-lg font-semibold text-slate-800">Are you sure to delete
-                                                ?</h4>
-                                            <div class="mt-6 flex space-x-4">
-                                                <DangerButton @click="deleteRole(deleteID)">Delete</DangerButton>
-                                                <SecondaryButton @click="closeModal">Cancel</SecondaryButton>
-                                            </div>
-                                        </div>
-                                    </Modal>
+<!--                                    <button @click="confirmDelete(role.id)" class="btn btn-tbl-delete btn-xs"><i-->
+<!--                                        class="fa fa-trash-o "></i></button>-->
+<!--                                    <Modal :show="showConfirmDeleteModal" @close="closeModal">-->
+<!--                                        <div class="p-6">-->
+<!--                                            <h4 class="text-lg font-semibold text-slate-800">Are you sure to delete-->
+<!--                                                ?</h4>-->
+<!--                                            <div class="mt-6 flex space-x-4">-->
+<!--                                                <DangerButton @click="deleteRole(deleteID)">Delete</DangerButton>-->
+<!--                                                <SecondaryButton @click="closeModal">Cancel</SecondaryButton>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </Modal>-->
                                 </td>
                             </tr>
                             </tbody>

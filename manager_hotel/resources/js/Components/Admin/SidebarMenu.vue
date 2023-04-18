@@ -12,10 +12,6 @@ const menus = [
                 route: 'roles.index',
             },
             {
-                name: 'List Permissions',
-                route: 'permissions.index',
-            },
-            {
                 name: 'List Employee',
                 route: 'users.index',
             },
@@ -96,11 +92,6 @@ const menus = [
                     </li>
                     <li class="sidebar-user-panel">
                         <div class="user-panel">
-                            <div class="row">
-                                <div class="sidebar-userpic">
-                                    <img src="/backend/assets/img/dp.jpg" class="img-responsive" alt="">
-                                </div>
-                            </div>
                             <div class="profile-usertitle">
                                 <div class="sidebar-userpic-name">{{ $page.props.auth.user.name }}</div>
                                 <div class="profile-usertitle-job"> {{ $page.props.auth.user.roles[0] }}</div>

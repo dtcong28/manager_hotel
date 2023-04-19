@@ -174,7 +174,7 @@ export default {
                                     </div>
                                 </div>
                                 <div v-if="select_foods" class="form-group" v-for="value in select_foods">
-                                    <div>
+                                    <div v-if="info_booking.booking.price_food[value[1]]!=null">
                                         <span>{{ value[0] }} - Amount {{ info_booking.booking.select_food[value[1]] }} : {{parseInt(info_booking.booking.price_food[value[1]]).toLocaleString('vi-VN', {style: 'currency', currency: 'VND'}) }}</span>
                                     </div>
                                 </div>

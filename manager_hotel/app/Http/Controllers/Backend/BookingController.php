@@ -206,8 +206,8 @@ class BookingController extends BackendController
                 'room' => $dataRoom,
             ];
 
-            DB::commit();
             Mail::to($customer->email)->send(new BookingMail($dataMail));
+            DB::commit();
             session()->flash('action_success', getConstant('messages.CREATE_SUCCESS'));
         } catch (\Exception $exception) {
             DB::rollback();
@@ -215,7 +215,7 @@ class BookingController extends BackendController
             session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
         }
 
-        return Redirect::route('booking.index');
+        return to_route('booking.index');
     }
 
     public function edit($id)
@@ -395,10 +395,10 @@ class BookingController extends BackendController
                 return redirect(getBackUrl());
             }
 
-            DB::commit();
             if($booking->status_booking->value != BookingStatusEnum::CHECK_OUT->value){
                 Mail::to($emailCustomer)->send(new CancelBookingMail($infoBooking));
             }
+            DB::commit();
             session()->flash('action_success', getConstant('messages.DELETE_SUCCESS'));
         } catch (\Exception $exception) {
             Log::error($exception);

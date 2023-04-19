@@ -68,6 +68,7 @@ const filterRoom = () => {
                                         <div class="wrap">
                                             <label for="time_check_in">Check-in Date</label>
                                             <input name="time_check_in" id="time_check_in" v-model="form.time_check_in" type="date" class="form-control" placeholder="Check-in date">
+                                            <div v-if="$page.props.errors.time_check_in" style="color: red">{{$page.props.errors.time_check_in[0] }}</div>
                                         </div>
                                     </div>
                                 </div>

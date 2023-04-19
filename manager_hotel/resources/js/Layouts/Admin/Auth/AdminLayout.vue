@@ -45,13 +45,17 @@ onMounted(() => {
         "/backend/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js",
     ];
     scripts.forEach(script => {
-        let tag = document.head.querySelector(`[src="${script}"`);
-        if (!tag) {
-            tag = document.createElement("script");
-            tag.setAttribute("src", script);
-            tag.setAttribute("type", 'text/javascript');
-            document.head.appendChild(tag);
-        }
+        // let tag = document.head.querySelector(`[src="${script}"`);
+        // if (!tag) {
+        //     tag = document.createElement("script");
+        //     tag.setAttribute("src", script);
+        //     tag.setAttribute("type", 'text/javascript');
+        //     document.head.appendChild(tag);
+        // }
+        const recaptchaScript = document.createElement("script");
+        recaptchaScript.setAttribute("src", script );
+        document.head.appendChild(recaptchaScript);
+        console.log('js has been loaded');
     });
 })
 </script>

@@ -113,7 +113,7 @@ const confirmBooking = () => {
                                     <div class="form-group">
                                         Total: {{ sum.reduce((partialSum, a) => partialSum + a, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
                                     </div>
-                                    <div v-if="selectRoom.length" class="form-group">
+                                    <div v-if="selectRoom.length == rooms.length" class="form-group">
                                         <button type="submit" class="btn btn-primary py-3 px-5">Continue</button>
                                     </div>
                                 </div>

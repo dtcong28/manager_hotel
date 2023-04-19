@@ -27,7 +27,7 @@ class BookingWebRequest extends FormRequest
             'number_room' => ['required'],
             'room' => ['required'],
             'time_check_in' => ['required'],
-            'time_check_out' => ['required'],
+            'time_check_out' => ['required', 'after:time_check_in'],
         ];
     }
 }

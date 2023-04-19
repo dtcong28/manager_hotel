@@ -6,7 +6,6 @@ import $ from 'jquery';
 import { defineAsyncComponent } from 'vue';
 
 onMounted(() => {
-    console.log(123)
     // async function loadScrollax() {
     //     // Create a Promise that resolves when the script is loaded
     //     const scriptLoaded = new Promise(resolve => {
@@ -82,13 +81,8 @@ onMounted(() => {
         const recaptchaScript = document.createElement("script");
         recaptchaScript.setAttribute("src", script );
         document.head.appendChild(recaptchaScript);
+        console.log('js has been loaded');
     });
-
-    // $(document).ready(function() {
-    //     $('.owl-carousel').owlCarousel({
-    //         // Your options here
-    //     });
-    // });
 })
 </script>
 

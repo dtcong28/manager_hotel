@@ -216,25 +216,25 @@ class BookingController extends FrontendController
                     ];
                 }
             }
-            
+
             $bookFood = [];
             //booking foods
             if (!empty($request['booking']['select_food'])) {
                 foreach ($request['booking']['select_food'] as $key => $value) {
-                    $dataFood['amount'] = $value;
-                    $dataFood['price'] = $request['booking']['price_food'][$key];
-                    $dataFood['food_id'] = $key;
-                    $dataFood['booking_id'] = $booking->id;
+                    if(!is_null($value)){
+                        $dataFood['amount'] = $value;
+                        $dataFood['price'] = $request['booking']['price_food'][$key];
+                        $dataFood['food_id'] = $key;
+                        $dataFood['booking_id'] = $booking->id;
 
-                    array_push($bookFood,data_get($this->foodRepository->find($key), 'name'));
-                    if(!$this->bookingFoodService->store($dataFood)){
-                        DB::rollback();
-                        session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
+                        array_push($bookFood,data_get($this->foodRepository->find($key), 'name'));
+                        if(!$this->bookingFoodService->store($dataFood)){
+                            DB::rollback();
+                            session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
 
-                        return Redirect::route('web.booking.payment');
+                            return Redirect::route('web.booking.payment');
+                        }
                     }
-
-
                 }
             }
 
@@ -251,8 +251,6 @@ class BookingController extends FrontendController
                 $paymentIntent = $payment->asStripePaymentIntent();
             }
 
-            DB::commit();
-
             // gửi mail
             $dataMail = [
                 'time_check_in' => $request['booking']['info_booking']['time_check_in'],
@@ -262,7 +260,8 @@ class BookingController extends FrontendController
             ];
 
             Mail::to($request['email'])->send(new BookingMail($dataMail));
-            return Redirect::route('web.booking.complete');
+            DB::commit();
+            return to_route('web.booking.complete');
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['message' => $e->getMessage()], 500);

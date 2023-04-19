@@ -5,8 +5,14 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Requests\Booking\BookingWebRequest;
 use App\Http\Requests\Booking\FEbookingRequest;
 use App\Http\Requests\Customer\CustomerRequest;
+use App\Mail\BookingMail;
 use App\Models\Booking;
 use App\Models\Customer;
+use App\Models\Enums\BookingStatusEnum;
+use App\Models\Enums\MethodPaymentEnum;
+use App\Models\Enums\PaymentStatusEnum;
+use App\Models\Enums\RoomStatusEnum;
+use App\Models\Enums\TypeBookingEnum;
 use App\Repositories\Eloquent\BookingFoodRepository;
 use App\Repositories\Eloquent\BookingRepository;
 use App\Repositories\Eloquent\BookingRoomRepository;
@@ -22,6 +28,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Stripe\PaymentIntent;
@@ -157,13 +164,13 @@ class BookingController extends FrontendController
             // booking
             $dataBooking = [
                 'customer_id' => $customer->id,
-                'type_booking' => \App\Models\Enums\TypeBookingEnum::ONLINE->value,
+                'type_booking' => TypeBookingEnum::ONLINE->value,
                 'time_check_in' => $request['booking']['info_booking']['time_check_in'],
                 'time_check_out' => $request['booking']['info_booking']['time_check_out'],
                 'number_rooms' => count($request['booking']['info_booking']['rooms']),
-                'status_booking' => \App\Models\Enums\BookingStatusEnum::EXPECTED_ARRIVAL->value,
-                'status_payment' => \App\Models\Enums\PaymentStatusEnum::UNPAID->value,
-                'method_payment' => \App\Models\Enums\MethodPaymentEnum::CASH->value,
+                'status_booking' => BookingStatusEnum::EXPECTED_ARRIVAL->value,
+                'status_payment' => PaymentStatusEnum::UNPAID->value,
+                'method_payment' => MethodPaymentEnum::CASH->value,
             ];
 
             $booking = $this->repository->create($dataBooking);
@@ -192,7 +199,7 @@ class BookingController extends FrontendController
                     }
 
                     if (!empty($room)) {
-                        $room->status = \App\Models\Enums\RoomStatusEnum::OCCUPIED->value;
+                        $room->status = RoomStatusEnum::OCCUPIED->value;
                         if (!$room->save()) {
                             DB::rollback();
                             session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
@@ -200,9 +207,17 @@ class BookingController extends FrontendController
                             return Redirect::route('web.booking.payment');
                         }
                     }
+
+                    // thông tin để gửi mail
+                    $bookRoom[$key] = [
+                        'room_name' => $room->name,
+                        'price' => $request['booking']['info_booking']['price_each_room'][$key],
+                        'number_people' => $room->number_people,
+                    ];
                 }
             }
-
+            
+            $bookFood = [];
             //booking foods
             if (!empty($request['booking']['select_food'])) {
                 foreach ($request['booking']['select_food'] as $key => $value) {
@@ -211,12 +226,15 @@ class BookingController extends FrontendController
                     $dataFood['food_id'] = $key;
                     $dataFood['booking_id'] = $booking->id;
 
+                    array_push($bookFood,data_get($this->foodRepository->find($key), 'name'));
                     if(!$this->bookingFoodService->store($dataFood)){
                         DB::rollback();
                         session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
 
                         return Redirect::route('web.booking.payment');
                     }
+
+
                 }
             }
 
@@ -234,6 +252,16 @@ class BookingController extends FrontendController
             }
 
             DB::commit();
+
+            // gửi mail
+            $dataMail = [
+                'time_check_in' => $request['booking']['info_booking']['time_check_in'],
+                'time_check_out' => $request['booking']['info_booking']['time_check_out'],
+                'room' => $bookRoom,
+                'food' => $bookFood,
+            ];
+
+            Mail::to($request['email'])->send(new BookingMail($dataMail));
             return Redirect::route('web.booking.complete');
         } catch (\Exception $e) {
             DB::rollback();
@@ -269,8 +297,8 @@ class BookingController extends FrontendController
                 $metadata = $paymentIntent->metadata;
                 $dataPayment = [
                     'payment_date' => date('Y-m-d H:i:s'),
-                    'method_payment' => \App\Models\Enums\MethodPaymentEnum::BANKING->value,
-                    'status_payment' => \App\Models\Enums\PaymentStatusEnum::PAID->value,
+                    'method_payment' => MethodPaymentEnum::BANKING->value,
+                    'status_payment' => PaymentStatusEnum::PAID->value,
                     'total_money' => $paymentIntent->amount,
                 ];
                 $booking = $this->repository->update($metadata['booking_id'], $dataPayment);

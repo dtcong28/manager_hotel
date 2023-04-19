@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Requests\Room\TypeRoomRequest;
 use App\Mail\CancelRoomBookingMail;
+use App\Models\Enums\BookingStatusEnum;
 use App\Repositories\Eloquent\RoomRepository;
 use App\Repositories\Eloquent\TypeRoomRepository;
 use App\Services\TypeRoomService;
@@ -140,7 +141,9 @@ class TypeRoomController extends BackendController
                         'room' => data_get($value, 'room.name'),
                     ];
 
-                    Mail::to($emailCustomer)->send(new CancelRoomBookingMail($infoBooking));
+                    if(data_get($value, 'booking.status_booking.value') != BookingStatusEnum::CHECK_OUT->value){
+                        Mail::to($emailCustomer)->send(new CancelRoomBookingMail($infoBooking));
+                    }
                 }
             }
 

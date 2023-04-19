@@ -9,6 +9,7 @@ use App\Mail\CancelBookingMail;
 use App\Models\Enums\BookingStatusEnum;
 use App\Models\Enums\PaymentStatusEnum;
 use App\Models\Enums\RoomStatusEnum;
+use App\Models\Enums\TypeBookingEnum;
 use App\Repositories\Eloquent\BookingFoodRepository;
 use App\Repositories\Eloquent\BookingRepository;
 use App\Repositories\Eloquent\BookingRoomRepository;
@@ -76,7 +77,7 @@ class BookingController extends BackendController
     {
         $customers = $this->customerRepository->get();
 
-        foreach (\App\Models\Enums\TypeBookingEnum::cases() as $key => $data) {
+        foreach (TypeBookingEnum::cases() as $key => $data) {
             $typeBooking[$key] = [
                 'value' => $data->value,
                 'name' => $data->label(),
@@ -163,8 +164,8 @@ class BookingController extends BackendController
         DB::beginTransaction();
         try {
             $params = $request->all();
-            $params['status_payment'] = \App\Models\Enums\PaymentStatusEnum::UNPAID->value;
-            $params['status_booking'] = \App\Models\Enums\BookingStatusEnum::EXPECTED_ARRIVAL->value;
+            $params['status_payment'] = PaymentStatusEnum::UNPAID->value;
+            $params['status_booking'] = BookingStatusEnum::EXPECTED_ARRIVAL->value;
             $customer = $this->customerRepository->find(data_get(data_get($params, 'customer'), 'id'));
 
             if (!$this->service->store($params)) {
@@ -193,12 +194,20 @@ class BookingController extends BackendController
 
                     return Redirect::route('booking.index');
                 }
-                $data[$key]['room_name'] = $room->name;
+                $dataRoom[$key] = [
+                    'room_name' => $room->name,
+                    'price' => data_get($params, 'price_each_room')[$key],
+                    'number_people' => $room->number_people,
+                ];
             }
-
-            Mail::to($customer->email)->send(new BookingMail($data));
+            $dataMail = [
+                'time_check_in' => data_get($params, 'time_check_in'),
+                'time_check_out' => data_get($params, 'time_check_out'),
+                'room' => $dataRoom,
+            ];
 
             DB::commit();
+            Mail::to($customer->email)->send(new BookingMail($dataMail));
             session()->flash('action_success', getConstant('messages.CREATE_SUCCESS'));
         } catch (\Exception $exception) {
             DB::rollback();
@@ -215,7 +224,7 @@ class BookingController extends BackendController
             return Redirect::route('booking.index');
         }
 
-        foreach (\App\Models\Enums\TypeBookingEnum::cases() as $key => $data) {
+        foreach (TypeBookingEnum::cases() as $key => $data) {
             $typeBooking[$key] = [
                 'value' => $data->value,
                 'name' => $data->label(),
@@ -265,7 +274,7 @@ class BookingController extends BackendController
                     // update status room is vacant
                     $room = $this->roomRepository->find($room['room_id']);
                     if (!empty($room)) {
-                        $room->status = \App\Models\Enums\RoomStatusEnum::VACANT->value;
+                        $room->status = RoomStatusEnum::VACANT->value;
                         $room->save();
                     }
                 } else {
@@ -302,8 +311,8 @@ class BookingController extends BackendController
 
                     // update status room is expected arrival
                     $room = $this->roomRepository->find($value);
-                    if (!empty($room) && $booking->status_booking->value == \App\Models\Enums\BookingStatusEnum::CHECK_IN->value){
-                        $room->status = \App\Models\Enums\RoomStatusEnum::OCCUPIED->value;
+                    if (!empty($room) && $booking->status_booking->value == BookingStatusEnum::CHECK_IN->value){
+                        $room->status = RoomStatusEnum::OCCUPIED->value;
                         $room->save();
                     }
                 }
@@ -387,7 +396,9 @@ class BookingController extends BackendController
             }
 
             DB::commit();
-            Mail::to($emailCustomer)->send(new CancelBookingMail($infoBooking));
+            if($booking->status_booking->value != BookingStatusEnum::CHECK_OUT->value){
+                Mail::to($emailCustomer)->send(new CancelBookingMail($infoBooking));
+            }
             session()->flash('action_success', getConstant('messages.DELETE_SUCCESS'));
         } catch (\Exception $exception) {
             Log::error($exception);

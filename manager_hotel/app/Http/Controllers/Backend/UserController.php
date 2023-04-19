@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Requests\User\UserRequest;
 use App\Http\Requests\User\UserRequestUpdate;
+use App\Models\Enums\GenderEnum;
 use App\Repositories\Eloquent\PermissionRepository;
 use App\Repositories\Eloquent\RoleRepository;
 use App\Repositories\Eloquent\UserRepository;
@@ -44,7 +45,7 @@ class UserController extends BackendController
         $permissions = $this->permissionRepository->get();
         $roles = $this->roleRepository->get();
 
-        foreach (\App\Models\Enums\GenderEnum::cases() as $key => $data) {
+        foreach (GenderEnum::cases() as $key => $data) {
             $gender[$key] = [
                 'value' => $data->value,
                 'name' => $data->label(),
@@ -102,7 +103,7 @@ class UserController extends BackendController
         $record = $this->repository->find($id);
         $record->load('roles');
         $roles = $this->roleRepository->get();
-        foreach (\App\Models\Enums\GenderEnum::cases() as $key => $data) {
+        foreach (GenderEnum::cases() as $key => $data) {
             $gender[$key] = [
                 'value' => $data->value,
                 'name' => $data->label(),

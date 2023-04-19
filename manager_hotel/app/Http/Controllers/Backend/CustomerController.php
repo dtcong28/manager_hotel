@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Requests\Customer\CustomerRequest;
+use App\Models\Enums\GenderEnum;
 use App\Repositories\Eloquent\BookingFoodRepository;
 use App\Repositories\Eloquent\BookingRepository;
 use App\Repositories\Eloquent\CustomerRepository;
@@ -50,7 +51,7 @@ class CustomerController extends BackendController
 
     public function create()
     {
-        foreach (\App\Models\Enums\GenderEnum::cases() as $key => $data) {
+        foreach (GenderEnum::cases() as $key => $data) {
             $gender[$key] = [
                 'value' => $data->value,
                 'name' => $data->label(),
@@ -95,7 +96,7 @@ class CustomerController extends BackendController
             return Redirect::route('customers.index');
         }
 
-        foreach (\App\Models\Enums\GenderEnum::cases() as $key => $data) {
+        foreach (GenderEnum::cases() as $key => $data) {
             $gender[$key] = [
                 'value' => $data->value,
                 'name' => $data->label(),

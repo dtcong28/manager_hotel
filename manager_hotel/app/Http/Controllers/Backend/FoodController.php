@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Requests\Food\FoodRequest;
+use App\Mail\CancelFoodBookingMail;
+use App\Models\Enums\BookingStatusEnum;
 use App\Models\Food;
 use App\Repositories\Eloquent\BookingFoodRepository;
 use App\Repositories\Eloquent\FoodRepository;
@@ -11,6 +13,7 @@ use App\Services\FoodService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
@@ -140,13 +143,27 @@ class FoodController extends BackendController
             }
 
             $food = $this->repository->find($id);
+
             if (empty($food)) {
                 session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
 
                 return redirect(getBackUrl());
             }
 
-            $bookingFood = $food->bookingFood()->get();
+            // gửi mail thông báo xóa food cho khách hàng
+            $bookingFood = $food->bookingFood()->with('booking.customer')->get();
+            foreach ($bookingFood as $value){
+                $emailCustomer = data_get($value,'booking.customer.email');
+                $infoBooking = [
+                    'info' => data_get($value,'booking'),
+                    'food' => data_get($food,'name'),
+                ];
+
+                if(data_get($value, 'booking.status_booking.value') != BookingStatusEnum::CHECK_OUT->value){
+                    Mail::to($emailCustomer)->send(new CancelFoodBookingMail($infoBooking));
+                }
+            }
+
             if($bookingFood->isNotEmpty() && !$food->bookingFood()->delete()){
                 session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
                 DB::rollback();
@@ -161,8 +178,7 @@ class FoodController extends BackendController
                 return redirect(getBackUrl());
             }
 
-            // booking có status = checkin, EA -> gui mail cho user dat mon an do, xin loi vi da huy mon an
-            // booking có status = check out -> thì k gửi mail nữa, trong bill sẽ ghi là món đã bị hủy
+            // trường hợp khách đã thanh toán thì bill tổng tiền phải giữ nguyên giá, nếu món ăn đó đã bị xóa, cập nhập trong bill là đã bị xóa
             DB::commit();
             session()->flash('action_success', getConstant('messages.DELETE_SUCCESS'));
         } catch (\Exception $exception) {

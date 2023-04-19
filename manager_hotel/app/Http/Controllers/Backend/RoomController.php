@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Requests\Room\RoomRequest;
 use App\Mail\CancelRoomBookingMail;
+use App\Models\Enums\BookingStatusEnum;
 use App\Models\Enums\RoomStatusEnum;
 use App\Repositories\Eloquent\RoomRepository;
 use App\Repositories\Eloquent\TypeRoomRepository;
@@ -62,7 +63,7 @@ class RoomController extends BackendController
     {
         $typesRoom = $this->typeRoomRepository->get();
 
-        foreach (\App\Models\Enums\RoomStatusEnum::cases() as $key => $data) {
+        foreach (RoomStatusEnum::cases() as $key => $data) {
             $status[$key] = [
                 'value' => $data->value,
                 'name' => $data->label(),
@@ -120,7 +121,7 @@ class RoomController extends BackendController
 
         $typesRoom = $this->typeRoomRepository->get();;
 
-        foreach (\App\Models\Enums\RoomStatusEnum::cases() as $key => $data) {
+        foreach (RoomStatusEnum::cases() as $key => $data) {
             $status[$key] = [
                 'value' => $data->value,
                 'name' => $data->label(),
@@ -184,7 +185,9 @@ class RoomController extends BackendController
                     'room' => data_get($value, 'room.name'),
                 ];
 
-                Mail::to($emailCustomer)->send(new CancelRoomBookingMail($infoBooking));
+                if(data_get($value, 'booking.status_booking.value') != BookingStatusEnum::CHECK_OUT->value){
+                    Mail::to($emailCustomer)->send(new CancelRoomBookingMail($infoBooking));
+                }
             }
 
             // xóa room trong bảng booking room của phòng tương ứng đó

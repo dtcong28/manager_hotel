@@ -92,7 +92,7 @@ class RoomRepository extends CustomRepository
     {
         $query = $this
             ->when(empty($params['time_check_in']) && empty($params['time_check_out']), function ($query) {
-                $query->where('status', '=', \App\Models\Enums\RoomStatusEnum::VACANT->value);
+                $query->where('status', '=', RoomStatusEnum::VACANT->value);
             })
             ->when(!empty($params['time_check_in']) && !empty($params['time_check_out']), function ($query) use ($params) {
                 $roomInRangeTimeBooking = $this->getListRoomInRangeTimeBooking($params['time_check_in'], $params['time_check_out']);

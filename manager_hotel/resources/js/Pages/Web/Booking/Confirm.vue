@@ -60,13 +60,15 @@ const payment = () => {
                             </div>
                             <div class="form-group">
                                 <label>Gender *</label><br>
-                                <div>
-                                    <input type="radio" name="gender" value="1" v-model="form.gender">
-                                    <label style="font-weight: bold">Male</label>
-                                </div>
-                                <div>
-                                    <input type="radio" name="gender" value="0" v-model="form.gender">
-                                    <label style="font-weight: bold">Female</label>
+                                <div class="row">
+                                    <div class="col-2">
+                                        <input type="radio" id="male" name="gender" value="1" v-model="form.gender">
+                                        <label for="male" style="font-weight: bold">Male</label>
+                                    </div>
+                                    <div class="col">
+                                        <input type="radio" id="female" name="gender" value="0" v-model="form.gender">
+                                        <label for="female" style="font-weight: bold">Female</label>
+                                    </div>
                                 </div>
                                 <div v-if="$page.props.errors.gender" style="color: red">{{ $page.props.errors.gender[0] }}</div>
                             </div>

@@ -31,7 +31,7 @@ function sum(obj) {
 const totalMoney = props.info_booking.booking.price_food ? price_each_room.reduce((partialSum, a) => partialSum + a, 0) + sum(props.info_booking.booking.price_food) : price_each_room.reduce((partialSum, a) => partialSum + a, 0)
 
 const booking = () => {
-    router.post(route('web.booking.store'), props.info_booking)
+    router.post(route('web.store'), props.info_booking)
 };
 </script>
 
@@ -105,7 +105,6 @@ export default {
         },
     },
 }
-
 </script>
 
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>

@@ -19,7 +19,6 @@ const search = ref('')
 const payment = ref('')
 
 function searchData(route) {
-    console.log(route)
     router.get(route, { search: search.value }, { preserveState: true })
 }
 
@@ -52,11 +51,10 @@ const deleteBooking = (id) => {
                 </div>
             </div>
         </div>
-        {{ $page.url == '/admin/dashboard' }}
         <div class="col-sm-12 col-md-6">
             <div id="example4_filter" class="dataTables_filter">
                 <label>Search:
-                    <input type="search" id="search" v-model="search" @keyup="($page.url == '/admin/dashboard') ? searchData('dashboard') : searchData('booking')" class="form-control form-control-sm" placeholder="" aria-controls="example4">
+                    <input type="search" id="search" v-model="search" @keyup="($page.component == 'Admin/DashBoard/Index') ? searchData('dashboard') : searchData('booking')" class="form-control form-control-sm" placeholder="" aria-controls="example4">
                 </label>
             </div>
         </div>

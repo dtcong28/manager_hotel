@@ -85,7 +85,7 @@ const props = defineProps({
                         <span class="info-box-icon push-bottom"><i class="material-icons">monetization_on</i></span>
                         <div class="info-box-content">
                             <span class="info-box-text">Total Earning</span>
-                            <span class="info-box-number">{{ parseInt(totalMoney.total_money).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</span><span></span>
+                            <span class="info-box-number">{{ totalMoney.total_money ? parseInt(totalMoney.total_money).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) : 0}}</span><span></span>
                             <div class="progress">
                                 <div class="progress-bar width-60"></div>
                             </div>

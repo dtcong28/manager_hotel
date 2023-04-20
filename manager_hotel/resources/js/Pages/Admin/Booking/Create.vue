@@ -124,6 +124,7 @@ const filterRoom = () => {
                                         People</label>
                                     <input type="number" :name="'room_'+room" v-model="form.room[room]"
                                            class="form-control" :id="'room_'+room" placeholder="Enter number people">
+                                    <div v-if="room > form.number_room.value" class="d-none">{{ form.room[room] = null}}</div>
                                     <div v-if="form.errors.room" style="color: red">{{ form.errors.room[0] }}</div>
                                 </div>
                             </div>

@@ -3,6 +3,17 @@ import SidebarMenuItem from "@/Components/Admin/SidebarMenuItem.vue";
 import { Link } from '@inertiajs/vue3'
 const menus = [
     {
+        name: 'Dashboard',
+        icon: 'dashboard',
+        route: false,
+        children: [
+            {
+                name: 'Dashboard',
+                route: 'dashboard',
+            },
+        ],
+    },
+    {
         name: 'Employee',
         icon: 'group',
         route: false,
@@ -101,14 +112,6 @@ const menus = [
                                    data-original-title="Profile">
                                     <i class="material-icons">person_outline</i>
                                 </Link>
-                                <a class="tooltips" href="email_inbox.html" data-placement="top"
-                                   data-original-title="Mail">
-                                    <i class="material-icons">mail_outline</i>
-                                </a>
-                                <a class="tooltips" href="chat.html" data-placement="top"
-                                   data-original-title="Chat">
-                                    <i class="material-icons">chat</i>
-                                </a>
                                 <Link :href="route('logout')" method="post">
                                     <button class="tooltips" data-placement="top"
                                        data-original-title="Logout">

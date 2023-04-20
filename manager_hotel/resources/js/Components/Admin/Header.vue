@@ -9,7 +9,7 @@ import {Link} from '@inertiajs/vue3'
             <!-- logo start -->
             <div class="page-logo">
                 <Link :href="route('dashboard')">
-                    <span class="logo-default">Spice</span>
+                    <span class="logo-default">{{ $page.props.info_hotel.name }}</span>
                 </Link>
             </div>
             <!-- logo end -->

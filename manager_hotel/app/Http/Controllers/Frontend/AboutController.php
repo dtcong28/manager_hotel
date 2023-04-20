@@ -16,8 +16,6 @@ class AboutController extends FrontendController
     protected $userRepository;
     protected $customerRepository;
     protected $foodRepository;
-    protected $hotelRepository;
-
 
     public function __construct()
     {
@@ -26,7 +24,6 @@ class AboutController extends FrontendController
         $this->userRepository = app(UserRepository::class);
         $this->customerRepository = app(CustomerRepository::class);
         $this->foodRepository = app(FoodRepository::class);
-        $this->hotelRepository = app(HotelRepository::class);
     }
 
     public function index()
@@ -36,7 +33,6 @@ class AboutController extends FrontendController
             'totalEmployee' => $this->userRepository->get()->count(),
             'totalCustomer' => $this->customerRepository->get()->count(),
             'totalFood' => $this->foodRepository->get()->count(),
-            'hotel' => $this->hotelRepository->first(),
         ]);
     }
 

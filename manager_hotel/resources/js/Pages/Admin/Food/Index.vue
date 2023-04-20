@@ -8,8 +8,8 @@ import DangerButton from '@/Components/Admin/DangerButton.vue';
 import SecondaryButton from '@/Components/Admin/SecondaryButton.vue';
 import {ref} from "vue";
 import {usePermission} from "@/Composables/permissions";
-const { hasPermission } = usePermission();
 
+const { hasPermission } = usePermission();
 const form = useForm({})
 const props = defineProps({
     food: Array,

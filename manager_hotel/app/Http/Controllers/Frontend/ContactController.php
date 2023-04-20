@@ -18,9 +18,7 @@ class ContactController extends FrontendController
     public function index()
     {
 
-        return Inertia::render('Web/Contact/Index', [
-            'hotel' => $this->hotelRepository->first(),
-        ]);
+        return Inertia::render('Web/Contact/Index');
     }
 
 }

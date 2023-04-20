@@ -8,7 +8,6 @@ const props = defineProps({
     totalEmployee: Array,
     totalCustomer: Array,
     totalFood: Array,
-    hotel: Array
 })
 </script>
 
@@ -81,12 +80,12 @@ const props = defineProps({
                     <div class="col-md-7 py-5 wrap-about pb-md-5 ">
                         <div class="heading-section heading-section-wo-line pt-md-5 pl-md-5 mb-5">
                             <div class="ml-md-0">
-                                <span class="subheading">Welcome to {{ props.hotel.name }} Hotel</span>
+                                <span class="subheading">Welcome to {{ $page.props.info_hotel.name }} Hotel</span>
                                 <h2 class="mb-4">Welcome To Our Hotel</h2>
                             </div>
                         </div>
                         <div class="pb-md-5">
-                            {{ props.hotel.introduce }}
+                            {{ $page.props.info_hotel.introduce }}
                             <ul class="ftco-social d-flex">
                                 <li class=""><a href="#"><span class="icon-twitter"></span></a></li>
                                 <li class=""><a href="#"><span class="icon-facebook"></span></a></li>
@@ -158,6 +157,5 @@ const props = defineProps({
             </div>
         </section>
     </WebLayout>
-
 </template>
 

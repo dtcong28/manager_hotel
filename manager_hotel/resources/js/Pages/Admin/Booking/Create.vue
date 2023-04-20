@@ -31,6 +31,10 @@ const data = ref({
     ],
 })
 
+function back() {
+    window.history.back();
+}
+
 const filterRoom = () => {
     form.get(route('booking.filter_room'), {preserveState: true})
 };
@@ -130,10 +134,10 @@ const filterRoom = () => {
                                         data-upgraded=",MaterialButton,MaterialRipple">Continue<span
                                     class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
                                 </button>
-                                <Link :href="route('booking.index')"
+                                <button @click="back"
                                       class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default"
                                       data-upgraded=",MaterialButton,MaterialRipple">Cancel<span
-                                    class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></Link>
+                                    class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
                             </div>
                         </div>
                     </form>

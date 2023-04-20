@@ -3,10 +3,6 @@ import {Link, useForm} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 import WebLayout from '@/Layouts/Web/WebLayout.vue';
 
-const props = defineProps({
-    hotel: Array,
-})
-
 </script>
 
 <template>
@@ -34,22 +30,22 @@ const props = defineProps({
                     <div class="w-100"></div>
                     <div class="col-md-3 d-flex">
                         <div class="info bg-white p-4">
-                            <p><span>Address:</span>{{ props.hotel.address }}</p>
+                            <p><span>Address:</span>{{ $page.props.info_hotel.address }}</p>
                         </div>
                     </div>
                     <div class="col-md-3 d-flex">
                         <div class="info bg-white p-4">
-                            <p><span>Phone:</span> <a href="tel://1234567920">{{ props.hotel.phone }}</a></p>
+                            <p><span>Phone:</span> <a href="tel://1234567920">{{ $page.props.info_hotel.phone }}</a></p>
                         </div>
                     </div>
                     <div class="col-md-3 d-flex">
                         <div class="info bg-white p-4">
-                            <p><span>Email:</span> <a href="mailto:info@yoursite.com">{{ props.hotel.email }}</a></p>
+                            <p><span>Email:</span> <a href="mailto:info@yoursite.com">{{ $page.props.info_hotel.email }}</a></p>
                         </div>
                     </div>
                     <div class="col-md-3 d-flex">
                         <div class="info bg-white p-4">
-                            <p><span>Website</span> <a href="#">{{ props.hotel.website }}</a></p>
+                            <p><span>Website</span> <a href="#">{{ $page.props.info_hotel.website }}</a></p>
                         </div>
                     </div>
                 </div>
@@ -76,7 +72,7 @@ const props = defineProps({
                     </div>
 
                     <div class="col-md-6 d-flex">
-                        <div id="map" class="bg-white"></div>
+                        <iframe class="bg-white" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29793.980453127915!2d105.81636412211103!3d21.022778419204496!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab9bd9861ca1%3A0xe7887f7b72ca17a9!2zSGFub2ksIEhvw6BuIEtp4bq_bSwgSGFub2ksIFZpZXRuYW0!5e0!3m2!1sen!2s!4v1681961817027!5m2!1sen!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
             </div>

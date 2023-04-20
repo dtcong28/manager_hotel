@@ -6,23 +6,6 @@ import $ from 'jquery';
 import { defineAsyncComponent } from 'vue';
 
 onMounted(() => {
-    // async function loadScrollax() {
-    //     // Create a Promise that resolves when the script is loaded
-    //     const scriptLoaded = new Promise(resolve => {
-    //         const script = document.createElement('script');
-    //         script.src = '/frontend/js/scrollax.min.js';
-    //         script.onload = resolve;
-    //         document.head.appendChild(script);
-    //         console.log('scrollax.min.js has been loaded 123');
-    //     });
-    //
-    //     // Wait for the Promise to resolve
-    //     await scriptLoaded;
-    //
-    //     // Use scrollax here
-    // }
-    // loadScrollax();
-
     const styles = [
         "https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700",
         "https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i",
@@ -61,11 +44,11 @@ onMounted(() => {
         "/frontend/js/jquery.magnific-popup.min.js",
         "/frontend/js/aos.js",
         "/frontend/js/jquery.animateNumber.min.js",
-        "/frontend/js/bootstrap-datepicker.js",
+        // "/frontend/js/bootstrap-datepicker.js",
         // "/frontend/js/jquery.timepicker.min.js",
         "/frontend/js/scrollax.min.js",
         "https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false",
-        "/frontend/js/google-map.js",
+        // "/frontend/js/google-map.js",
         "/frontend/js/main.js",
     ];
 
@@ -90,7 +73,7 @@ onMounted(() => {
     <body>
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <div class="container">
-            <Link class="navbar-brand" :href="route('web.home')">Deluxe</Link>
+            <Link class="navbar-brand" :href="route('web.home')">{{ $page.props.info_hotel.name }}</Link>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
                     aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="oi oi-menu"></span> Menu
@@ -119,7 +102,7 @@ onMounted(() => {
             </div>
             <div class="row no-gutters">
                 <div class="col-sm-12 col-md">
-                    <Link href="/frontend/images/insta-1.jpg" class="insta-img image-popup"
+                    <Link class="insta-img image-popup"
                        v-bind:style="{ 'background-image': 'url(/frontend/images/insta-1.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
@@ -167,7 +150,7 @@ onMounted(() => {
             <div class="row mb-5">
                 <div class="col-md">
                     <div class="ftco-footer-widget mb-4">
-                        <h2 class="ftco-heading-2">Deluxe Hotel</h2>
+                        <h2 class="ftco-heading-2">{{ $page.props.info_hotel.name }} Hotel</h2>
                         <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia,
                             there live the blind texts.</p>
                         <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
@@ -181,10 +164,9 @@ onMounted(() => {
                     <div class="ftco-footer-widget mb-4 ml-md-5">
                         <h2 class="ftco-heading-2">Useful Links</h2>
                         <ul class="list-unstyled">
-                            <li><a href="#" class="py-2 d-block">Blog</a></li>
-                            <li><a href="#" class="py-2 d-block">Rooms</a></li>
-                            <li><a href="#" class="py-2 d-block">Amenities</a></li>
-                            <li><a href="#" class="py-2 d-block">Gift Card</a></li>
+                            <li><Link :href="route('web.home')" class="py-2 d-block">Home</Link></li>
+                            <li><Link :href="route('web.rooms.index')" class="py-2 d-block">Rooms</Link></li>
+                            <li><Link :href="route('web.restaurant.index')" class="py-2 d-block">Restaurant</Link></li>
                         </ul>
                     </div>
                 </div>
@@ -192,10 +174,8 @@ onMounted(() => {
                     <div class="ftco-footer-widget mb-4">
                         <h2 class="ftco-heading-2">Privacy</h2>
                         <ul class="list-unstyled">
-                            <li><a href="#" class="py-2 d-block">Career</a></li>
-                            <li><a href="#" class="py-2 d-block">About Us</a></li>
-                            <li><a href="#" class="py-2 d-block">Contact Us</a></li>
-                            <li><a href="#" class="py-2 d-block">Services</a></li>
+                            <li><Link :href="route('web.about.index')" class="py-2 d-block">About</Link></li>
+                            <li><Link :href="route('web.contact.index')" class="py-2 d-block">Contact</Link></li>
                         </ul>
                     </div>
                 </div>
@@ -204,11 +184,11 @@ onMounted(() => {
                         <h2 class="ftco-heading-2">Have a Questions?</h2>
                         <div class="block-23 mb-3">
                             <ul>
-                                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span>
+                                <li><span class="icon icon-map-marker"></span><span class="text">{{ $page.props.info_hotel.address }}</span>
                                 </li>
                                 <li><a href="#"><span class="icon icon-phone"></span><span
-                                    class="text">+2 392 3929 210</span></a></li>
-                                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a>
+                                    class="text">{{ $page.props.info_hotel.phone }}</span></a></li>
+                                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">{{ $page.props.info_hotel.email }}</span></a>
                                 </li>
                             </ul>
                         </div>

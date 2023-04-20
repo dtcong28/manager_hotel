@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\HotelResource;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -47,6 +48,9 @@ class HandleInertiaRequests extends Middleware
             'errors' => function () use ($request) {
                 return $request->session()->get('errors')
                     ? $request->session()->get('errors')->getBag('default')->getMessages() : (object) [];
+            },
+            'info_hotel' => function () {
+                return new HotelResource();
             },
         ]);
     }

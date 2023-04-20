@@ -2,6 +2,7 @@
 import {Link, useForm} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 import WebLayout from '@/Layouts/Web/WebLayout.vue';
+import {onMounted} from "vue";
 
 const props = defineProps({
     rooms: Array,
@@ -22,6 +23,19 @@ const form = useForm({
 const filterRoom = () => {
     form.get(route('web.booking.filter_room'))
 };
+
+// onMounted(() => {
+//     const scripts = [
+//         "/frontend/js/owl.carousel.min.js",
+//     ];
+//
+//     scripts.forEach(script => {
+//         const recaptchaScript = document.createElement("script");
+//         recaptchaScript.setAttribute("src", script );
+//         document.head.appendChild(recaptchaScript);
+//         console.log('js has been loaded');
+//     });
+// })
 </script>
 
 <template>
@@ -133,34 +147,16 @@ const filterRoom = () => {
                 <div class="row">
                     <div class="col-md-5 p-md-5 img img-2 d-flex justify-content-center align-items-center"
                          v-bind:style="{ 'background-image': 'url(/frontend/images/bg_2.jpg)' }">
-                        <a href="https://vimeo.com/45830194"
-                           class="icon popup-vimeo d-flex justify-content-center align-items-center">
-                            <span class="icon-play"></span>
-                        </a>
                     </div>
                     <div class="col-md-7 py-5 wrap-about pb-md-5 ftco-animate">
                         <div class="heading-section heading-section-wo-line pt-md-5 pl-md-5 mb-5">
                             <div class="ml-md-0">
-                                <span class="subheading">Welcome to Deluxe Hotel</span>
+                                <span class="subheading">Welcome to {{ $page.props.info_hotel.name }} Hotel</span>
                                 <h2 class="mb-4">Welcome To Our Hotel</h2>
                             </div>
                         </div>
                         <div class="pb-md-5">
-                            <p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from
-                                it
-                                would have been rewritten a thousand times and everything that was left from its origin
-                                would be the word "and" and the Little Blind Text should turn around and return to its
-                                own,
-                                safe country. But nothing the copy said could convince her and so it didn’t take long
-                                until
-                                a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and
-                                dragged
-                                her into their agency, where they abused her for their.</p>
-                            <p>When she reached the first hills of the Italic Mountains, she had a last view back on the
-                                skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline
-                                of
-                                her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she
-                                continued her way.</p>
+                            {{ $page.props.info_hotel.introduce }}
                             <ul class="ftco-social d-flex">
                                 <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
                                 <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>

@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->string('phone');
             $table->string('email');
             $table->string('identity_card');
+            $table->string('password');
             $table->timestamps();
             $table->softDeletes();
         });

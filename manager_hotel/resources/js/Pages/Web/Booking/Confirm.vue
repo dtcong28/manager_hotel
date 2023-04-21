@@ -12,6 +12,8 @@ const form = useForm({
     email: '',
     identity_card: '',
     booking: props.booking,
+    password: '',
+    password_confirmation: '',
 });
 
 const props = defineProps({
@@ -20,7 +22,13 @@ const props = defineProps({
     select_foods: Array,
 })
 
+const flagMember = ref(false);
+
 const price_each_room = props.booking.info_booking.price_each_room.map(Number);
+
+function becomeMember(){
+    return flagMember.value = !flagMember.value
+}
 
 function sum(obj) {
     return Object.keys(obj).reduce((sum,key)=>sum+parseFloat(obj[key]||0),0);
@@ -91,6 +99,19 @@ const payment = () => {
                                 <label>Identity card *</label>
                                 <input type="text" v-model="form.identity_card" class="form-control" placeholder="Identity card">
                                 <div v-if="$page.props.errors.identity_card" style="color: red">{{ $page.props.errors.identity_card[0] }}</div>
+                            </div>
+                            <div class="form-group">
+                                <div style="color: #1a237e; font-weight: bold; cursor: pointer" @click="becomeMember">Become member</div>
+                            </div>
+                            <div class="form-group" v-if="flagMember">
+                                <label>Password</label>
+                                <input type="password" v-model="form.password" class="form-control" placeholder="Password">
+                                <div v-if="$page.props.errors.password" style="color: red">{{ $page.props.errors.password[0] }}</div>
+                            </div>
+                            <div class="form-group" v-if="flagMember">
+                                <label>Confirm Password</label>
+                                <input type="password" v-model="form.password_confirmation" class="form-control" placeholder="Confirm Password">
+                                <div v-if="$page.props.errors.password_confirmation" style="color: red">{{ $page.props.errors.password_confirmation[0] }}</div>
                             </div>
                             <div class="form-group" style="text-align: center; padding: 20px">
                                 <button type="submit" class="btn btn-primary py-3 px-5">Confirm</button>

@@ -86,6 +86,7 @@ onMounted(() => {
                     <li class="nav-item"><Link :href="route('web.restaurant.index')" class="nav-link">Restaurant</Link></li>
                     <li class="nav-item"><Link :href="route('web.about.index')" class="nav-link">About</Link></li>
                     <li class="nav-item"><Link :href="route('web.contact.index')" class="nav-link">Contact</Link></li>
+                    <li class="nav-item"><Link href="#" class="nav-link">Login</Link></li>
                 </ul>
             </div>
         </div>

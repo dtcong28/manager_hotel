@@ -2,7 +2,7 @@
 import {Link, useForm} from '@inertiajs/vue3'
 import {Head, useRemember} from '@inertiajs/vue3';
 import LayoutBooking from '@/Layouts/Web/LayoutBooking.vue';
-import {ref} from "vue";
+import {computed, ref} from "vue";
 
 const props = defineProps({
     rooms: Array,
@@ -34,7 +34,34 @@ const form = useForm({
 const confirmBooking = () => {
     form.get(route('web.booking.food'))
 };
+
+const totalSelectRoom = computed(() => selectRoom.value.filter(el => el != null).length)
 </script>
+
+<style>
+.custom-radio span {
+    display: inline-block;
+    position: relative;
+    padding: 10px 20px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    user-select: none;
+}
+
+.custom-radio input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.custom-radio input:checked ~ span {
+    background-color: #2196F3;
+    color: #fff;
+    border-color: #2196F3;
+}
+</style>
 
 <template>
     <Head title="Booking room"/>
@@ -56,7 +83,7 @@ const confirmBooking = () => {
                 <div class="row">
                     <div class="col-lg-8" >
                         <div v-if="rooms" v-for="(room,key) in rooms">
-                            <h3>Room {{ key + 1 }}</h3>
+                            <h3>Select Room {{ key + 1 }}</h3>
                             <div v-if="room==''">
                                 <span style="color: red">No room available</span>
                             </div>
@@ -82,10 +109,9 @@ const confirmBooking = () => {
                                                 </ul>
                                             </div>
                                             <hr>
-                                            <label :for="data.id" class="pt-1" style="cursor: pointer">
-                                                Select Room
-                                                <input style="cursor: pointer" type="radio" :id="data.id" :value="data.id" v-model="selectRoom[key]" :disabled="selectRoom.includes(data.id)"/>
-                                                <span class="icon-long-arrow-right"></span>
+                                            <label class="pt-1 custom-radio">
+                                                <input type="radio" :id="data.id" :value="data.id" v-model="selectRoom[key]" :disabled="selectRoom.includes(data.id)"/>
+                                                <span>Select Room</span>
                                             </label>
                                         </div>
                                     </div>
@@ -113,7 +139,7 @@ const confirmBooking = () => {
                                     <div class="form-group">
                                         Total: {{ sum.reduce((partialSum, a) => partialSum + a, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
                                     </div>
-                                    <div v-if="selectRoom.length == rooms.length" class="form-group">
+                                    <div v-if="rooms.length == totalSelectRoom" class="form-group">
                                         <button type="submit" class="btn btn-primary py-3 px-5">Continue</button>
                                     </div>
                                 </div>

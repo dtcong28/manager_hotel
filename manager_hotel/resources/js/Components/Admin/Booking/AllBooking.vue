@@ -43,7 +43,7 @@ const deleteBooking = (id) => {
 <template>
     <div class="card-body ">
         <div v-if="hasPermission('create')" class="row p-b-20">
-            <div class="col-md-6 col-sm-6 col-6">
+            <div v-if="$page.component != 'Admin/DashBoard/Index'" class="col-md-6 col-sm-6 col-6">
                 <div class="btn-group">
                     <Link :href="route('booking.create')" id="addRow" class="btn btn-info">
                         Add New <i class="fa fa-plus"></i>

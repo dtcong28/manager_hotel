@@ -30,6 +30,13 @@ const data = ref({
         {value: 4},
     ],
 })
+function handleChange() {
+    for (const [key, value] of Object.entries(form.room)) {
+        if(key > form.number_room.value) {
+            form.room[key] = null
+        }
+    }
+}
 
 function back() {
     window.history.back();
@@ -57,6 +64,7 @@ const filterRoom = () => {
                 </ol>
             </div>
         </div>
+        {{ form.room }}
         <div class="row">
             <div class="col-sm-12">
                 <div class="card-box">
@@ -112,7 +120,7 @@ const filterRoom = () => {
                                     <multiselect v-model="form.number_room" deselect-label="Can't remove this value"
                                                  track-by="value" label="value" placeholder="Select one"
                                                  :options="data.numberRooms" :searchable="false"
-                                                 :allow-empty="false"></multiselect>
+                                                 :allow-empty="false" @update:modelValue="handleChange"></multiselect>
                                     <div v-if="$page.props.errors.number_room" style="color: red">
                                         {{ $page.props.errors.number_room[0] }}
                                     </div>
@@ -124,7 +132,6 @@ const filterRoom = () => {
                                         People</label>
                                     <input type="number" :name="'room_'+room" v-model="form.room[room]"
                                            class="form-control" :id="'room_'+room" placeholder="Enter number people">
-                                    <div v-if="room > form.number_room.value" class="d-none">{{ form.room[room] = null}}</div>
                                     <div v-if="form.errors.room" style="color: red">{{ form.errors.room[0] }}</div>
                                 </div>
                             </div>

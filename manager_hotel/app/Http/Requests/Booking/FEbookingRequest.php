@@ -4,6 +4,7 @@ namespace App\Http\Requests\Booking;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules;
 
 class FEbookingRequest extends FormRequest
 {
@@ -27,10 +28,11 @@ class FEbookingRequest extends FormRequest
         return [
             'name' => ['required'],
             'gender' => ['required'],
-            'email' => ['required', Rule::unique('customers','email')->ignore($this->customer)],
+            'email' => ['required', Rule::unique('customers','email')->ignore($this->customer)->whereNull('deleted_at')],
             'address' => ['required'],
             'phone' => ['required'],
             'identity_card' => ['required'],
+            'password' => ['confirmed'],
         ];
     }
 }

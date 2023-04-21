@@ -102,7 +102,7 @@ class BookingController extends BackendController
         $data = [
             'time_check_in' => data_get($params, 'time_check_in'),
             'time_check_out' => data_get($params, 'time_check_out'),
-            'number_people' => data_get($params, 'room'),
+            'number_people' => array_filter(data_get($params, 'room')),
         ];
 
         return Inertia::render('Admin/Booking/RoomAvailable', [

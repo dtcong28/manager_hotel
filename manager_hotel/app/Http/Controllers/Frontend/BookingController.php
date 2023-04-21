@@ -27,6 +27,7 @@ use App\Services\RoomService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
@@ -69,7 +70,7 @@ class BookingController extends FrontendController
         $data = [
             'time_check_in' => data_get($params, 'time_check_in'),
             'time_check_out' => data_get($params, 'time_check_out'),
-            'number_people' => data_get($params, 'room'),
+            'number_people' => array_filter(data_get($params, 'room')),
         ];
 
         return Inertia::render('Web/Booking/RoomAvailable', [
@@ -151,6 +152,7 @@ class BookingController extends FrontendController
                     'gender' => $request['gender'],
                     'phone' => $request['phone'],
                     'identity_card' => $request['identity_card'],
+                    'password' => Hash::make($request['password']),
                 ]
             );
             $params = $request->all();

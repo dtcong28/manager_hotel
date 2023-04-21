@@ -27,6 +27,11 @@ class Customer extends Model
         'phone',
         'email',
         'identity_card',
+        'password',
+    ];
+
+    protected $hidden = [
+        'password',
     ];
 
     protected $appends = [

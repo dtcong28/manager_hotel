@@ -1,22 +1,13 @@
 <?php
 
-use App\Http\Controllers\Backend\TypeRoomController;
-use App\Http\Controllers\Backend\RoomController;
-use App\Http\Controllers\Backend\CustomerController;
-use App\Http\Controllers\Backend\BookingController;
-use App\Http\Controllers\Backend\BookingFoodController;
-use App\Http\Controllers\Backend\FoodController;
-use App\Http\Controllers\Backend\HotelController;
-use App\Http\Controllers\Backend\ProfileBackendController;
-use App\Http\Controllers\Backend\DashBoardController;
-use App\Http\Controllers\Backend\UserController;
-use App\Http\Controllers\Backend\RoleController;
-use App\Http\Controllers\Backend\PermissionsController;
+use App\Http\Controllers\Frontend\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\RoomFEController;
 use App\Http\Controllers\Frontend\RestaurantController;
 use App\Http\Controllers\Frontend\AboutController;
 use App\Http\Controllers\Frontend\ContactController;
+use App\Http\Controllers\Frontend\ProfileCustomerController;
+use App\Http\Controllers\Frontend\Auth\PasswordController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -41,48 +32,24 @@ use Inertia\Inertia;
 //    ]);
 //});
 
-//Route::prefix('admin')->get('/dashboard', function () {
-//    return Inertia::render('Admin/DashBoard/Index');
-//})->middleware(['auth', 'verified'])->name('dashboard');
-Route::prefix('admin')->middleware(['auth', 'role:admin|manager|staff'])->group(function () {
-    Route::get('/dashboard', [DashBoardController::class, 'index'])->name('dashboard');
-
-    Route::resource('/users', UserController::class);
-    Route::resource('/roles', RoleController::class);
-    Route::resource('/permissions', PermissionsController::class);
-
-    Route::get('/profile', [ProfileBackendController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileBackendController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileBackendController::class, 'destroy'])->name('profile.destroy');
-
-    //types room
-    Route::resource('types-room', TypeRoomController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
-
-    // rooms
-    Route::resource('rooms', RoomController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
-
-    // food
-    Route::resource('food', FoodController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
-
-    // customers
-    Route::resource('customers', CustomerController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
-
-    //hotel
-    Route::resource('hotel', HotelController::class)->only(['create', 'edit', 'store', 'update', 'destroy']);
-
-    // booking rooms
-    Route::resource('booking', BookingController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
-    Route::get('/booking/filter-room', [BookingController::class, 'filterRoom'])->name('booking.filter_room');
-    Route::get('/booking/edit/filter-room', [BookingController::class, 'editFilterRoom'])->name('booking.edit_filter_room');
-    Route::get('/booking/{id}/detail', [BookingController::class, 'detail'])->name('booking.detail');
-    Route::patch('/booking/{id}/update-status', [BookingController::class, 'updateStatus'])->name('booking.update_status');
-
-    // booking food
-    Route::get('booking/{id}/booking-food', [BookingFoodController::class, 'create'])->name('booking_food.create');
-    Route::resource('booking_food', BookingFoodController::class)->only(['index', 'store']);
-});
-
 Route::group(['as' => 'web.'], function () {
+    // Auth
+    Route::namespace('Auth')->middleware('guest:web')->group(function (){
+        Route::get('login', [AuthenticatedSessionController::class, 'create'])
+            ->name('login');
+
+        Route::post('login', [AuthenticatedSessionController::class, 'store']);
+    });
+
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+        ->name('logout');
+
+    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
+
+    Route::get('profile', [ProfileCustomerController::class, 'edit'])->name('profile.edit');
+    Route::patch('profile', [ProfileCustomerController::class, 'update'])->name('profile.update');
+    Route::delete('profile', [ProfileCustomerController::class, 'destroy'])->name('profile.destroy');
+
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
     Route::prefix('booking')->group(function () {
@@ -105,6 +72,5 @@ Route::group(['as' => 'web.'], function () {
     Route::resource('/about', AboutController::class)->only(['index']);
 
     Route::resource('/contact', ContactController::class)->only(['index']);
+    Route::post('/contact/feed-back', [ContactController::class, 'feedBack'])->name('feedback');
 });
-
-require __DIR__ . '/auth.php';

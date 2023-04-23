@@ -3,6 +3,21 @@ import {Link, useForm} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 import WebLayout from '@/Layouts/Web/WebLayout.vue';
 
+const form = useForm({
+    subject: '',
+    content: '',
+    star_rate: '',
+});
+
+const sendFeedBack = () => {
+    form.post(route('web.feedback'), {
+        onFinish: () =>  {
+            form.subject = '';
+            form.content = '';
+            form.star_rate = '';
+        },
+    })
+};
 </script>
 
 <template>
@@ -20,7 +35,6 @@ import WebLayout from '@/Layouts/Web/WebLayout.vue';
                 </div>
             </div>
         </div>
-
         <section class="ftco-section contact-section bg-light">
             <div class="container">
                 <div class="row d-flex mb-5 contact-info">
@@ -51,52 +65,55 @@ import WebLayout from '@/Layouts/Web/WebLayout.vue';
                 </div>
                 <div class="row block-9">
                     <div class="col-md-6 order-md-last d-flex">
-                        <form action="#" class="bg-white p-5 contact-form">
+                        <form v-if="$page.props.web_login" @submit.prevent="sendFeedBack" class="bg-white p-5 contact-form">
                             <h3>Feedback</h3>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Subject">
+                                <input type="text" v-model="form.subject" name="subject" class="form-control" placeholder="Subject">
+                                <div v-if="form.errors.subject" style="color: red">{{ form.errors.subject[0] }}</div>
                             </div>
                             <div class="form-group">
-                                <textarea name="" id="" cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
+                                <textarea name="content" v-model="form.content" cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
+                                <div v-if="form.errors.content" style="color: red">{{ form.errors.content[0] }}</div>
                             </div>
                             <div class="sidebar-wrap bg-light"><h3 class="heading mb-4">Star Rating</h3>
-                                <form method="post" class="star-rating">
-                                    <div class="form-check"><input type="checkbox" class="form-check-input"
-                                                                   id="exampleCheck1"><label class="form-check-label"
-                                                                                             for="exampleCheck1"><p
+                                <div class="star-rating">
+                                    <div class="form-check"><input type="radio" class="form-check-input" name="star_rate" value="5" v-model="form.star_rate"
+                                                                   id="5"><label class="form-check-label" style="cursor: pointer"
+                                                                                             for="5"><p
                                         class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i
                                         class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i></span>
                                     </p></label></div>
-                                    <div class="form-check"><input type="checkbox" class="form-check-input"
-                                                                   id="exampleCheck1"><label class="form-check-label"
-                                                                                             for="exampleCheck1"><p
+                                    <div class="form-check"><input type="radio" class="form-check-input" name="star_rate" value="4" v-model="form.star_rate"
+                                                                   id="4"><label class="form-check-label" style="cursor: pointer"
+                                                                                             for="4"><p
                                         class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i
                                         class="icon-star"></i><i class="icon-star"></i><i
                                         class="icon-star-o"></i></span></p></label></div>
-                                    <div class="form-check"><input type="checkbox" class="form-check-input"
-                                                                   id="exampleCheck1"><label class="form-check-label"
-                                                                                             for="exampleCheck1"><p
+                                    <div class="form-check"><input type="radio" class="form-check-input" name="star_rate" value="3" v-model="form.star_rate"
+                                                                   id="3"><label class="form-check-label" style="cursor: pointer"
+                                                                                             for="3"><p
                                         class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i
                                         class="icon-star"></i><i class="icon-star-o"></i><i
                                         class="icon-star-o"></i></span></p></label></div>
-                                    <div class="form-check"><input type="checkbox" class="form-check-input"
-                                                                   id="exampleCheck1"><label class="form-check-label"
-                                                                                             for="exampleCheck1"><p
+                                    <div class="form-check"><input type="radio" class="form-check-input" name="star_rate" value="2" v-model="form.star_rate"
+                                                                   id="2"><label class="form-check-label" style="cursor: pointer"
+                                                                                             for="2"><p
                                         class="rate"><span><i class="icon-star"></i><i class="icon-star"></i><i
                                         class="icon-star-o"></i><i class="icon-star-o"></i><i
                                         class="icon-star-o"></i></span></p></label></div>
-                                    <div class="form-check"><input type="checkbox" class="form-check-input"
-                                                                   id="exampleCheck1"><label class="form-check-label"
-                                                                                             for="exampleCheck1"><p
+                                    <div class="form-check"><input type="radio" class="form-check-input" name="star_rate" value="1" v-model="form.star_rate"
+                                                                   id="1"><label class="form-check-label" style="cursor: pointer"
+                                                                                             for="1"><p
                                         class="rate"><span><i class="icon-star"></i><i class="icon-star-o"></i><i
                                         class="icon-star-o"></i><i class="icon-star-o"></i><i
                                         class="icon-star-o"></i></span></p></label></div>
-                                </form>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <input type="submit" value="Send Message" class="btn btn-primary py-3 px-5">
                             </div>
                         </form>
+                        <div v-if="!$page.props.web_login">You need login to send feedback !</div>
                     </div>
 
                     <div class="col-md-6 d-flex">

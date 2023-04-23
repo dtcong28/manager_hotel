@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Repositories\Eloquent\CustomerRepository;
+use App\Repositories\Eloquent\FeedBackRepository;
 use App\Repositories\Eloquent\UserRepository;
 use App\Repositories\Eloquent\FoodRepository;
 use App\Repositories\Eloquent\RoomRepository;
@@ -14,7 +15,7 @@ class HomeController extends FrontendController
     protected $userRepository;
     protected $customerRepository;
     protected $foodRepository;
-
+    protected $feedBackRepository;
 
     public function __construct()
     {
@@ -23,6 +24,7 @@ class HomeController extends FrontendController
         $this->userRepository = app(UserRepository::class);
         $this->customerRepository = app(CustomerRepository::class);
         $this->foodRepository = app(FoodRepository::class);
+        $this->feedBackRepository = app(FeedBackRepository::class);
     }
 
     public function index()
@@ -50,6 +52,7 @@ class HomeController extends FrontendController
             'totalEmployee' => $this->userRepository->get()->count(),
             'totalCustomer' => $this->customerRepository->get()->count(),
             'totalFood' => $this->foodRepository->get()->count(),
+            'feedBack' => $this->feedBackRepository->getNewsFeedBack(),
         ]);
     }
 }

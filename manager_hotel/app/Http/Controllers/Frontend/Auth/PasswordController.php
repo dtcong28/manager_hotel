@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Backend\Auth;
+namespace App\Http\Controllers\Frontend\Auth;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
-class PasswordBackendController
+class PasswordController
 {
     /**
      * Update the user's password.
@@ -19,7 +19,7 @@ class PasswordBackendController
             'password' => ['required', Password::defaults(), 'confirmed'],
         ]);
 
-        $request->user()->update([
+        $request->user('web')->update([
             'password' => Hash::make($validated['password']),
         ]);
 

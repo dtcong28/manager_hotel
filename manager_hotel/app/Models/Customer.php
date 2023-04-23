@@ -3,15 +3,21 @@
 namespace App\Models;
 
 use App\Models\Enums\GenderEnum;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
-class Customer extends Model
+class Customer extends Authenticatable
 {
-    use HasFactory,Billable,SoftDeletes;
+    use HasApiTokens, Notifiable, HasRoles;
+    use HasFactory, Billable, SoftDeletes;
+    protected $guard = 'web';
 
     public $table = 'customers';
 
@@ -32,6 +38,7 @@ class Customer extends Model
 
     protected $hidden = [
         'password',
+        'remember_token',
     ];
 
     protected $appends = [
@@ -39,6 +46,7 @@ class Customer extends Model
     ];
 
     protected $casts = [
+        'email_verified_at' => 'datetime',
         'gender' => GenderEnum::class,
     ];
 
@@ -52,5 +60,10 @@ class Customer extends Model
     public function booking()
     {
         return $this->hasMany(Booking::class);
+    }
+
+    public function feedback()
+    {
+        return $this->hasMany(FeedBack::class);
     }
 }

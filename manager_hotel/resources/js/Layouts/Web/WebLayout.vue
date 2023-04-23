@@ -86,7 +86,9 @@ onMounted(() => {
                     <li class="nav-item"><Link :href="route('web.restaurant.index')" class="nav-link">Restaurant</Link></li>
                     <li class="nav-item"><Link :href="route('web.about.index')" class="nav-link">About</Link></li>
                     <li class="nav-item"><Link :href="route('web.contact.index')" class="nav-link">Contact</Link></li>
-                    <li class="nav-item"><Link href="#" class="nav-link">Login</Link></li>
+                    <li v-if="!$page.props.web_login" class="nav-item"><Link :href="route('web.login')" class="nav-link">Login</Link></li>
+                    <li v-if="$page.props.web_login" class="nav-item"><Link :href="route('web.profile.edit')" class="nav-link">Profile</Link></li>
+                    <li v-if="$page.props.web_login" class="nav-item"><Link :href="route('web.logout')" method="post" class="nav-link">Logout</Link></li>
                 </ul>
             </div>
         </div>

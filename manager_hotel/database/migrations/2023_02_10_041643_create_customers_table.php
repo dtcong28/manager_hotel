@@ -21,6 +21,8 @@ return new class extends Migration {
             $table->string('email');
             $table->string('identity_card');
             $table->string('password');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
         });

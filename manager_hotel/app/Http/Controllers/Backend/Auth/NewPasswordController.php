@@ -13,14 +13,14 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class NewPasswordBackendController
+class NewPasswordController
 {
     /**
      * Display the password reset view.
      */
     public function create(Request $request): Response
     {
-        return Inertia::render('Admin/Auth/ResetPassword', [
+        return Inertia::render('Auth/Admin/ResetPassword', [
             'email' => $request->email,
             'token' => $request->route('token'),
         ]);

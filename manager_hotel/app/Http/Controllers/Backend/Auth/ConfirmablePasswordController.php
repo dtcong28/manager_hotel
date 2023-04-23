@@ -11,14 +11,14 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class ConfirmablePasswordBackendController
+class ConfirmablePasswordController
 {
     /**
      * Show the confirm password view.
      */
     public function show(): Response
     {
-        return Inertia::render('Admin/Auth/ConfirmPassword');
+        return Inertia::render('Auth/Admin/ConfirmPassword');
     }
 
     /**

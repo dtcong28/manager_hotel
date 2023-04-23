@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class EmailVerificationPromptBackendController
+class EmailVerificationPromptController
 {
     /**
      * Display the email verification prompt.
@@ -17,6 +17,6 @@ class EmailVerificationPromptBackendController
     {
         return $request->user()->hasVerifiedEmail()
                     ? redirect()->intended(RouteServiceProvider::HOME)
-                    : Inertia::render('Admin/Auth/VerifyEmail', ['status' => session('status')]);
+                    : Inertia::render('Auth/Admin/VerifyEmail', ['status' => session('status')]);
     }
 }

@@ -13,14 +13,14 @@ use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class RegisteredUserBackendController
+class RegisteredUserController
 {
     /**
      * Display the registration view.
      */
     public function create(): Response
     {
-        return Inertia::render('Admin/Auth/Register');
+        return Inertia::render('Auth/Admin/Register');
     }
 
     /**

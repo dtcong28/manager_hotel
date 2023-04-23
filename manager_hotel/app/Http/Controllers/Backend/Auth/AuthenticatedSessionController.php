@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Auth;
 
-use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\AdminLoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -12,14 +12,14 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class AuthenticatedSessionBackendController
+class AuthenticatedSessionController
 {
     /**
      * Display the login view.
      */
     public function create(): Response
     {
-        return Inertia::render('Admin/Auth/Login', [
+        return Inertia::render('Auth/Admin/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
         ]);
@@ -28,7 +28,7 @@ class AuthenticatedSessionBackendController
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(AdminLoginRequest $request): RedirectResponse
     {
         $request->authenticate();
 
@@ -42,9 +42,9 @@ class AuthenticatedSessionBackendController
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('web')->logout();
+        Auth::guard('admin')->logout();
 
-        $request->session()->invalidate();
+//        $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 

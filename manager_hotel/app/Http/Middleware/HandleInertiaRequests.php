@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\CustomerResource;
 use App\Http\Resources\HotelResource;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 
@@ -36,6 +38,9 @@ class HandleInertiaRequests extends Middleware
             'auth.user' => fn () => $request->user()
                 ? new UserResource($request->user())
                 : null,
+            'customer'=> fn () => $request->user('web')
+                ? new CustomerResource($request->user('web'))
+                : null,
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),
@@ -52,6 +57,9 @@ class HandleInertiaRequests extends Middleware
             'info_hotel' => function () {
                 return new HotelResource();
             },
+            'web_login' => function () {
+                return auth('web')->check();
+            }
         ]);
     }
 }

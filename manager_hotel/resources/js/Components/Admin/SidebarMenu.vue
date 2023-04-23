@@ -52,6 +52,10 @@ const menus = [
                 name: 'List Customers',
                 route: 'customers.index',
             },
+            {
+                name: 'List FeedBack',
+                route: 'feed-back.index',
+            },
         ],
     },
     {

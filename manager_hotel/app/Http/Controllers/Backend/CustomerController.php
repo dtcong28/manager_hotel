@@ -162,7 +162,7 @@ class CustomerController extends BackendController
                     }
                 }
 
-                if($bookRoom->isNotEmpty() && !$value->bookingRoom()->delete()  ) {
+                if($bookRoom->isNotEmpty() && !$value->bookingRoom()->delete()) {
                     session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
                     DB::rollback();
                     return redirect(getBackUrl());
@@ -176,6 +176,12 @@ class CustomerController extends BackendController
             }
 
             if($booked->isNotEmpty() && !$customer->booking()->delete()){
+                session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+                DB::rollback();
+                return redirect(getBackUrl());
+            }
+
+            if(!$customer->feedback()->delete()){
                 session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
                 DB::rollback();
                 return redirect(getBackUrl());

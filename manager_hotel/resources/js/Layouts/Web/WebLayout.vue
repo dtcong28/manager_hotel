@@ -4,6 +4,8 @@ import {Head} from '@inertiajs/vue3';
 import {onBeforeMount, onMounted} from 'vue';
 import $ from 'jquery';
 import { defineAsyncComponent } from 'vue';
+import ToastSuccess from '@/Components/Web/ToastSuccess.vue';
+import ToastFail from '@/Components/Web/ToastFail.vue';
 
 onMounted(() => {
     const styles = [
@@ -88,12 +90,19 @@ onMounted(() => {
                     <li class="nav-item"><Link :href="route('web.contact.index')" class="nav-link">Contact</Link></li>
                     <li v-if="!$page.props.web_login" class="nav-item"><Link :href="route('web.login')" class="nav-link">Login</Link></li>
                     <li v-if="$page.props.web_login" class="nav-item"><Link :href="route('web.profile.edit')" class="nav-link">Profile</Link></li>
+                    <li v-if="$page.props.web_login" class="nav-item"><Link :href="route('web.booking.show')" class="nav-link">Your Booking</Link></li>
                     <li v-if="$page.props.web_login" class="nav-item"><Link :href="route('web.logout')" method="post" class="nav-link">Logout</Link></li>
                 </ul>
             </div>
         </div>
     </nav>
     <!-- END nav -->
+    <div v-if="$page.props.toast.action_success">
+        <ToastSuccess :toast="$page.props.toast"></ToastSuccess>
+    </div>
+    <div v-if="$page.props.toast.action_failed">
+        <ToastFail :toast="$page.props.toast"></ToastFail>
+    </div>
     <slot />
 
     <section class="instagram">

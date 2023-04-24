@@ -62,6 +62,7 @@ Route::group(['as' => 'web.'], function () {
         Route::get('/complete', [BookingController::class, 'complete'])->name('booking.complete');
         Route::post('/webhook', [BookingController::class, 'webhook'])->name('booking.webhook');
         Route::resource('/', BookingController::class)->only(['store']);
+        Route::get('/show', [BookingController::class, 'show'])->name('booking.show');
     });
 
     Route::prefix('room')->as('rooms.')->group(function () {

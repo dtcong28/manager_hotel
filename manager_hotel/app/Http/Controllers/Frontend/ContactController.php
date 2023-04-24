@@ -34,17 +34,14 @@ class ContactController extends FrontendController
             $params['customer_id'] = auth('web')->user()->id;
 
             if (!$this->feedBackService->store($params)) {
-                session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
-
-                return Redirect::route('web.contact.index');
+                return back()->with(['toast' => ['action_failed' => getConstant('messages.SEND_FAIL')]]);
             }
 
-            session()->flash('action_success', getConstant('messages.CREATE_SUCCESS'));
         } catch (\Exception $exception) {
             Log::error($exception);
-            session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
+            return back()->with(['toast' => ['action_failed' => getConstant('messages.SEND_FAIL')]]);
         }
 
-        return Redirect::route('web.contact.index');
+        return back()->with(['toast' => ['action_success' => getConstant('messages.SEND_SUCCESS')]]);
     }
 }

@@ -2,7 +2,8 @@
 import {Link} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 import { onMounted } from 'vue';
-import toast from '@/Components/Web/toast.vue';
+import ToastSuccess from '@/Components/Web/ToastSuccess.vue';
+import ToastFail from '@/Components/Web/ToastFail.vue';
 
 onMounted(() => {
     const scripts = [
@@ -72,7 +73,12 @@ onMounted(() => {
         </div>
     </nav>
     <!-- END nav -->
-    <toast :toast="$page.props.toast"></toast>
+    <div v-if="$page.props.toast.action_success">
+        <ToastSuccess :toast="$page.props.toast"></ToastSuccess>
+    </div>
+    <div v-if="$page.props.toast.action_failed">
+        <ToastFail :toast="$page.props.toast"></ToastFail>
+    </div>
     <slot />
 
     <section class="instagram">

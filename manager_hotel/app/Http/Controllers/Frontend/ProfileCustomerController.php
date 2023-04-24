@@ -17,32 +17,14 @@ use Inertia\Response;
 
 class ProfileCustomerController extends FrontendController
 {
-    protected $customerRepository;
-    protected $bookingRepository;
-    protected $bookingRoomRepository;
-    protected $bookingFoodRepository;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->customerRepository = app(CustomerRepository::class);
-        $this->bookingRepository = app(BookingRepository::class);
-        $this->bookingRoomRepository = app(BookingRoomRepository::class);
-        $this->bookingFoodRepository = app(BookingFoodRepository::class);
-    }
     /**
      * Display the user's profile form.
      */
     public function edit(Request $request): Response
     {
-        $customer = $this->customerRepository->find($request->user('web')->id);
-        $bookings = $this->bookingRepository->where('customer_id',$customer->id)->with(['bookingRoom.room','bookingFood.food'])->get();
-
         return Inertia::render('Web/Profile/Edit', [
             'mustVerifyEmail' => $request->user('web') instanceof MustVerifyEmail,
             'status' => session('status'),
-            'bookings' => $bookings,
-            'customer' => $customer,
         ]);
     }
 

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
+use Illuminate\Support\Facades\Session;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -54,9 +55,10 @@ class HandleInertiaRequests extends Middleware
                 return $request->session()->get('errors')
                     ? $request->session()->get('errors')->getBag('default')->getMessages() : (object) [];
             },
-            'toast' => function () {
-                return \Illuminate\Support\Facades\Session::get('toast');
-            },
+            'toast' => [
+                'action_success' => fn () =>  Session::get('toast.action_success'),
+                'action_failed' => fn () =>  Session::get('toast.action_failed'),
+            ],
             'info_hotel' => function () {
                 return new HotelResource();
             },

@@ -54,6 +54,9 @@ class HandleInertiaRequests extends Middleware
                 return $request->session()->get('errors')
                     ? $request->session()->get('errors')->getBag('default')->getMessages() : (object) [];
             },
+            'toast' => function () {
+                return \Illuminate\Support\Facades\Session::get('toast');
+            },
             'info_hotel' => function () {
                 return new HotelResource();
             },

@@ -1,5 +1,5 @@
 <script setup>
-import {Link, useForm} from '@inertiajs/vue3'
+import {Link, useForm, usePage} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 import LayoutBooking from '@/Layouts/Web/LayoutBooking.vue';
 import {ref} from "vue";
@@ -24,8 +24,12 @@ function sum(obj) {
     return Object.keys(obj).reduce((sum,key)=>sum+parseFloat(obj[key]||0),0);
 }
 
-const confirm = () => {
-    form.get(route('web.booking.confirm'))
+const submit = () => {
+    if(usePage().props.web_login){
+        form.get(route('web.booking.member_payment'), { preserveState: true })
+    }else {
+        form.get(route('web.booking.confirm'))
+    }
 };
 </script>
 
@@ -78,9 +82,8 @@ const confirm = () => {
                     <div class="col-lg-4 sidebar">
                         <div class="sidebar-wrap bg-light box-detail">
                             <h3 class="heading mb-4">Your Stay</h3>
-
                             <div class="fields">
-                                <form @submit.prevent="confirm">
+                                <form @submit.prevent="submit">
                                     <div class="form-group">
                                         From {{ info_booking.time_check_in }} to {{ info_booking.time_check_out }}<br>
                                     </div>

@@ -312,7 +312,7 @@ const filterRoom = () => {
                 </div>
             </div>
         </section>
-        <section class="ftco-section testimony-section bg-light">
+        <section v-if="feedBack.data" class="ftco-section testimony-section bg-light">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-8 ftco-animate">

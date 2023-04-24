@@ -2,6 +2,7 @@
 import {Link} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 import { onMounted } from 'vue';
+import toast from '@/Components/Web/toast.vue';
 
 onMounted(() => {
     const scripts = [
@@ -71,6 +72,7 @@ onMounted(() => {
         </div>
     </nav>
     <!-- END nav -->
+    <toast :toast="$page.props.toast"></toast>
     <slot />
 
     <section class="instagram">

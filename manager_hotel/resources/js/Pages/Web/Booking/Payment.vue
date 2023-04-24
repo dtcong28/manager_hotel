@@ -1,5 +1,5 @@
 <script setup>
-import {Link, router, useForm} from '@inertiajs/vue3'
+import {Link, router, useForm, usePage} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 import LayoutBooking from '@/Layouts/Web/LayoutBooking.vue';
 import {loadStripe} from '@stripe/stripe-js';
@@ -12,6 +12,11 @@ const props = defineProps({
     select_rooms: Array,
     select_foods: Array,
 })
+
+props.info_booking.name = usePage().props.customer.name
+props.info_booking.email = usePage().props.customer.email
+props.info_booking.address = usePage().props.customer.address
+props.info_booking.phone = usePage().props.customer.phone
 
 const data = ref({
     selectMethod: {name: 'Momo', value: 2},
@@ -38,6 +43,7 @@ const booking = () => {
 <script>
 import {loadStripe} from '@stripe/stripe-js';
 import {router} from "@inertiajs/vue3";
+import {usePage} from '@inertiajs/vue3';
 
 export default {
     props: {
@@ -170,16 +176,30 @@ export default {
                                 </div>
                                 <div v-if="select_rooms" class="form-group" v-for="(value, index) in select_rooms">
                                     <div>
-                                        <span>Room {{value }} : {{parseInt(info_booking.booking.info_booking.price_each_room[index]).toLocaleString('vi-VN', {style: 'currency', currency: 'VND'}) }}</span>
+                                        <span>Room {{
+                                                value
+                                            }} : {{
+                                                parseInt(info_booking.booking.info_booking.price_each_room[index]).toLocaleString('vi-VN', {
+                                                    style: 'currency',
+                                                    currency: 'VND'
+                                                })
+                                            }}</span>
                                     </div>
                                 </div>
                                 <div v-if="select_foods" class="form-group" v-for="value in select_foods">
                                     <div v-if="info_booking.booking.price_food[value[1]]!=null">
-                                        <span>{{ value[0] }} - Amount {{ info_booking.booking.select_food[value[1]] }} : {{parseInt(info_booking.booking.price_food[value[1]]).toLocaleString('vi-VN', {style: 'currency', currency: 'VND'}) }}</span>
+                                        <span>{{ value[0] }} - Amount {{ info_booking.booking.select_food[value[1]] }} : {{
+                                                parseInt(info_booking.booking.price_food[value[1]]).toLocaleString('vi-VN', {
+                                                    style: 'currency',
+                                                    currency: 'VND'
+                                                })
+                                            }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    Total: {{totalMoney.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'}) }}
+                                    Total: {{
+                                        totalMoney.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
+                                    }}
                                 </div>
                             </div>
                         </div>

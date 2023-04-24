@@ -138,10 +138,48 @@ class BookingController extends FrontendController
         ]);
     }
 
+    public function memberPayment(Request $request)
+    {
+        $params = $request->all();
+        $rooms = $this->roomRepository->getListSelectRoom(data_get(data_get($params, 'info_booking'), 'rooms'));
+        $foods = array_key_exists("select_food", $params) ? $this->foodRepository->getListSelectFood(data_get($params, 'select_food')) : [];
+        $arrayRooms = [];
+        $arrayFood = [];
+
+        foreach ($rooms as $key => $room) {
+            array_push($arrayRooms, $room['name']);
+        }
+        foreach ($foods as $key => $food) {
+            array_push($arrayFood, [$food['name'], $food['id']]);
+        }
+
+        return Inertia::render('Web/Booking/Payment', [
+            'info_booking' => ['booking' => $params],
+            'select_rooms' => $arrayRooms,
+            'select_foods' => $arrayFood,
+        ]);
+    }
+
     public function store(Request $request)
     {
         DB::beginTransaction();
         try {
+            $bookings = $this->repository->where('time_check_in', '=', $request['booking']['info_booking']['time_check_in'])
+                ->where('time_check_out', '=', $request['booking']['info_booking']['time_check_out'])
+                ->where('number_rooms', '=', count($request['booking']['info_booking']['rooms']))->with('bookingRoom')->get();
+
+            $newBooking = $request['booking']['info_booking']['rooms'];
+            foreach ($bookings as $booking) {
+                $bookingInDb = $booking->bookingRoom->pluck('room_id')->toArray();
+
+                if(count(array_diff($bookingInDb, $newBooking)) === 0 && count(array_diff($newBooking, $bookingInDb)) === 0){
+                    if(auth()->check('web')){
+                        return back()->with(['toast' => ['message' => getConstant('messages.CREATE_FAIL')]]);
+                    }
+                    return back()->with(['toast' => ['message' => getConstant('messages.CREATE_FAIL')]]);
+                }
+            }
+
             $customer = $this->customerRepository->firstOrCreate(
                 [
                     'email' => $request['email'],
@@ -156,7 +194,7 @@ class BookingController extends FrontendController
                 ]
             );
             $params = $request->all();
-            if(!$customer){
+            if (!$customer) {
                 DB::rollback();
                 session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
 
@@ -223,14 +261,14 @@ class BookingController extends FrontendController
             //booking foods
             if (!empty($request['booking']['select_food'])) {
                 foreach ($request['booking']['select_food'] as $key => $value) {
-                    if(!is_null($value)){
+                    if (!is_null($value)) {
                         $dataFood['amount'] = $value;
                         $dataFood['price'] = $request['booking']['price_food'][$key];
                         $dataFood['food_id'] = $key;
                         $dataFood['booking_id'] = $booking->id;
 
-                        array_push($bookFood,data_get($this->foodRepository->find($key), 'name'));
-                        if(!$this->bookingFoodService->store($dataFood)){
+                        array_push($bookFood, data_get($this->foodRepository->find($key), 'name'));
+                        if (!$this->bookingFoodService->store($dataFood)) {
                             DB::rollback();
                             session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
 
@@ -240,7 +278,7 @@ class BookingController extends FrontendController
                 }
             }
 
-            if(array_key_exists("payment_method_id",$params)) {
+            if (array_key_exists("payment_method_id", $params)) {
                 $payment = $customer->charge(
                     $request['amount'],
                     $request['payment_method_id'],
@@ -314,6 +352,8 @@ class BookingController extends FrontendController
 
     public function complete()
     {
+        session()->forget('rooms');
+        session()->forget('foods');
         return Inertia::render('Web/Booking/Complete');
     }
 }

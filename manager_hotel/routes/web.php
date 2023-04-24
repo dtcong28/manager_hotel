@@ -8,6 +8,7 @@ use App\Http\Controllers\Frontend\AboutController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\ProfileCustomerController;
 use App\Http\Controllers\Frontend\Auth\PasswordController;
+use App\Http\Controllers\Frontend\BookingController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -53,13 +54,14 @@ Route::group(['as' => 'web.'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
     Route::prefix('booking')->group(function () {
-        Route::get('/filter-room', [\App\Http\Controllers\Frontend\BookingController::class, 'filterRoom'])->name('booking.filter_room');
-        Route::get('/food', [\App\Http\Controllers\Frontend\BookingController::class, 'bookFood'])->name('booking.food');
-        Route::get('/confirm', [\App\Http\Controllers\Frontend\BookingController::class, 'confirm'])->name('booking.confirm');
-        Route::get('/payment', [\App\Http\Controllers\Frontend\BookingController::class, 'payment'])->name('booking.payment');
-        Route::get('/complete', [\App\Http\Controllers\Frontend\BookingController::class, 'complete'])->name('booking.complete');
-        Route::post('/webhook', [\App\Http\Controllers\Frontend\BookingController::class, 'webhook'])->name('booking.webhook');
-        Route::resource('/', \App\Http\Controllers\Frontend\BookingController::class)->only(['store']);
+        Route::get('/filter-room', [BookingController::class, 'filterRoom'])->name('booking.filter_room');
+        Route::get('/food', [BookingController::class, 'bookFood'])->name('booking.food');
+        Route::get('/confirm', [BookingController::class, 'confirm'])->name('booking.confirm');
+        Route::get('/payment', [BookingController::class, 'payment'])->name('booking.payment');
+        Route::get('/member-payment', [BookingController::class, 'memberPayment'])->name('booking.member_payment');
+        Route::get('/complete', [BookingController::class, 'complete'])->name('booking.complete');
+        Route::post('/webhook', [BookingController::class, 'webhook'])->name('booking.webhook');
+        Route::resource('/', BookingController::class)->only(['store']);
     });
 
     Route::prefix('room')->as('rooms.')->group(function () {

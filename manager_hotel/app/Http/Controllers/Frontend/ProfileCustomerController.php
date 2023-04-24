@@ -36,12 +36,12 @@ class ProfileCustomerController extends FrontendController
     public function edit(Request $request): Response
     {
         $customer = $this->customerRepository->find($request->user('web')->id);
-        $booking = $this->bookingRepository->where('customer_id',$customer->id)->with(['bookingRoom.room','bookingFood.food'])->get();
+        $bookings = $this->bookingRepository->where('customer_id',$customer->id)->with(['bookingRoom.room','bookingFood.food'])->get();
 
         return Inertia::render('Web/Profile/Edit', [
             'mustVerifyEmail' => $request->user('web') instanceof MustVerifyEmail,
             'status' => session('status'),
-            'booking' => $booking,
+            'bookings' => $bookings,
             'customer' => $customer,
         ]);
     }

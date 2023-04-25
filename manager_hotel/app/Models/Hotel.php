@@ -22,6 +22,7 @@ class Hotel extends Model
     protected $fillable = [
         'name',
         'introduce',
+        'introduce_restaurant',
         'phone',
         'website',
         'email',

@@ -13,10 +13,21 @@ const props = defineProps({
     select_foods: Array,
 })
 
-props.info_booking.name = usePage().props.customer.name
-props.info_booking.email = usePage().props.customer.email
-props.info_booking.address = usePage().props.customer.address
-props.info_booking.phone = usePage().props.customer.phone
+if(!props.info_booking.name) {
+    props.info_booking.name = usePage().props.customer.name
+}
+
+if(!props.info_booking.email) {
+    props.info_booking.email = usePage().props.customer.email
+}
+
+if(!props.info_booking.address) {
+    props.info_booking.address = usePage().props.customer.address
+}
+
+if(!props.info_booking.phone) {
+    props.info_booking.phone = usePage().props.customer.phone
+}
 
 const data = ref({
     selectMethod: {name: 'Momo', value: 2},

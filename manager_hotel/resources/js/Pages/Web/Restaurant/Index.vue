@@ -37,9 +37,7 @@ const props = defineProps({
                             </div>
                         </div>
                         <div class="pb-md-4">
-                            <p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times.</p>
-                            <p class="pl-md-5">When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way.</p>
-                            <p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country.</p>
+                            {{ $page.props.info_hotel.introduce_restaurant }}
                         </div>
                     </div>
                 </div>
@@ -53,8 +51,8 @@ const props = defineProps({
                         <h2>Our Menu</h2>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
                         <div class="pricing-entry d-flex" v-for="(food,key) in foods" :key="food.id">
                             <div class="img" :style="{ backgroundImage: 'url(' + food.image + ')' }"></div>
                             <div class="desc pl-3">

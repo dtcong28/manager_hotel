@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('id', true);
             $table->string('name');
             $table->text('introduce')->nullable();
+            $table->text('introduce_restaurant')->nullable();
             $table->string('phone')->nullable();
             $table->string('website')->nullable();
             $table->string('email')->nullable();

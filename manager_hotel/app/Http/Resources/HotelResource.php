@@ -31,6 +31,7 @@ class HotelResource extends JsonResource
             'phone' => $hotel->phone,
             'website' => $hotel->website,
             'introduce' => $hotel->introduce,
+            'introduce_restaurant' => $hotel->introduce_restaurant,
         ];
     }
 }

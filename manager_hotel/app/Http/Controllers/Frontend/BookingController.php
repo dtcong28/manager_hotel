@@ -131,6 +131,7 @@ class BookingController extends FrontendController
     public function payment(FEbookingRequest $request)
     {
         $params = $request->all();
+
         return Inertia::render('Web/Booking/Payment', [
             'info_booking' => $params,
             'select_rooms' => session('rooms'),
@@ -164,6 +165,7 @@ class BookingController extends FrontendController
     {
         DB::beginTransaction();
         try {
+            $params = $request->all();
             $bookings = $this->repository->where('time_check_in', '=', $request['booking']['info_booking']['time_check_in'])
                 ->where('time_check_out', '=', $request['booking']['info_booking']['time_check_out'])
                 ->where('number_rooms', '=', count($request['booking']['info_booking']['rooms']))->with('bookingRoom')->get();
@@ -173,10 +175,11 @@ class BookingController extends FrontendController
                 $bookingInDb = $booking->bookingRoom->pluck('room_id')->toArray();
 
                 if(count(array_diff($bookingInDb, $newBooking)) === 0 && count(array_diff($newBooking, $bookingInDb)) === 0){
-                    if(auth()->check('web')){
-                        return back()->with(['toast' => ['action_failed' => getConstant('messages.CREATE_FAIL')]]);
+                    if (array_key_exists("payment_method_id", $params)){
+                        return response()->json(['message' => getConstant('messages.PAYMENT_FAIL')], 500);
                     }
-                    return back()->with(['toast' => ['action_failed' => getConstant('messages.CREATE_FAIL')]]);
+
+                    return back()->with(['toast' => ['action_failed' => getConstant('messages.PAYMENT_FAIL')]]);
                 }
             }
 
@@ -193,13 +196,11 @@ class BookingController extends FrontendController
                     'password' => Hash::make($request['password']),
                 ]
             );
-            $params = $request->all();
+
             if (!$customer) {
                 DB::rollback();
-                if(auth()->check('web')){
-                    return back()->with(['toast' => ['action_failed' => getConstant('messages.CREATE_FAIL')]]);
-                }
-                return back()->with(['toast' => ['action_failed' => getConstant('messages.CREATE_FAIL')]]);
+
+                return back()->with(['toast' => ['action_failed' => getConstant('messages.PAYMENT_FAIL')]]);
             }
 
             // booking
@@ -217,10 +218,8 @@ class BookingController extends FrontendController
             $booking = $this->repository->create($dataBooking);
             if (!$booking) {
                 DB::rollback();
-                if(auth()->check('web')){
-                    return back()->with(['toast' => ['action_failed' => getConstant('messages.CREATE_FAIL')]]);
-                }
-                return back()->with(['toast' => ['action_failed' => getConstant('messages.CREATE_FAIL')]]);
+
+                return back()->with(['toast' => ['action_failed' => getConstant('messages.PAYMENT_FAIL')]]);
             }
 
             //booking rooms
@@ -235,21 +234,8 @@ class BookingController extends FrontendController
 
                     if (!$this->bookingRoomService->store($dataRoom)) {
                         DB::rollback();
-                        if(auth()->check('web')){
-                            return back()->with(['toast' => ['action_failed' => getConstant('messages.CREATE_FAIL')]]);
-                        }
-                        return back()->with(['toast' => ['action_failed' => getConstant('messages.CREATE_FAIL')]]);
-                    }
 
-                    if (!empty($room)) {
-                        $room->status = RoomStatusEnum::OCCUPIED->value;
-                        if (!$room->save()) {
-                            DB::rollback();
-                            if(auth()->check('web')){
-                                return back()->with(['toast' => ['action_failed' => getConstant('messages.CREATE_FAIL')]]);
-                            }
-                            return back()->with(['toast' => ['action_failed' => getConstant('messages.CREATE_FAIL')]]);
-                        }
+                        return back()->with(['toast' => ['action_failed' => getConstant('messages.PAYMENT_FAIL')]]);
                     }
 
                     // thông tin để gửi mail
@@ -274,10 +260,8 @@ class BookingController extends FrontendController
                         array_push($bookFood, data_get($this->foodRepository->find($key), 'name'));
                         if (!$this->bookingFoodService->store($dataFood)) {
                             DB::rollback();
-                            if(auth()->check('web')){
-                                return back()->with(['toast' => ['action_failed' => getConstant('messages.CREATE_FAIL')]]);
-                            }
-                            return back()->with(['toast' => ['action_failed' => getConstant('messages.CREATE_FAIL')]]);
+
+                            return back()->with(['toast' => ['action_failed' => getConstant('messages.PAYMENT_FAIL')]]);
                         }
                     }
                 }

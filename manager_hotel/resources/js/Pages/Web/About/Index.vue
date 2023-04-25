@@ -73,9 +73,6 @@ const props = defineProps({
             <div class="container">
                 <div class="row">
                     <div class="col-md-5 p-md-5 img img-2 img-3 d-flex justify-content-center align-items-center" v-bind:style="{ 'background-image': 'url(/frontend/images/bg_2.jpg)' }">
-                        <a href="https://vimeo.com/45830194" class="icon popup-vimeo d-flex justify-content-center align-items-center">
-                            <span class="icon-play"></span>
-                        </a>
                     </div>
                     <div class="col-md-7 py-5 wrap-about pb-md-5 ">
                         <div class="heading-section heading-section-wo-line pt-md-5 pl-md-5 mb-5">

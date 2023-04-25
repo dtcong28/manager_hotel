@@ -13,6 +13,7 @@ const props = defineProps({
 const form = useForm({
     name: props.hotel.name,
     introduce: props.hotel.introduce,
+    introduce_restaurant: props.hotel.introduce_restaurant,
     phone: props.hotel.phone,
     website: props.hotel.website,
     email: props.hotel.email,
@@ -79,10 +80,17 @@ const storeHotel = () => {
                                 <div v-if="form.errors.address" style="color: red">{{ form.errors.address[0] }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="introduce">Introduce</label>
+                                <label for="introduce">Introduce hotel</label>
                                 <textarea id="introduce" name="introduce" v-model="form.introduce" class="form-control"
-                                          rows="3" placeholder="Enter introduce"></textarea>
+                                          rows="7" placeholder="Enter introduce hotel"></textarea>
                                 <div v-if="form.errors.introduce" style="color: red">{{form.errors.introduce[0] }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="introduce_restaurant">Introduce restaurant</label>
+                                <textarea id="introduce_restaurant" name="introduce_restaurant" v-model="form.introduce_restaurant" class="form-control"
+                                          rows="7" placeholder="Enter introduce restaurant"></textarea>
+                                <div v-if="form.errors.introduce_restaurant" style="color: red">{{form.errors.introduce_restaurant[0] }}
                                 </div>
                             </div>
                             <div class="col-lg-12 p-t-20 text-center" v-if="hasPermission('create')">

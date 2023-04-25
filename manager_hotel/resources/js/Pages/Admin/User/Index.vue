@@ -9,6 +9,7 @@ import SecondaryButton from '@/Components/Admin/SecondaryButton.vue';
 import {ref} from "vue";
 import {usePermission} from "@/Composables/permissions";
 const { hasPermission } = usePermission();
+const { hasRole } = usePermission();
 
 const form = useForm({})
 const props = defineProps({

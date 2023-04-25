@@ -181,7 +181,7 @@ class CustomerController extends BackendController
                 return redirect(getBackUrl());
             }
 
-            if(!$customer->feedback()->delete()){
+            if($customer->feedback()->get()->isNotEmpty() && !$customer->feedback()->delete()){
                 session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
                 DB::rollback();
                 return redirect(getBackUrl());

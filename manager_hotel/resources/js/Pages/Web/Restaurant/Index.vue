@@ -36,7 +36,7 @@ const props = defineProps({
                                 <h2 class="mb-4">We Are Food Lover</h2>
                             </div>
                         </div>
-                        <div class="pb-md-4">
+                        <div class="pb-md-4" style="height: 250px">
                             {{ $page.props.info_hotel.introduce_restaurant }}
                         </div>
                     </div>

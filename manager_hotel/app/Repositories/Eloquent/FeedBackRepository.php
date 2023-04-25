@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\FeedBack;
+use App\Models\Enums\StatusEnum;
 
 class FeedBackRepository extends CustomRepository
 {
@@ -25,7 +26,7 @@ class FeedBackRepository extends CustomRepository
         return $query->paginate(getConfig('page_number'));
     }
 
-    public function getNewsFeedBack(){
-        return $this->orderBy('id', 'desc')->with('customer')->paginate(5);
+    public function getFeedBack(){
+        return $this->where('status', '=', StatusEnum::ACTIVE->value)->with('customer')->get();
     }
 }

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
+use App\Models\Enums\StatusEnum;
 use Inertia\Inertia;
 
 class ContactController extends FrontendController
@@ -31,6 +32,7 @@ class ContactController extends FrontendController
     public function feedBack(FeedBackRequest $request){
         try {
             $params = $request->all();
+            $params['status'] = StatusEnum::INACTIVE->value;
             $params['customer_id'] = auth('web')->user()->id;
 
             if (!$this->feedBackService->store($params)) {

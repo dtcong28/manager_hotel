@@ -493,6 +493,6 @@ class BookingController extends BackendController
             session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
         }
 
-        return Redirect::route('booking.detail', ['id' => $id]);
+        return Redirect::route('booking.index');;
     }
 }

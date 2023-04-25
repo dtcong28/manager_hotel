@@ -135,6 +135,6 @@ class RoleController extends BackendController
             session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
         }
 
-        return back();
+        return Redirect::route('roles.index');
     }
 }

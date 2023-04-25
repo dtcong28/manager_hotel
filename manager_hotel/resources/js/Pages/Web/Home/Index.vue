@@ -312,14 +312,14 @@ const filterRoom = () => {
                 </div>
             </div>
         </section>
-        <section v-if="feedBack.data" class="ftco-section testimony-section bg-light">
+        <section v-if="feedBack" class="ftco-section testimony-section bg-light">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-8 ftco-animate">
                         <div class="row ftco-animate">
                             <div class="col-md-12">
                                 <div class="carousel-testimony owl-carousel ftco-owl">
-                                    <div class="item" v-for="value in feedBack.data" :key="value.id">
+                                    <div class="item" v-for="value in feedBack" :key="value.id">
                                         <div class="testimony-wrap py-4 pb-5">
                                             <div class="user-img mb-4" v-bind:style="{ 'background-image': 'url(/frontend/images/avatar.png)' }"><span class="quote d-flex align-items-center justify-content-center"><i class="icon-quote-left"></i></span></div>
                                             <div class="text text-center">

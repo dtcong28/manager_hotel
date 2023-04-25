@@ -77,6 +77,7 @@ const deleteFeedBack= (id) => {
                                     <th class="center"> Subject</th>
                                     <th class="center"> Content</th>
                                     <th class="center"> Start rate</th>
+                                    <th class="center"> Status</th>
                                     <th class="center"> Action</th>
                                 </tr>
                                 </thead>
@@ -87,7 +88,11 @@ const deleteFeedBack= (id) => {
                                     <td class="center">{{ value.subject }}</td>
                                     <td class="center">{{ value.content }}</td>
                                     <td class="center">{{ value.star_rate }}</td>
+                                    <td class="center">{{ value.status_label }}</td>
                                     <td class="center">
+                                        <Link v-if="hasPermission('edit')" :href="route('feed-back.edit', { id: value.id })" class="btn btn-tbl-edit btn-xs">
+                                            <i class="fa fa-pencil"></i>
+                                        </Link>
                                         <button v-if="hasPermission('delete')" @click="confirmDelete(value.id)" class="btn btn-tbl-delete btn-xs"><i class="fa fa-trash-o "></i></button>
                                         <Modal :show="showConfirmDeleteModal" @close="closeModal">
                                             <div class="p-6">

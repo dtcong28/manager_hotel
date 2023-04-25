@@ -2,8 +2,8 @@
 import {Link} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 import { onMounted } from 'vue';
-import ToastSuccess from '@/Components/Web/ToastSuccess.vue';
-import ToastFail from '@/Components/Web/ToastFail.vue';
+import ToastSuccess from '@/Components/Notification/ToastSuccess.vue';
+import ToastFail from '@/Components/Notification/ToastFail.vue';
 
 onMounted(() => {
     const scripts = [

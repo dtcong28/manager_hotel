@@ -52,7 +52,7 @@ class HomeController extends FrontendController
             'totalEmployee' => $this->userRepository->get()->count(),
             'totalCustomer' => $this->customerRepository->get()->count(),
             'totalFood' => $this->foodRepository->get()->count(),
-            'feedBack' => $this->feedBackRepository->getNewsFeedBack(),
+            'feedBack' => $this->feedBackRepository->getFeedBack(),
         ]);
     }
 }

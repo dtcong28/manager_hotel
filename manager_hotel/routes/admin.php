@@ -78,7 +78,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin|manager|staff'])->group(
     Route::resource('booking_food', BookingFoodController::class)->only(['index', 'store']);
 
     // feed back
-    Route::resource('feed-back', FeedBackController::class)->only(['index', 'destroy']);
+    Route::resource('feed-back', FeedBackController::class)->only(['index', 'destroy', 'edit', 'update']);
 });
 
 require __DIR__ . '/auth.php';

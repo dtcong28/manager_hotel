@@ -156,6 +156,6 @@ class UserController extends BackendController
             session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
         }
 
-        return back();
+        return Redirect::route('users.index');
     }
 }

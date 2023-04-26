@@ -146,6 +146,7 @@ class BookingRepository extends CustomRepository
 
         return $query->get();
     }
+
     public function getListBookingByMonth($status)
     {
         $today = Carbon::today();
@@ -159,6 +160,7 @@ class BookingRepository extends CustomRepository
 
         return $query->get();
     }
+
     public function getListBookingByWeek($status)
     {
         $today = Carbon::today()->toDateString();

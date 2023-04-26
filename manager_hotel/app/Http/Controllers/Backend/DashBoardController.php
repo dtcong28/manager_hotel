@@ -5,29 +5,44 @@ namespace App\Http\Controllers\Backend;
 use App\Models\Enums\BookingStatusEnum;
 use App\Models\Enums\PaymentStatusEnum;
 use App\Repositories\Eloquent\BookingRepository;
+use App\Repositories\Eloquent\CustomerRepository;
+use App\Repositories\Eloquent\FoodRepository;
+use App\Repositories\Eloquent\RoomRepository;
+use App\Repositories\Eloquent\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class DashBoardController extends BackendController
 {
+    protected $roomRepository;
+    protected $userRepository;
+    protected $customerRepository;
+    protected $foodRepository;
     protected $bookingRepository;
+
     public function __construct()
     {
         parent::__construct();
         $this->bookingRepository = app(BookingRepository::class);
+        $this->roomRepository = app(RoomRepository::class);
+        $this->userRepository = app(UserRepository::class);
+        $this->customerRepository = app(CustomerRepository::class);
+        $this->foodRepository = app(FoodRepository::class);
     }
 
     public function index(Request $request)
     {
-//        $now = Carbon::now();
-//        dd($this->bookingRepository->getListBookingByWeek(BookingStatusEnum::EXPECTED_ARRIVAL->value));
         $record = $this->bookingRepository->getSearchBooking($request->search);
         return Inertia::render('Admin/DashBoard/Index',[
             'totalCheckIn' => $this->bookingRepository->getListCheckIn()->count(),
             'totalCheckOut' => $this->bookingRepository->getListCheckOut()->count(),
             'totalEA' => $this->bookingRepository->getListEA()->count(),
             'totalMoney' => $this->bookingRepository->getTotalMoney(),
+            'totalRooms' => $this->roomRepository->get()->count(),
+            'totalEmployee' => $this->userRepository->get()->count(),
+            'totalCustomer' => $this->customerRepository->get()->count(),
+            'totalFood' => $this->foodRepository->get()->count(),
             'bookings' => $record,
             'status' => $record->map(function ($value) {
                 return [
@@ -40,12 +55,7 @@ class DashBoardController extends BackendController
 
     public function report(Request $request) {
         $params = $request->input('time')['value'];
-        $data = [
-            'totalBookingCheckIn' => 0,
-            'totalBookingCheckOut' => 0,
-            'totalBookingEA' => 0,
-            'totalMoney' => 0,
-        ];
+
         if($params == 0) {
             $data = [
                 'totalBookingCheckIn' => $this->bookingRepository->getListCheckIn()->count(),

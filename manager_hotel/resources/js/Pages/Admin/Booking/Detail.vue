@@ -40,6 +40,10 @@ const updateStatus= () => {
         total_money: totalMoney,
     }, { preserveState: true })
 };
+
+function back() {
+    window.history.back();
+}
 </script>
 
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
@@ -175,10 +179,10 @@ const updateStatus= () => {
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
                                     data-upgraded=",MaterialButton,MaterialRipple">Submit<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
-                            <Link :href="route('booking.index')"
+                            <button @click="back"
                                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default"
-                                  data-upgraded=",MaterialButton,MaterialRipple">Cancel<span
-                                class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></Link>
+                                  data-upgraded=",MaterialButton,MaterialRipple">Back<span
+                                class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
                         </div>
                     </form>
                 </div>

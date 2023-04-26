@@ -42,6 +42,7 @@ use Inertia\Inertia;
 
 Route::prefix('admin')->middleware(['auth', 'role:admin|manager|staff'])->group(function () {
     Route::get('/dashboard', [DashBoardController::class, 'index'])->name('dashboard');
+    Route::post('/dashboard', [DashBoardController::class, 'report'])->name('dashboard.report');
 
     Route::resource('/users', UserController::class);
     Route::resource('/roles', RoleController::class);

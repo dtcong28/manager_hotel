@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent;
 use App\Models\Booking;
 use App\Models\Enums\PaymentStatusEnum;
 use App\Models\Enums\BookingStatusEnum;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class BookingRepository extends CustomRepository
@@ -98,5 +99,91 @@ class BookingRepository extends CustomRepository
 
     public function getTotalMoney(){
         return $this->select(DB::raw('sum(total_money) as total_money'))->where('status_payment', '=', PaymentStatusEnum::PAID->value)->first();
+    }
+
+    public function getTotalMoneyByDay(){
+        $today = Carbon::today()->toDateString();
+
+        $query = $this->selectRaw('sum(total_money) as total_money')->where('status_payment', PaymentStatusEnum::PAID->value)->whereRaw("DATE(created_at) = '$today'");
+
+        return $query->first();
+    }
+
+    public function getTotalMoneyByWeek(){
+        $today = Carbon::today()->toDateString();
+
+        $query = $this->selectRaw('sum(total_money) as total_money')->where('status_payment', PaymentStatusEnum::PAID->value)->whereRaw("YEARWEEK(created_at) = YEARWEEK('$today')");
+
+        return $query->first();
+    }
+
+    public function getTotalMoneyByMonth(){
+        $today = Carbon::today();
+
+        $query = $this->selectRaw('sum(total_money) as total_money')->whereRaw("YEAR(created_at) = $today->year")->whereRaw("MONTH(created_at) = $today->month");
+
+        return $query->first();
+    }
+
+    public function getTotalMoneyByYear(){
+        $today = Carbon::today();
+
+        $query = $this->selectRaw('sum(total_money) as total_money')->whereRaw("YEAR(created_at) = $today->year");
+
+        return $query->first();
+    }
+
+    public function getListBookingByYear($status)
+    {
+        $today = Carbon::today();
+
+        $params = [
+            'status_booking_eq' => $status,
+            'sort' => 'id',
+            'direction' => 'desc',
+        ];
+        $query = $this->search($params)->whereRaw("YEAR(created_at) = $today->year");
+
+        return $query->get();
+    }
+    public function getListBookingByMonth($status)
+    {
+        $today = Carbon::today();
+
+        $params = [
+            'status_booking_eq' => $status,
+            'sort' => 'id',
+            'direction' => 'desc',
+        ];
+        $query = $this->search($params)->whereRaw("YEAR(created_at) = $today->year")->whereRaw("MONTH(created_at) = $today->month");
+
+        return $query->get();
+    }
+    public function getListBookingByWeek($status)
+    {
+        $today = Carbon::today()->toDateString();
+
+        $params = [
+            'status_booking_eq' => $status,
+            'sort' => 'id',
+            'direction' => 'desc',
+        ];
+        $query = $this->search($params)->whereRaw("YEARWEEK(created_at) = YEARWEEK('$today')");
+
+        return $query->get();
+    }
+
+    public function getListBookingByDay($status)
+    {
+        $today = Carbon::today()->toDateString();
+
+        $params = [
+            'status_booking_eq' => $status,
+            'sort' => 'id',
+            'direction' => 'desc',
+        ];
+        $query = $this->search($params)->whereRaw("DATE(created_at) = '$today'");
+
+        return $query->get();
     }
 }

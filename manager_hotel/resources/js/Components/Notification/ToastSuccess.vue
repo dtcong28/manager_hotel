@@ -19,7 +19,7 @@ watchEffect(() => {
 
         timeout.value = setTimeout(() => {
             visible.value = false;
-        }, 2000);
+        }, 1500);
     }
 });
 

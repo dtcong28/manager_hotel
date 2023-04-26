@@ -70,8 +70,8 @@ const deleteBooking = (id) => {
                     <th class="center"> Check out</th>
                     <th class="center"> Payment</th>
                     <th class="center"> Status</th>
-                    <th class="center"> Detail</th>
-                    <th class="center"> Action</th>
+                    <th v-if="$page.component != 'Admin/DashBoard/Index'" class="center"> Detail</th>
+                    <th v-if="$page.component != 'Admin/DashBoard/Index'" class="center"> Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -86,10 +86,10 @@ const deleteBooking = (id) => {
                         :class="status[key].payment_class">{{ booking.status_payment_label }}</span></td>
                     <td class="center"><span
                         :class="status[key].booking_class">{{ booking.status_booking_label }}</span></td>
-                    <td class="center"><Link :href="route('booking.detail', { id: booking.id })"
+                    <td v-if="$page.component != 'Admin/DashBoard/Index'" class="center"><Link :href="route('booking.detail', { id: booking.id })"
                                              class="btn deepPink btn-outline btn-circle m-b-10">View</Link>
                     </td>
-                    <td class="center">
+                    <td v-if="$page.component != 'Admin/DashBoard/Index'" class="center">
                         <Link v-if="hasPermission('edit')" :href="route('booking.edit', { id: booking.id })"
                               class="btn btn-tbl-edit btn-xs">
                             <i class="fa fa-pencil"></i>

@@ -348,10 +348,14 @@ class BookingController extends FrontendController
 
     public function show(){
         $customer = $this->customerRepository->find(auth('web')->user()->id);
-        $bookings = $this->repository->where('customer_id',$customer->id)->with(['bookingRoom.room','bookingFood.food'])->get();
+        $bookingCheckIn = $this->repository->where('customer_id',$customer->id)->where('status_booking', BookingStatusEnum::CHECK_IN->value)->with(['bookingRoom.room','bookingFood.food'])->get();
+        $bookingCheckOut= $this->repository->where('customer_id',$customer->id)->where('status_booking', BookingStatusEnum::CHECK_OUT->value)->with(['bookingRoom.room','bookingFood.food'])->get();
+        $bookingCheckEA = $this->repository->where('customer_id',$customer->id)->where('status_booking', BookingStatusEnum::EXPECTED_ARRIVAL->value)->with(['bookingRoom.room','bookingFood.food'])->get();
 
         return Inertia::render('Web/Booking/Show', [
-            'bookings' => $bookings,
+            'bookingCheckIn' => $bookingCheckIn,
+            'bookingCheckOut' => $bookingCheckOut,
+            'bookingCheckEA' => $bookingCheckEA,
             'customer' => $customer,
         ]);
     }

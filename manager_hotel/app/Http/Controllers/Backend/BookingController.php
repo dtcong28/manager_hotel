@@ -452,7 +452,7 @@ class BookingController extends BackendController
              foreach ($bookingRoom as $data) {
                  if ($booking->status_booking->value != $statusBooking && $dataRoom['status'] == data_get($data, 'room.status')->value && data_get($data, 'room.status')->value == RoomStatusEnum::OCCUPIED->value){
                      session()->flash('action_failed', 'Room ' . data_get($data, 'room.name') . ' does not check out so your reservation cannot check in');
-                     return Redirect::route('booking.detail', ['id' => $id]);
+                     return Redirect::route('booking.index');
                  }
              }
 

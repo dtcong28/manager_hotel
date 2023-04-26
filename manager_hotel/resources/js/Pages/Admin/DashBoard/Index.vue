@@ -12,6 +12,7 @@ import {Inertia} from "@inertiajs/inertia";
 const dataReport = ref();
 
 const props = defineProps({
+    chart: Object,
     totalCheckIn: Array,
     totalCheckOut: Array,
     totalEA: Array,
@@ -230,7 +231,7 @@ const getListByTime = () => {
                             </div>
                         </div>
                         <div class="row">
-
+                            <apexchart class="col-md-12" :height="chart.height" :type="chart.type" :options="chart.options" :series="chart.series"></apexchart>
                         </div>
                     </div>
                 </div>

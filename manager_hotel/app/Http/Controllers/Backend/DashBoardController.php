@@ -9,6 +9,7 @@ use App\Repositories\Eloquent\CustomerRepository;
 use App\Repositories\Eloquent\FoodRepository;
 use App\Repositories\Eloquent\RoomRepository;
 use App\Repositories\Eloquent\UserRepository;
+use App\Charts\IncomeChart;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -31,10 +32,11 @@ class DashBoardController extends BackendController
         $this->foodRepository = app(FoodRepository::class);
     }
 
-    public function index(Request $request)
+    public function index(Request $request, IncomeChart $chart)
     {
         $record = $this->bookingRepository->getSearchBooking($request->search);
         return Inertia::render('Admin/DashBoard/Index',[
+            'chart' => $chart->build(),
             'totalCheckIn' => $this->bookingRepository->getListCheckIn()->count(),
             'totalCheckOut' => $this->bookingRepository->getListCheckOut()->count(),
             'totalEA' => $this->bookingRepository->getListEA()->count(),

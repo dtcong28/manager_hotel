@@ -64,7 +64,6 @@ const filterRoom = () => {
                 </ol>
             </div>
         </div>
-        {{ form.room }}
         <div class="row">
             <div class="col-sm-12">
                 <div class="card-box">

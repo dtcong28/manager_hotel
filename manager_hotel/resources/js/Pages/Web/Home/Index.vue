@@ -29,10 +29,6 @@ function handleChange() {
     }
 }
 
-function checkAvailable() {
-    console.log(1235)
-}
-
 const filterRoom = () => {
     form.get(route('web.booking.filter_room'))
 };
@@ -144,7 +140,7 @@ const filterRoom = () => {
                                 </div>
                                 <div class="col-md-1.5 d-flex">
                                     <div class="form-group d-flex align-self-stretch">
-                                        <button type="submit" value="Check Availability" @click="checkAvailable" class="btn btn-primary py-3 px-4 align-self-stretch">Check Availability</button>
+                                        <button type="submit" value="Check Availability" class="btn btn-primary py-3 px-4 align-self-stretch">Check Availability</button>
                                     </div>
                                 </div>
                             </div>

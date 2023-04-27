@@ -48,27 +48,11 @@ class FeedBackController extends BackendController
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $params = $request->all();
+        $this->service->update($params['id'], ['active' => $params['status']]);
 
-        try {
-            if (empty($id) || empty($params)) {
-                return Redirect::route('feed-back.index');
-            }
-
-            if (!$this->service->update($id, $params)) {
-                session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
-
-                return Redirect::route('feed-back.index');
-            }
-
-            session()->flash('action_success', getConstant('messages.UPDATE_SUCCESS'));
-        } catch (\Exception $exception) {
-            Log::error($exception);
-            session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
-        }
-
-        return Redirect::route('feed-back.index');
+        return response()->json(['message' => getConstant('messages.UPDATE_SUCCESS')]);
     }
 }

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('subject')->nullable();
             $table->text('content')->nullable();
             $table->integer('star_rate')->nullable();
-            $table->char('status', 1)->nullable();
+            $table->char('active', 1)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

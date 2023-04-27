@@ -1,6 +1,6 @@
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
-import {Link, router, useForm} from '@inertiajs/vue3';
+import {Link, router, useForm, usePage} from '@inertiajs/vue3';
 import {Head} from '@inertiajs/vue3';
 import Pagination from '@/Components/Admin/Pagination.vue';
 import Modal from '@/Components/Admin/Modal.vue';
@@ -15,26 +15,23 @@ const props = defineProps({
     feedBack: Array,
 })
 
+const dataSelect = ref();
+
+const selected= ref(0);
+
 function searchData() {
     router.get('feed-back', { search: search.value }, { preserveState: true })
 }
 
-const showConfirmDeleteModal = ref(false)
-const deleteID = ref('')
-
-const confirmDelete = (id) => {
-    showConfirmDeleteModal.value = true
-    deleteID.value = id
-}
-
-const closeModal = () => {
-    showConfirmDeleteModal.value = false;
-}
-
-const deleteFeedBack= (id) => {
-    form.delete(route('feed-back.destroy', id), {
-        onSuccess: () => closeModal()
-    });
+function handleChange(status, id) {
+    usePage().props.flash.action_success = null
+    axios.post(route('feed-back.report'), { id: id, status: status})
+        .then(response => {
+            usePage().props.flash.action_success = response.data.message
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 </script>
@@ -78,7 +75,6 @@ const deleteFeedBack= (id) => {
                                     <th class="center"> Content</th>
                                     <th class="center"> Start rate</th>
                                     <th class="center"> Status</th>
-                                    <th class="center"> Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -88,21 +84,15 @@ const deleteFeedBack= (id) => {
                                     <td class="center">{{ value.subject }}</td>
                                     <td class="center">{{ value.content }}</td>
                                     <td class="center">{{ value.star_rate }}</td>
-                                    <td class="center">{{ value.status_label }}</td>
                                     <td class="center">
-                                        <Link v-if="hasPermission('edit')" :href="route('feed-back.edit', { id: value.id })" class="btn btn-tbl-edit btn-xs">
-                                            <i class="fa fa-pencil"></i>
-                                        </Link>
-                                        <button v-if="hasPermission('delete')" @click="confirmDelete(value.id)" class="btn btn-tbl-delete btn-xs"><i class="fa fa-trash-o "></i></button>
-                                        <Modal :show="showConfirmDeleteModal" @close="closeModal">
-                                            <div class="p-6">
-                                                <h4 class="text-lg font-semibold text-slate-800">Are you sure to delete ?</h4>
-                                                <div class="mt-6 flex space-x-4">
-                                                    <DangerButton @click="deleteFeedBack(deleteID)">Delete</DangerButton>
-                                                    <SecondaryButton @click="closeModal">Cancel</SecondaryButton>
-                                                </div>
-                                            </div>
-                                        </Modal>
+                                        <div class="col-md-12">
+                                            <label class="btn btn-success deepPink-bgcolor">
+                                                <input type="radio" :name="value.id" v-model="value.active" value="1" @change="handleChange(1, value.id)"> Active
+                                            </label>
+                                            <label class="btn btn-danger deepPink-bgcolor">
+                                                <input type="radio" :name="value.id" v-model="value.active" value="0" @change="handleChange(0, value.id)"> Inactive
+                                            </label>
+                                        </div>
                                     </td>
                                 </tr>
                                 </tbody>

@@ -1,12 +1,16 @@
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
 import {Head, Link, useForm} from '@inertiajs/vue3';
+import {ref} from "vue";
 
 const form = useForm({
     name: '',
 });
 
+const loading = ref(false);
+
 const storeTypeRoom = () => {
+    loading.value = true;
     form.post(route('types-room.store'))
 };
 
@@ -41,7 +45,10 @@ const storeTypeRoom = () => {
                                     <input type="text" v-model="form.name" class="form-control" id="name" name="name" placeholder="Enter room type">
                                     <div v-if="form.errors.name" style="color: red">{{ form.errors.name[0] }}</div>
                                 </div>
-                                <button type="submit" class="btn btn-primary" style="display: flex; justify-content: center; margin: 0 auto">Submit</button>
+                                <button type="submit" class="btn btn-primary" style="display: flex; justify-content: center; margin: 0 auto" :disabled="loading">
+                                    <span v-if="loading" class="spinner-border spinner-border-sm mr-2"></span>
+                                    Submit
+                                </button>
                             </form>
                         </div>
                     </div>

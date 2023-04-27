@@ -36,6 +36,25 @@ const confirmBooking = () => {
 };
 
 const totalSelectRoom = computed(() => selectRoom.value.filter(el => el != null).length)
+
+const formBooking = useForm({
+    time_check_in: '',
+    time_check_out: '',
+    number_room: '',
+    room: [],
+});
+
+function handleChange() {
+    for (const [key, value] of Object.entries(formBooking.room)) {
+        if(key > formBooking.number_room) {
+            formBooking.room[key] = null
+        }
+    }
+}
+
+const filterRoom = () => {
+    formBooking.get(route('web.booking.filter_room'), { preserveState: true })
+};
 </script>
 
 <style>
@@ -80,6 +99,72 @@ const totalSelectRoom = computed(() => selectRoom.value.filter(el => el != null)
         </div>
         <section class="ftco-section bg-light">
             <div class="container">
+                <div class="row pb-8">
+                    <div class="col-lg-12">
+                        <form @submit.prevent="filterRoom" class="booking-form" style="display: flex; justify-content: center;">
+                            <div class="row">
+                                <div class="col-md-2.5 d-flex">
+                                    <div class="form-group p-4 align-self-stretch d-flex align-items-end">
+                                        <div class="wrap">
+                                            <label for="time_check_in">Check-in Date</label>
+                                            <input name="time_check_in" id="time_check_in" v-model="formBooking.time_check_in" type="date" class="form-control" placeholder="Check-in date">
+                                            <div v-if="$page.props.errors.time_check_in" style="color: red">{{$page.props.errors.time_check_in[0] }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2.5 d-flex">
+                                    <div class="form-group p-4 align-self-stretch d-flex align-items-end">
+                                        <div class="wrap">
+                                            <label for="time_check_out">Check-out Date</label>
+                                            <input name="time_check_out" id="time_check_out" v-model="formBooking.time_check_out" type="date" class="form-control" placeholder="Check-out date">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2.5 d-flex">
+                                    <div class="form-group p-4 align-self-stretch d-flex align-items-end">
+                                        <div class="wrap">
+                                            <label for="number_room">Number Room</label>
+                                            <div class="form-field">
+                                                <div class="select-wrap">
+                                                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                                                    <select name="number_room" v-model="formBooking.number_room" id="number_room" class="form-control" @change="handleChange">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1.5 d-flex" v-for="room in Number(formBooking.number_room)" :key="room">
+                                    <div class="form-group p-4 align-self-stretch d-flex align-items-end">
+                                        <div class="wrap">
+                                            <label>Room {{ room }}</label>
+                                            <div class="form-field">
+                                                <div class="select-wrap">
+                                                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                                                    <select name="room[]" v-model="formBooking.room[room]" class="form-control">
+                                                        <option value="1">1 Adult</option>
+                                                        <option value="2">2 Adult</option>
+                                                        <option value="3">3 Adult</option>
+                                                        <option value="4">4 Adult</option>
+                                                        <option value="5">5 Adult</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1.5 d-flex">
+                                    <div class="form-group d-flex align-self-stretch">
+                                        <button type="submit" value="Check Availability" class="btn btn-primary py-3 px-4 align-self-stretch">Check Availability</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-lg-8" >
                         <div v-if="rooms" v-for="(room,key) in rooms">

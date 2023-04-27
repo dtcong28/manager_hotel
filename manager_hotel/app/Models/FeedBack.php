@@ -24,22 +24,22 @@ class FeedBack extends Model
         'subject',
         'content',
         'star_rate',
-        'status',
-        'status_label',
+        'active',
+        'active_label',
     ];
 
     protected $appends = [
-        'status_label',
+        'active_label',
     ];
 
     protected $casts = [
-        'status' => StatusEnum::class,
+        'active' => StatusEnum::class,
     ];
 
-    protected function statusLabel(): Attribute
+    protected function activeLabel(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $this->status?->label()
+            get: fn($value) => $this->active?->label()
         );
     }
 

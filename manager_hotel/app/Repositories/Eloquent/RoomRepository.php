@@ -107,4 +107,12 @@ class RoomRepository extends CustomRepository
 
         return $query->get();
     }
+
+    public function getListVacant(){
+        return $this->where('status', RoomStatusEnum::VACANT->value)->get();
+    }
+
+    public function getListOccupied(){
+        return $this->where('status', RoomStatusEnum::OCCUPIED->value)->get();
+    }
 }

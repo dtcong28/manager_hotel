@@ -23,6 +23,12 @@ const props = defineProps({
     totalFood: Array,
     bookings: Array,
     status: Array,
+    totalMoneyByDay: Array,
+    totalMoneyByWeek: Array,
+    totalMoneyByMonth: Array,
+    feedBack: Array,
+    totalVacantRoom: Array,
+    totalOccupiedRoom: Array,
 })
 
 const selectedValues = ref({name: 'all time', value: 0});
@@ -47,6 +53,12 @@ const getListByTime = () => {
             console.error(error);
         });
 };
+
+function getFormattedDate(dateString) {
+    const date = new Date(dateString);
+    const isoString = date.toISOString();
+    return isoString.slice(0, 10);
+}
 </script>
 
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
@@ -200,11 +212,61 @@ const getListByTime = () => {
                 <!-- /.col -->
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card card-box">
+        <!-- end widget -->
+        <div class="row pt-3">
+            <div class="col-md-4 col-sm-12 col-12">
+                <div class="card bg-info">
+                    <div class="text-white py-3 px-4">
+                        <h3>Vacant Rooms: {{ totalVacantRoom }}</h3>
+                    </div>
+                </div>
+                <div class="card bg-success">
+                    <div class="text-white py-3 px-4">
+                        <h3>Occupied Rooms: {{ totalOccupiedRoom }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 col-12">
+                <div class="card  card-box">
                     <div class="card-head">
-                        <header>Chart Survey</header>
+                        <header>FeedBack</header>
+                        <div class="tools">
+                            <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
+                            <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
+                            <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
+                        </div>
+                    </div>
+                    <div class="card-body no-padding height-9">
+                        <div>
+                            <div class="noti-information notification-menu">
+                                <div  v-if="feedBack.data.length == 0" style="color: red; text-align: center">No data</div>
+                                <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto;">
+                                    <div class="notification-list mail-list not-list small-slimscroll-style" style="overflow: hidden; width: auto;">
+                                    <a href="javascript:;" class="single-mail" v-for="feedBack in feedBack.data">
+                                        <span class="icon bg-primary"> <i class="fa fa-user-o"></i></span>
+                                        <span class="text-purple">{{ feedBack.customer.name }}</span> send feedback
+                                        <span class="notificationtime"><small>{{ getFormattedDate(feedBack.created_at) }}</small></span>
+                                    </a>
+                                </div>
+                                    <div class="slimScrollBar" style="background: rgb(158, 165, 171); width: 5px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 120.104px;">
+
+                                    </div>
+                                    <div class="slimScrollRail" style="width: 5px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;">
+
+                                </div>
+                                </div>
+                                <div class="full-width text-center p-t-10" v-if="feedBack.data.length != 0">
+                                    <Link :href="route('feed-back.index')" class="btn purple btn-outline btn-circle margin-0">View All</Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 col-12">
+                <div class="card  card-box">
+                    <div class="card-head">
+                        <header>Earning</header>
                         <div class="tools">
                             <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
                             <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
@@ -213,21 +275,17 @@ const getListByTime = () => {
                     </div>
                     <div class="card-body no-padding height-9">
                         <div class="row text-center">
-                            <div class="col-sm-3 col-6">
-                                <h4 class="margin-0">$ 209 </h4>
-                                <p class="text-muted"> Today's Income</p>
+                            <div class="col-sm-4 col-6">
+                                <h4 class="margin-0">{{ totalMoneyByDay.total_money == null ? 0 : parseInt(totalMoneyByDay.total_money).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</h4>
+                                <p class="text-muted"> Today</p>
                             </div>
-                            <div class="col-sm-3 col-6">
-                                <h4 class="margin-0">$ 837 </h4>
-                                <p class="text-muted">This Week's Income</p>
+                            <div class="col-sm-4 col-6">
+                                <h4 class="margin-0">{{ totalMoneyByWeek.total_money == null ? 0 : parseInt(totalMoneyByWeek.total_money).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</h4>
+                                <p class="text-muted">This Week</p>
                             </div>
-                            <div class="col-sm-3 col-6">
-                                <h4 class="margin-0">$ 3410 </h4>
-                                <p class="text-muted">This Month's Income</p>
-                            </div>
-                            <div class="col-sm-3 col-6">
-                                <h4 class="margin-0">$ 78,000 </h4>
-                                <p class="text-muted">This Year's Income</p>
+                            <div class="col-sm-4 col-6">
+                                <h4 class="margin-0">{{ totalMoneyByMonth.total_money == null ? 0 : parseInt(totalMoneyByMonth.total_money).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</h4>
+                                <p class="text-muted">This Month</p>
                             </div>
                         </div>
                         <div class="row">
@@ -237,7 +295,6 @@ const getListByTime = () => {
                 </div>
             </div>
         </div>
-        <!-- end widget -->
         <div class="row">
             <div class="col-md-12">
                 <div class="card card-box">

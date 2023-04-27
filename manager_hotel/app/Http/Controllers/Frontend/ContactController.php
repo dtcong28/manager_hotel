@@ -32,7 +32,7 @@ class ContactController extends FrontendController
     public function feedBack(FeedBackRequest $request){
         try {
             $params = $request->all();
-            $params['status'] = StatusEnum::INACTIVE->value;
+            $params['active'] = StatusEnum::INACTIVE->value;
             $params['customer_id'] = auth('web')->user()->id;
 
             if (!$this->feedBackService->store($params)) {

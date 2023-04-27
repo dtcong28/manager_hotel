@@ -40,7 +40,7 @@ const submit = () => {
                 </div>
             </div>
         </div>
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center bg-gray-100">
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
                 <form @submit.prevent="submit">
                     <div>
@@ -56,7 +56,7 @@ const submit = () => {
                             autocomplete="username"
                         />
 
-                        <InputError class="mt-2" :message="form.errors.email"/>
+                        <InputError v-if="form.errors.email" class="mt-2" :message="form.errors.email[0]"/>
                     </div>
 
                     <div class="mt-4">
@@ -71,7 +71,7 @@ const submit = () => {
                             autocomplete="current-password"
                         />
 
-                        <InputError class="mt-2" :message="form.errors.password"/>
+                        <InputError v-if="form.errors.password" class="mt-2" :message="form.errors.password[0]"/>
                     </div>
 
                     <div class="block mt-4">

@@ -101,7 +101,7 @@ const deleteBooking = (id) => {
                         <button v-if="hasPermission('delete')" @click="confirmDelete(booking.id)" class="btn btn-tbl-delete btn-xs"><i class="fa fa-trash-o "></i></button>
                         <Modal :show="showConfirmDeleteModal" @close="closeModal">
                             <div class="p-6">
-                                <h4 class="text-lg font-semibold text-slate-800">Are you sure to delete ?</h4>
+                                <h4 class="text-lg font-semibold text-slate-800">If you delete, it may affect booking customers</h4>
                                 <div class="mt-6 flex space-x-4">
                                     <DangerButton @click="deleteBooking(deleteID)">Delete</DangerButton>
                                     <SecondaryButton @click="closeModal">Cancel</SecondaryButton>

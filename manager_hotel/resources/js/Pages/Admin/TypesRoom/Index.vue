@@ -4,7 +4,7 @@ import Pagination from '@/Components/Admin/Pagination.vue';
 import Modal from '@/Components/Admin/Modal.vue';
 import DangerButton from '@/Components/Admin/DangerButton.vue';
 import SecondaryButton from '@/Components/Admin/SecondaryButton.vue';
-import {Link, router, useForm} from '@inertiajs/vue3'
+import {Link, router, useForm, usePage} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 import {ref} from "vue";
 import { usePermission } from "@/Composables/permissions"
@@ -97,7 +97,10 @@ const deleteType = (id) => {
                                         <button v-if="hasPermission('delete')" @click="confirmDelete(typeRoom.id)" class="btn btn-tbl-delete btn-xs"><i class="fa fa-trash-o "></i></button>
                                         <Modal :show="showConfirmDeleteModal" @close="closeModal">
                                             <div class="p-6">
-                                                <h4 class="text-lg font-semibold text-slate-800">Are you sure to delete ?</h4>
+                                                <h4 class="text-lg font-semibold text-slate-800">
+                                                    <span>If you delete, it may affect booking customers</span>
+                                                </h4>
+
                                                 <div class="mt-6 flex space-x-4">
                                                     <DangerButton @click="deleteType(deleteID)">Delete</DangerButton>
                                                     <SecondaryButton @click="closeModal">Cancel</SecondaryButton>

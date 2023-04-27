@@ -47,7 +47,7 @@ const submit = () => {
                     autocomplete="username"
                 />
 
-                <InputError class="mt-2" :message="form.errors.email" />
+                <InputError v-if="form.errors.email" class="mt-2" :message="form.errors.email[0]" />
             </div>
 
             <div class="mt-4">
@@ -62,7 +62,7 @@ const submit = () => {
                     autocomplete="current-password"
                 />
 
-                <InputError class="mt-2" :message="form.errors.password" />
+                <InputError v-if="form.errors.password" class="mt-2" :message="form.errors.password[0]" />
             </div>
 
             <div class="block mt-4">

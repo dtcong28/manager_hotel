@@ -27,6 +27,6 @@ class FeedBackRepository extends CustomRepository
     }
 
     public function getFeedBack(){
-        return $this->where('status', '=', StatusEnum::ACTIVE->value)->with('customer')->get();
+        return $this->where('active', '=', StatusEnum::ACTIVE->value)->with('customer')->get();
     }
 }

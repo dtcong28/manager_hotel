@@ -6,6 +6,7 @@ use App\Models\Enums\BookingStatusEnum;
 use App\Models\Enums\PaymentStatusEnum;
 use App\Repositories\Eloquent\BookingRepository;
 use App\Repositories\Eloquent\CustomerRepository;
+use App\Repositories\Eloquent\FeedBackRepository;
 use App\Repositories\Eloquent\FoodRepository;
 use App\Repositories\Eloquent\RoomRepository;
 use App\Repositories\Eloquent\UserRepository;
@@ -21,6 +22,7 @@ class DashBoardController extends BackendController
     protected $customerRepository;
     protected $foodRepository;
     protected $bookingRepository;
+    protected $feedBackRepository;
 
     public function __construct()
     {
@@ -30,6 +32,7 @@ class DashBoardController extends BackendController
         $this->userRepository = app(UserRepository::class);
         $this->customerRepository = app(CustomerRepository::class);
         $this->foodRepository = app(FoodRepository::class);
+        $this->feedBackRepository = app(FeedBackRepository::class);
     }
 
     public function index(Request $request, IncomeChart $chart)
@@ -46,6 +49,12 @@ class DashBoardController extends BackendController
             'totalCustomer' => $this->customerRepository->get()->count(),
             'totalFood' => $this->foodRepository->get()->count(),
             'bookings' => $record,
+            'totalMoneyByDay' => $this->bookingRepository->getTotalMoneyByDay(),
+            'totalMoneyByWeek' => $this->bookingRepository->getTotalMoneyByWeek(),
+            'totalMoneyByMonth' => $this->bookingRepository->getTotalMoneyByMonth(),
+            'feedBack' => $this->feedBackRepository->with('customer')->paginate(6),
+            'totalVacantRoom' => $this->roomRepository->getListVacant()->count(),
+            'totalOccupiedRoom' => $this->roomRepository->getListOccupied()->count(),
             'status' => $record->map(function ($value) {
                 return [
                     'booking_class' => BookingStatusEnum::statusBg($value->status_booking->value),
@@ -66,6 +75,7 @@ class DashBoardController extends BackendController
                 'totalMoney' => $this->bookingRepository->getTotalMoney(),
             ];
         }
+
         if($params == 1) {
             $data = [
                 'totalBookingCheckIn' => $this->bookingRepository->getListBookingByDay(BookingStatusEnum::CHECK_IN->value)->count(),
@@ -74,6 +84,7 @@ class DashBoardController extends BackendController
                 'totalMoney' => $this->bookingRepository->getTotalMoneyByDay(),
             ];
         }
+
         if($params == 2) {
             $data = [
                 'totalBookingCheckIn' => $this->bookingRepository->getListBookingByWeek(BookingStatusEnum::CHECK_IN->value)->count(),
@@ -82,6 +93,7 @@ class DashBoardController extends BackendController
                 'totalMoney' => $this->bookingRepository->getTotalMoneyByWeek(),
             ];
         }
+
         if($params == 3) {
             $data = [
                 'totalBookingCheckIn' => $this->bookingRepository->getListBookingByMonth(BookingStatusEnum::CHECK_IN->value)->count(),
@@ -90,6 +102,7 @@ class DashBoardController extends BackendController
                 'totalMoney' => $this->bookingRepository->getTotalMoneyByMonth(),
             ];
         }
+
         if($params == 4) {
             $data = [
                 'totalBookingCheckIn' => $this->bookingRepository->getListBookingByYear(BookingStatusEnum::CHECK_IN->value)->count(),

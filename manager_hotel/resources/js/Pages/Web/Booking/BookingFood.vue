@@ -69,11 +69,10 @@ const submit = () => {
                                             </div>
                                             <div class="d-block">
                                                 <p>{{ food.description }}</p>
-                                                <input type="number" v-model="selectFood[food.id]" min="1"
-                                                       placeholder="Amount" style="width: 110px">
                                             </div>
-
                                         </div>
+                                        <input type="number" v-model="selectFood[food.id]" min="1"
+                                               placeholder="Amount" style="width: 120px; height: 50px">
                                     </div>
                                 </div>
                             </div>

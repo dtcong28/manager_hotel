@@ -56,7 +56,7 @@ const updatePassword = () => {
                     autocomplete="current-password"
                 />
 
-                <InputError :message="form.errors.current_password" class="mt-2" />
+                <InputError v-if="form.errors.current_password" :message="form.errors.current_password[0]" class="mt-2" />
             </div>
 
             <div>
@@ -71,7 +71,7 @@ const updatePassword = () => {
                     autocomplete="new-password"
                 />
 
-                <InputError :message="form.errors.password" class="mt-2" />
+                <InputError v-if="form.errors.password" :message="form.errors.password[0]" class="mt-2" />
             </div>
 
             <div>
@@ -85,7 +85,7 @@ const updatePassword = () => {
                     autocomplete="new-password"
                 />
 
-                <InputError :message="form.errors.password_confirmation" class="mt-2" />
+                <InputError v-if="form.errors.password_confirmation" :message="form.errors.password_confirmation[0]" class="mt-2" />
             </div>
 
             <div class="flex items-center gap-4">

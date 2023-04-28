@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Http\Requests\ProfileCustomerUpdateRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Repositories\Eloquent\BookingFoodRepository;
 use App\Repositories\Eloquent\BookingRepository;
@@ -31,7 +32,7 @@ class ProfileCustomerController extends FrontendController
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileCustomerUpdateRequest $request): RedirectResponse
     {
         $request->user('web')->fill($request->validated());
 

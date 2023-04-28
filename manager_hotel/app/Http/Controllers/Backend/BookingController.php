@@ -480,6 +480,11 @@ class BookingController extends BackendController
                  }
              }
 
+             $booking->reason_cancel = data_get($params, 'reason');
+             if($booking->status_booking->value != BookingStatusEnum::CANCEL->value){
+                 $booking->reason_cancel = null;
+             }
+
              if (!$booking->save()) {
                  DB::rollback();
                  session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
@@ -490,7 +495,7 @@ class BookingController extends BackendController
             session()->flash('action_success', getConstant('messages.UPDATE_SUCCESS'));
         } catch (\Exception $exception) {
             Log::error($exception);
-            session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+            session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
         }
 
         return Redirect::route('booking.index');;

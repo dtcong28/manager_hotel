@@ -22,7 +22,7 @@ import {ref} from "vue";
         </div>
         <section class="ftco-section bg-light">
             <div class="container">
-                Complete
+                <h3 class="text-center">Congratulations on your successful booking</h3>
             </div>
         </section>
     </LayoutBooking>

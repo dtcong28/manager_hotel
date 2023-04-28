@@ -9,6 +9,7 @@ enum BookingStatusEnum: int
     case CHECK_OUT = 0;
     case CHECK_IN = 1;
     case EXPECTED_ARRIVAL = 2;
+    case CANCEL = 3;
 
     public function label(): string
     {
@@ -16,6 +17,7 @@ enum BookingStatusEnum: int
             self::CHECK_OUT => 'Check out',
             self::CHECK_IN => 'Check in',
             self::EXPECTED_ARRIVAL => 'Expected arrival',
+            self::CANCEL => 'Cancel',
         };
     }
 
@@ -25,6 +27,7 @@ enum BookingStatusEnum: int
             self::CHECK_OUT->value => 'Check out',
             self::CHECK_IN->value => 'Check in',
             self::EXPECTED_ARRIVAL->value => 'Expected arrival',
+            self::CANCEL->value => 'Cancel',
         };
     }
 
@@ -34,6 +37,7 @@ enum BookingStatusEnum: int
             self::CHECK_OUT->value => 'label label-sm label-danger',
             self::CHECK_IN->value => 'label label-sm label-success',
             self::EXPECTED_ARRIVAL->value => 'label label-sm label-warning',
+            self::CANCEL->value => 'label label-sm label-event',
         };
     }
 }

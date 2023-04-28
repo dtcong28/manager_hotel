@@ -25,6 +25,7 @@ return new class extends Migration {
             $table->char('status_payment', 1)->nullable();
             $table->char('status_booking', 1)->nullable();
             $table->integer('total_money')->nullable();
+            $table->text('reason_cancel')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

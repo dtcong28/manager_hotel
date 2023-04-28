@@ -187,14 +187,11 @@ export default {
                                 </div>
                                 <div v-if="select_rooms" class="form-group" v-for="(value, index) in select_rooms">
                                     <div>
-                                        <span>Room {{
-                                                value
-                                            }} : {{
+                                        <span>Room {{value }} : {{
                                                 parseInt(info_booking.booking.info_booking.price_each_room[index]).toLocaleString('vi-VN', {
                                                     style: 'currency',
                                                     currency: 'VND'
-                                                })
-                                            }}</span>
+                                                }) }}</span>
                                     </div>
                                 </div>
                                 <div v-if="select_foods" class="form-group" v-for="value in select_foods">
@@ -203,14 +200,11 @@ export default {
                                                 parseInt(info_booking.booking.price_food[value[1]]).toLocaleString('vi-VN', {
                                                     style: 'currency',
                                                     currency: 'VND'
-                                                })
-                                            }}</span>
+                                                }) }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    Total: {{
-                                        totalMoney.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})
-                                    }}
+                                    Total: {{ totalMoney.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'}) }}
                                 </div>
                             </div>
                         </div>

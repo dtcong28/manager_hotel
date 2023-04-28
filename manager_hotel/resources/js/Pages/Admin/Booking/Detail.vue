@@ -25,6 +25,7 @@ props.bookingFood.forEach((food) => {
 const form = useForm({
     status_payment: props.booking.status_payment,
     status_booking: props.booking.status_booking,
+    reason: props.booking.reason_cancel,
 });
 
 const totalMoney = sum.value.reduce((partialSum, a) => partialSum + a, 0)
@@ -38,11 +39,12 @@ const updateStatus= () => {
         time_check_out: props.booking.time_check_out,
         rooms: props.bookingRoom,
         total_money: totalMoney,
+        reason: form.reason,
     }, { preserveState: true })
 };
 
-function back() {
-    window.history.back();
+function cancelBooking() {
+    console.log('cancel')
 }
 </script>
 
@@ -84,6 +86,11 @@ function back() {
                                 <h4>Status:
                                     <div class="row">
                                         <div class="col-md-12">
+                                            <label class="btn btn-color deepPink-bgcolor">
+                                                <input type="radio" name="status_booking" v-model="form.status_booking"
+                                                       value="3" :checked="form.status_booking == 3" :disabled="booking.status_booking == 1 || booking.status_booking == 0" v-bind:style= "[booking.status_booking == 1 || booking.status_booking == 0 ? 'opacity: 0.3' : '']">
+                                                Cancel
+                                            </label>
                                             <label class="btn btn-warning deepPink-bgcolor">
                                                 <input type="radio" name="status_booking" v-model="form.status_booking"
                                                        value="2" :checked="form.status_booking == 2" :disabled="booking.status_booking == 0 || booking.status_booking == 1" v-bind:style= "[booking.status_booking == 0 || booking.status_booking == 1 ? 'opacity: 0.3' : '']">
@@ -91,14 +98,18 @@ function back() {
                                             </label>
                                             <label class="btn btn-info deepPink-bgcolor">
                                                 <input type="radio" name="status_booking" v-model="form.status_booking"
-                                                       value="1" :checked="form.status_booking == 1" :disabled="booking.status_booking == 0" v-bind:style= "[booking.status_booking == 0 ? 'opacity: 0.3' : '']">
+                                                       value="1" :checked="form.status_booking == 1" :disabled="booking.status_booking == 0 || booking.status_booking == 3" v-bind:style= "[booking.status_booking == 0 || booking.status_booking == 3 ? 'opacity: 0.3' : '']">
                                                 Check in
                                             </label>
                                             <label class="btn btn-danger deepPink-bgcolor">
                                                 <input type="radio" name="status_booking" v-model="form.status_booking"
-                                                       value="0" :checked="form.status_booking == 0" :disabled="booking.status_booking == 2" v-bind:style= "[booking.status_booking == 2 ? 'opacity: 0.3' : '']">
+                                                       value="0" :checked="form.status_booking == 0" :disabled="booking.status_booking == 2 || booking.status_booking == 3" v-bind:style= "[booking.status_booking == 2 || booking.status_booking == 3 ? 'opacity: 0.3' : '']">
                                                 Check out
                                             </label>
+                                        </div>
+                                        <div class="col-md-5" v-if="form.status_booking == 3">
+                                            <h4>Reason:</h4>
+                                            <textarea name="reason" v-model="form.reason" rows="4" cols="10" class="form-control"></textarea>
                                         </div>
                                     </div>
                                 </h4><br>
@@ -179,10 +190,10 @@ function back() {
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
                                     data-upgraded=",MaterialButton,MaterialRipple">Submit<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
-                            <button @click="back"
+                            <Link :href="route('booking.index')"
                                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default"
                                   data-upgraded=",MaterialButton,MaterialRipple">Back<span
-                                class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
+                                class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></Link>
                         </div>
                     </form>
                 </div>

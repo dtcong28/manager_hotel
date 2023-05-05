@@ -133,7 +133,7 @@ const filterRoom = () => {
                             </div>
                         </div>
                         <div class="col-lg-12 p-t-20 text-center">
-                            <button v-if="bookingRoom.status_booking!=0 && bookingRoom.status_booking!=1" type="submit"
+                            <button v-if="bookingRoom.status_booking!=0 && bookingRoom.status_booking!=1 && bookingRoom.status_booking!=3" type="submit"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
                                     data-upgraded=",MaterialButton,MaterialRipple">Continue<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>

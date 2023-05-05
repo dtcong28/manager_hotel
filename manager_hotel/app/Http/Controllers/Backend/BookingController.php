@@ -129,7 +129,7 @@ class BookingController extends BackendController
             } else {
                 $listBookingByRoom = $this->repository->getListBookingByRoom($room['id'], $params['id_booking']);
                 foreach ($listBookingByRoom as $data) {
-                    if(!($data['time_check_out'] <= $params['time_check_in'] || $data['time_check_in'] >= $params['time_check_out'])) {
+                    if (!($data['time_check_out'] <= $params['time_check_in'] || $data['time_check_in'] >= $params['time_check_out'])) {
                         session()->flash('action_failed', "Check-in and check-out time is not suitable");
                         return Redirect::route('booking.edit', ['booking' => $params['id_booking']]);
                     }
@@ -311,7 +311,7 @@ class BookingController extends BackendController
 
                     // update status room is expected arrival
                     $room = $this->roomRepository->find($value);
-                    if (!empty($room) && $booking->status_booking->value == BookingStatusEnum::CHECK_IN->value){
+                    if (!empty($room) && $booking->status_booking->value == BookingStatusEnum::CHECK_IN->value) {
                         $room->status = RoomStatusEnum::OCCUPIED->value;
                         $room->save();
                     }
@@ -357,7 +357,7 @@ class BookingController extends BackendController
             $bookingFood = $booking->bookingFood()->get();
 
             // thông tin để gửi mail
-            $emailCustomer = data_get($booking,'customer.email');
+            $emailCustomer = data_get($booking, 'customer.email');
             $infoBooking = [
                 'info' => $booking,
                 'room' => $bookingRoom,
@@ -365,7 +365,7 @@ class BookingController extends BackendController
 
             //neu phong da duoc khach check in => phòng đang được dùng => cap nhat tinh trang phong la trống
             foreach ($bookingRoom as $data) {
-                if (data_get($data, 'room.status.value') == RoomStatusEnum::OCCUPIED->value){
+                if (data_get($data, 'room.status.value') == RoomStatusEnum::OCCUPIED->value) {
                     if (!$this->roomRepository->update(data_get($data, 'room_id'), ['status' => RoomStatusEnum::VACANT->value])) {
                         DB::rollback();
                         session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
@@ -375,27 +375,27 @@ class BookingController extends BackendController
             }
 
             // xóa booking room
-            if($bookingRoom->isNotEmpty() && !$booking->bookingRoom()->delete()  ) {
+            if ($bookingRoom->isNotEmpty() && !$booking->bookingRoom()->delete()) {
                 session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
                 DB::rollback();
                 return redirect(getBackUrl());
             }
 
             // xóa booking food
-            if($bookingFood->isNotEmpty() && !$booking->bookingFood()->delete()) {
+            if ($bookingFood->isNotEmpty() && !$booking->bookingFood()->delete()) {
                 session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
                 DB::rollback();
                 return redirect(getBackUrl());
             }
 
             // xóa booking
-            if(!$this->repository->destroy($id)) {
+            if (!$this->repository->destroy($id)) {
                 session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
                 DB::rollback();
                 return redirect(getBackUrl());
             }
 
-            if($booking->status_booking->value != BookingStatusEnum::CHECK_OUT->value){
+            if ($booking->status_booking->value != BookingStatusEnum::CHECK_OUT->value) {
                 Mail::to($emailCustomer)->send(new CancelBookingMail($infoBooking));
             }
             DB::commit();
@@ -441,55 +441,62 @@ class BookingController extends BackendController
                 return Redirect::route('booking.index');
             }
 
-            $dataRoom['status'] = RoomStatusEnum::OCCUPIED->value;
+            if ($statusBooking != BookingStatusEnum::EXPECTED_ARRIVAL->value && $statusBooking != BookingStatusEnum::CANCEL->value) {
+                $dataRoom['status'] = RoomStatusEnum::OCCUPIED->value;
+            }
 
-            if ($statusBooking != BookingStatusEnum::CHECK_IN->value) {
+            if (!in_array($statusBooking, [BookingStatusEnum::CHECK_IN->value, BookingStatusEnum::EXPECTED_ARRIVAL->value, BookingStatusEnum::CANCEL->value])) {
                 $dataRoom = [
                     'status' => RoomStatusEnum::VACANT->value,
                 ];
             }
 
-             foreach ($bookingRoom as $data) {
-                 if ($booking->status_booking->value != $statusBooking && $dataRoom['status'] == data_get($data, 'room.status')->value && data_get($data, 'room.status')->value == RoomStatusEnum::OCCUPIED->value){
-                     session()->flash('action_failed', 'Room ' . data_get($data, 'room.name') . ' does not check out so your reservation cannot check in');
-                     return Redirect::route('booking.index');
-                 }
-             }
+            if ($statusBooking != BookingStatusEnum::EXPECTED_ARRIVAL->value && $statusBooking != BookingStatusEnum::CANCEL->value) {
+                foreach ($bookingRoom as $data) {
+                    if ($booking->status_booking->value != $statusBooking && $dataRoom['status'] == data_get($data, 'room.status')->value && data_get($data, 'room.status')->value == RoomStatusEnum::OCCUPIED->value) {
+                        session()->flash('action_failed', 'Room ' . data_get($data, 'room.name') . ' does not check out so your reservation cannot check in');
+                        return Redirect::route('booking.index');
+                    }
 
-             if ($booking->status_booking->value != $statusBooking) {
-                 foreach (data_get($params, 'rooms') as $room) {
-                     if (!$this->roomRepository->update(data_get($room, 'room_id'), $dataRoom)) {
-                         DB::rollback();
-                         session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
-                         return Redirect::route('booking.index');
-                     }
-                 }
-             }
+                }
+            }
 
-             if ($booking->status_booking->value != $statusBooking) {
-                 $booking->status_booking = $statusBooking;
-             }
-             if ($booking->status_payment->value != $statusPayment) {
-                 $booking->status_payment = $statusPayment;
-                 if ($statusPayment == PaymentStatusEnum::UNPAID->value){
-                     $booking->total_money = NULL;
-                     $booking->payment_date = NULL;
-                 }else{
-                     $booking->total_money = $totalMoney;
-                     $booking->payment_date = date('Y-m-d H:i:s');
-                 }
-             }
+            if ($statusBooking != BookingStatusEnum::EXPECTED_ARRIVAL->value && $statusBooking != BookingStatusEnum::CANCEL->value) {
+                if ($booking->status_booking->value != $statusBooking) {
+                    foreach (data_get($params, 'rooms') as $room) {
+                        if (!$this->roomRepository->update(data_get($room, 'room_id'), $dataRoom)) {
+                            DB::rollback();
+                            session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
+                            return Redirect::route('booking.index');
+                        }
+                    }
+                }
+            }
 
-             $booking->reason_cancel = data_get($params, 'reason');
-             if($booking->status_booking->value != BookingStatusEnum::CANCEL->value){
-                 $booking->reason_cancel = null;
-             }
+            if ($booking->status_booking->value != $statusBooking) {
+                $booking->status_booking = $statusBooking;
+            }
+            if ($booking->status_payment->value != $statusPayment) {
+                $booking->status_payment = $statusPayment;
+                if ($statusPayment == PaymentStatusEnum::UNPAID->value) {
+                    $booking->total_money = NULL;
+                    $booking->payment_date = NULL;
+                } else {
+                    $booking->total_money = $totalMoney;
+                    $booking->payment_date = date('Y-m-d H:i:s');
+                }
+            }
 
-             if (!$booking->save()) {
-                 DB::rollback();
-                 session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
-                 return Redirect::route('booking.index');
-             }
+            $booking->reason_cancel = data_get($params, 'reason');
+            if ($booking->status_booking->value != BookingStatusEnum::CANCEL->value) {
+                $booking->reason_cancel = null;
+            }
+
+            if (!$booking->save()) {
+                DB::rollback();
+                session()->flash('action_failed', getConstant('messages.UPDATE_FAIL'));
+                return Redirect::route('booking.index');
+            }
 
             DB::commit();
             session()->flash('action_success', getConstant('messages.UPDATE_SUCCESS'));

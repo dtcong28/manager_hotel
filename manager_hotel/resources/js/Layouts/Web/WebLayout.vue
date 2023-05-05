@@ -1,9 +1,7 @@
 <script setup>
-import {Link} from '@inertiajs/vue3'
-import {Head} from '@inertiajs/vue3';
-import {onBeforeMount, onMounted} from 'vue';
+import {Link, Head} from '@inertiajs/vue3'
+import {onBeforeMount, onMounted, defineAsyncComponent} from 'vue';
 import $ from 'jquery';
-import { defineAsyncComponent } from 'vue';
 import ToastSuccess from '@/Components/Notification/ToastSuccess.vue';
 import ToastFail from '@/Components/Notification/ToastFail.vue';
 

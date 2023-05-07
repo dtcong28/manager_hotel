@@ -31,6 +31,7 @@ class CustomerRequest extends FormRequest
             'phone' => ['required'],
             'email' => ['required', Rule::unique('customers','email')->ignore($this->customer)],
             'identity_card' => ['required'],
+            'password' => ['confirmed'],
         ];
     }
 }

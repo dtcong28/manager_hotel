@@ -11,6 +11,8 @@ const form = useForm({
     phone: '',
     email: '',
     identity_card: '',
+    password: '',
+    password_confirmation: '',
 });
 
 const props = defineProps({
@@ -92,6 +94,20 @@ const storeCustomer = () => {
                                         <label for="identity_card">Identity card</label>
                                         <input type="text" name="identity_card" v-model="form.identity_card" class="form-control" id="identity_card" placeholder="Enter identity card">
                                         <div v-if="form.errors.identity_card" style="color: red">{{ form.errors.identity_card[0] }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 p-t-20">
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input type="password" v-model="form.password" class="form-control" placeholder="Password">
+                                        <div v-if="form.errors.password" style="color: red">{{ form.errors.password[0] }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 p-t-20">
+                                    <div class="form-group">
+                                        <label>Confirm Password</label>
+                                        <input type="password" v-model="form.password_confirmation" class="form-control" placeholder="Confirm Password">
+                                        <div v-if="form.errors.password_confirmation" style="color: red">{{ form.errors.password_confirmation[0] }}</div>
                                     </div>
                                 </div>
                             </div>

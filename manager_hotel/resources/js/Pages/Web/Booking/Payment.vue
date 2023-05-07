@@ -30,10 +30,10 @@ if(!props.info_booking.phone) {
 }
 
 const data = ref({
-    selectMethod: {name: 'Momo', value: 2},
+    selectMethod: {name: 'Visa', value: 1},
     methodPayment: [
         {name: 'Visa', value: 1},
-        {name: 'Momo', value: 2},
+        // {name: 'Momo', value: 2},
         {name: 'Thanh toán trực tiếp', value: 3},
     ]
 })

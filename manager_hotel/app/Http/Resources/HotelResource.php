@@ -25,13 +25,13 @@ class HotelResource extends JsonResource
         $hotel = $this->repository->first();
 
         return [
-            'name' => $hotel->name,
-            'address' => $hotel->address,
-            'email' => $hotel->email,
-            'phone' => $hotel->phone,
-            'website' => $hotel->website,
-            'introduce' => $hotel->introduce,
-            'introduce_restaurant' => $hotel->introduce_restaurant,
+            'name' => isset($hotel->name) ? $hotel->name : '',
+            'address' => isset($hotel->address) ? $hotel->address : '',
+            'email' => isset($hotel->email) ? $hotel->email : '',
+            'phone' => isset($hotel->phone) ? $hotel->phone : '',
+            'website' => isset($hotel->website) ? $hotel->website : '',
+            'introduce' => isset($hotel->introduce) ? $hotel->introduce : '',
+            'introduce_restaurant' => isset($hotel->introduce_restaurant) ? $hotel->introduce_restaurant : '',
         ];
     }
 }

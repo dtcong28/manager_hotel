@@ -40,11 +40,11 @@ const props = defineProps({
                             <h5>Email: {{ customer.email }}</h5><br>
                             <h5>Indentity card: {{ customer.identity_card }}</h5><br>
                         </div>
-                        <h3 class="text-center">Check In</h3>
+                        <h3 v-if="bookingCheckIn.length != 0" class="text-center">Check In</h3>
                         <InfoBooking :bookings="bookingCheckIn"></InfoBooking>
-                        <h3 class="text-center">Check Out</h3>
+                        <h3 v-if="bookingCheckOut.length != 0" class="text-center">Check Out</h3>
                         <InfoBooking :bookings="bookingCheckOut"></InfoBooking>
-                        <h3 class="text-center">Expected arrival</h3>
+                        <h3 v-if="bookingCheckEA.length != 0" class="text-center">Expected arrival</h3>
                         <InfoBooking :bookings="bookingCheckEA"></InfoBooking>
                     </div>
                 </div>

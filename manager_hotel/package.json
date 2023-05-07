@@ -22,6 +22,7 @@
         "@inertiajs/inertia": "^0.11.1",
         "@inertiajs/inertia-vue3": "^0.6.0",
         "dropzone": "^6.0.0-beta.2",
+        "facebook-sdk": "^0.3.3",
         "owl.carousel": "^2.3.4",
         "tb-vue3-laravel-inertiajs-file-upload": "^1.8.4",
         "v-calendar": "^3.0.0-alpha.8",

@@ -4,7 +4,7 @@ import Header from "@/Components/Admin/Header.vue";
 import Footer from "@/Components/Admin/Footer.vue";
 import Setting from "@/Components/Admin/Setting.vue";
 import {Link, Head} from '@inertiajs/vue3'
-import {onMounted} from 'vue';
+import {onBeforeMount, onMounted} from 'vue';
 
 import '/public/backend/assets/plugins/bootstrap/css/bootstrap.min.css';
 import '/public/backend/assets/plugins/material/material.min.css';
@@ -19,7 +19,7 @@ import '/public/backend/assets/plugins/simple-line-icons/simple-line-icons.min.c
 import '/public/backend/assets/plugins/font-awesome/css/font-awesome.min.css';
 import '/public/backend/assets/img/favicon.ico';
 
-onMounted(() => {
+onBeforeMount(() => {
     let style = document.createElement('link');
     style.type = "text/css";
     style.rel = "stylesheet";

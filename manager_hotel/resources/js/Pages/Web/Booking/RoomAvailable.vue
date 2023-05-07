@@ -53,7 +53,7 @@ function handleChange() {
 }
 
 const filterRoom = () => {
-    formBooking.get(route('web.booking.filter_room'), { preserveState: true })
+    formBooking.get(route('web.booking.filter_room'))
 };
 </script>
 
@@ -97,6 +97,7 @@ const filterRoom = () => {
                 </div>
             </div>
         </div>
+<!--        <pre>{{ arrayRoom }}</pre>-->
         <section class="ftco-section bg-light">
             <div class="container">
                 <div class="row pb-8">

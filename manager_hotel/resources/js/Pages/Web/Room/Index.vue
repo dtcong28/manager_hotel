@@ -51,6 +51,7 @@ const searchData = () => {
                                         <h3 class="mb-3"><Link :href="route('web.rooms.detail', { id: room.id })">Room {{ room.name }}</Link></h3>
                                         <p><span class="price mr-2">{{ room.rent_per_night.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</span> <span class="per">per night</span></p>
                                         <ul class="list">
+                                            <li><span>Type room: {{ room.type_room }}</span></li>
                                             <li><span>Max:</span> {{ room.number_people }} Persons</li>
                                             <li><span>Size:</span> {{ room.size }} m2</li>
                                             <li><span>View:</span> {{ room.view }}</li>

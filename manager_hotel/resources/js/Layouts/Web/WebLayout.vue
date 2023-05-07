@@ -5,7 +5,7 @@ import $ from 'jquery';
 import ToastSuccess from '@/Components/Notification/ToastSuccess.vue';
 import ToastFail from '@/Components/Notification/ToastFail.vue';
 
-onMounted(() => {
+onBeforeMount(() => {
     const styles = [
         "https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700",
         "https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i",
@@ -219,5 +219,6 @@ onMounted(() => {
     </body>
 
 </template>
+
 
 

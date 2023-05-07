@@ -166,6 +166,8 @@ class BookingController extends FrontendController
         DB::beginTransaction();
         try {
             $params = $request->all();
+
+            // xử lý back lại khi người dùng cố tình ấn thanh toán tiếp thì hiển thị message fail
             $bookings = $this->repository->where('time_check_in', '=', $request['booking']['info_booking']['time_check_in'])
                 ->where('time_check_out', '=', $request['booking']['info_booking']['time_check_out'])
                 ->where('number_rooms', '=', count($request['booking']['info_booking']['rooms']))->with('bookingRoom')->get();

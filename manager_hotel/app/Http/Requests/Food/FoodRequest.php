@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Food;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class FoodRequest extends FormRequest
 {
@@ -24,7 +25,10 @@ class FoodRequest extends FormRequest
     public function rules()
     {
         return [
-//
+            'name' => ['required', Rule::unique('food','name')->ignore($this->food)],
+            'price' => ['required'],
+            'description' => ['required'],
+            'images' => ['required'],
         ];
     }
 }

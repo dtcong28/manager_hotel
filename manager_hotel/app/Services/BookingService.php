@@ -29,11 +29,26 @@ class BookingService extends CustomService
 
     protected function prepareBeforeStore(&$data)
     {
-        $data['customer_id'] = $data['customer']['id'];
-        $data['type_booking'] = $data['type_booking']['value'];
-        $data['number_rooms'] = count($data['rooms']);
-        unset($data['customer']);
-        unset($data['rooms']);
+        if(!empty($data['customer']['id'])){
+            $data['customer_id'] = $data['customer']['id'];
+        }
+
+        if(!empty($data['type_booking'])){
+            $data['type_booking'] = $data['type_booking']['value'];
+        }
+
+        if(!empty($data['rooms'])){
+            $data['number_rooms'] = count($data['rooms']);
+        }
+
+        if (array_key_exists('customer',$data)) {
+            unset($data['customer']);
+        }
+
+        if (array_key_exists('rooms',$data)) {
+            unset($data['rooms']);
+        }
+
     }
 //
 //    protected function prepareBeforeUpdate(&$data)

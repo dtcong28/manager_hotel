@@ -11,6 +11,8 @@ const form = useForm({
     phone: '',
     email: '',
     identity_card: '',
+    password: '',
+    password_confirmation: '',
 });
 
 const props = defineProps({
@@ -33,16 +35,13 @@ const storeCustomer = () => {
     <AdminLayout>
         <div class="page-bar">
             <div class="page-title-breadcrumb">
-                <div class=" pull-left">
-                    <div class="page-title">Add Customer Details</div>
-                </div>
                 <ol class="breadcrumb page-breadcrumb pull-right">
                     <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index.html">Home</a>&nbsp;<i
                         class="fa fa-angle-right"></i>
                     </li>
                     <li><a class="parent-item" href="">Customer</a>&nbsp;<i class="fa fa-angle-right"></i>
                     </li>
-                    <li class="active">Add Customer Details</li>
+                    <li class="active">Add Customer</li>
                 </ol>
             </div>
         </div>
@@ -50,10 +49,10 @@ const storeCustomer = () => {
             <div class="col-sm-12">
                 <div class="card-box">
                     <div class="card-head">
-                        <header>Add Customer Details</header>
+                        <header>Add Customer</header>
                     </div>
                     <form @submit.prevent="storeCustomer">
-                        <div class="card-body row pl-5 pr-5">
+                        <div class="card-body col-7" style="margin: auto">
                             <div class="row">
                                 <div class="col-lg-6 p-t-20">
                                     <div class="form-group">
@@ -95,6 +94,20 @@ const storeCustomer = () => {
                                         <label for="identity_card">Identity card</label>
                                         <input type="text" name="identity_card" v-model="form.identity_card" class="form-control" id="identity_card" placeholder="Enter identity card">
                                         <div v-if="form.errors.identity_card" style="color: red">{{ form.errors.identity_card[0] }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 p-t-20">
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input type="password" v-model="form.password" class="form-control" placeholder="Password">
+                                        <div v-if="form.errors.password" style="color: red">{{ form.errors.password[0] }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 p-t-20">
+                                    <div class="form-group">
+                                        <label>Confirm Password</label>
+                                        <input type="password" v-model="form.password_confirmation" class="form-control" placeholder="Confirm Password">
+                                        <div v-if="form.errors.password_confirmation" style="color: red">{{ form.errors.password_confirmation[0] }}</div>
                                     </div>
                                 </div>
                             </div>

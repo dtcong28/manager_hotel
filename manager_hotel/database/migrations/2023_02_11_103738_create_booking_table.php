@@ -23,9 +23,11 @@ return new class extends Migration {
             $table->dateTime('payment_date')->nullable();
             $table->char('method_payment', 1)->nullable();
             $table->char('status_payment', 1)->nullable();
-            $table->float('total_money')->nullable();
-
+            $table->char('status_booking', 1)->nullable();
+            $table->integer('total_money')->nullable();
+            $table->text('reason_cancel')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

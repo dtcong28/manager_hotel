@@ -1,14 +1,42 @@
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
-import {Link} from '@inertiajs/vue3'
+import Pagination from '@/Components/Admin/Pagination.vue';
+import Modal from '@/Components/Admin/Modal.vue';
+import DangerButton from '@/Components/Admin/DangerButton.vue';
+import SecondaryButton from '@/Components/Admin/SecondaryButton.vue';
+import {Link, router, useForm} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
+import {ref} from "vue";
+import {usePermission} from "@/Composables/permissions";
+const { hasPermission } = usePermission();
 
+const form = useForm({})
 const props = defineProps({
     rooms: Array,
-    typesRoom: Array,
-    status: Array,
+    record: Array,
 })
 
+function searchData() {
+    router.get('rooms', { search: search.value }, { preserveState: true })
+}
+
+const showConfirmDeleteModal = ref(false)
+const deleteID = ref('')
+
+const confirmDelete = (id) => {
+    showConfirmDeleteModal.value = true
+    deleteID.value = id
+}
+
+const closeModal = () => {
+    showConfirmDeleteModal.value = false;
+}
+
+const deleteRoom = (id) => {
+    form.delete(route('rooms.destroy', id), {
+        onSuccess: () => closeModal()
+    });
+}
 </script>
 
 <template>
@@ -16,9 +44,6 @@ const props = defineProps({
     <AdminLayout>
         <div class="page-bar">
             <div class="page-title-breadcrumb">
-                <div class=" pull-left">
-                    <div class="page-title">All Rooms</div>
-                </div>
                 <ol class="breadcrumb page-breadcrumb pull-right">
                     <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index.html">Home</a>&nbsp;<i
                         class="fa fa-angle-right"></i>
@@ -34,20 +59,22 @@ const props = defineProps({
                 <div class="card card-box">
                     <div class="card-head">
                         <header>All Rooms</header>
-                        <div class="tools">
-                            <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
-                            <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
-                            <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
-                        </div>
                     </div>
-                    <div class="card-body ">
-                        <div class="row p-b-20">
+                    <div class="card-body">
+                        <div v-if="hasPermission('create')" class="row p-b-20">
                             <div class="col-md-6 col-sm-6 col-6">
                                 <div class="btn-group">
-                                    <a :href="route('rooms.create')" id="addRow" class="btn btn-info">
+                                    <Link :href="route('rooms.create')" id="addRow" class="btn btn-info">
                                         Add New <i class="fa fa-plus"></i>
-                                    </a>
+                                    </Link>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div id="example4_filter" class="dataTables_filter">
+                                <label>Search:
+                                    <input type="search" id="search" v-model="search" @keyup="searchData" class="form-control form-control-sm" placeholder="" aria-controls="example4">
+                                </label>
                             </div>
                         </div>
                         <div class="table-scrollable">
@@ -71,31 +98,34 @@ const props = defineProps({
                                         <img :src="room.image" :alt="room.image" class="w-20 h-20 shadow">
                                     </td>
                                     <td class="center">{{ room.id }}</td>
-                                    <td class="center">
-                                        <div v-for="data in typesRoom">
-                                            <span v-if="data.id==room.type_room_id">{{ data.name }}</span>
-                                        </div>
-                                    </td>
+                                    <td class="center">{{ room.type_room }}</td>
                                     <td class="center">{{ room.name }}</td>
-                                    <td class="center">
-                                        <div v-for="data in status">
-                                            <span v-if="data.value==room.status">{{ data.name }}</span>
-                                        </div>
-                                    </td>
+                                    <td class="center">{{ room.status_label }}</td>
                                     <td class="center">{{ room.number_people }}</td>
                                     <td class="center">{{ room.number_bed }}</td>
-                                    <td class="center">{{ room.rent_per_night }}</td>
+                                    <td class="center">{{ room.rent_per_night.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</td>
                                     <td class="center">
-                                        <Link :href="route('rooms.edit', { id: room.id })" class="btn btn-tbl-edit btn-xs">
+                                        <Link v-if="hasPermission('edit')" :href="route('rooms.edit', { id: room.id })" class="btn btn-tbl-edit btn-xs">
                                             <i class="fa fa-pencil"></i>
                                         </Link>
-                                        <Link :href="route('rooms.destroy', { id: room.id })" method="delete" class="btn btn-tbl-delete btn-xs">
-                                            <i class="fa fa-trash-o "></i>
-                                        </Link>
+                                        <button v-if="hasPermission('delete')" @click="confirmDelete(room.id)" class="btn btn-tbl-delete btn-xs"><i class="fa fa-trash-o "></i></button>
+                                        <Modal :show="showConfirmDeleteModal" @close="closeModal">
+                                            <div class="p-6">
+                                                <h4 class="text-lg font-semibold text-slate-800">If you delete, it may affect booking customers</h4>
+                                                <div class="mt-6 flex space-x-4">
+                                                    <DangerButton @click="deleteRoom(deleteID)">Delete</DangerButton>
+                                                    <SecondaryButton @click="closeModal">Cancel</SecondaryButton>
+                                                </div>
+                                            </div>
+                                        </Modal>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div v-if="rooms == ''" style="color: red; text-align: center">No data</div>
+                        <div class="col-sm-12 col-md-7">
+                            <pagination class="mt-6" :links="record.links"/>
                         </div>
                     </div>
                 </div>

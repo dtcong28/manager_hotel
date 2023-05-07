@@ -1,20 +1,31 @@
 <script setup>
 import SidebarMenuItem from "@/Components/Admin/SidebarMenuItem.vue";
+import { Link } from '@inertiajs/vue3'
 const menus = [
+    {
+        name: 'Dashboard',
+        icon: 'dashboard',
+        route: false,
+        children: [
+            {
+                name: 'Dashboard',
+                route: 'dashboard',
+            },
+        ],
+    },
     {
         name: 'Employee',
         icon: 'group',
         route: false,
         children: [
             {
-                name: 'View All Employees',
-                route: 'employees.index',
+                name: 'List Role',
+                route: 'roles.index',
             },
             {
-                name: 'Add Employee Details',
-                route: 'employees.create',
+                name: 'List Employee',
+                route: 'users.index',
             },
-
         ],
     },
     {
@@ -23,22 +34,13 @@ const menus = [
         route: false,
         children: [
             {
-                name: 'View All Types Room',
+                name: 'List Types Room',
                 route: 'types-room.index',
             },
             {
-                name: 'Add Types Room',
-                route: 'types-room.create',
-            },
-            {
-                name: 'View All Rooms',
+                name: 'List Rooms',
                 route: 'rooms.index',
             },
-            {
-                name: 'Add Room Details',
-                route: 'rooms.create',
-            },
-
         ],
     },
     {
@@ -47,14 +49,13 @@ const menus = [
         route: false,
         children: [
             {
-                name: 'View All Customers',
+                name: 'List Customers',
                 route: 'customers.index',
             },
             {
-                name: 'Add Customers Details',
-                route: 'customers.create',
+                name: 'List FeedBack',
+                route: 'feed-back.index',
             },
-
         ],
     },
     {
@@ -63,14 +64,9 @@ const menus = [
         route: false,
         children: [
             {
-                name: 'View All Booking',
+                name: 'List Booking',
                 route: 'booking.index',
             },
-            {
-                name: 'Add Booking Details',
-                route: 'booking.create',
-            },
-
         ],
     },
     {
@@ -79,14 +75,20 @@ const menus = [
         route: false,
         children: [
             {
-                name: 'Food',
+                name: 'List Food',
                 route: 'food.index',
             },
+        ],
+    },
+    {
+        name: 'Hotel',
+        icon: 'store',
+        route: false,
+        children: [
             {
-                name: 'Add Food',
-                route: 'food.create',
+                name: 'Information',
+                route: 'hotel.create',
             },
-
         ],
     },
 ]
@@ -105,39 +107,23 @@ const menus = [
                     </li>
                     <li class="sidebar-user-panel">
                         <div class="user-panel">
-                            <div class="row">
-                                <div class="sidebar-userpic">
-                                    <img src="/backend/assets/img/dp.jpg" class="img-responsive" alt="">
-                                </div>
-                            </div>
                             <div class="profile-usertitle">
-                                <div class="sidebar-userpic-name"> John Deo</div>
-                                <div class="profile-usertitle-job"> Manager</div>
+                                <div class="sidebar-userpic-name">{{ $page.props.auth.user.name }}</div>
+                                <div class="profile-usertitle-job"> {{ $page.props.auth.user.roles[0] }}</div>
                             </div>
                             <div class="sidebar-userpic-btn">
-                                <a class="tooltips" href="user_profile.html" data-placement="top"
+                                <Link class="tooltips" :href="route('profile.edit')" data-placement="top"
                                    data-original-title="Profile">
                                     <i class="material-icons">person_outline</i>
-                                </a>
-                                <a class="tooltips" href="email_inbox.html" data-placement="top"
-                                   data-original-title="Mail">
-                                    <i class="material-icons">mail_outline</i>
-                                </a>
-                                <a class="tooltips" href="chat.html" data-placement="top"
-                                   data-original-title="Chat">
-                                    <i class="material-icons">chat</i>
-                                </a>
-                                <form method="post" :action="route('logout')">
+                                </Link>
+                                <Link :href="route('logout')" method="post">
                                     <button class="tooltips" data-placement="top"
                                        data-original-title="Logout">
                                         <i class="material-icons">input</i>
                                     </button>
-                                </form>
+                                </Link>
                             </div>
                         </div>
-                    </li>
-                    <li class="menu-heading">
-                        <span>-- Main</span>
                     </li>
                     <SidebarMenuItem v-for="(menu,index) in menus" :key="index" :menuItem="menu"/>
                 </ul>

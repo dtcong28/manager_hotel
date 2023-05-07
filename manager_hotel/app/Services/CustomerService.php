@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\Eloquent\CustomerRepository;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerService extends CustomService
 {
@@ -40,5 +41,6 @@ class CustomerService extends CustomService
     protected function prepareSave(&$data)
     {
         $data['gender'] = $data['gender']['value'];
+        $data['password'] = Hash::make($data['password']);
     }
 }

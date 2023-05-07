@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Customer;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CustomerRequest extends FormRequest
 {
@@ -28,8 +29,9 @@ class CustomerRequest extends FormRequest
             'address' => ['required'],
             'gender' => ['required'],
             'phone' => ['required'],
-            'email' => ['required'],
+            'email' => ['required', Rule::unique('customers','email')->ignore($this->customer)],
             'identity_card' => ['required'],
+            'password' => ['confirmed'],
         ];
     }
 }

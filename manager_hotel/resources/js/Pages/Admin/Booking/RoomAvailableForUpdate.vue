@@ -24,7 +24,7 @@ props.bookRoom.forEach((room) => {
 })
 
 let form = useForm({
-    type_booking: props.bookingInfor.type_booking,
+    type_booking: props.bookingInfor.type_booking.value,
     time_check_in: props.bookingInfor.time_check_in,
     time_check_out: props.bookingInfor.time_check_out,
     select_rooms: selectRoom,
@@ -50,6 +50,16 @@ const updateBooking = () => {
         form
     })
 };
+
+function select(key, room){
+    this.selectRoom[key] = room;
+}
+
+const handleReset = () => {
+    this.selectRoom = [];
+};
+
+const totalSelectRoom = computed(() => selectRoom.value.filter(el => el != null).length)
 </script>
 
 <template>
@@ -82,7 +92,7 @@ const updateBooking = () => {
                     </div>
                     <div class="card-body ">
                         <div class="table-scrollable">
-                            <table v-if="props.filterRoom" class="table table-hover table-checkable order-column full-width" id="example4">
+                            <table v-if="props.filterRoom!=''" class="table table-hover table-checkable order-column full-width" id="example4">
                                 <thead>
                                 <tr>
                                     <th class="center"> Select</th>
@@ -99,38 +109,44 @@ const updateBooking = () => {
                                 </thead>
                                 <tbody v-for="(room,key) in props.filterRoom">
                                 <h3>Room {{ key + 1 }}</h3>
-                                <tr v-for="data in room" class="odd gradeX">
-                                    <td><input type="radio" id="radio" :value="data.id" v-model="selectRoom[count + key]" :disabled="selectRoom.includes(data.id)"/></td>
+                                <tr v-for="data in room" class="odd gradeX" @click="select(count + key, data.id)" :style="[selectRoom.includes(data.id) ? {'pointer-events': 'none'} : '']">
+                                    <td>
+                                        <input type="radio" id="radio" :value="data.id" v-model="selectRoom[count + key]" :disabled="selectRoom.includes(data.id)"/>
+                                        <div style="color: red; font-size: 15px" v-if="selectRoom.includes(data.id)">Selected</div>
+                                    </td>
                                     <td class="user-circle-img">
                                         <img :src="data.image" :alt="data.image" class="w-20 h-20 shadow">
                                     </td>
                                     <td class="center">{{ data.id }}</td>
-                                    <td class="center">{{ data.type_room_id }}</td>
+                                    <td class="center">{{ data.type_room.name }}</td>
                                     <td class="center">{{ data.name }}</td>
-                                    <td class="center">{{ data.status }}</td>
+                                    <td class="center">{{ data.status_label }}</td>
                                     <td class="center">{{ data.number_people }}</td>
                                     <td class="center">{{ data.number_bed }}</td>
-                                    <td class="center">{{ data.rent_per_night }}</td>
-                                    <td class="center">{{ data.rent_per_night * bookingInfor.time_stay }}</td>
+                                    <td class="center">{{ data.rent_per_night.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</td>
+                                    <td class="center">{{ (data.rent_per_night * bookingInfor.time_stay).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</td>
                                 </tr>
                                 </tbody>
                             </table>
                             <div v-for="(room,key) in props.bookRoom" class="odd gradeX">
                                 <h3 v-if="!!room.id">
-                                    Room {{ room.name }} : {{ room.number_people }} people - {{ room.rent_per_night * bookingInfor.time_stay }} VND
+                                    Room {{ room.name }} : {{ room.number_people }} people - {{ (room.rent_per_night * bookingInfor.time_stay).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
+                                    <img :src="room.image" :alt="room.image" class="w-20 h-20 shadow">
+                                </h3>
+                                <h3 v-if="room.id=='' && filterRoom==''" style="color: red">
+                                    No room available for {{ room.number_people }} people
                                 </h3>
                             </div>
                         </div>
                     </div>
                     <form @submit.prevent="updateBooking">
                         <div class="col-lg-12 p-t-20 text-center">
-                            <button type="submit"
+                            <button type="submit" v-if="totalSelectRoom == bookRoom.length"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
-                                    data-upgraded=",MaterialButton,MaterialRipple">Continue<span
+                                    data-upgraded=",MaterialButton,MaterialRipple">Submit<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
-                            <Link :href="route('booking.index')"
-                                  class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default"
-                                  data-upgraded=",MaterialButton,MaterialRipple">Cancel<span
+                            <Link @click="handleReset" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default"
+                                  data-upgraded=",MaterialButton,MaterialRipple">Reset<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></Link>
                         </div>
                     </form>
@@ -148,17 +164,17 @@ const updateBooking = () => {
                     </div>
                     <div class="card-body" v-for="(value, index) in selectRoom">
                         <span class="center" v-if="value.name">
-                            Room {{ value.name }} : {{ value.rent_per_night * bookingInfor.time_stay }} VND
+                            Room {{ value.name }} : {{ (value.rent_per_night * bookingInfor.time_stay).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
                         </span>
                         <div v-for="room in arrayRoom" :key="room.id">
                             <span class="center" v-if="value === room.id" :id="room.id">
-                                Room {{ room.name }} : {{ room.rent_per_night * bookingInfor.time_stay }} VND
+                                Room {{ room.name }} : {{ (room.rent_per_night * bookingInfor.time_stay).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
                                 <div class="d-none">{{ sum[index] = room.rent_per_night * bookingInfor.time_stay }}</div>
                             </span>
                         </div>
                     </div>
                     <div class="card-body">
-                        <h4>Sum: {{ sum.reduce((partialSum, a) => partialSum + a, 0) }}</h4>
+                        <h4>Sum: {{ sum.reduce((partialSum, a) => partialSum + a, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</h4>
                     </div>
                 </div>
             </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Room;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class RoomRequest extends FormRequest
 {
@@ -24,7 +25,7 @@ class RoomRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required'],
+            'name' => ['required', Rule::unique('rooms','name')->ignore($this->room)],
             'type_room_id' => ['required'],
             'status' => ['required'],
             'number_people' => ['required'],

@@ -18,3 +18,9 @@
 6. run migrate: php artisan migrate
 7. run seeder create user: php artisan db:seed --class=UserSeeder
 ```
+## Run test stripe in local 
+```
+- stripe login
+- stripe listen --forward-to http://dev.hotel.local/booking/webhook
+- test : stripe trigger payment_intent.succeeded
+```

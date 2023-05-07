@@ -1,15 +1,15 @@
 <script setup>
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
-import {Link} from '@inertiajs/vue3'
-import {Head} from '@inertiajs/vue3';
+import {Link, Head, router, useForm} from '@inertiajs/vue3';
+import AllBooking from "@/Components/Admin/Booking/AllBooking.vue";
+import {ref} from "vue";
 
 const props = defineProps({
-    bookings: Array
+    bookings: Array,
+    status: Array,
 })
 
-const unpaid = 0;
-const paid = 1;
-
+const route = ref('booking')
 </script>
 
 <template>
@@ -17,9 +17,6 @@ const paid = 1;
     <AdminLayout>
         <div class="page-bar">
             <div class="page-title-breadcrumb">
-                <div class=" pull-left">
-                    <div class="page-title">All Booking</div>
-                </div>
                 <ol class="breadcrumb page-breadcrumb pull-right">
                     <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index.html">Home</a>&nbsp;<i
                         class="fa fa-angle-right"></i>
@@ -35,64 +32,8 @@ const paid = 1;
                 <div class="card card-box">
                     <div class="card-head">
                         <header>All Booking</header>
-                        <div class="tools">
-                            <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
-                            <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
-                            <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
-                        </div>
                     </div>
-                    <div class="card-body ">
-                        <div class="row p-b-20">
-                            <div class="col-md-6 col-sm-6 col-6">
-                                <div class="btn-group">
-                                    <a :href="route('booking.create')" id="addRow" class="btn btn-info">
-                                        Add New <i class="fa fa-plus"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table-scrollable">
-                            <table class="table table-hover table-checkable order-column full-width" id="example4">
-                                <thead>
-                                <tr>
-                                    <th class="center"> Name </th>
-                                    <th class="center"> Phone </th>
-                                    <th class="center"> Email </th>
-                                    <th class="center"> Check in</th>
-                                    <th class="center"> Check out</th>
-                                    <th class="center"> Payment</th>
-                                    <th class="center"> Bill</th>
-                                    <th class="center"> Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr v-for="booking in props.bookings" :key="booking.id" class="odd gradeX">
-                                    <td class="center">{{ booking.customer.name }}</td>
-                                    <td class="center">{{ booking.customer.phone }}</td>
-                                    <td class="center">{{ booking.customer.email }}</td>
-                                    <td class="center">{{ booking.time_check_in }}</td>
-                                    <td class="center">{{ booking.time_check_out }}</td>
-                                    <td class="center">
-                                        <span v-if="booking.status_payment==unpaid" class="label label-sm label-danger">unpaid</span>
-                                        <span v-if="booking.status_payment==paid" class="label label-sm label-success">paid</span>
-                                    </td>
-                                    <td class="center"><a :href="route('booking.bill', { id: booking.id })" class="btn deepPink btn-outline btn-circle m-b-10">View</a></td>
-                                    <td class="center">
-                                        <Link :href="route('booking.edit', { id: booking.id })" class="btn btn-tbl-edit btn-xs">
-                                            <i class="fa fa-pencil"></i>
-                                        </Link>
-                                        <Link :href="route('booking.destroy', { id: booking.id })" method="delete" class="btn btn-tbl-delete btn-xs">
-                                            <i class="fa fa-trash-o "></i>
-                                        </Link>
-                                        <Link :href="route('booking_food.create', { id: booking.id })" class="btn btn-tbl-delete btn-info btn-xs">
-                                            <i class="fa fa-cutlery "></i>
-                                        </Link>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    <AllBooking :bookings = "bookings"  :status="status"></AllBooking>
                 </div>
             </div>
         </div>

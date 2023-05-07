@@ -6,7 +6,7 @@ import {ref} from "vue";
 
 const props = defineProps({
     foods: Array,
-    booking_id: Array,
+    booking: Array,
     booked_food: Array,
 })
 
@@ -20,7 +20,7 @@ if(props.booked_food) {
 
 const form = useForm({
     select_food: selectFood,
-    booking_id: props.booking_id,
+    booking: props.booking[0].id,
 });
 
 const storeBookingFood = () => {
@@ -35,9 +35,6 @@ const storeBookingFood = () => {
     <AdminLayout>
         <div class="page-bar">
             <div class="page-title-breadcrumb">
-                <div class=" pull-left">
-                    <div class="page-title">Add Booking Food</div>
-                </div>
                 <ol class="breadcrumb page-breadcrumb pull-right">
                     <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index.html">Home</a>&nbsp;<i
                         class="fa fa-angle-right"></i>
@@ -53,14 +50,9 @@ const storeBookingFood = () => {
                 <div class="card card-box">
                     <div class="card-head">
                         <header>Booking Food</header>
-                        <div class="tools">
-                            <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
-                            <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
-                            <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
-                        </div>
                     </div>
                     <form @submit.prevent="storeBookingFood">
-                        <div class="card-body">
+                        <div class="card-body col-7" style="margin: auto">
                             <div class="table-scrollable">
                                 <table class="table table-hover table-checkable order-column full-width" id="example4">
                                     <thead>
@@ -79,17 +71,16 @@ const storeBookingFood = () => {
                                             <img :src="food.image" :alt="food.image" class="w-20 h-20 shadow">
                                         </td>
                                         <td class="center">{{ food.name }}</td>
-                                        <td class="center">{{ food.price }}</td>
-                                        <td class="center"><input type="number" v-model="selectFood[food.id]" min="1">
+                                        <td class="center">{{ food.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</td>
+                                        <td class="center"><input style="width: 70px" type="number" v-model="selectFood[food.id]" min="1">
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-
                         <div class="col-lg-12 p-t-20 text-center">
-                            <button type="submit"
+                            <button type="submit" v-if="booking[0].status_booking != 0"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
                                     data-upgraded=",MaterialButton,MaterialRipple">Continue<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>

@@ -6,6 +6,7 @@
     },
     "devDependencies": {
         "@inertiajs/vue3": "^1.0.0",
+        "@stripe/stripe-js": "^1.50.0",
         "@tailwindcss/forms": "^0.5.3",
         "@vitejs/plugin-vue": "^4.0.0",
         "autoprefixer": "^10.4.12",
@@ -18,12 +19,21 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "@inertiajs/inertia": "^0.11.1",
+        "@inertiajs/inertia-vue3": "^0.6.0",
+        "dropzone": "^6.0.0-beta.2",
+        "facebook-sdk": "^0.3.3",
+        "owl.carousel": "^2.3.4",
         "tb-vue3-laravel-inertiajs-file-upload": "^1.8.4",
         "v-calendar": "^3.0.0-alpha.8",
+        "vue-datepicker": "^1.3.0",
+        "vue-fullcalendar": "^1.0.9",
         "vue-head": "^2.2.0",
         "vue-hotel-datepicker": "^4.6.0",
         "vue-media-upload": "^1.2.1",
         "vue-multiselect": "^3.0.0-beta.1",
+        "vue-router": "^4.1.6",
+        "vue3-apexcharts": "^1.4.1",
         "vue3-datepicker": "^0.3.4",
         "vue3-simple-dropzone": "^1.0.4"
     }

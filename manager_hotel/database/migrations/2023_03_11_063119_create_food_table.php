@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('food', function (Blueprint $table) {
             $table->integer('id', true);
             $table->string('name');
-            $table->float('price');
+            $table->integer('price');
             $table->text('description')->nullable();
-
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

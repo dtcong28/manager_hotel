@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\BookingRoom;
 use App\Models\Room;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use App\Models\Enums\RoomStatusEnum;
 
@@ -114,5 +115,14 @@ class RoomRepository extends CustomRepository
 
     public function getListOccupied(){
         return $this->where('status', RoomStatusEnum::OCCUPIED->value)->get();
+    }
+
+    public function amountEachTypeRoom()
+    {
+        $query = $this->select('type_room_id', DB::raw('sum(type_room_id) as amountTypeRoom'))
+            ->groupBy('type_room_id')
+            ->with('typeRoom')
+            ->get();
+        return $query;
     }
 }

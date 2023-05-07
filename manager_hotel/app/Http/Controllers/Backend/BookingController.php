@@ -186,6 +186,7 @@ class BookingController extends BackendController
                     'booking_id' => $lastId,
                     'price' => data_get($params, 'price_each_room')[$key],
                     'number_people' => $room->number_people,
+                    'note_booking_room' => data_get($params, 'note_booking_room'),
                 ];
 
                 if (!$this->bookingRoomService->store($data[$key])) {

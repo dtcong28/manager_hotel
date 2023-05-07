@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\TypeRoom;
+use Illuminate\Support\Facades\DB;
 
 class TypeRoomRepository extends CustomRepository
 {
@@ -13,8 +14,9 @@ class TypeRoomRepository extends CustomRepository
         parent::__construct();
     }
 
-    public function getSearchTypeRoom($params){
-        $query = $this->select()->where('name', 'LIKE', '%' . $params . '%')->orderBy('id','desc');
+    public function getSearchTypeRoom($params)
+    {
+        $query = $this->select()->where('name', 'LIKE', '%' . $params . '%')->orderBy('id', 'desc');
 
         return $query->paginate(getConfig('page_number'));
     }

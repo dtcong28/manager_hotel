@@ -33,6 +33,8 @@ class Booking extends Model
         'status_booking',
         'total_money',
         'reason_cancel',
+        'note_booking_food',
+        'note_booking_room',
         'status_payment_label',
         'status_booking_label',
     ];

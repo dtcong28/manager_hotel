@@ -29,12 +29,14 @@ const form = useForm({
     time_check_out: props.info_booking.time_check_out,
     rooms: selectRoom,
     price_each_room: sum,
+    note_booking_room: '',
 });
 
 const confirmBooking = () => {
     form.get(route('web.booking.food'))
 };
 
+// select lại room
 const totalSelectRoom = computed(() => selectRoom.value.filter(el => el != null).length)
 
 const formBooking = useForm({
@@ -97,7 +99,6 @@ const filterRoom = () => {
                 </div>
             </div>
         </div>
-<!--        <pre>{{ arrayRoom }}</pre>-->
         <section class="ftco-section bg-light">
             <div class="container">
                 <div class="row pb-8">
@@ -206,30 +207,35 @@ const filterRoom = () => {
                         </div>
                     </div>
                     <div class="col-lg-4 sidebar">
-                        <div class="sidebar-wrap bg-light box-detail">
-                            <h3 class="heading mb-4">Your Stay</h3>
-                            <form @submit.prevent="confirmBooking">
-                                <div class="fields">
-                                    <div class="form-group">
-                                        From {{ info_booking.time_check_in }} to {{ info_booking.time_check_out }}<br>
-                                        {{ info_booking.time_stay }} nights
-                                    </div>
-                                    <div class="form-group" v-for="(value, index) in selectRoom">
-                                        <div v-for="room in arrayRoom" :key="room.id">
+                        <div class="box-detail">
+                            <div class="sidebar-wrap bg-light">
+                                <h3 class="heading mb-4">Your Stay</h3>
+                                <form @submit.prevent="confirmBooking">
+                                    <div class="fields">
+                                        <div class="form-group">
+                                            From {{ info_booking.time_check_in }} to {{ info_booking.time_check_out }}<br>
+                                            {{ info_booking.time_stay }} nights
+                                        </div>
+                                        <div class="form-group" v-for="(value, index) in selectRoom">
+                                            <div v-for="room in arrayRoom" :key="room.id">
                                             <span v-if="value === room.id" :id="room.id">
                                                 Room {{ room.name }} : {{ (room.rent_per_night * info_booking.time_stay).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}}
                                                 <div class="d-none">{{sum[index] = room.rent_per_night * info_booking.time_stay }}</div>
                                             </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            Total: {{ sum.reduce((partialSum, a) => partialSum + a, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
+                                        </div>
+                                        <div v-if="rooms.length == totalSelectRoom" class="form-group">
+                                            <button type="submit" class="btn btn-primary py-3 px-5">Continue</button>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        Total: {{ sum.reduce((partialSum, a) => partialSum + a, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
-                                    </div>
-                                    <div v-if="rooms.length == totalSelectRoom" class="form-group">
-                                        <button type="submit" class="btn btn-primary py-3 px-5">Continue</button>
-                                    </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
+                            <div>
+                                <textarea name="note_booking_room" v-model="form.note_booking_room" cols="30" rows="5" class="form-control" placeholder="Note for booking room"></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>

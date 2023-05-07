@@ -112,44 +112,44 @@ onBeforeMount(() => {
             </div>
             <div class="row no-gutters">
                 <div class="col-sm-12 col-md">
-                    <Link class="insta-img image-popup"
+                    <div class="insta-img"
                        v-bind:style="{ 'background-image': 'url(/frontend/images/insta-1.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
                         </div>
-                    </Link>
+                    </div>
                 </div>
                 <div class="col-sm-12 col-md">
-                    <Link href="/frontend/images/insta-2.jpg" class="insta-img image-popup"
+                    <div class="insta-img"
                        v-bind:style="{ 'background-image': 'url(/frontend/images/insta-2.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
                         </div>
-                    </Link>
+                    </div>
                 </div>
                 <div class="col-sm-12 col-md">
-                    <a href="/frontend/images/insta-3.jpg" class="insta-img image-popup"
+                    <div class="insta-img"
                        v-bind:style="{ 'background-image': 'url(/frontend/images/insta-3.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
                         </div>
-                    </a>
+                    </div>
                 </div>
                 <div class="col-sm-12 col-md">
-                    <Link href="/frontend/images/insta-4.jpg" class="insta-img image-popup"
+                    <div class="insta-img"
                        v-bind:style="{ 'background-image': 'url(/frontend/images/insta-4.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
                         </div>
-                    </Link>
+                    </div>
                 </div>
                 <div class="col-sm-12 col-md">
-                    <Link href="/frontend/images/insta-5.jpg" class="insta-img image-popup"
+                    <div class="insta-img"
                        v-bind:style="{ 'background-image': 'url(/frontend/images/insta-5.jpg)' }">
                         <div class="icon d-flex justify-content-center">
                             <span class="icon-instagram align-self-center"></span>
                         </div>
-                    </Link>
+                    </div>
                 </div>
             </div>
         </div>

@@ -8,6 +8,7 @@ import $ from 'jquery';
 const props = defineProps({
     room: Object,
     typesRoom: Array,
+    amountEachType: Array,
 })
 
 // onMounted(() => {
@@ -53,11 +54,14 @@ const props = defineProps({
                                     <ul class="list">
                                         <li><span>Max:</span> {{ room.number_people }} Persons</li>
                                         <li><span>Size:</span> {{ room.size }} m2</li>
-                                        <li><span class="price mr-2">{{ room.rent_per_night.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</span> <span class="per">per night</span></li>
                                     </ul>
                                     <ul class="list ml-md-5">
                                         <li><span>View:</span> {{ room.view }}</li>
                                         <li><span>Bed:</span> {{ room.number_bed }}</li>
+                                    </ul>
+                                    <ul class="list ml-md-5">
+                                        <li><span class="price mr-2">{{ room.rent_per_night.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</span> <span class="per">per night</span></li>
+                                        <li><span>Type Room:</span> {{ room.type_room.name }}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -103,13 +107,8 @@ const props = defineProps({
                     <div class="col-lg-4 sidebar ">
                         <div class="sidebar-box ">
                             <div class="categories">
-                                <h3>Categories</h3>
-                                <li><a href="#">Properties <span>(12)</span></a></li>
-                                <li><a href="#">Home <span>(22)</span></a></li>
-                                <li><a href="#">House <span>(37)</span></a></li>
-                                <li><a href="#">Villa <span>(42)</span></a></li>
-                                <li><a href="#">Apartment <span>(14)</span></a></li>
-                                <li><a href="#">Condominium <span>(140)</span></a></li>
+                                <h3>Type Room</h3>
+                                <li v-for="type in amountEachType"><a href="#">{{type.type_room.name}} <span>({{ type.amountTypeRoom }})</span></a></li>
                             </div>
                         </div>
 

@@ -21,6 +21,7 @@ const form = useForm({
     time_check_out: props.bookingInfor.time_check_out,
     rooms: selectRoom,
     price_each_room: sum,
+    note_booking_room: '',
 });
 
 // Merge và loại bỏ những giá trị giống nhau trong mảng, khi khách đặt các phòng có số lượng người giống nhau
@@ -146,6 +147,9 @@ const totalSelectRoom = computed(() => selectRoom.value.filter(el => el != null)
                     <div class="card-body">
                         <h4>Sum: {{ sum.reduce((partialSum, a) => partialSum + a, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</h4>
                     </div>
+                </div>
+                <div>
+                    <textarea name="note_booking_room" v-model="form.note_booking_room" cols="30" rows="5" class="form-control" placeholder="Note for booking room"></textarea>
                 </div>
             </div>
         </div>

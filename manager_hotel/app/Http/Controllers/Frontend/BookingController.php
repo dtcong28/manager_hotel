@@ -215,6 +215,8 @@ class BookingController extends FrontendController
                 'status_booking' => BookingStatusEnum::EXPECTED_ARRIVAL->value,
                 'status_payment' => PaymentStatusEnum::UNPAID->value,
                 'method_payment' => MethodPaymentEnum::CASH->value,
+                'note_booking_food' => $request['booking']['note_booking_food'],
+                'note_booking_room' => $request['booking']['info_booking']['note_booking_room'],
             ];
 
             $booking = $this->repository->create($dataBooking);

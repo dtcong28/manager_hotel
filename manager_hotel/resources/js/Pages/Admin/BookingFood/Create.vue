@@ -21,6 +21,7 @@ if(props.booked_food) {
 const form = useForm({
     select_food: selectFood,
     booking: props.booking[0].id,
+    // note_booking_food: '',
 });
 
 const storeBookingFood = () => {
@@ -79,6 +80,9 @@ const storeBookingFood = () => {
                                 </table>
                             </div>
                         </div>
+<!--                        <div class="card-body col-7" style="margin: auto">-->
+<!--                            <textarea name="note_booking_food" v-model="form.note_booking_food" cols="30" rows="5" class="form-control" placeholder="Note for booking food"></textarea>-->
+<!--                        </div>-->
                         <div class="col-lg-12 p-t-20 text-center">
                             <button type="submit" v-if="booking[0].status_booking != 0"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"

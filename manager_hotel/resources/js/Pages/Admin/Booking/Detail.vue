@@ -132,7 +132,7 @@ function cancelBooking() {
                             </div>
                         </div>
                         <div class="row">
-                            <div class="card-body" v-if="bookingRoom.length">
+                            <div class="card-body col-6" v-if="bookingRoom.length">
                                 <div class="table-scrollable">
                                     <table class="table table-striped table-hover">
                                         <thead>
@@ -159,8 +159,9 @@ function cancelBooking() {
                                         </tbody>
                                     </table>
                                 </div>
+                                <span v-if="booking.note_booking_room"><label style="color: red">Note booking room:</label><br>{{ booking.note_booking_room }}</span>
                             </div>
-                            <div class="card-body" v-if="bookingFood.length">
+                            <div class="card-body col-6" v-if="bookingFood.length">
                                 <div class="table-scrollable">
                                     <table class="table table-striped table-hover">
                                         <thead>
@@ -181,6 +182,7 @@ function cancelBooking() {
                                         </tbody>
                                     </table>
                                 </div>
+                                <span v-if="booking.note_booking_food"><label style="color: red">Note booking food:</label><br><div v-html="booking.note_booking_food"></div></span>
                             </div>
                         </div>
                     </div>

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 
-class BookingFoodRequest extends FormRequest
+class BEbookingFoodRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +26,7 @@ class BookingFoodRequest extends FormRequest
     public function rules()
     {
         return [
-            'info_booking.time_check_in' => ['required'],
-            'info_booking.time_check_out' => ['required'],
-            'meal_time' => ['nullable', 'after:info_booking.time_check_in', 'before:info_booking.time_check_out'],
+            'meal_time' => ['required', 'after:time_check_in', 'before:time_check_out'],
         ];
     }
 

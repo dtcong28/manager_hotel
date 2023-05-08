@@ -18,6 +18,7 @@ const form = useForm({
     select_food: selectFood,
     info_booking: props.info_booking,
     price_food: price_each_food,
+    meal_time: '',
     note_booking_food: '',
 });
 
@@ -110,6 +111,11 @@ const submit = () => {
                                         </div>
                                     </form>
                                 </div>
+                            </div>
+                            <div class="wrap">
+                                <label for="meal_time">Meal time </label>
+                                <input name="meal_time" id="meal_time" v-model="form.meal_time" type="datetime-local" class="form-control" placeholder="Meal time">
+                                <div v-if="$page.props.errors.meal_time" style="color: red">{{$page.props.errors.meal_time[0] }}</div>
                             </div>
                             <div>
                                 <textarea name="note_booking_food" v-model="form.note_booking_food" cols="30" rows="5" class="form-control" placeholder="Note for booking food"></textarea>

@@ -13,6 +13,7 @@ const props = defineProps({
 })
 
 const sum = ref([])
+const loading = ref(false)
 
 props.bookingRoom.forEach((room) => {
     sum.value.push(room.price)
@@ -31,21 +32,25 @@ const form = useForm({
 const totalMoney = sum.value.reduce((partialSum, a) => partialSum + a, 0)
 
 const updateStatus= () => {
-    router.post(`/admin/booking/${props.booking.id}/update-status`, {
-        _method: 'PATCH',
-        status_payment: form.status_payment,
-        status_booking: form.status_booking,
-        time_check_in: props.booking.time_check_in,
-        time_check_out: props.booking.time_check_out,
-        rooms: props.bookingRoom,
-        total_money: totalMoney,
-        reason: form.reason,
-    }, { preserveState: true })
-};
+    try {
+        loading.value = true
 
-function cancelBooking() {
-    console.log('cancel')
-}
+        router.post(`/admin/booking/${props.booking.id}/update-status`, {
+            _method: 'PATCH',
+            status_payment: form.status_payment,
+            status_booking: form.status_booking,
+            time_check_in: props.booking.time_check_in,
+            time_check_out: props.booking.time_check_out,
+            rooms: props.bookingRoom,
+            total_money: totalMoney,
+            reason: form.reason,
+        }, { preserveState: true })
+
+    } catch (error) {
+        loading.value = false
+        throw error
+    }
+};
 </script>
 
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
@@ -86,24 +91,24 @@ function cancelBooking() {
                                 <h4>Status:
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <label class="btn btn-color deepPink-bgcolor">
+                                            <label class="btn btn-color deepPink-bgcolor" v-bind:style= "[booking.status_booking == 1 || booking.status_booking == 0 ? 'opacity: 0.3' : '']">
                                                 <input type="radio" name="status_booking" v-model="form.status_booking"
-                                                       value="3" :checked="form.status_booking == 3" :disabled="booking.status_booking == 1 || booking.status_booking == 0" v-bind:style= "[booking.status_booking == 1 || booking.status_booking == 0 ? 'opacity: 0.3' : '']">
+                                                       value="3" :checked="form.status_booking == 3" :disabled="booking.status_booking == 1 || booking.status_booking == 0">
                                                 Cancel
                                             </label>
-                                            <label class="btn btn-warning deepPink-bgcolor">
+                                            <label class="btn btn-warning deepPink-bgcolor" v-bind:style= "[booking.status_booking == 0 || booking.status_booking == 1 ? 'opacity: 0.3' : '']">
                                                 <input type="radio" name="status_booking" v-model="form.status_booking"
-                                                       value="2" :checked="form.status_booking == 2" :disabled="booking.status_booking == 0 || booking.status_booking == 1" v-bind:style= "[booking.status_booking == 0 || booking.status_booking == 1 ? 'opacity: 0.3' : '']">
+                                                       value="2" :checked="form.status_booking == 2" :disabled="booking.status_booking == 0 || booking.status_booking == 1">
                                                 Expected arrival
                                             </label>
-                                            <label class="btn btn-info deepPink-bgcolor">
+                                            <label class="btn btn-info deepPink-bgcolor" v-bind:style= "[booking.status_booking == 0 || booking.status_booking == 3 ? 'opacity: 0.3' : '']">
                                                 <input type="radio" name="status_booking" v-model="form.status_booking"
-                                                       value="1" :checked="form.status_booking == 1" :disabled="booking.status_booking == 0 || booking.status_booking == 3" v-bind:style= "[booking.status_booking == 0 || booking.status_booking == 3 ? 'opacity: 0.3' : '']">
+                                                       value="1" :checked="form.status_booking == 1" :disabled="booking.status_booking == 0 || booking.status_booking == 3">
                                                 Check in
                                             </label>
-                                            <label class="btn btn-danger deepPink-bgcolor">
+                                            <label class="btn btn-danger deepPink-bgcolor" v-bind:style= "[booking.status_booking == 2 || booking.status_booking == 3 ? 'opacity: 0.3' : '']">
                                                 <input type="radio" name="status_booking" v-model="form.status_booking"
-                                                       value="0" :checked="form.status_booking == 0" :disabled="booking.status_booking == 2 || booking.status_booking == 3" v-bind:style= "[booking.status_booking == 2 || booking.status_booking == 3 ? 'opacity: 0.3' : '']">
+                                                       value="0" :checked="form.status_booking == 0" :disabled="booking.status_booking == 2 || booking.status_booking == 3">
                                                 Check out
                                             </label>
                                         </div>
@@ -182,16 +187,19 @@ function cancelBooking() {
                                         </tbody>
                                     </table>
                                 </div>
-                                <span v-if="booking.note_booking_food"><label style="color: red">Note booking food:</label><br><div v-html="booking.note_booking_food"></div></span>
+                                <div v-if="booking.meal_time"><label style="color: red">Meal time: </label> {{ booking.meal_time }}</div>
+                                <span v-if="booking.note_booking_food"><label style="color: red">Note booking food:</label><br>
+                                    <div v-html="booking.note_booking_food"></div>
+                                </span>
                             </div>
                         </div>
                     </div>
                     <form @submit.prevent="updateStatus">
                         <div class="col-lg-12 p-t-20 text-center">
-                            <button type="submit"
-                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
-                                    data-upgraded=",MaterialButton,MaterialRipple">Submit<span
-                                class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
+                            <button type="submit" :style="loading ? 'opacity: 0.3' : ''" :disabled="loading" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink" data-upgraded=",MaterialButton,MaterialRipple">
+                                <span v-if="!loading">Submit</span>
+                                <span v-else>Submitting</span>
+                                <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
                             <Link :href="route('booking.index')"
                                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default"
                                   data-upgraded=",MaterialButton,MaterialRipple">Back<span

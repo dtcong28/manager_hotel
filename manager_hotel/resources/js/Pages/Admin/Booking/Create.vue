@@ -75,10 +75,7 @@ const filterRoom = () => {
                             <div class="p-t-20">
                                 <div class="form-group">
                                     <label class="typo__label">Name Customer</label>
-                                    <multiselect v-model="form.name" deselect-label="Can't remove this value"
-                                                 track-by="name" label="name" placeholder="Select one"
-                                                 :options="data.customers" :searchable="false"
-                                                 :allow-empty="false"></multiselect>
+                                    <multiselect v-model="form.name" :options="data.customers" placeholder="Select one" label="name" track-by="name"></multiselect>
                                     <div v-if="$page.props.errors.name" style="color: red">{{$page.props.errors.name[0] }}
                                     </div>
                                 </div>

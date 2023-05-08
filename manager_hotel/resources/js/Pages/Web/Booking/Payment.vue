@@ -13,6 +13,8 @@ const props = defineProps({
     select_foods: Array,
 })
 
+const loading = ref(false)
+
 if(!props.info_booking.name) {
     props.info_booking.name = usePage().props.customer.name
 }
@@ -47,7 +49,16 @@ function sum(obj) {
 const totalMoney = props.info_booking.booking.price_food ? price_each_room.reduce((partialSum, a) => partialSum + a, 0) + sum(props.info_booking.booking.price_food) : price_each_room.reduce((partialSum, a) => partialSum + a, 0)
 
 const booking = () => {
-    router.post(route('web.store'), props.info_booking)
+    try {
+        loading.value = true
+
+        router.post(route('web.store'), props.info_booking)
+
+    } catch (error) {
+        loading.value = false
+        throw error
+    }
+
 };
 </script>
 
@@ -161,7 +172,7 @@ export default {
                                 </div>
                             </div>
                             <div class="p-2 w-full">
-                                <button
+                                <button :style="paymentProcessing ? 'opacity: 0.3' : ''"
                                     class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
                                     @click="processPayment" :disabled="paymentProcessing"
                                     v-text="paymentProcessing ? 'Processing' : 'Pay Now'"
@@ -169,10 +180,11 @@ export default {
                             </div>
                         </div>
                         <div class="p-5 w-full" v-if="data.selectMethod.value == 3">
-                            <button
+                            <button :style="loading ? 'opacity: 0.3' : ''" :disabled="loading"
                                 class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
                                 @click="booking">
-                                Submit
+                                <span v-if="!loading">Submit</span>
+                                <span v-else>Submitting</span>
                             </button>
                         </div>
                     </div>

@@ -21,7 +21,10 @@ if(props.booked_food) {
 const form = useForm({
     select_food: selectFood,
     booking: props.booking[0].id,
-    // note_booking_food: '',
+    meal_time: props.booking[0].meal_time,
+    note_booking_food: props.booking[0].note_booking_food,
+    time_check_in: props.booking[0].time_check_in,
+    time_check_out: props.booking[0].time_check_out,
 });
 
 const storeBookingFood = () => {
@@ -80,13 +83,17 @@ const storeBookingFood = () => {
                                 </table>
                             </div>
                         </div>
-<!--                        <div class="card-body col-7" style="margin: auto">-->
-<!--                            <textarea name="note_booking_food" v-model="form.note_booking_food" cols="30" rows="5" class="form-control" placeholder="Note for booking food"></textarea>-->
-<!--                        </div>-->
+                        <div class="card-body col-5" style="margin: auto">
+                            <label for="meal_time">Meal time </label>
+                            <input name="meal_time" id="meal_time" v-model="form.meal_time" type="datetime-local" class="form-control" placeholder="Meal time">
+                            <div v-if="$page.props.errors.meal_time" style="color: red">{{ $page.props.errors.meal_time[0] }}</div>
+
+                            <textarea name="note_booking_food" v-model="form.note_booking_food" cols="30" rows="5" class="form-control" placeholder="Note for booking food"></textarea>
+                        </div>
                         <div class="col-lg-12 p-t-20 text-center">
                             <button type="submit" v-if="booking[0].status_booking != 0"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink"
-                                    data-upgraded=",MaterialButton,MaterialRipple">Continue<span
+                                    data-upgraded=",MaterialButton,MaterialRipple">Submit<span
                                 class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
                             <Link :href="route('booking.index')"
                                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default"

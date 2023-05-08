@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Http\Requests\Booking\BookingFoodRequest;
 use App\Http\Requests\Booking\BookingWebRequest;
 use App\Http\Requests\Booking\FEbookingRequest;
 use App\Http\Requests\Customer\CustomerRequest;
@@ -105,7 +106,7 @@ class BookingController extends FrontendController
         ]);
     }
 
-    public function confirm(Request $request)
+    public function confirm(BookingFoodRequest $request)
     {
         $params = $request->all();
 
@@ -139,7 +140,7 @@ class BookingController extends FrontendController
         ]);
     }
 
-    public function memberPayment(Request $request)
+    public function memberPayment(BookingFoodRequest $request)
     {
         $params = $request->all();
         $rooms = $this->roomRepository->getListSelectRoom(data_get(data_get($params, 'info_booking'), 'rooms'));
@@ -216,6 +217,7 @@ class BookingController extends FrontendController
                 'status_payment' => PaymentStatusEnum::UNPAID->value,
                 'method_payment' => MethodPaymentEnum::CASH->value,
                 'note_booking_food' => $request['booking']['note_booking_food'],
+                'meal_time' => $request['booking']['meal_time'],
                 'note_booking_room' => $request['booking']['info_booking']['note_booking_room'],
             ];
 

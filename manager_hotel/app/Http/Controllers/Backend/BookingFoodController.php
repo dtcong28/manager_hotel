@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Http\Requests\Booking\BEbookingFoodRequest;
 use App\Http\Requests\Booking\BookingFoodRequest;
 use App\Repositories\Eloquent\BookingFoodRepository;
 use App\Repositories\Eloquent\BookingRepository;
@@ -29,8 +30,6 @@ class BookingFoodController extends BackendController
         $this->bookingRepository = app(BookingRepository::class);
         $this->service = app(BookingFoodService::class);
         $this->foodService = app(FoodService::class);
-
-
     }
 
     public function index()
@@ -57,7 +56,7 @@ class BookingFoodController extends BackendController
         ]);
     }
 
-    public function store(BookingFoodRequest $request)
+    public function store(BEbookingFoodRequest $request)
     {
         DB::beginTransaction();
         try {
@@ -66,6 +65,8 @@ class BookingFoodController extends BackendController
             if (empty($params)) {
                 return Redirect::route('booking.index');
             }
+
+            $this->bookingRepository->update($params['booking'],['note_booking_food' => $params['note_booking_food'], 'meal_time' => $params['meal_time']]);
 
             $bookedFood = $this->repository->findByField('booking_id', $params['booking']);
             foreach ($bookedFood as $value)

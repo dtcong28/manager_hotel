@@ -53,7 +53,7 @@ onBeforeMount(() => {
         //     document.head.appendChild(tag);
         // }
         const recaptchaScript = document.createElement("script");
-        recaptchaScript.setAttribute("src", script );
+        recaptchaScript.setAttribute("src", script);
         document.head.appendChild(recaptchaScript);
         console.log('js has been loaded');
     });
@@ -61,47 +61,47 @@ onBeforeMount(() => {
 </script>
 
 <template>
-<!--    <div class="page-wrapper">-->
-        <Header>
-            <link rel="stylesheet" href="{{ mix('backend/assets/plugins/bootstrap/css/bootstrap.min.css') }}">
-            <link rel="stylesheet" href="{{ mix('backend/assets/plugins/material/material.min.css') }}">
-            <link rel="stylesheet" href="{{ mix('backend/assets/css/material_style.css') }}">
-            <link rel="stylesheet"
-                  href="{{ mix('backend/assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css') }}">
-            <link rel="stylesheet" href="{{ mix('backend/assets/css/pages/animate_page.css') }}">
-            <link rel="stylesheet" href="{{ mix('backend/assets/css/plugins.min.css') }}">
-            <link rel="stylesheet" href="{{ mix('backend/assets/css/style.css') }}">
-            <link rel="stylesheet" href="{{ mix('backend/assets/css/responsive.css') }}">
-            <link rel="stylesheet" href="{{ mix('backend/assets/css/theme-color.css') }}">
-            <link rel="stylesheet"
-                  href="{{ mix('backend/assets/plugins/simple-line-icons/simple-line-icons.min.css') }}">
-            <link rel="stylesheet" href="{{ mix('backend/assets/plugins/font-awesome/css/font-awesome.min.css') }}">
-            <link rel="stylesheet" href="{{ mix('backend/assets/img/favicon.ico') }}">
-        </Header>
-        <body class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md header-white dark-sidebar-color logo-dark">
-        <!-- start page container -->
-        <div class="page-wrapper">
-            <div class="page-container">
+    <!--    <div class="page-wrapper">-->
+    <Header>
+        <link rel="stylesheet" href="{{ mix('backend/assets/plugins/bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ mix('backend/assets/plugins/material/material.min.css') }}">
+        <link rel="stylesheet" href="{{ mix('backend/assets/css/material_style.css') }}">
+        <link rel="stylesheet"
+              href="{{ mix('backend/assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css') }}">
+        <link rel="stylesheet" href="{{ mix('backend/assets/css/pages/animate_page.css') }}">
+        <link rel="stylesheet" href="{{ mix('backend/assets/css/plugins.min.css') }}">
+        <link rel="stylesheet" href="{{ mix('backend/assets/css/style.css') }}">
+        <link rel="stylesheet" href="{{ mix('backend/assets/css/responsive.css') }}">
+        <link rel="stylesheet" href="{{ mix('backend/assets/css/theme-color.css') }}">
+        <link rel="stylesheet"
+              href="{{ mix('backend/assets/plugins/simple-line-icons/simple-line-icons.min.css') }}">
+        <link rel="stylesheet" href="{{ mix('backend/assets/plugins/font-awesome/css/font-awesome.min.css') }}">
+        <link rel="stylesheet" href="{{ mix('backend/assets/img/favicon.ico') }}">
+    </Header>
+    <body class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md header-white dark-sidebar-color logo-dark">
+    <!-- start page container -->
+    <div class="page-wrapper">
+        <div class="page-container" >
 
-                <SidebarMenu></SidebarMenu>
+            <SidebarMenu></SidebarMenu>
 
-                <!-- start page content -->
-                <div class="page-content-wrapper">
-                    <div class="page-content">
-                        <slot/>
-                    </div>
+            <!-- start page content -->
+            <div class="page-content-wrapper">
+                <div class="page-content">
+                    <slot/>
                 </div>
-                <!-- end page content -->
-
-                <Setting></Setting>
-
             </div>
-            <!-- end page container -->
+            <!-- end page content -->
+
+            <Setting></Setting>
+
         </div>
-        <Footer></Footer>
-        <!--        <script src="{{ mix('backend/assets/plugins/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>-->
-        </body>
-<!--    </div>-->
+        <!-- end page container -->
+    </div>
+    <Footer></Footer>
+    <!--        <script src="{{ mix('backend/assets/plugins/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>-->
+    </body>
+    <!--    </div>-->
 </template>
 
 

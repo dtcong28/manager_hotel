@@ -64,7 +64,7 @@ onBeforeMount(() => {
     <!--    <div class="page-wrapper">-->
     <Header>
         <link rel="stylesheet" href="{{ mix('backend/assets/plugins/bootstrap/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ mix('backend/assets/plugins/material/material.min.css') }}">
+<!--        <link rel="stylesheet" href="{{ mix('backend/assets/plugins/material/material.min.css') }}">-->
         <link rel="stylesheet" href="{{ mix('backend/assets/css/material_style.css') }}">
         <link rel="stylesheet"
               href="{{ mix('backend/assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css') }}">
@@ -81,14 +81,16 @@ onBeforeMount(() => {
     <body class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md header-white dark-sidebar-color logo-dark">
     <!-- start page container -->
     <div class="page-wrapper">
-        <div class="page-container" >
+        <div class="page-container">
 
             <SidebarMenu></SidebarMenu>
 
             <!-- start page content -->
             <div class="page-content-wrapper">
                 <div class="page-content">
-                    <slot/>
+                    <div style="min-height: 100vh">
+                        <slot/>
+                    </div>
                 </div>
             </div>
             <!-- end page content -->

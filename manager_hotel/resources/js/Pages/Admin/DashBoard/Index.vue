@@ -154,7 +154,6 @@ function getFormattedDate(dateString) {
                             <span class="info-box-text">Expected arrival</span>
                             <span class="info-box-number">{{ selectedValues.value == 0 ? totalEA : dataReport.report.totalBookingEA }}</span>
                             <div class="progress">
-                                <div class="progress-bar width-60"></div>
                             </div>
                         </div>
                         <!-- /.info-box-content -->
@@ -169,7 +168,6 @@ function getFormattedDate(dateString) {
                             <span class="info-box-text">Check in</span>
                             <span class="info-box-number">{{ selectedValues.value == 0 ? totalCheckIn : dataReport.report.totalBookingCheckIn }}</span>
                             <div class="progress">
-                                <div class="progress-bar width-40"></div>
                             </div>
                         </div>
                         <!-- /.info-box-content -->
@@ -184,7 +182,6 @@ function getFormattedDate(dateString) {
                             <span class="info-box-text">Check out</span>
                             <span class="info-box-number">{{ selectedValues.value == 0 ? totalCheckOut : dataReport.report.totalBookingCheckOut }}</span>
                             <div class="progress">
-                                <div class="progress-bar width-80"></div>
                             </div>
                         </div>
                         <!-- /.info-box-content -->
@@ -201,7 +198,6 @@ function getFormattedDate(dateString) {
                             {{ selectedValues.value == 0 ? (totalMoney.total_money == null ? 0 : parseInt(totalMoney.total_money).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })) : (dataReport.report.totalMoney.total_money == null ? 0 : parseInt(dataReport.report.totalMoney.total_money).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }))}}
                             </span>
                             <div class="progress">
-                                <div class="progress-bar width-60"></div>
                             </div>
                         </div>
                         <!-- /.info-box-content -->

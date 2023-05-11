@@ -1,278 +1,1012 @@
 {
+  "public/backend/assets/img/favicon.ico": {
+    "file": "assets/favicon-03cc22c1.ico",
+    "src": "public/backend/assets/img/favicon.ico"
+  },
+  "public/backend/assets/plugins/material-icons/iconfont/MaterialIcons-Regular.woff2": {
+    "file": "assets/MaterialIcons-Regular-a87d66c9.woff2",
+    "src": "public/backend/assets/plugins/material-icons/iconfont/MaterialIcons-Regular.woff2"
+  },
+  "public/backend/assets/plugins/material-icons/iconfont/MaterialIcons-Regular.eot": {
+    "file": "assets/MaterialIcons-Regular-8c998b4a.eot",
+    "src": "public/backend/assets/plugins/material-icons/iconfont/MaterialIcons-Regular.eot"
+  },
+  "public/backend/assets/plugins/simple-line-icons/fonts/Simple-Line-Icons.eot": {
+    "file": "assets/Simple-Line-Icons-1c823013.eot",
+    "src": "public/backend/assets/plugins/simple-line-icons/fonts/Simple-Line-Icons.eot"
+  },
+  "public/backend/assets/plugins/font-awesome/fonts/fontawesome-webfont.eot": {
+    "file": "assets/fontawesome-webfont-7bfcab6d.eot",
+    "src": "public/backend/assets/plugins/font-awesome/fonts/fontawesome-webfont.eot"
+  },
+  "public/backend/assets/plugins/simple-line-icons/fonts/Simple-Line-Icons.woff2": {
+    "file": "assets/Simple-Line-Icons-104673f4.woff2",
+    "src": "public/backend/assets/plugins/simple-line-icons/fonts/Simple-Line-Icons.woff2"
+  },
+  "public/backend/assets/plugins/material-icons/iconfont/MaterialIcons-Regular.woff": {
+    "file": "assets/MaterialIcons-Regular-c4a1baec.woff",
+    "src": "public/backend/assets/plugins/material-icons/iconfont/MaterialIcons-Regular.woff"
+  },
+  "public/backend/assets/plugins/font-awesome/fonts/fontawesome-webfont.woff2": {
+    "file": "assets/fontawesome-webfont-2adefcbc.woff2",
+    "src": "public/backend/assets/plugins/font-awesome/fonts/fontawesome-webfont.woff2"
+  },
+  "public/backend/assets/plugins/simple-line-icons/fonts/Simple-Line-Icons.ttf": {
+    "file": "assets/Simple-Line-Icons-3f501ddb.ttf",
+    "src": "public/backend/assets/plugins/simple-line-icons/fonts/Simple-Line-Icons.ttf"
+  },
+  "public/backend/assets/plugins/material-icons/iconfont/MaterialIcons-Regular.ttf": {
+    "file": "assets/MaterialIcons-Regular-b7f4a3ab.ttf",
+    "src": "public/backend/assets/plugins/material-icons/iconfont/MaterialIcons-Regular.ttf"
+  },
+  "public/backend/assets/plugins/font-awesome/fonts/fontawesome-webfont.woff": {
+    "file": "assets/fontawesome-webfont-ba0c59de.woff",
+    "src": "public/backend/assets/plugins/font-awesome/fonts/fontawesome-webfont.woff"
+  },
+  "public/backend/assets/plugins/simple-line-icons/fonts/Simple-Line-Icons.woff": {
+    "file": "assets/Simple-Line-Icons-14b825d7.woff",
+    "src": "public/backend/assets/plugins/simple-line-icons/fonts/Simple-Line-Icons.woff"
+  },
+  "public/backend/assets/plugins/font-awesome/fonts/fontawesome-webfont.ttf": {
+    "file": "assets/fontawesome-webfont-aa58f33f.ttf",
+    "src": "public/backend/assets/plugins/font-awesome/fonts/fontawesome-webfont.ttf"
+  },
+  "public/backend/assets/plugins/simple-line-icons/fonts/Simple-Line-Icons.svg": {
+    "file": "assets/Simple-Line-Icons-b381f90a.svg",
+    "src": "public/backend/assets/plugins/simple-line-icons/fonts/Simple-Line-Icons.svg"
+  },
+  "public/backend/assets/plugins/font-awesome/fonts/fontawesome-webfont.svg": {
+    "file": "assets/fontawesome-webfont-fc378232.svg",
+    "src": "public/backend/assets/plugins/font-awesome/fonts/fontawesome-webfont.svg"
+  },
   "resources/js/app.css": {
-    "file": "assets/app-7aacec21.css",
+    "file": "assets/app-145d34a5.css",
     "src": "resources/js/app.css"
   },
-  "_GuestLayout-5e9b370b.js": {
-    "file": "assets/GuestLayout-5e9b370b.js",
-    "imports": [
-      "_ApplicationLogo-4c7ce506.js",
-      "resources/js/app.js"
-    ]
+  "ToastFail.css": {
+    "file": "assets/ToastFail-337cd912.css",
+    "src": "ToastFail.css"
   },
-  "_TextInput-6ccf04f0.js": {
-    "file": "assets/TextInput-6ccf04f0.js",
-    "imports": [
-      "resources/js/app.js"
-    ]
+  "resources/js/Pages/Web/Booking/RoomAvailable.css": {
+    "file": "assets/RoomAvailable-a7f6b39e.css",
+    "src": "resources/js/Pages/Web/Booking/RoomAvailable.css"
   },
-  "resources/js/Pages/Admin/Employees/Index.vue": {
-    "file": "assets/Index-1fcaace3.js",
-    "src": "resources/js/Pages/Admin/Employees/Index.vue",
+  "vue-multiselect.css": {
+    "file": "assets/vue-multiselect-f7c76f9a.css",
+    "src": "vue-multiselect.css"
+  },
+  "AdminLayout.css": {
+    "file": "assets/AdminLayout-28643bf3.css",
+    "src": "AdminLayout.css"
+  },
+  "resources/js/Pages/Admin/Rooms/Create.vue": {
+    "file": "assets/Create-bfed56ba.js",
+    "src": "resources/js/Pages/Admin/Rooms/Create.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_AdminLayout-68806b58.js",
       "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_vue-multiselect.esm-795886a6.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ],
+    "css": [
+      "assets/vue-multiselect-f7c76f9a.css"
+    ]
+  },
+  "resources/js/Pages/Admin/TypesRoom/Edit.vue": {
+    "file": "assets/Edit-95e669d5.js",
+    "src": "resources/js/Pages/Admin/TypesRoom/Edit.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ]
+  },
+  "resources/js/Pages/Admin/Role/Edit.vue": {
+    "file": "assets/Edit-9ee5d41e.js",
+    "src": "resources/js/Pages/Admin/Role/Edit.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_vue-multiselect.esm-795886a6.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ],
+    "css": [
+      "assets/vue-multiselect-f7c76f9a.css"
+    ]
+  },
+  "resources/js/Pages/Admin/Role/Create.vue": {
+    "file": "assets/Create-cf655320.js",
+    "src": "resources/js/Pages/Admin/Role/Create.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_vue-multiselect.esm-795886a6.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ],
+    "css": [
+      "assets/vue-multiselect-f7c76f9a.css"
+    ]
+  },
+  "resources/js/Pages/Admin/Rooms/Index.vue": {
+    "file": "assets/Index-a2e4b3bf.js",
+    "src": "resources/js/Pages/Admin/Rooms/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_Pagination-ed8bc250.js",
+      "_SecondaryButton-5e65c15d.js",
+      "_permissions-b9d88ef8.js",
+      "_ToastFail-afb2f1c2.js",
       "__plugin-vue_export-helper-c27b6911.js"
     ]
   },
   "__plugin-vue_export-helper-c27b6911.js": {
     "file": "assets/_plugin-vue_export-helper-c27b6911.js"
   },
-  "_ApplicationLogo-4c7ce506.js": {
-    "file": "assets/ApplicationLogo-4c7ce506.js",
+  "resources/js/Pages/Admin/Booking/Create.vue": {
+    "file": "assets/Create-664b7038.js",
+    "src": "resources/js/Pages/Admin/Booking/Create.vue",
+    "isDynamicEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-c27b6911.js",
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_vue-multiselect.esm-795886a6.js",
+      "_index-db96f6a8.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ],
+    "css": [
+      "assets/vue-multiselect-f7c76f9a.css"
+    ]
+  },
+  "resources/js/Pages/Admin/Booking/Detail.vue": {
+    "file": "assets/Detail-64b660fc.js",
+    "src": "resources/js/Pages/Admin/Booking/Detail.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_vue-multiselect.esm-795886a6.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ],
+    "css": [
+      "assets/vue-multiselect-f7c76f9a.css"
+    ]
+  },
+  "_SecondaryButton-5e65c15d.js": {
+    "file": "assets/SecondaryButton-5e65c15d.js",
+    "imports": [
       "resources/js/app.js"
     ]
   },
+  "resources/js/Pages/Auth/Admin/ConfirmPassword.vue": {
+    "file": "assets/ConfirmPassword-446793d8.js",
+    "src": "resources/js/Pages/Auth/Admin/ConfirmPassword.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_GuestLayout-85817121.js",
+      "_TextInput-5e87b43b.js",
+      "_PrimaryButton-aaac3776.js"
+    ]
+  },
+  "_permissions-b9d88ef8.js": {
+    "file": "assets/permissions-b9d88ef8.js",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "resources/js/Pages/Admin/User/Create.vue": {
+    "file": "assets/Create-f349e93d.js",
+    "src": "resources/js/Pages/Admin/User/Create.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_TextInput-5e87b43b.js",
+      "_vue-multiselect.esm-795886a6.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ],
+    "css": [
+      "assets/vue-multiselect-f7c76f9a.css"
+    ]
+  },
+  "resources/js/Pages/Auth/Admin/ResetPassword.vue": {
+    "file": "assets/ResetPassword-771d4225.js",
+    "src": "resources/js/Pages/Auth/Admin/ResetPassword.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_GuestLayout-85817121.js",
+      "_TextInput-5e87b43b.js",
+      "_PrimaryButton-aaac3776.js"
+    ]
+  },
+  "_vue-multiselect.esm-795886a6.js": {
+    "file": "assets/vue-multiselect.esm-795886a6.js",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "_Pagination-ed8bc250.js": {
+    "file": "assets/Pagination-ed8bc250.js",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "resources/js/Pages/Admin/Booking/Index.vue": {
+    "file": "assets/Index-2c596248.js",
+    "src": "resources/js/Pages/Admin/Booking/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_AdminLayout-84f7e584.js",
+      "resources/js/app.js",
+      "_AllBooking-4568b167.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js",
+      "_Pagination-ed8bc250.js",
+      "_SecondaryButton-5e65c15d.js",
+      "_permissions-b9d88ef8.js"
+    ]
+  },
+  "resources/js/Pages/Admin/Customers/Edit.vue": {
+    "file": "assets/Edit-040f91d5.js",
+    "src": "resources/js/Pages/Admin/Customers/Edit.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_vue-multiselect.esm-795886a6.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ],
+    "css": [
+      "assets/vue-multiselect-f7c76f9a.css"
+    ]
+  },
+  "resources/js/Pages/Auth/Web/Login.vue": {
+    "file": "assets/Login-c877c365.js",
+    "src": "resources/js/Pages/Auth/Web/Login.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_TextInput-5e87b43b.js",
+      "_PrimaryButton-aaac3776.js",
+      "_WebLayout-e70dea77.js",
+      "_ToastFail-afb2f1c2.js"
+    ]
+  },
+  "resources/js/Pages/Admin/Customers/Index.vue": {
+    "file": "assets/Index-d5b7e2ff.js",
+    "src": "resources/js/Pages/Admin/Customers/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_Pagination-ed8bc250.js",
+      "_SecondaryButton-5e65c15d.js",
+      "_permissions-b9d88ef8.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ]
+  },
+  "resources/js/Pages/Admin/Customers/Create.vue": {
+    "file": "assets/Create-cbb94b46.js",
+    "src": "resources/js/Pages/Admin/Customers/Create.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_vue-multiselect.esm-795886a6.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ],
+    "css": [
+      "assets/vue-multiselect-f7c76f9a.css"
+    ]
+  },
+  "_WebLayout-e70dea77.js": {
+    "file": "assets/WebLayout-e70dea77.js",
+    "imports": [
+      "resources/js/app.js",
+      "_ToastFail-afb2f1c2.js"
+    ]
+  },
+  "resources/js/Pages/Admin/Food/Create.vue": {
+    "file": "assets/Create-4d7a2cc9.js",
+    "src": "resources/js/Pages/Admin/Food/Create.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_vue-multiselect.esm-795886a6.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ],
+    "css": [
+      "assets/vue-multiselect-f7c76f9a.css"
+    ]
+  },
+  "resources/js/Pages/Admin/Hotel/Create.vue": {
+    "file": "assets/Create-7ff5dd2d.js",
+    "src": "resources/js/Pages/Admin/Hotel/Create.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_permissions-b9d88ef8.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ]
+  },
+  "resources/js/Pages/Admin/Profile/Edit.vue": {
+    "file": "assets/Edit-0afa7477.js",
+    "src": "resources/js/Pages/Admin/Profile/Edit.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "resources/js/Pages/Admin/Profile/Partials/DeleteUserForm.vue",
+      "resources/js/Pages/Admin/Profile/Partials/UpdatePasswordForm.vue",
+      "resources/js/Pages/Admin/Profile/Partials/UpdateProfileInformationForm.vue",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js",
+      "_SecondaryButton-b46fdc78.js",
+      "_TextInput-5e87b43b.js",
+      "_PrimaryButton-aaac3776.js"
+    ]
+  },
   "resources/js/Pages/Admin/Profile/Partials/UpdatePasswordForm.vue": {
-    "file": "assets/UpdatePasswordForm-8bc25e5c.js",
+    "file": "assets/UpdatePasswordForm-09f5d422.js",
     "src": "resources/js/Pages/Admin/Profile/Partials/UpdatePasswordForm.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_TextInput-6ccf04f0.js",
-      "_PrimaryButton-793188a4.js"
+      "_TextInput-5e87b43b.js",
+      "_PrimaryButton-aaac3776.js"
     ]
   },
-  "resources/js/Pages/Admin/Auth/ResetPassword.vue": {
-    "file": "assets/ResetPassword-4cdc3c1c.js",
-    "src": "resources/js/Pages/Admin/Auth/ResetPassword.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "resources/js/app.js",
-      "_GuestLayout-5e9b370b.js",
-      "_TextInput-6ccf04f0.js",
-      "_PrimaryButton-793188a4.js",
-      "_ApplicationLogo-4c7ce506.js",
-      "__plugin-vue_export-helper-c27b6911.js"
-    ]
-  },
-  "_PrimaryButton-793188a4.js": {
-    "file": "assets/PrimaryButton-793188a4.js",
+  "_TextInput-5e87b43b.js": {
+    "file": "assets/TextInput-5e87b43b.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
-  "resources/js/Pages/Admin/Auth/Register.vue": {
-    "file": "assets/Register-2e8baa6b.js",
-    "src": "resources/js/Pages/Admin/Auth/Register.vue",
-    "isDynamicEntry": true,
+  "_ToastFail-afb2f1c2.js": {
+    "file": "assets/ToastFail-afb2f1c2.js",
     "imports": [
-      "resources/js/app.js",
-      "_GuestLayout-5e9b370b.js",
-      "_TextInput-6ccf04f0.js",
-      "_PrimaryButton-793188a4.js",
-      "_ApplicationLogo-4c7ce506.js",
-      "__plugin-vue_export-helper-c27b6911.js"
-    ]
-  },
-  "resources/js/Pages/Admin/Auth/ConfirmPassword.vue": {
-    "file": "assets/ConfirmPassword-a5f0809c.js",
-    "src": "resources/js/Pages/Admin/Auth/ConfirmPassword.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "resources/js/app.js",
-      "_GuestLayout-5e9b370b.js",
-      "_TextInput-6ccf04f0.js",
-      "_PrimaryButton-793188a4.js",
-      "_ApplicationLogo-4c7ce506.js",
-      "__plugin-vue_export-helper-c27b6911.js"
-    ]
-  },
-  "resources/js/Pages/Admin/Auth/Login.vue": {
-    "file": "assets/Login-b2d33fd8.js",
-    "src": "resources/js/Pages/Admin/Auth/Login.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "resources/js/app.js",
-      "_GuestLayout-5e9b370b.js",
-      "_TextInput-6ccf04f0.js",
-      "_PrimaryButton-793188a4.js",
-      "_ApplicationLogo-4c7ce506.js",
-      "__plugin-vue_export-helper-c27b6911.js"
-    ]
-  },
-  "resources/js/Pages/Admin/Employees/Create.vue": {
-    "file": "assets/Create-4ac4575b.js",
-    "src": "resources/js/Pages/Admin/Employees/Create.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "resources/js/app.js",
-      "_AdminLayout-68806b58.js",
-      "__plugin-vue_export-helper-c27b6911.js"
-    ]
-  },
-  "resources/js/Pages/Admin/Dashboard.vue": {
-    "file": "assets/Dashboard-cf6a823b.js",
-    "src": "resources/js/Pages/Admin/Dashboard.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "_AuthenticatedLayout-70da011c.js",
-      "resources/js/app.js",
-      "_ApplicationLogo-4c7ce506.js",
-      "__plugin-vue_export-helper-c27b6911.js"
-    ]
-  },
-  "resources/js/Pages/Admin/Employees/Edit.vue": {
-    "file": "assets/Edit-275ab1a3.js",
-    "src": "resources/js/Pages/Admin/Employees/Edit.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "resources/js/app.js",
-      "_AdminLayout-68806b58.js",
-      "__plugin-vue_export-helper-c27b6911.js"
-    ]
-  },
-  "_AuthenticatedLayout-70da011c.js": {
-    "file": "assets/AuthenticatedLayout-70da011c.js",
-    "imports": [
-      "_ApplicationLogo-4c7ce506.js",
       "resources/js/app.js"
+    ],
+    "css": [
+      "assets/ToastFail-337cd912.css"
     ]
   },
   "resources/js/Pages/Admin/Profile/Partials/UpdateProfileInformationForm.vue": {
-    "file": "assets/UpdateProfileInformationForm-3cd4855e.js",
+    "file": "assets/UpdateProfileInformationForm-fced95e9.js",
     "src": "resources/js/Pages/Admin/Profile/Partials/UpdateProfileInformationForm.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_TextInput-6ccf04f0.js",
-      "_PrimaryButton-793188a4.js"
+      "_TextInput-5e87b43b.js",
+      "_PrimaryButton-aaac3776.js"
     ]
   },
-  "resources/js/Pages/Admin/Profile/Edit.vue": {
-    "file": "assets/Edit-09f2961f.js",
-    "src": "resources/js/Pages/Admin/Profile/Edit.vue",
+  "resources/js/Pages/Admin/Permissions/Index.vue": {
+    "file": "assets/Index-527832f0.js",
+    "src": "resources/js/Pages/Admin/Permissions/Index.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_AuthenticatedLayout-70da011c.js",
-      "resources/js/Pages/Admin/Profile/Partials/DeleteUserForm.vue",
-      "resources/js/Pages/Admin/Profile/Partials/UpdatePasswordForm.vue",
-      "resources/js/Pages/Admin/Profile/Partials/UpdateProfileInformationForm.vue",
+      "_AdminLayout-84f7e584.js",
       "resources/js/app.js",
-      "_ApplicationLogo-4c7ce506.js",
-      "__plugin-vue_export-helper-c27b6911.js",
-      "_TextInput-6ccf04f0.js",
-      "_PrimaryButton-793188a4.js"
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ]
+  },
+  "_SecondaryButton-b46fdc78.js": {
+    "file": "assets/SecondaryButton-b46fdc78.js",
+    "imports": [
+      "resources/js/app.js"
     ]
   },
   "resources/js/Pages/Admin/TypesRoom/Create.vue": {
-    "file": "assets/Create-d9faabd6.js",
+    "file": "assets/Create-57bf4e6e.js",
     "src": "resources/js/Pages/Admin/TypesRoom/Create.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_AdminLayout-68806b58.js",
+      "_AdminLayout-84f7e584.js",
+      "_ToastFail-afb2f1c2.js",
       "__plugin-vue_export-helper-c27b6911.js"
     ]
   },
-  "resources/js/Pages/Admin/Auth/VerifyEmail.vue": {
-    "file": "assets/VerifyEmail-3b9b06e3.js",
-    "src": "resources/js/Pages/Admin/Auth/VerifyEmail.vue",
+  "resources/js/Pages/Admin/BookingFood/Create.vue": {
+    "file": "assets/Create-b2977c7e.js",
+    "src": "resources/js/Pages/Admin/BookingFood/Create.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_GuestLayout-5e9b370b.js",
-      "_PrimaryButton-793188a4.js",
-      "_ApplicationLogo-4c7ce506.js",
+      "_AdminLayout-84f7e584.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ],
+    "css": [
+      "assets/vue-multiselect-f7c76f9a.css"
+    ]
+  },
+  "resources/js/Pages/Admin/Permissions/Edit.vue": {
+    "file": "assets/Edit-a669d4ff.js",
+    "src": "resources/js/Pages/Admin/Permissions/Edit.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_ToastFail-afb2f1c2.js",
       "__plugin-vue_export-helper-c27b6911.js"
     ]
   },
-  "resources/js/Pages/Admin/TypesRoom/Edit.vue": {
-    "file": "assets/Edit-5d335fe9.js",
-    "src": "resources/js/Pages/Admin/TypesRoom/Edit.vue",
+  "resources/js/Pages/Web/Room/Index.vue": {
+    "file": "assets/Index-8700486a.js",
+    "src": "resources/js/Pages/Web/Room/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_AdminLayout-68806b58.js",
-      "__plugin-vue_export-helper-c27b6911.js"
+      "_WebLayout-e70dea77.js",
+      "_ToastFail-afb2f1c2.js"
     ]
   },
-  "resources/js/Pages/Admin/Auth/ForgotPassword.vue": {
-    "file": "assets/ForgotPassword-4c4b41f1.js",
-    "src": "resources/js/Pages/Admin/Auth/ForgotPassword.vue",
+  "resources/js/Pages/Admin/Dashboard.vue": {
+    "file": "assets/Dashboard-3478e96d.js",
+    "src": "resources/js/Pages/Admin/Dashboard.vue",
     "isDynamicEntry": true,
     "imports": [
-      "resources/js/app.js",
-      "_GuestLayout-5e9b370b.js",
-      "_TextInput-6ccf04f0.js",
-      "_PrimaryButton-793188a4.js",
-      "_ApplicationLogo-4c7ce506.js",
-      "__plugin-vue_export-helper-c27b6911.js"
+      "__plugin-vue_export-helper-c27b6911.js",
+      "resources/js/app.js"
     ]
   },
-  "resources/js/Pages/Admin/Profile/Partials/DeleteUserForm.vue": {
-    "file": "assets/DeleteUserForm-fa5ca426.js",
-    "src": "resources/js/Pages/Admin/Profile/Partials/DeleteUserForm.vue",
+  "_GuestLayout-85817121.js": {
+    "file": "assets/GuestLayout-85817121.js",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "resources/js/Pages/Auth/Admin/ForgotPassword.vue": {
+    "file": "assets/ForgotPassword-ce5add9f.js",
+    "src": "resources/js/Pages/Auth/Admin/ForgotPassword.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_TextInput-6ccf04f0.js"
+      "_GuestLayout-85817121.js",
+      "_TextInput-5e87b43b.js",
+      "_PrimaryButton-aaac3776.js"
     ]
   },
   "resources/js/Pages/Admin/Welcome.vue": {
-    "file": "assets/Welcome-6ea5e600.js",
+    "file": "assets/Welcome-c037e972.js",
     "src": "resources/js/Pages/Admin/Welcome.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js"
     ]
   },
+  "resources/js/Pages/Auth/Admin/Register.vue": {
+    "file": "assets/Register-8df5ab0c.js",
+    "src": "resources/js/Pages/Auth/Admin/Register.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_GuestLayout-85817121.js",
+      "_TextInput-5e87b43b.js",
+      "_PrimaryButton-aaac3776.js"
+    ]
+  },
+  "resources/js/Pages/Admin/Profile/Partials/DeleteUserForm.vue": {
+    "file": "assets/DeleteUserForm-3102c268.js",
+    "src": "resources/js/Pages/Admin/Profile/Partials/DeleteUserForm.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_SecondaryButton-b46fdc78.js",
+      "_TextInput-5e87b43b.js"
+    ]
+  },
+  "resources/js/Pages/Admin/Role/Index.vue": {
+    "file": "assets/Index-2abe4130.js",
+    "src": "resources/js/Pages/Admin/Role/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_AdminLayout-84f7e584.js",
+      "resources/js/app.js",
+      "_permissions-b9d88ef8.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ]
+  },
+  "resources/js/Pages/Web/About/Index.vue": {
+    "file": "assets/Index-1cc6ef25.js",
+    "src": "resources/js/Pages/Web/About/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_WebLayout-e70dea77.js",
+      "_ToastFail-afb2f1c2.js"
+    ]
+  },
+  "resources/js/Pages/Web/Room/Detail.vue": {
+    "file": "assets/Detail-3ffc1c94.js",
+    "src": "resources/js/Pages/Web/Room/Detail.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_WebLayout-e70dea77.js",
+      "_ToastFail-afb2f1c2.js"
+    ]
+  },
+  "resources/js/Pages/Admin/FeedBack/Index.vue": {
+    "file": "assets/Index-f4629c81.js",
+    "src": "resources/js/Pages/Admin/FeedBack/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_Pagination-ed8bc250.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ]
+  },
+  "resources/js/Pages/Auth/Admin/Login.vue": {
+    "file": "assets/Login-5f180ce6.js",
+    "src": "resources/js/Pages/Auth/Admin/Login.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_GuestLayout-85817121.js",
+      "_TextInput-5e87b43b.js",
+      "_PrimaryButton-aaac3776.js"
+    ]
+  },
   "resources/js/Pages/Admin/TypesRoom/Index.vue": {
-    "file": "assets/Index-4f483da0.js",
+    "file": "assets/Index-a3727089.js",
     "src": "resources/js/Pages/Admin/TypesRoom/Index.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_AdminLayout-68806b58.js",
       "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_Pagination-ed8bc250.js",
+      "_SecondaryButton-5e65c15d.js",
+      "_permissions-b9d88ef8.js",
+      "_ToastFail-afb2f1c2.js",
       "__plugin-vue_export-helper-c27b6911.js"
     ]
   },
-  "_AdminLayout-68806b58.js": {
-    "file": "assets/AdminLayout-68806b58.js",
+  "resources/js/Pages/Admin/Rooms/Edit.vue": {
+    "file": "assets/Edit-9d42d156.js",
+    "src": "resources/js/Pages/Admin/Rooms/Edit.vue",
+    "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_vue-multiselect.esm-795886a6.js",
+      "_ToastFail-afb2f1c2.js",
       "__plugin-vue_export-helper-c27b6911.js"
+    ],
+    "css": [
+      "assets/vue-multiselect-f7c76f9a.css"
+    ]
+  },
+  "resources/js/Pages/Auth/Admin/VerifyEmail.vue": {
+    "file": "assets/VerifyEmail-7e5f3a4c.js",
+    "src": "resources/js/Pages/Auth/Admin/VerifyEmail.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_GuestLayout-85817121.js",
+      "_PrimaryButton-aaac3776.js"
+    ]
+  },
+  "resources/js/Pages/Admin/Food/Edit.vue": {
+    "file": "assets/Edit-9fbb5aab.js",
+    "src": "resources/js/Pages/Admin/Food/Edit.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_vue-multiselect.esm-795886a6.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ],
+    "css": [
+      "assets/vue-multiselect-f7c76f9a.css"
+    ]
+  },
+  "resources/js/Pages/Web/Booking/Confirm.vue": {
+    "file": "assets/Confirm-91865adb.js",
+    "src": "resources/js/Pages/Web/Booking/Confirm.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_LayoutBooking-dca70d09.js",
+      "_ToastFail-afb2f1c2.js"
+    ]
+  },
+  "resources/js/Pages/Web/Booking/Payment.vue": {
+    "file": "assets/Payment-30ac79f0.js",
+    "src": "resources/js/Pages/Web/Booking/Payment.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_LayoutBooking-dca70d09.js",
+      "_vue-multiselect.esm-795886a6.js",
+      "_ToastFail-afb2f1c2.js"
+    ],
+    "css": [
+      "assets/vue-multiselect-f7c76f9a.css"
+    ]
+  },
+  "resources/js/Pages/Admin/User/Edit.vue": {
+    "file": "assets/Edit-6632fcce.js",
+    "src": "resources/js/Pages/Admin/User/Edit.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_TextInput-5e87b43b.js",
+      "_vue-multiselect.esm-795886a6.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ],
+    "css": [
+      "assets/vue-multiselect-f7c76f9a.css"
+    ]
+  },
+  "resources/js/Pages/Admin/User/Index.vue": {
+    "file": "assets/Index-0f5dbe4d.js",
+    "src": "resources/js/Pages/Admin/User/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_Pagination-ed8bc250.js",
+      "_SecondaryButton-5e65c15d.js",
+      "_permissions-b9d88ef8.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ]
+  },
+  "resources/js/Pages/Admin/Booking/RoomAvailable.vue": {
+    "file": "assets/RoomAvailable-e312652d.js",
+    "src": "resources/js/Pages/Admin/Booking/RoomAvailable.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ]
+  },
+  "resources/js/Pages/Web/Booking/Complete.vue": {
+    "file": "assets/Complete-31944a40.js",
+    "src": "resources/js/Pages/Web/Booking/Complete.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_LayoutBooking-dca70d09.js",
+      "_ToastFail-afb2f1c2.js"
+    ]
+  },
+  "_index-db96f6a8.js": {
+    "file": "assets/index-db96f6a8.js",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "_LayoutBooking-dca70d09.js": {
+    "file": "assets/LayoutBooking-dca70d09.js",
+    "imports": [
+      "resources/js/app.js",
+      "_ToastFail-afb2f1c2.js"
+    ]
+  },
+  "resources/js/Pages/Web/Contact/Index.vue": {
+    "file": "assets/Index-f0501822.js",
+    "src": "resources/js/Pages/Web/Contact/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_WebLayout-e70dea77.js",
+      "_ToastFail-afb2f1c2.js"
+    ]
+  },
+  "_AllBooking-4568b167.js": {
+    "file": "assets/AllBooking-4568b167.js",
+    "imports": [
+      "resources/js/app.js",
+      "_ToastFail-afb2f1c2.js",
+      "_AdminLayout-84f7e584.js",
+      "_Pagination-ed8bc250.js",
+      "_SecondaryButton-5e65c15d.js",
+      "_permissions-b9d88ef8.js"
+    ]
+  },
+  "resources/js/Pages/Web/Booking/BookingFood.vue": {
+    "file": "assets/BookingFood-aad9c030.js",
+    "src": "resources/js/Pages/Web/Booking/BookingFood.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_LayoutBooking-dca70d09.js",
+      "_ToastFail-afb2f1c2.js"
+    ]
+  },
+  "resources/js/Pages/Admin/DashBoard/Index.vue": {
+    "file": "assets/Index-35da5e07.js",
+    "src": "resources/js/Pages/Admin/DashBoard/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_AdminLayout-84f7e584.js",
+      "resources/js/app.js",
+      "_AllBooking-4568b167.js",
+      "_vue-multiselect.esm-795886a6.js",
+      "_index-db96f6a8.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js",
+      "_Pagination-ed8bc250.js",
+      "_SecondaryButton-5e65c15d.js",
+      "_permissions-b9d88ef8.js"
+    ],
+    "css": [
+      "assets/vue-multiselect-f7c76f9a.css"
+    ]
+  },
+  "resources/js/Pages/Web/Booking/RoomAvailable.vue": {
+    "file": "assets/RoomAvailable-5953a018.js",
+    "src": "resources/js/Pages/Web/Booking/RoomAvailable.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_LayoutBooking-dca70d09.js",
+      "_ToastFail-afb2f1c2.js"
+    ],
+    "css": [
+      "assets/RoomAvailable-a7f6b39e.css"
+    ]
+  },
+  "resources/js/Pages/Admin/Food/Index.vue": {
+    "file": "assets/Index-d9016fb6.js",
+    "src": "resources/js/Pages/Admin/Food/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_Pagination-ed8bc250.js",
+      "_SecondaryButton-5e65c15d.js",
+      "_permissions-b9d88ef8.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ]
+  },
+  "resources/js/Pages/Admin/Permissions/Create.vue": {
+    "file": "assets/Create-3d5473b0.js",
+    "src": "resources/js/Pages/Admin/Permissions/Create.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ]
+  },
+  "resources/js/Pages/Admin/Booking/Edit.vue": {
+    "file": "assets/Edit-9fb94ccd.js",
+    "src": "resources/js/Pages/Admin/Booking/Edit.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_vue-multiselect.esm-795886a6.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ],
+    "css": [
+      "assets/vue-multiselect-f7c76f9a.css"
+    ]
+  },
+  "_PrimaryButton-aaac3776.js": {
+    "file": "assets/PrimaryButton-aaac3776.js",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "resources/js/Pages/Web/Profile/Partials/DeleteUserForm.vue": {
+    "file": "assets/DeleteUserForm-36605488.js",
+    "src": "resources/js/Pages/Web/Profile/Partials/DeleteUserForm.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_SecondaryButton-b46fdc78.js",
+      "_TextInput-5e87b43b.js"
+    ]
+  },
+  "resources/js/Pages/Web/Profile/Partials/UpdateProfileInformationForm.vue": {
+    "file": "assets/UpdateProfileInformationForm-04aa00bf.js",
+    "src": "resources/js/Pages/Web/Profile/Partials/UpdateProfileInformationForm.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_TextInput-5e87b43b.js",
+      "_PrimaryButton-aaac3776.js"
+    ]
+  },
+  "resources/js/Pages/Admin/Booking/RoomAvailableForUpdate.vue": {
+    "file": "assets/RoomAvailableForUpdate-e8fc567e.js",
+    "src": "resources/js/Pages/Admin/Booking/RoomAvailableForUpdate.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_AdminLayout-84f7e584.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ]
+  },
+  "resources/js/Pages/Web/Home/Index.vue": {
+    "file": "assets/Index-c2467580.js",
+    "src": "resources/js/Pages/Web/Home/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_WebLayout-e70dea77.js",
+      "_ToastFail-afb2f1c2.js"
+    ]
+  },
+  "resources/js/Pages/Web/Profile/Partials/UpdatePasswordForm.vue": {
+    "file": "assets/UpdatePasswordForm-04b40d7d.js",
+    "src": "resources/js/Pages/Web/Profile/Partials/UpdatePasswordForm.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_TextInput-5e87b43b.js",
+      "_PrimaryButton-aaac3776.js"
+    ]
+  },
+  "resources/js/Pages/Web/Booking/Show.vue": {
+    "file": "assets/Show-b8773d03.js",
+    "src": "resources/js/Pages/Web/Booking/Show.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_WebLayout-e70dea77.js",
+      "resources/js/app.js",
+      "_ToastFail-afb2f1c2.js"
+    ]
+  },
+  "resources/js/Pages/Web/Profile/Edit.vue": {
+    "file": "assets/Edit-855eba7c.js",
+    "src": "resources/js/Pages/Web/Profile/Edit.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_WebLayout-e70dea77.js",
+      "resources/js/Pages/Web/Profile/Partials/UpdatePasswordForm.vue",
+      "resources/js/Pages/Web/Profile/Partials/UpdateProfileInformationForm.vue",
+      "_ToastFail-afb2f1c2.js",
+      "_TextInput-5e87b43b.js",
+      "_PrimaryButton-aaac3776.js"
+    ]
+  },
+  "resources/js/Pages/Web/Restaurant/Index.vue": {
+    "file": "assets/Index-7414a7db.js",
+    "src": "resources/js/Pages/Web/Restaurant/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_WebLayout-e70dea77.js",
+      "_ToastFail-afb2f1c2.js"
+    ]
+  },
+  "_AdminLayout-84f7e584.js": {
+    "file": "assets/AdminLayout-84f7e584.js",
+    "imports": [
+      "resources/js/app.js",
+      "_ToastFail-afb2f1c2.js",
+      "__plugin-vue_export-helper-c27b6911.js"
+    ],
+    "css": [
+      "assets/AdminLayout-28643bf3.css"
+    ],
+    "assets": [
+      "assets/MaterialIcons-Regular-8c998b4a.eot",
+      "assets/MaterialIcons-Regular-a87d66c9.woff2",
+      "assets/MaterialIcons-Regular-c4a1baec.woff",
+      "assets/MaterialIcons-Regular-b7f4a3ab.ttf",
+      "assets/Simple-Line-Icons-1c823013.eot",
+      "assets/Simple-Line-Icons-104673f4.woff2",
+      "assets/Simple-Line-Icons-3f501ddb.ttf",
+      "assets/Simple-Line-Icons-14b825d7.woff",
+      "assets/Simple-Line-Icons-b381f90a.svg",
+      "assets/fontawesome-webfont-7bfcab6d.eot",
+      "assets/fontawesome-webfont-2adefcbc.woff2",
+      "assets/fontawesome-webfont-ba0c59de.woff",
+      "assets/fontawesome-webfont-aa58f33f.ttf",
+      "assets/fontawesome-webfont-fc378232.svg"
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-53b3d20c.js",
+    "file": "assets/app-e1c28ace.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "dynamicImports": [
-      "resources/js/Pages/Admin/Auth/ConfirmPassword.vue",
-      "resources/js/Pages/Admin/Auth/ForgotPassword.vue",
-      "resources/js/Pages/Admin/Auth/Login.vue",
-      "resources/js/Pages/Admin/Auth/Register.vue",
-      "resources/js/Pages/Admin/Auth/ResetPassword.vue",
-      "resources/js/Pages/Admin/Auth/VerifyEmail.vue",
+      "resources/js/Pages/Admin/Booking/Create.vue",
+      "resources/js/Pages/Admin/Booking/Detail.vue",
+      "resources/js/Pages/Admin/Booking/Edit.vue",
+      "resources/js/Pages/Admin/Booking/Index.vue",
+      "resources/js/Pages/Admin/Booking/RoomAvailable.vue",
+      "resources/js/Pages/Admin/Booking/RoomAvailableForUpdate.vue",
+      "resources/js/Pages/Admin/BookingFood/Create.vue",
+      "resources/js/Pages/Admin/Customers/Create.vue",
+      "resources/js/Pages/Admin/Customers/Edit.vue",
+      "resources/js/Pages/Admin/Customers/Index.vue",
+      "resources/js/Pages/Admin/DashBoard/Index.vue",
       "resources/js/Pages/Admin/Dashboard.vue",
-      "resources/js/Pages/Admin/Employees/Create.vue",
-      "resources/js/Pages/Admin/Employees/Edit.vue",
-      "resources/js/Pages/Admin/Employees/Index.vue",
+      "resources/js/Pages/Admin/FeedBack/Index.vue",
+      "resources/js/Pages/Admin/Food/Create.vue",
+      "resources/js/Pages/Admin/Food/Edit.vue",
+      "resources/js/Pages/Admin/Food/Index.vue",
+      "resources/js/Pages/Admin/Hotel/Create.vue",
+      "resources/js/Pages/Admin/Permissions/Create.vue",
+      "resources/js/Pages/Admin/Permissions/Edit.vue",
+      "resources/js/Pages/Admin/Permissions/Index.vue",
       "resources/js/Pages/Admin/Profile/Edit.vue",
       "resources/js/Pages/Admin/Profile/Partials/DeleteUserForm.vue",
       "resources/js/Pages/Admin/Profile/Partials/UpdatePasswordForm.vue",
       "resources/js/Pages/Admin/Profile/Partials/UpdateProfileInformationForm.vue",
+      "resources/js/Pages/Admin/Role/Create.vue",
+      "resources/js/Pages/Admin/Role/Edit.vue",
+      "resources/js/Pages/Admin/Role/Index.vue",
+      "resources/js/Pages/Admin/Rooms/Create.vue",
+      "resources/js/Pages/Admin/Rooms/Edit.vue",
+      "resources/js/Pages/Admin/Rooms/Index.vue",
       "resources/js/Pages/Admin/TypesRoom/Create.vue",
       "resources/js/Pages/Admin/TypesRoom/Edit.vue",
       "resources/js/Pages/Admin/TypesRoom/Index.vue",
-      "resources/js/Pages/Admin/Welcome.vue"
+      "resources/js/Pages/Admin/User/Create.vue",
+      "resources/js/Pages/Admin/User/Edit.vue",
+      "resources/js/Pages/Admin/User/Index.vue",
+      "resources/js/Pages/Admin/Welcome.vue",
+      "resources/js/Pages/Auth/Admin/ConfirmPassword.vue",
+      "resources/js/Pages/Auth/Admin/ForgotPassword.vue",
+      "resources/js/Pages/Auth/Admin/Login.vue",
+      "resources/js/Pages/Auth/Admin/Register.vue",
+      "resources/js/Pages/Auth/Admin/ResetPassword.vue",
+      "resources/js/Pages/Auth/Admin/VerifyEmail.vue",
+      "resources/js/Pages/Auth/Web/Login.vue",
+      "resources/js/Pages/Web/About/Index.vue",
+      "resources/js/Pages/Web/Booking/BookingFood.vue",
+      "resources/js/Pages/Web/Booking/Complete.vue",
+      "resources/js/Pages/Web/Booking/Confirm.vue",
+      "resources/js/Pages/Web/Booking/Payment.vue",
+      "resources/js/Pages/Web/Booking/RoomAvailable.vue",
+      "resources/js/Pages/Web/Booking/Show.vue",
+      "resources/js/Pages/Web/Contact/Index.vue",
+      "resources/js/Pages/Web/Home/Index.vue",
+      "resources/js/Pages/Web/Profile/Edit.vue",
+      "resources/js/Pages/Web/Profile/Partials/DeleteUserForm.vue",
+      "resources/js/Pages/Web/Profile/Partials/UpdatePasswordForm.vue",
+      "resources/js/Pages/Web/Profile/Partials/UpdateProfileInformationForm.vue",
+      "resources/js/Pages/Web/Restaurant/Index.vue",
+      "resources/js/Pages/Web/Room/Detail.vue",
+      "resources/js/Pages/Web/Room/Index.vue"
     ],
     "css": [
-      "assets/app-7aacec21.css"
+      "assets/app-145d34a5.css"
     ]
   }
 }

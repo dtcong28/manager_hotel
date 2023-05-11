@@ -19,7 +19,6 @@ return new class extends Migration {
             $table->dateTime('time_check_in');
             $table->dateTime('time_check_out');
             $table->integer('number_rooms');
-            $table->text('feedback')->nullable();
             $table->dateTime('payment_date')->nullable();
             $table->char('method_payment', 1)->nullable();
             $table->char('status_payment', 1)->nullable();

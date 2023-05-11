@@ -18,6 +18,8 @@ const form = useForm({
     select_food: selectFood,
     info_booking: props.info_booking,
     price_food: price_each_food,
+    meal_time: '',
+    note_booking_food: '',
 });
 
 function sum(obj) {
@@ -79,34 +81,44 @@ const submit = () => {
                         </section>
                     </div>
                     <div class="col-lg-4 sidebar">
-                        <div class="sidebar-wrap bg-light box-detail">
-                            <h3 class="heading mb-4">Your Stay</h3>
-                            <div class="fields">
-                                <form @submit.prevent="submit">
-                                    <div class="form-group">
-                                        From {{ info_booking.time_check_in }} to {{ info_booking.time_check_out }}<br>
-                                    </div>
-                                    <div class="form-group" v-for="(value, index) in select_rooms">
-                                        <div>
-                                            <span>Room {{value.name }} : {{ parseInt(info_booking.price_each_room[index]).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</span>
+                        <div class="box-detail">
+                            <div class="sidebar-wrap bg-light">
+                                <h3 class="heading mb-4">Your Stay</h3>
+                                <div class="fields">
+                                    <form @submit.prevent="submit">
+                                        <div class="form-group">
+                                            From {{ info_booking.time_check_in }} to {{ info_booking.time_check_out }}<br>
                                         </div>
-                                    </div>
-                                    <div class="form-group" v-for="(value, key) in selectFood">
-                                        <div v-for="(data, index) in foods">
+                                        <div class="form-group" v-for="(value, index) in select_rooms">
+                                            <div>
+                                                <span>Room {{value.name }} : {{ parseInt(info_booking.price_each_room[index]).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" v-for="(value, key) in selectFood">
+                                            <div v-for="(data, index) in foods">
                                         <span v-if="data.id == key && value">
                                             {{ data.name }}: {{ (data.price*value).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}}
                                             <div class="d-none">{{ price_each_food[key] = data.price*value }}</div>
                                         </span>
+                                            </div>
+                                            <div class="d-none" v-if="value == ''">{{price_each_food[key] = null}}</div>
                                         </div>
-                                        <div class="d-none" v-if="value == ''">{{price_each_food[key] = null}}</div>
-                                    </div>
-                                    <div class="form-group">
-                                        Total: {{ (price_each_room.reduce((partialSum, a) => partialSum + a, 0) + sum(price_each_food)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary py-3 px-5">Continue</button>
-                                    </div>
-                                </form>
+                                        <div class="form-group">
+                                            Total: {{ (price_each_room.reduce((partialSum, a) => partialSum + a, 0) + sum(price_each_food)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary py-3 px-5">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="wrap">
+                                <label for="meal_time">Meal time </label>
+                                <input name="meal_time" id="meal_time" v-model="form.meal_time" type="datetime-local" class="form-control" placeholder="Meal time">
+                                <div v-if="$page.props.errors.meal_time" style="color: red">{{$page.props.errors.meal_time[0] }}</div>
+                            </div>
+                            <div>
+                                <textarea name="note_booking_food" v-model="form.note_booking_food" cols="30" rows="5" class="form-control" placeholder="Note for booking food"></textarea>
                             </div>
                         </div>
                     </div>

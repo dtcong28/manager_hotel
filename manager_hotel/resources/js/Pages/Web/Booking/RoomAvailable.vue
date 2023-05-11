@@ -1,5 +1,5 @@
 <script setup>
-import {Link, useForm} from '@inertiajs/vue3'
+import {Link, router, useForm} from '@inertiajs/vue3'
 import {Head, useRemember} from '@inertiajs/vue3';
 import LayoutBooking from '@/Layouts/Web/LayoutBooking.vue';
 import {computed, ref} from "vue";
@@ -29,13 +29,8 @@ const form = useForm({
     time_check_out: props.info_booking.time_check_out,
     rooms: selectRoom,
     price_each_room: sum,
+    note_booking_room: '',
 });
-
-const confirmBooking = () => {
-    form.get(route('web.booking.food'))
-};
-
-const totalSelectRoom = computed(() => selectRoom.value.filter(el => el != null).length)
 
 const formBooking = useForm({
     time_check_in: '',
@@ -43,6 +38,13 @@ const formBooking = useForm({
     number_room: '',
     room: [],
 });
+
+const confirmBooking = () => {
+    form.get(route('web.booking.food'))
+};
+
+// select lại room
+const totalSelectRoom = computed(() => selectRoom.value.filter(el => el != null).length)
 
 function handleChange() {
     for (const [key, value] of Object.entries(formBooking.room)) {
@@ -52,8 +54,26 @@ function handleChange() {
     }
 }
 
+function handleAlert(id){
+    if(this.selectRoom.includes(id))
+    {
+        window.alert('Room is selected');
+    }
+}
+
+// const filterRoom = () => {
+//     formBooking.get(route('web.booking.filter_room'))
+// };
+
 const filterRoom = () => {
-    formBooking.get(route('web.booking.filter_room'))
+    try {
+        formBooking.get(route('web.booking.filter_room') , { preserveState: true })
+        selectRoom.value = []
+        sum.value = []
+
+    } catch (error) {
+        throw error
+    }
 };
 </script>
 
@@ -97,75 +117,77 @@ const filterRoom = () => {
                 </div>
             </div>
         </div>
-<!--        <pre>{{ arrayRoom }}</pre>-->
         <section class="ftco-section bg-light">
             <div class="container">
-                <div class="row pb-8">
-                    <div class="col-lg-12">
-                        <form @submit.prevent="filterRoom" class="booking-form" style="display: flex; justify-content: center;">
-                            <div class="row">
-                                <div class="col-md-2.5 d-flex">
-                                    <div class="form-group p-4 align-self-stretch d-flex align-items-end">
-                                        <div class="wrap">
-                                            <label for="time_check_in">Check-in Date</label>
-                                            <input name="time_check_in" id="time_check_in" v-model="formBooking.time_check_in" type="date" class="form-control" placeholder="Check-in date">
-                                            <div v-if="$page.props.errors.time_check_in" style="color: red">{{$page.props.errors.time_check_in[0] }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2.5 d-flex">
-                                    <div class="form-group p-4 align-self-stretch d-flex align-items-end">
-                                        <div class="wrap">
-                                            <label for="time_check_out">Check-out Date</label>
-                                            <input name="time_check_out" id="time_check_out" v-model="formBooking.time_check_out" type="date" class="form-control" placeholder="Check-out date">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2.5 d-flex">
-                                    <div class="form-group p-4 align-self-stretch d-flex align-items-end">
-                                        <div class="wrap">
-                                            <label for="number_room">Number Room</label>
-                                            <div class="form-field">
-                                                <div class="select-wrap">
-                                                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                                                    <select name="number_room" v-model="formBooking.number_room" id="number_room" class="form-control" @change="handleChange">
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-1.5 d-flex" v-for="room in Number(formBooking.number_room)" :key="room">
-                                    <div class="form-group p-4 align-self-stretch d-flex align-items-end">
-                                        <div class="wrap">
-                                            <label>Room {{ room }}</label>
-                                            <div class="form-field">
-                                                <div class="select-wrap">
-                                                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                                                    <select name="room[]" v-model="formBooking.room[room]" class="form-control">
-                                                        <option value="1">1 Adult</option>
-                                                        <option value="2">2 Adult</option>
-                                                        <option value="3">3 Adult</option>
-                                                        <option value="4">4 Adult</option>
-                                                        <option value="5">5 Adult</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-1.5 d-flex">
-                                    <div class="form-group d-flex align-self-stretch">
-                                        <button type="submit" value="Check Availability" class="btn btn-primary py-3 px-4 align-self-stretch">Check Availability</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+<!--                <div class="row pb-8">-->
+<!--                    <div class="col-lg-12">-->
+<!--                        <form @submit.prevent="filterRoom" class="booking-form" style="display: flex; justify-content: center;">-->
+<!--                            <div class="row">-->
+<!--                                <div class="col-md-2.5 d-flex">-->
+<!--                                    <div class="form-group p-4 align-self-stretch d-flex align-items-end">-->
+<!--                                        <div class="wrap">-->
+<!--                                            <label for="time_check_in">Check-in Date</label>-->
+<!--                                            <input name="time_check_in" id="time_check_in" v-model="formBooking.time_check_in" type="date" class="form-control" placeholder="Check-in date">-->
+<!--                                            <div v-if="$page.props.errors.time_check_in" style="color: red">{{$page.props.errors.time_check_in[0] }}</div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="col-md-2.5 d-flex">-->
+<!--                                    <div class="form-group p-4 align-self-stretch d-flex align-items-end">-->
+<!--                                        <div class="wrap">-->
+<!--                                            <label for="time_check_out">Check-out Date</label>-->
+<!--                                            <input name="time_check_out" id="time_check_out" v-model="formBooking.time_check_out" type="date" class="form-control" placeholder="Check-out date">-->
+<!--                                            <div v-if="$page.props.errors.time_check_out" style="color: red">{{$page.props.errors.time_check_out[0] }}</div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="col-md-2.5 d-flex">-->
+<!--                                    <div class="form-group p-4 align-self-stretch d-flex align-items-end">-->
+<!--                                        <div class="wrap">-->
+<!--                                            <label for="number_room">Number Room</label>-->
+<!--                                            <div class="form-field">-->
+<!--                                                <div class="select-wrap">-->
+<!--                                                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>-->
+<!--                                                    <select name="number_room" v-model="formBooking.number_room" id="number_room" class="form-control" @change="handleChange">-->
+<!--                                                        <option value="1">1</option>-->
+<!--                                                        <option value="2">2</option>-->
+<!--                                                        <option value="3">3</option>-->
+<!--                                                    </select>-->
+<!--                                                    <div v-if="$page.props.errors.number_room" style="color: red">{{$page.props.errors.number_room[0] }}</div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="col-md-1.5 d-flex" v-for="room in Number(formBooking.number_room)" :key="room">-->
+<!--                                    <div class="form-group p-4 align-self-stretch d-flex align-items-end">-->
+<!--                                        <div class="wrap">-->
+<!--                                            <label>Room {{ room }}</label>-->
+<!--                                            <div class="form-field">-->
+<!--                                                <div class="select-wrap">-->
+<!--                                                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>-->
+<!--                                                    <select name="room[]" v-model="formBooking.room[room]" class="form-control">-->
+<!--                                                        <option value="1">1 Adult</option>-->
+<!--                                                        <option value="2">2 Adult</option>-->
+<!--                                                        <option value="3">3 Adult</option>-->
+<!--                                                        <option value="4">4 Adult</option>-->
+<!--                                                        <option value="5">5 Adult</option>-->
+<!--                                                    </select>-->
+<!--                                                    <div v-if="$page.props.errors.room" style="color: red">{{$page.props.errors.room[0] }}</div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="col-md-1.5 d-flex">-->
+<!--                                    <div class="form-group d-flex align-self-stretch">-->
+<!--                                        <button type="submit" value="Check Availability" class="btn btn-primary py-3 px-4 align-self-stretch">Check Availability</button>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div class="row">
                     <div class="col-lg-8" >
                         <div v-if="rooms" v-for="(room,key) in rooms">
@@ -176,13 +198,13 @@ const filterRoom = () => {
                             <div class="row" v-for="data in room">
                                 <div class="col-sm col-md-6 col-lg-11">
                                     <div class="room">
-                                        <Link :href="route('web.rooms.detail', { id: data.id })" class="img d-flex justify-content-center align-items-center" :style="{ backgroundImage: 'url(' + data.image + ')' }">
+                                        <a :href="route('web.rooms.detail', { id: data.id })" target="_blank" class="img d-flex justify-content-center align-items-center" :style="{ backgroundImage: 'url(' + data.image + ')' }">
                                             <div class="icon d-flex justify-content-center align-items-center">
                                                 <span class="icon-search2"></span>
                                             </div>
-                                        </Link>
+                                        </a>
                                         <div class="text p-3 text-center">
-                                            <h3 class="mb-3"><Link :href="route('web.rooms.detail', { id: data.id })">Room {{ data.name }}</Link></h3>
+                                            <h3 class="mb-3"><a :href="route('web.rooms.detail', { id: data.id })" target="_blank">Room {{ data.name }}</a></h3>
                                             <p><span class="price mr-2">{{ data.rent_per_night.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</span> <span class="per">per night</span></p>
                                             <div class="row">
                                                 <ul class="list col">
@@ -197,7 +219,7 @@ const filterRoom = () => {
                                             <hr>
                                             <label class="pt-1 custom-radio">
                                                 <input type="radio" :id="data.id" :value="data.id" v-model="selectRoom[key]" :disabled="selectRoom.includes(data.id)"/>
-                                                <span>Select Room</span>
+                                                <span @click="handleAlert(data.id)">Select Room</span>
                                             </label>
                                         </div>
                                     </div>
@@ -206,30 +228,35 @@ const filterRoom = () => {
                         </div>
                     </div>
                     <div class="col-lg-4 sidebar">
-                        <div class="sidebar-wrap bg-light box-detail">
-                            <h3 class="heading mb-4">Your Stay</h3>
-                            <form @submit.prevent="confirmBooking">
-                                <div class="fields">
-                                    <div class="form-group">
-                                        From {{ info_booking.time_check_in }} to {{ info_booking.time_check_out }}<br>
-                                        {{ info_booking.time_stay }} nights
-                                    </div>
-                                    <div class="form-group" v-for="(value, index) in selectRoom">
-                                        <div v-for="room in arrayRoom" :key="room.id">
+                        <div class="box-detail">
+                            <div class="sidebar-wrap bg-light">
+                                <h3 class="heading mb-4">Your Stay</h3>
+                                <form @submit.prevent="confirmBooking">
+                                    <div class="fields">
+                                        <div class="form-group">
+                                            From {{ info_booking.time_check_in }} to {{ info_booking.time_check_out }}<br>
+                                            {{ info_booking.time_stay }} nights
+                                        </div>
+                                        <div class="form-group" v-for="(value, index) in selectRoom">
+                                            <div v-for="room in arrayRoom" :key="room.id">
                                             <span v-if="value === room.id" :id="room.id">
                                                 Room {{ room.name }} : {{ (room.rent_per_night * info_booking.time_stay).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}}
                                                 <div class="d-none">{{sum[index] = room.rent_per_night * info_booking.time_stay }}</div>
                                             </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            Total: {{ sum.reduce((partialSum, a) => partialSum + a, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
+                                        </div>
+                                        <div v-if="rooms.length == totalSelectRoom" class="form-group">
+                                            <button type="submit" class="btn btn-primary py-3 px-5">Continue</button>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        Total: {{ sum.reduce((partialSum, a) => partialSum + a, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
-                                    </div>
-                                    <div v-if="rooms.length == totalSelectRoom" class="form-group">
-                                        <button type="submit" class="btn btn-primary py-3 px-5">Continue</button>
-                                    </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
+                            <div>
+                                <textarea name="note_booking_room" v-model="form.note_booking_room" cols="30" rows="5" class="form-control" placeholder="Note for booking room"></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>

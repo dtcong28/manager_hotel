@@ -53,18 +53,21 @@ class RoomFEController extends FrontendController
 
     public function detail($id)
     {
-        $data = $this->repository->find($id);
+        $data = $this->repository->with('typeRoom')->find($id);
         $record = $data->toArray();
 
         foreach ($data->getMedia('images') as $key => $value) {
             $record['images'][$key] = $value->getUrl();
         }
 
-        $typesRoom = $this->typeRoomRepository->get();;
+        $typesRoom = $this->typeRoomRepository->get();
+
+        $amountEachType = $this->repository->amountEachTypeRoom();
 
         return Inertia::render('Web/Room/Detail', [
             'room' => $record,
             'typesRoom' => $typesRoom,
+            'amountEachType' => $amountEachType,
         ]);
     }
 }

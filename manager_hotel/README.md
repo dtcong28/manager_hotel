@@ -21,6 +21,10 @@
 ## Run test stripe in local 
 ```
 - stripe login
-- stripe listen --forward-to http://dev.hotel.local/booking/webhook
+- stripe listen --forward-to dev.hotel.local/booking/webhook
 - test : stripe trigger payment_intent.succeeded
+```
+## SSL
+```
+- 3 tháng vào đăng kí lại 1 lần để dùng miễn phí: https://www.sslforfree.com/
 ```

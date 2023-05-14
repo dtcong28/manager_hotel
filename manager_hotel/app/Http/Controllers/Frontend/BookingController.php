@@ -177,8 +177,8 @@ class BookingController extends FrontendController
             foreach ($bookings as $booking) {
                 $bookingInDb = $booking->bookingRoom->pluck('room_id')->toArray();
 
-                if(count(array_diff($bookingInDb, $newBooking)) === 0 && count(array_diff($newBooking, $bookingInDb)) === 0){
-                    if (array_key_exists("payment_method_id", $params)){
+                if (count(array_diff($bookingInDb, $newBooking)) === 0 && count(array_diff($newBooking, $bookingInDb)) === 0) {
+                    if (array_key_exists("payment_method_id", $params)) {
                         return response()->json(['message' => getConstant('messages.PAYMENT_FAIL')], 500);
                     }
 
@@ -283,7 +283,6 @@ class BookingController extends FrontendController
                         ]
                     ],
                 );
-                $paymentIntent = $payment->asStripePaymentIntent();
             }
 
             // gửi mail
@@ -296,6 +295,10 @@ class BookingController extends FrontendController
 
             Mail::to($request['email'])->send(new BookingMail($dataMail));
             DB::commit();
+            if (isset($payment)) {
+                $paymentIntent = $payment->asStripePaymentIntent();
+            }
+
             return to_route('web.booking.complete');
         } catch (\Exception $e) {
             DB::rollback();
@@ -336,7 +339,8 @@ class BookingController extends FrontendController
                     'total_money' => $paymentIntent->amount,
                 ];
                 $booking = $this->repository->update($metadata['booking_id'], $dataPayment);
-
+                echo 'Payment success';
+                break;
             // ... handle other event types
             default:
                 echo 'Received unknown event type ' . $event->type;
@@ -352,11 +356,12 @@ class BookingController extends FrontendController
         return Inertia::render('Web/Booking/Complete');
     }
 
-    public function show(){
+    public function show()
+    {
         $customer = $this->customerRepository->find(auth('web')->user()->id);
-        $bookingCheckIn = $this->repository->where('customer_id',$customer->id)->where('status_booking', BookingStatusEnum::CHECK_IN->value)->with(['bookingRoom.room','bookingFood.food'])->get();
-        $bookingCheckOut= $this->repository->where('customer_id',$customer->id)->where('status_booking', BookingStatusEnum::CHECK_OUT->value)->with(['bookingRoom.room','bookingFood.food'])->get();
-        $bookingCheckEA = $this->repository->where('customer_id',$customer->id)->where('status_booking', BookingStatusEnum::EXPECTED_ARRIVAL->value)->with(['bookingRoom.room','bookingFood.food'])->get();
+        $bookingCheckIn = $this->repository->where('customer_id', $customer->id)->where('status_booking', BookingStatusEnum::CHECK_IN->value)->with(['bookingRoom.room', 'bookingFood.food'])->get();
+        $bookingCheckOut = $this->repository->where('customer_id', $customer->id)->where('status_booking', BookingStatusEnum::CHECK_OUT->value)->with(['bookingRoom.room', 'bookingFood.food'])->get();
+        $bookingCheckEA = $this->repository->where('customer_id', $customer->id)->where('status_booking', BookingStatusEnum::EXPECTED_ARRIVAL->value)->with(['bookingRoom.room', 'bookingFood.food'])->get();
 
         return Inertia::render('Web/Booking/Show', [
             'bookingCheckIn' => $bookingCheckIn,

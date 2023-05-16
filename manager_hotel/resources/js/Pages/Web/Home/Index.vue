@@ -32,19 +32,6 @@ function handleChange() {
 const filterRoom = () => {
     form.get(route('web.booking.filter_room'))
 };
-
-// onMounted(() => {
-//     const scripts = [
-//         "/frontend/js/owl.carousel.min.js",
-//     ];
-//
-//     scripts.forEach(script => {
-//         const recaptchaScript = document.createElement("script");
-//         recaptchaScript.setAttribute("src", script );
-//         document.head.appendChild(recaptchaScript);
-//         console.log('js has been loaded');
-//     });
-// })
 </script>
 
 <template>

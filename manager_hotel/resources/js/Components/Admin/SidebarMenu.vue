@@ -112,12 +112,12 @@ const menus = [
                                 <div class="profile-usertitle-job"> {{ $page.props.auth.user.roles[0] }}</div>
                             </div>
                             <div class="sidebar-userpic-btn">
-                                <Link class="tooltips" :href="route('profile.edit')" data-placement="top"
+                                <Link :href="route('profile.edit')" data-placement="top"
                                    data-original-title="Profile">
                                     <i class="material-icons">person_outline</i>
                                 </Link>
                                 <Link :href="route('logout')" method="post">
-                                    <button class="tooltips" data-placement="top"
+                                    <button data-placement="top"
                                        data-original-title="Logout">
                                         <i class="material-icons">input</i>
                                     </button>

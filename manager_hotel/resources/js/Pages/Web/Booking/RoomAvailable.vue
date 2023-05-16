@@ -1,6 +1,6 @@
 <script setup>
-import {Link, router, useForm} from '@inertiajs/vue3'
-import {Head, useRemember} from '@inertiajs/vue3';
+import {useForm} from '@inertiajs/vue3'
+import {Head} from '@inertiajs/vue3';
 import LayoutBooking from '@/Layouts/Web/LayoutBooking.vue';
 import {computed, ref} from "vue";
 
@@ -55,7 +55,7 @@ function handleChange() {
 }
 
 function handleAlert(id){
-    if(this.selectRoom.includes(id))
+    if(selectRoom.value.includes(id))
     {
         window.alert('Room is selected');
     }

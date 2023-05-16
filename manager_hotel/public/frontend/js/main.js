@@ -1,4 +1,3 @@
-console.log('load main')
 AOS.init({
  	duration: 800,
  	easing: 'slide'

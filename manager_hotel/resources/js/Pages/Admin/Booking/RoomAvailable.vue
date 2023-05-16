@@ -45,7 +45,7 @@ const handleReset = () => {
 };
 
 function select(key, room){
-    this.selectRoom[key] = room;
+    selectRoom.value[key] = room;
 }
 
 const totalSelectRoom = computed(() => selectRoom.value.filter(el => el != null).length)

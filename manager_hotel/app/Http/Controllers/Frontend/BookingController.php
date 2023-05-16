@@ -5,14 +5,10 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Requests\Booking\BookingFoodRequest;
 use App\Http\Requests\Booking\BookingWebRequest;
 use App\Http\Requests\Booking\FEbookingRequest;
-use App\Http\Requests\Customer\CustomerRequest;
 use App\Mail\BookingMail;
-use App\Models\Booking;
-use App\Models\Customer;
 use App\Models\Enums\BookingStatusEnum;
 use App\Models\Enums\MethodPaymentEnum;
 use App\Models\Enums\PaymentStatusEnum;
-use App\Models\Enums\RoomStatusEnum;
 use App\Models\Enums\TypeBookingEnum;
 use App\Repositories\Eloquent\BookingFoodRepository;
 use App\Repositories\Eloquent\BookingRepository;
@@ -25,15 +21,11 @@ use App\Services\BookingRoomService;
 use App\Services\BookingService;
 use App\Services\CustomerService;
 use App\Services\RoomService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
-use Stripe\PaymentIntent;
 
 class BookingController extends FrontendController
 {
@@ -293,11 +285,11 @@ class BookingController extends FrontendController
                 'food' => $bookFood,
             ];
 
-            Mail::to($request['email'])->send(new BookingMail($dataMail));
             DB::commit();
             if (isset($payment)) {
                 $paymentIntent = $payment->asStripePaymentIntent();
             }
+            Mail::to($request['email'])->send(new BookingMail($dataMail));
 
             return to_route('web.booking.complete');
         } catch (\Exception $e) {
@@ -338,7 +330,8 @@ class BookingController extends FrontendController
                     'status_payment' => PaymentStatusEnum::PAID->value,
                     'total_money' => $paymentIntent->amount,
                 ];
-                $booking = $this->repository->update($metadata['booking_id'], $dataPayment);
+
+                $this->repository->update($metadata['booking_id'], $dataPayment);
                 echo 'Payment success';
                 break;
             // ... handle other event types

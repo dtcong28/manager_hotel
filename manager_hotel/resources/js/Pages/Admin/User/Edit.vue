@@ -75,77 +75,83 @@ const updateUser = () => {
                         </div>
                         <div class="card-body col-6" style="margin: auto" id="bar-parent">
                             <form @submit.prevent="updateUser">
-                                <div>
-                                    <InputLabel for="name" value="Name" />
+                                <div class="row p-t-10">
+                                    <div class="wrap col">
+                                        <InputLabel for="name" value="Name" />
 
-                                    <TextInput
-                                        id="name"
-                                        type="text"
-                                        class="mt-1 block w-full"
-                                        v-model="form.name"
-                                        autofocus
-                                        autocomplete="name"
-                                    />
+                                        <TextInput
+                                            id="name"
+                                            type="text"
+                                            class="mt-1 block w-full"
+                                            v-model="form.name"
+                                            autofocus
+                                            autocomplete="name"
+                                        />
 
-                                    <InputError v-if="$page.props.errors.name" class="mt-2" :message="$page.props.errors.name[0]" />
+                                        <InputError v-if="$page.props.errors.name" class="mt-2" :message="$page.props.errors.name[0]" />
+                                    </div>
+
+                                    <div class="wrap col">
+                                        <InputLabel for="email" value="Email" />
+
+                                        <TextInput
+                                            id="email"
+                                            type="email"
+                                            class="mt-1 block w-full"
+                                            v-model="form.email"
+                                            autocomplete="username"
+                                        />
+
+                                        <InputError v-if="$page.props.errors.email" class="mt-2" :message="$page.props.errors.email[0]" />
+                                    </div>
                                 </div>
 
-                                <div class="mt-4">
-                                    <InputLabel for="email" value="Email" />
+                                <div class="row p-t-10">
+                                    <div class="wrap col">
+                                        <InputLabel for="phone" value="Phone" />
 
-                                    <TextInput
-                                        id="email"
-                                        type="email"
-                                        class="mt-1 block w-full"
-                                        v-model="form.email"
-                                        autocomplete="username"
-                                    />
+                                        <TextInput
+                                            id="phone"
+                                            type="text"
+                                            class="mt-1 block w-full"
+                                            v-model="form.phone"
+                                            autofocus
+                                            autocomplete="phone"
+                                        />
 
-                                    <InputError v-if="$page.props.errors.email" class="mt-2" :message="$page.props.errors.email[0]" />
+                                        <InputError v-if="form.errors.phone" class="mt-2" :message="form.errors.phone[0]" />
+                                    </div>
+
+                                    <div class="wrap col">
+                                        <InputLabel for="address" value="Address" />
+
+                                        <TextInput
+                                            id="address"
+                                            type="text"
+                                            class="mt-1 block w-full"
+                                            v-model="form.address"
+                                            autofocus
+                                            autocomplete="address"
+                                        />
+
+                                        <InputError v-if="form.errors.address" class="mt-2" :message="form.errors.address[0]" />
+                                    </div>
                                 </div>
 
-                                <div class="mt-4">
-                                    <InputLabel for="phone" value="Phone" />
+                                <div class="row p-t-10">
+                                    <div class="wrap col">
+                                        <InputLabel for="gender" value="Gender" />
+                                        <multiselect v-model="form.gender" deselect-label="Can't remove this value" track-by="name" label="name" placeholder="Select one" :options="props.gender" :searchable="false" :allow-empty="false"></multiselect>
 
-                                    <TextInput
-                                        id="phone"
-                                        type="text"
-                                        class="mt-1 block w-full"
-                                        v-model="form.phone"
-                                        autofocus
-                                        autocomplete="phone"
-                                    />
+                                        <InputError v-if="form.errors.gender" class="mt-2" :message="form.errors.gender[0]" />
+                                    </div>
 
-                                    <InputError v-if="form.errors.phone" class="mt-2" :message="form.errors.phone[0]" />
-                                </div>
-
-                                <div class="mt-4">
-                                    <InputLabel for="address" value="Address" />
-
-                                    <TextInput
-                                        id="address"
-                                        type="text"
-                                        class="mt-1 block w-full"
-                                        v-model="form.address"
-                                        autofocus
-                                        autocomplete="address"
-                                    />
-
-                                    <InputError v-if="form.errors.address" class="mt-2" :message="form.errors.address[0]" />
-                                </div>
-
-                                <div class="mt-4">
-                                    <InputLabel for="gender" value="Gender" />
-                                    <multiselect v-model="form.gender" deselect-label="Can't remove this value" track-by="name" label="name" placeholder="Select one" :options="props.gender" :searchable="false" :allow-empty="false"></multiselect>
-
-                                    <InputError v-if="form.errors.gender" class="mt-2" :message="form.errors.gender[0]" />
-                                </div>
-
-                                <div class="mt-4">
-                                    <InputLabel for="permissions" value="Roles" />
-                                    <multiselect v-model="form.roles" tag-placeholder="Add this as new permission" placeholder="Add a permission" label="name" track-by="name" :options="roles" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
-                                    <div v-if="$page.props.errors.roles" style="color: red">
-                                        {{ $page.props.errors.roles[0] }}
+                                    <div class="wrap col">
+                                        <InputLabel for="permissions" value="Roles" />
+                                        <multiselect v-model="form.roles" tag-placeholder="Add this as new permission" placeholder="Add a permission" label="name" track-by="name" :options="roles" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
+                                        <div v-if="$page.props.errors.roles" style="color: red">
+                                            {{ $page.props.errors.roles[0] }}
+                                        </div>
                                     </div>
                                 </div>
 

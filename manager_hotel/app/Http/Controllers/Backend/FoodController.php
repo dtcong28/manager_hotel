@@ -35,6 +35,7 @@ class FoodController extends BackendController
 
     public function index(Request $request)
     {
+//        dd(session()->all());
         $record = $this->repository->getSearchFood($request->search);
 
         return Inertia::render('Admin/Food/Index', [

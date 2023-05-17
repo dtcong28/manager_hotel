@@ -66,42 +66,6 @@ const props = defineProps({
                                 </div>
                             </div>
 
-<!--                            <div class="col-md-12 room-single  mb-5 mt-5">-->
-<!--                                <h4 class="mb-4">Available Room</h4>-->
-<!--                                <div class="row">-->
-<!--                                    <div class="col-sm col-md-6 ">-->
-<!--                                        <div class="room">-->
-<!--                                            <a href="rooms.html" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/room-1.jpg);">-->
-<!--                                                <div class="icon d-flex justify-content-center align-items-center">-->
-<!--                                                    <span class="icon-search2"></span>-->
-<!--                                                </div>-->
-<!--                                            </a>-->
-<!--                                            <div class="text p-3 text-center">-->
-<!--                                                <h3 class="mb-3"><a href="rooms.html">Suite Room</a></h3>-->
-<!--                                                <p><span class="price mr-2">$120.00</span> <span class="per">per night</span></p>-->
-<!--                                                <hr>-->
-<!--                                                <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span class="icon-long-arrow-right"></span></a></p>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    <div class="col-sm col-md-6 ">-->
-<!--                                        <div class="room">-->
-<!--                                            <a href="rooms.html" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/room-2.jpg);">-->
-<!--                                                <div class="icon d-flex justify-content-center align-items-center">-->
-<!--                                                    <span class="icon-search2"></span>-->
-<!--                                                </div>-->
-<!--                                            </a>-->
-<!--                                            <div class="text p-3 text-center">-->
-<!--                                                <h3 class="mb-3"><a href="rooms.html">Family Room</a></h3>-->
-<!--                                                <p><span class="price mr-2">$20.00</span> <span class="per">per night</span></p>-->
-<!--                                                <hr>-->
-<!--                                                <p class="pt-1"><a href="room-single.html" class="btn-custom">View Room Details <span class="icon-long-arrow-right"></span></a></p>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-
                         </div>
                     </div> <!-- .col-md-8 -->
                     <div class="col-lg-4 sidebar ">

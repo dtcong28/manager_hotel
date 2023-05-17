@@ -79,7 +79,7 @@ class RoomRepository extends CustomRepository
             ->orWhere('rent_per_night', 'LIKE', '%' . $params . '%')
             ->when(!empty($params), function ($q) use ($params) {
                 foreach (RoomStatusEnum::cases() as $data) {
-                    if(str_contains(strtolower($data->name), strtolower($params))){
+                    if (str_contains(strtolower($data->name), strtolower($params))) {
                         $q->orWhere('status', '=', $data->value);
                     }
                 }
@@ -109,20 +109,22 @@ class RoomRepository extends CustomRepository
         return $query->get();
     }
 
-    public function getListVacant(){
+    public function getListVacant()
+    {
         return $this->where('status', RoomStatusEnum::VACANT->value)->get();
     }
 
-    public function getListOccupied(){
+    public function getListOccupied()
+    {
         return $this->where('status', RoomStatusEnum::OCCUPIED->value)->get();
     }
 
     public function amountEachTypeRoom()
     {
-        $query = $this->select('type_room_id', DB::raw('sum(type_room_id) as amountTypeRoom'))
+        $query = $this->select('type_room_id', DB::raw('count(type_room_id) as amountTypeRoom'))
             ->groupBy('type_room_id')
-            ->with('typeRoom')
-            ->get();
-        return $query;
+            ->with('typeRoom');
+
+        return $query->get();
     }
 }

@@ -82,7 +82,7 @@ const payment = () => {
                             </div>
                             <div class="form-group">
                                 <label>Email * (to receive your booking confirmation)</label>
-                                <input type="email" name="email" v-model="form.email" class="form-control" placeholder="Your Email">
+                                <input type="text" name="email" v-model="form.email" class="form-control" placeholder="Your Email">
                                 <div v-if="$page.props.errors.email" style="color: red">{{ $page.props.errors.email[0] }}</div>
                             </div>
                             <div class="form-group">

@@ -29,9 +29,9 @@ class FEbookingRequest extends FormRequest
             'name' => ['required'],
             'gender' => ['required'],
 //            'email' => ['required', Rule::unique('customers','email')->ignore($this->customer)->whereNull('deleted_at')],
-            'email' => ['required'],
+            'email' => ['required', 'email:rfc'],
             'address' => ['required'],
-            'phone' => ['required'],
+            'phone' => ['required', 'regex:/(0)[0-9]/', 'not_regex:/[a-z]/', 'min:9'],
             'identity_card' => ['required'],
             'password' => ['confirmed'],
         ];

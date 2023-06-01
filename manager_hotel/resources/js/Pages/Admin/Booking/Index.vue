@@ -18,10 +18,10 @@ const route = ref('booking')
         <div class="page-bar">
             <div class="page-title-breadcrumb">
                 <ol class="breadcrumb page-breadcrumb pull-right">
-                    <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index.html">Home</a>&nbsp;<i
+                    <li><i class="fa fa-home"></i>&nbsp;<Link class="parent-item" href="index.html">Home</Link>&nbsp;<i
                         class="fa fa-angle-right"></i>
                     </li>
-                    <li><a class="parent-item" href="">Booking</a>&nbsp;<i class="fa fa-angle-right"></i>
+                    <li><Link class="parent-item" href="">Booking</Link>&nbsp;<i class="fa fa-angle-right"></i>
                     </li>
                     <li class="active">All Booking</li>
                 </ol>

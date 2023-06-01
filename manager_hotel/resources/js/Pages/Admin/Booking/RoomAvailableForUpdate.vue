@@ -52,7 +52,7 @@ const updateBooking = () => {
 };
 
 function select(key, room){
-    this.selectRoom[key] = room;
+    selectRoom.value[key] = room;
 }
 
 const handleReset = () => {

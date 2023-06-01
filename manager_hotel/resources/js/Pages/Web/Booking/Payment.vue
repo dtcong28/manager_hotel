@@ -95,7 +95,11 @@ export default {
     },
     methods: {
         sum(obj) {
-            return Object.keys(obj).reduce((sum, key) => sum + parseFloat(obj[key] || 0), 0);
+            if(typeof obj !== 'undefined'){
+                return Object.keys(obj).reduce((sum, key) => sum + parseFloat(obj[key] || 0), 0);
+            }
+
+            return 0;
         },
         async processPayment() {
             this.paymentProcessing = true;

@@ -25,7 +25,6 @@ class Booking extends Model
         'time_check_in',
         'time_check_out',
         'type_booking',
-        'feedback',
         'number_rooms',
         'payment_date',
         'method_payment',

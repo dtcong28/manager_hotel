@@ -56,7 +56,6 @@ onBeforeMount(() => {
         const recaptchaScript = document.createElement("script");
         recaptchaScript.setAttribute("src", script );
         document.head.appendChild(recaptchaScript);
-        console.log('js has been loaded');
     });
 })
 </script>

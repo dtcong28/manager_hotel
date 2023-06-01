@@ -32,10 +32,10 @@ const storeHotel = () => {
         <div class="page-bar">
             <div class="page-title-breadcrumb">
                 <ol class="breadcrumb page-breadcrumb pull-right">
-                    <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index.html">Home</a>&nbsp;<i
+                    <li><i class="fa fa-home"></i>&nbsp;<Link class="parent-item" :href="route('dashboard')">Home</Link>&nbsp;<i
                         class="fa fa-angle-right"></i>
                     </li>
-                    <li><a class="parent-item" href="">Hotel</a>&nbsp;<i class="fa fa-angle-right"></i>
+                    <li><Link class="parent-item" href="">Hotel</Link>&nbsp;<i class="fa fa-angle-right"></i>
                     </li>
                     <li class="active">Information</li>
                 </ol>
@@ -55,38 +55,42 @@ const storeHotel = () => {
                                        placeholder="Enter name">
                                 <div v-if="form.errors.name" style="color: red">{{ form.errors.name[0] }}</div>
                             </div>
-                            <div class="form-group">
-                                <label for="name">Phone</label>
-                                <input type="text" v-model="form.phone" class="form-control" id="phone" name="phone"
-                                       placeholder="Enter phone">
-                                <div v-if="form.errors.phone" style="color: red">{{ form.errors.phone[0] }}</div>
+                            <div class="row p-t-10">
+                                <div class="wrap col">
+                                    <label for="name">Phone</label>
+                                    <input type="text" v-model="form.phone" class="form-control" id="phone" name="phone"
+                                           placeholder="Enter phone">
+                                    <div v-if="form.errors.phone" style="color: red">{{ form.errors.phone[0] }}</div>
+                                </div>
+                                <div class="wrap col">
+                                    <label for="name">Website</label>
+                                    <input type="text" v-model="form.website" class="form-control" id="website"
+                                           name="website" placeholder="Enter website">
+                                    <div v-if="form.errors.website" style="color: red">{{ form.errors.website[0] }}</div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="name">Website</label>
-                                <input type="text" v-model="form.website" class="form-control" id="website"
-                                       name="website" placeholder="Enter website">
-                                <div v-if="form.errors.website" style="color: red">{{ form.errors.website[0] }}</div>
+                            <div class="row p-t-10">
+                                <div class="wrap col">
+                                    <label for="name">Email</label>
+                                    <input type="email" v-model="form.email" class="form-control" id="email" name="email"
+                                           placeholder="Enter email">
+                                    <div v-if="form.errors.email" style="color: red">{{ form.errors.email[0] }}</div>
+                                </div>
+                                <div class="wrap col">
+                                    <label for="name">Address</label>
+                                    <input type="text" v-model="form.address" class="form-control" id="address"
+                                           name="address" placeholder="Enter address">
+                                    <div v-if="form.errors.address" style="color: red">{{ form.errors.address[0] }}</div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="name">Email</label>
-                                <input type="email" v-model="form.email" class="form-control" id="email" name="email"
-                                       placeholder="Enter email">
-                                <div v-if="form.errors.email" style="color: red">{{ form.errors.email[0] }}</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="name">Address</label>
-                                <input type="text" v-model="form.address" class="form-control" id="address"
-                                       name="address" placeholder="Enter address">
-                                <div v-if="form.errors.address" style="color: red">{{ form.errors.address[0] }}</div>
-                            </div>
-                            <div class="form-group">
+                            <div class="form-group p-t-10">
                                 <label for="introduce">Introduce hotel</label>
                                 <textarea id="introduce" name="introduce" v-model="form.introduce" class="form-control"
                                           rows="7" placeholder="Enter introduce hotel"></textarea>
                                 <div v-if="form.errors.introduce" style="color: red">{{form.errors.introduce[0] }}
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group p-t-10">
                                 <label for="introduce_restaurant">Introduce restaurant</label>
                                 <textarea id="introduce_restaurant" name="introduce_restaurant" v-model="form.introduce_restaurant" class="form-control"
                                           rows="7" placeholder="Enter introduce restaurant"></textarea>

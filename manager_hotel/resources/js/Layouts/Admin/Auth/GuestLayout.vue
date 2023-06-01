@@ -4,12 +4,9 @@ import { Link } from '@inertiajs/vue3';
 </script>
 
 <template>
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100" v-bind:style="{'background-image': 'url(/frontend/images/bg_2.jpg)'}" style="height: 100%; background-position: center; background-repeat: no-repeat; background-size: cover;">
         <div>
-<!--            <Link href="#">-->
-<!--                <ApplicationLogo class="w-20 h-20 fill-current text-gray-500" />-->
-<!--            </Link>-->
-            <div style="font-size: 25px">ADMIN HOTEL</div>
+            <div style="font-size: 40px">ADMIN HOTEL</div>
         </div>
 
         <div

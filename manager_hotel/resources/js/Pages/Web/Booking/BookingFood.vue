@@ -30,7 +30,7 @@ const submit = () => {
     if(usePage().props.web_login){
         form.get(route('web.booking.member_payment'), { preserveState: true })
     }else {
-        form.get(route('web.booking.confirm'))
+        form.get(route('web.booking.confirm'), { preserveState: true })
     }
 };
 </script>

@@ -5,14 +5,10 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Requests\Booking\BookingFoodRequest;
 use App\Http\Requests\Booking\BookingWebRequest;
 use App\Http\Requests\Booking\FEbookingRequest;
-use App\Http\Requests\Customer\CustomerRequest;
 use App\Mail\BookingMail;
-use App\Models\Booking;
-use App\Models\Customer;
 use App\Models\Enums\BookingStatusEnum;
 use App\Models\Enums\MethodPaymentEnum;
 use App\Models\Enums\PaymentStatusEnum;
-use App\Models\Enums\RoomStatusEnum;
 use App\Models\Enums\TypeBookingEnum;
 use App\Repositories\Eloquent\BookingFoodRepository;
 use App\Repositories\Eloquent\BookingRepository;
@@ -25,15 +21,11 @@ use App\Services\BookingRoomService;
 use App\Services\BookingService;
 use App\Services\CustomerService;
 use App\Services\RoomService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
-use Stripe\PaymentIntent;
 
 class BookingController extends FrontendController
 {
@@ -177,8 +169,8 @@ class BookingController extends FrontendController
             foreach ($bookings as $booking) {
                 $bookingInDb = $booking->bookingRoom->pluck('room_id')->toArray();
 
-                if(count(array_diff($bookingInDb, $newBooking)) === 0 && count(array_diff($newBooking, $bookingInDb)) === 0){
-                    if (array_key_exists("payment_method_id", $params)){
+                if (count(array_diff($bookingInDb, $newBooking)) === 0 && count(array_diff($newBooking, $bookingInDb)) === 0) {
+                    if (array_key_exists("payment_method_id", $params)) {
                         return response()->json(['message' => getConstant('messages.PAYMENT_FAIL')], 500);
                     }
 
@@ -283,7 +275,6 @@ class BookingController extends FrontendController
                         ]
                     ],
                 );
-                $paymentIntent = $payment->asStripePaymentIntent();
             }
 
             // gửi mail
@@ -294,8 +285,12 @@ class BookingController extends FrontendController
                 'food' => $bookFood,
             ];
 
-            Mail::to($request['email'])->send(new BookingMail($dataMail));
             DB::commit();
+            if (isset($payment)) {
+                $paymentIntent = $payment->asStripePaymentIntent();
+            }
+            Mail::to($request['email'])->send(new BookingMail($dataMail));
+
             return to_route('web.booking.complete');
         } catch (\Exception $e) {
             DB::rollback();
@@ -335,8 +330,10 @@ class BookingController extends FrontendController
                     'status_payment' => PaymentStatusEnum::PAID->value,
                     'total_money' => $paymentIntent->amount,
                 ];
-                $booking = $this->repository->update($metadata['booking_id'], $dataPayment);
 
+                $this->repository->update($metadata['booking_id'], $dataPayment);
+                echo 'Payment success';
+                break;
             // ... handle other event types
             default:
                 echo 'Received unknown event type ' . $event->type;
@@ -352,11 +349,12 @@ class BookingController extends FrontendController
         return Inertia::render('Web/Booking/Complete');
     }
 
-    public function show(){
+    public function show()
+    {
         $customer = $this->customerRepository->find(auth('web')->user()->id);
-        $bookingCheckIn = $this->repository->where('customer_id',$customer->id)->where('status_booking', BookingStatusEnum::CHECK_IN->value)->with(['bookingRoom.room','bookingFood.food'])->get();
-        $bookingCheckOut= $this->repository->where('customer_id',$customer->id)->where('status_booking', BookingStatusEnum::CHECK_OUT->value)->with(['bookingRoom.room','bookingFood.food'])->get();
-        $bookingCheckEA = $this->repository->where('customer_id',$customer->id)->where('status_booking', BookingStatusEnum::EXPECTED_ARRIVAL->value)->with(['bookingRoom.room','bookingFood.food'])->get();
+        $bookingCheckIn = $this->repository->where('customer_id', $customer->id)->where('status_booking', BookingStatusEnum::CHECK_IN->value)->with(['bookingRoom.room', 'bookingFood.food'])->get();
+        $bookingCheckOut = $this->repository->where('customer_id', $customer->id)->where('status_booking', BookingStatusEnum::CHECK_OUT->value)->with(['bookingRoom.room', 'bookingFood.food'])->get();
+        $bookingCheckEA = $this->repository->where('customer_id', $customer->id)->where('status_booking', BookingStatusEnum::EXPECTED_ARRIVAL->value)->with(['bookingRoom.room', 'bookingFood.food'])->get();
 
         return Inertia::render('Web/Booking/Show', [
             'bookingCheckIn' => $bookingCheckIn,

@@ -28,7 +28,7 @@ class CustomerRequest extends FormRequest
             'name' => ['required'],
             'address' => ['required'],
             'gender' => ['required'],
-            'phone' => ['required'],
+            'phone' => ['required', 'regex:/(0)[0-9]/', 'not_regex:/[a-z]/', 'min:9'],
             'email' => ['required', Rule::unique('customers','email')->ignore($this->customer)],
             'identity_card' => ['required'],
             'password' => ['confirmed'],

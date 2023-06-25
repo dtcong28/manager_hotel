@@ -65,7 +65,7 @@ const deleteBooking = (id) => {
                     <th class="center"> ID</th>
                     <th class="center"> Name</th>
                     <th class="center"> Phone</th>
-                    <th class="center"> Email</th>
+<!--                    <th class="center"> Email</th>-->
                     <th class="center"> Check in</th>
                     <th class="center"> Check out</th>
                     <th class="center"> Payment</th>
@@ -79,7 +79,7 @@ const deleteBooking = (id) => {
                     <td class="center">{{ booking.id }}</td>
                     <td class="center">{{ booking.name }}</td>
                     <td class="center">{{ booking.phone }}</td>
-                    <td class="center">{{ booking.email }}</td>
+<!--                    <td class="center">{{ booking.email }}</td>-->
                     <td class="center">{{ booking.time_check_in }}</td>
                     <td class="center">{{ booking.time_check_out }}</td>
                     <td class="center"><span

@@ -25,7 +25,7 @@ class RoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:30', Rule::unique('roles','name')->ignore($this->role)],
+            'name' => ['required', 'string', 'max:30', Rule::unique('roles','name')->ignore($this->role)->whereNull('deleted_at')],
             'permissions' => ['sometimes', 'array']
         ];
     }

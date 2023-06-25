@@ -25,7 +25,7 @@ class PermissionRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:30', Rule::unique('permissions','name')->ignore($this->permission)],
+            'name' => ['required', 'string', 'max:30', Rule::unique('permissions','name')->ignore($this->permission)->whereNull('deleted_at')],
         ];
     }
 }

@@ -28,7 +28,7 @@ class UserRequestUpdate extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|'.Rule::unique('users', 'email')->ignore($this->user),
+            'email' => 'required|string|email|max:255|'.Rule::unique('users', 'email')->ignore($this->user)->whereNull('deleted_at'),
             'roles' => ['sometimes', 'array'],
         ];
     }

@@ -25,7 +25,7 @@ class FoodRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', Rule::unique('food','name')->ignore($this->food)],
+            'name' => ['required', Rule::unique('food','name')->ignore($this->food)->whereNull('deleted_at')],
             'price' => ['required'],
             'description' => ['required'],
             'images' => ['required'],

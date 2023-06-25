@@ -57,7 +57,7 @@ function handleChange(status, id) {
                     <div class="card-head">
                         <header>All FeedBack</header>
                     </div>
-                    <div class="card-body col-7" style="margin: auto">
+                    <div class="card-body col-11" style="margin: auto">
                         <div class="col-sm-12 col-md-6">
                             <div id="example4_filter" class="dataTables_filter">
                                 <label>Search:
@@ -65,7 +65,7 @@ function handleChange(status, id) {
                                 </label>
                             </div>
                         </div>
-                        <div class="table-scrollable">
+                        <div>
                             <table class="table table-hover table-checkable order-column full-width" id="example4">
                                 <thead>
                                 <tr>

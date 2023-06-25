@@ -2,7 +2,7 @@
 import AdminLayout from '@/Layouts/Admin/Auth/AdminLayout.vue';
 import {Head, Link, router} from '@inertiajs/vue3';
 import Multiselect from 'vue-multiselect'
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import {useForm} from '@inertiajs/vue3';
 import {useRemember, usePage} from '@inertiajs/inertia-vue3';
 
@@ -45,6 +45,13 @@ function back() {
 const filterRoom = () => {
     form.get(route('booking.filter_room'), {preserveState: true})
 };
+
+const currentDate = new Date();
+const year = currentDate.getFullYear();
+const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+const day = String(currentDate.getDate()).padStart(2, '0');
+const minDate = computed(() => `${year}-${month}-${day}`)
+
 </script>
 
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
@@ -83,7 +90,7 @@ const filterRoom = () => {
                             <div class="row p-t-20">
                                 <div class="wrap col">
                                     <label for="check_in">Check-in Date</label>
-                                    <input name="time_check_in" id="check_in" v-model="form.time_check_in" type="date"
+                                    <input name="time_check_in" id="check_in" v-model="form.time_check_in" type="date" :min="minDate"
                                            class="form-control" placeholder="Check-in date">
                                     <div v-if="$page.props.errors.time_check_in" style="color: red">
                                         {{ $page.props.errors.time_check_in[0] }}
@@ -91,7 +98,7 @@ const filterRoom = () => {
                                 </div>
                                 <div class="wrap col">
                                     <label for="check_out">Check-out Date</label>
-                                    <input name="time_check_out" id="check_out" v-model="form.time_check_out"
+                                    <input name="time_check_out" id="check_out" v-model="form.time_check_out" :min="minDate"
                                            type="date" class="form-control" placeholder="Check-out date">
                                     <div v-if="$page.props.errors.time_check_out" style="color: red">
                                         {{ $page.props.errors.time_check_out[0] }}

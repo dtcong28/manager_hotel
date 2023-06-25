@@ -25,7 +25,7 @@ class TypeRoomRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required',  Rule::unique('types_room','name')->ignore($this->types_room)],
+            'name' => ['required',  Rule::unique('types_room','name')->ignore($this->types_room)->whereNull('deleted_at')],
         ];
     }
 }

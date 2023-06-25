@@ -76,16 +76,16 @@ const updateStatus= () => {
                     <div class="card-head">
                         <header>Information Booking</header>
                     </div>
-                    <div class="col-10" style="margin: auto">
+                    <div class="col-12" style="margin: auto">
                         <div class="row">
-                            <div class="card-body pl-5 pr-5" style="line-height: 0.4">
+                            <div class="card-body col-6" style="line-height: 0.3">
                                 <h4>Customer: {{ customer.name }}</h4><br>
                                 <h4>Address: {{ customer.address }}</h4><br>
                                 <h4>Phone: {{ customer.phone }}</h4><br>
                                 <h4>Email: {{ customer.email }}</h4><br>
                                 <h4>Indentity card: {{ customer.identity_card }}</h4><br>
                             </div>
-                            <div class="card-body pl-5 pr-5" style="line-height: 0.4">
+                            <div class="card-body col-6" style="line-height: 0.4">
                                 <h4>Check in: {{ booking.time_check_in }} - Check out: {{ booking.time_check_out }}</h4><br>
                                 <h4>Number rooms: {{ booking.number_rooms }}</h4><br>
                                 <h4>Status:

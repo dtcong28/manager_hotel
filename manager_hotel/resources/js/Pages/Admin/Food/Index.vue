@@ -61,7 +61,7 @@ const deleteFood = (id) => {
                     <div class="card-head">
                         <header>All Food</header>
                     </div>
-                    <div class="card-body col-7" style="margin: auto">
+                    <div class="card-body col-10" style="margin: auto">
                         <div class="row p-b-20" v-if="hasPermission('create')">
                             <div class="col-md-6 col-sm-6 col-6">
                                 <div class="btn-group">

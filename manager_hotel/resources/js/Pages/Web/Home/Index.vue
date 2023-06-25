@@ -2,7 +2,7 @@
 import {Link, useForm} from '@inertiajs/vue3'
 import {Head} from '@inertiajs/vue3';
 import WebLayout from '@/Layouts/Web/WebLayout.vue';
-import {onMounted} from "vue";
+import { computed } from "vue";
 
 const props = defineProps({
     rooms: Array,
@@ -32,6 +32,13 @@ function handleChange() {
 const filterRoom = () => {
     form.get(route('web.booking.filter_room'))
 };
+
+const currentDate = new Date();
+const year = currentDate.getFullYear();
+const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+const day = String(currentDate.getDate()).padStart(2, '0');
+const minDate = computed(() => `${year}-${month}-${day}`)
+
 </script>
 
 <template>
@@ -76,7 +83,7 @@ const filterRoom = () => {
                                     <div class="form-group p-4 align-self-stretch d-flex align-items-end">
                                         <div class="wrap">
                                             <label for="time_check_in">Check-in Date</label>
-                                            <input name="time_check_in" id="time_check_in" v-model="form.time_check_in" type="date" class="form-control" placeholder="Check-in date">
+                                            <input name="time_check_in" id="time_check_in" v-model="form.time_check_in" type="date" class="form-control" placeholder="Check-in date" :min="minDate">
                                             <div v-if="$page.props.errors.time_check_in" style="color: red">{{$page.props.errors.time_check_in[0] }}</div>
                                         </div>
                                     </div>
@@ -85,7 +92,7 @@ const filterRoom = () => {
                                     <div class="form-group p-4 align-self-stretch d-flex align-items-end">
                                         <div class="wrap">
                                             <label for="time_check_out">Check-out Date</label>
-                                            <input name="time_check_out" id="time_check_out" v-model="form.time_check_out" type="date" class="form-control" placeholder="Check-out date">
+                                            <input name="time_check_out" id="time_check_out" v-model="form.time_check_out" type="date" class="form-control" placeholder="Check-out date" :min="minDate">
                                         </div>
                                     </div>
                                 </div>
@@ -302,9 +309,11 @@ const filterRoom = () => {
                         <div class="row ftco-animate">
                             <div class="col-md-12">
                                 <div class="carousel-testimony owl-carousel ftco-owl">
-                                    <div class="item" v-for="value in feedBack" :key="value.id">
+                                    <div class="item" v-for="value in feedBack" :key="value.id" style="width: 700px!important;">
                                         <div class="testimony-wrap py-4 pb-5">
-                                            <div class="user-img mb-4" v-bind:style="{ 'background-image': 'url(/frontend/images/avatar.png)' }"><span class="quote d-flex align-items-center justify-content-center"><i class="icon-quote-left"></i></span></div>
+                                            <div class="user-img mb-4" v-bind:style="{ 'background-image': 'url(/frontend/images/avatar.png)' }">
+                                                <span class="quote d-flex align-items-center justify-content-center"><i class="icon-quote-left"></i></span>
+                                            </div>
                                             <div class="text text-center">
                                                 <p class="mb-4">{{ value.content }}</p>
                                                 <p class="name">{{ value.customer.name }}</p>

@@ -17,7 +17,7 @@ class ProfileCustomerUpdateRequest extends FormRequest
     {
         return [
             'name' => ['string', 'max:255'],
-            'email' => ['email', 'max:255', Rule::unique(Customer::class)->ignore($this->user('web')->id)],
+            'email' => ['email', 'max:255', Rule::unique(Customer::class)->ignore($this->user('web')->id)->whereNull('deleted_at')],
         ];
     }
 }

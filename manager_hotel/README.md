@@ -28,3 +28,7 @@
 ```
 - 3 tháng vào đăng kí lại 1 lần để dùng miễn phí: https://www.sslforfree.com/
 ```
+## Build Production 
+```
+- npm run build
+```

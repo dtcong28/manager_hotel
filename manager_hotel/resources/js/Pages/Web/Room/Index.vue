@@ -40,6 +40,9 @@ const searchData = () => {
                 <div class="row">
                     <div class="col-lg-9">
                         <div class="row">
+                             <span v-if="rooms==''" style="color: red">
+                                    No room available
+                             </span>
                             <div class="col-sm col-md-6 col-lg-4" v-for="room in rooms" :key="room.id">
                                 <div class="room">
                                     <Link :href="route('web.rooms.detail', { id: room.id })" class="img d-flex justify-content-center align-items-center" :style="{ backgroundImage: 'url(' + room.image + ')' }">

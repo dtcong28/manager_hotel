@@ -16,7 +16,9 @@
 4. clear cache: php artisan optimize:clear
 5. create storage link: php artisan storage:link
 6. run migrate: php artisan migrate
-7. run seeder create user: php artisan db:seed --class=UserSeeder
+7. run seeder create user: php artisan db:seed 
+8. npm install
+9. npm run dev ( npm run build )
 ```
 ## Run test stripe in local 
 ```

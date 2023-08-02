@@ -40,6 +40,12 @@ const props = defineProps({
                             <h5>Email: {{ customer.email }}</h5><br>
                             <h5>Indentity card: {{ customer.identity_card }}</h5><br>
                         </div>
+                        <h3>Discount</h3>
+                        <div v-for="discount in customer.discount" class="card-body pl-5 pr-5" style="line-height: 0.4">
+                            <span>Percent: {{ discount.percent }}%</span> -
+                            <span>Status: {{ discount.status_label }}</span> -
+                            <span>Expiration Date: {{ discount.expiration_date }}</span>
+                        </div>
                         <h3 v-if="bookingCheckIn.length != 0" class="text-center">Check In</h3>
                         <InfoBooking :bookings="bookingCheckIn"></InfoBooking>
                         <h3 v-if="bookingCheckOut.length != 0" class="text-center">Check Out</h3>

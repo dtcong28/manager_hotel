@@ -47,6 +47,7 @@ function sum(obj) {
 }
 
 const totalMoney = props.info_booking.booking.price_food ? price_each_room.reduce((partialSum, a) => partialSum + a, 0) + sum(props.info_booking.booking.price_food) : price_each_room.reduce((partialSum, a) => partialSum + a, 0)
+const totalMoneyWithDiscount = props.info_booking.booking.price_food ? price_each_room.reduce((partialSum, a) => partialSum + a, 0)*(1-props.info_booking.booking.info_booking.discount/100) + sum(props.info_booking.booking.price_food) : price_each_room.reduce((partialSum, a) => partialSum + a, 0)*(1-props.info_booking.booking.info_booking.discount/100)
 
 const booking = () => {
     try {
@@ -122,7 +123,7 @@ export default {
             } else {
                 console.log(paymentMethod);
                 this.info_booking.payment_method_id = paymentMethod.id;
-                this.info_booking.amount = this.price_each_room.reduce((partialSum, a) => partialSum + a, 0) + this.sum(this.info_booking.booking.price_food);
+                this.info_booking.amount = this.price_each_room.reduce((partialSum, a) => partialSum + a, 0)*(1-this.info_booking.booking.info_booking.discount/100) + this.sum(this.info_booking.booking.price_food);
                 axios.post('/booking', this.info_booking)
                     .then((response) => {
                         this.paymentProcessing = false;
@@ -220,7 +221,11 @@ export default {
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    Total: {{ totalMoney.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'}) }}
+                                    <span :style="info_booking.booking.info_booking.discount != null ? 'text-decoration: line-through' : ''">Total: {{ totalMoney.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'}) }}</span><br>
+                                </div>
+                                <div v-if="info_booking.booking.info_booking.discount != null" class="form-group">
+                                    <span style="color: red">Discount {{ info_booking.booking.info_booking.discount }} % for price room</span><br>
+                                    Total: {{ totalMoneyWithDiscount.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'}) }}
                                 </div>
                             </div>
                         </div>
@@ -230,3 +235,5 @@ export default {
         </section>
     </LayoutBooking>
 </template>
+
+

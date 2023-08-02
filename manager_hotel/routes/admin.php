@@ -63,6 +63,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin|manager|staff'])->group(
 
     // customers
     Route::resource('customers', CustomerController::class)->only(['index', 'create', 'edit', 'store', 'update', 'destroy']);
+    Route::get('/customers/{id}/discount', [CustomerController::class, 'discount'])->name('customers.discount');
+    Route::post('/customers/discount', [CustomerController::class, 'storeDiscount'])->name('customers.store_discount');
+    Route::delete('/customers/discount/{id}/destroy', [CustomerController::class, 'destroyDiscount'])->name('customers.destroy_discount');
 
     //hotel
     Route::resource('hotel', HotelController::class)->only(['create', 'edit', 'store', 'update', 'destroy']);

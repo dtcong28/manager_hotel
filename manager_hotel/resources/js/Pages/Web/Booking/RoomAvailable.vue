@@ -7,6 +7,7 @@ import {computed, ref} from "vue";
 const props = defineProps({
     rooms: Array,
     info_booking: Array,
+    discounts: Array,
 })
 
 const selectRoom = ref([])
@@ -30,6 +31,7 @@ const form = useForm({
     rooms: selectRoom,
     price_each_room: sum,
     note_booking_room: '',
+    discount: '',
 });
 
 const formBooking = useForm({
@@ -247,6 +249,13 @@ const filterRoom = () => {
                                         </div>
                                         <div class="form-group">
                                             Total: {{ sum.reduce((partialSum, a) => partialSum + a, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
+                                        </div>
+                                        <div v-if="props.discounts != ''" class="form-group">
+                                            Discount for price room:<br>
+                                            <div v-for="discount in props.discounts">
+                                                <input v-model="form.discount" type="radio" :id="discount.percent" name="discount" :value="discount.percent">
+                                                <label :for="discount.percent">{{ discount.percent }}%</label><br>
+                                            </div>
                                         </div>
                                         <div v-if="rooms.length == totalSelectRoom" class="form-group">
                                             <button type="submit" class="btn btn-primary py-3 px-5">Continue</button>

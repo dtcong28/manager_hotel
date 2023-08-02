@@ -13,14 +13,16 @@ const props = defineProps({
 })
 
 const sum = ref([])
+const sumRoom = ref([])
+const sumFood = ref([])
 const loading = ref(false)
 
 props.bookingRoom.forEach((room) => {
-    sum.value.push(room.price)
+    sumRoom.value.push(room.price)
 })
 
 props.bookingFood.forEach((food) => {
-    sum.value.push(food.price)
+    sumFood.value.push(food.price)
 })
 
 const form = useForm({
@@ -29,7 +31,10 @@ const form = useForm({
     reason: props.booking.reason_cancel,
 });
 
-const totalMoney = sum.value.reduce((partialSum, a) => partialSum + a, 0)
+const totalMoneyRoom = sumRoom.value.reduce((partialSum, a) => partialSum + a, 0)
+const totalMoneyFood= sumFood.value.reduce((partialSum, a) => partialSum + a, 0)
+const totalMoney = totalMoneyRoom + totalMoneyFood
+const totalMoneyWithDiscount = totalMoneyRoom*(1-props.booking.discount_booking_room/100) + totalMoneyFood;
 
 const updateStatus= () => {
     try {
@@ -42,7 +47,7 @@ const updateStatus= () => {
             time_check_in: props.booking.time_check_in,
             time_check_out: props.booking.time_check_out,
             rooms: props.bookingRoom,
-            total_money: totalMoney,
+            total_money: totalMoneyWithDiscount,
             reason: form.reason,
         }, { preserveState: true })
 
@@ -112,7 +117,7 @@ const updateStatus= () => {
                                                 Check out
                                             </label>
                                         </div>
-                                        <div class="col-md-5" v-if="form.status_booking == 3">
+                                        <div class="col-md-10" v-if="form.status_booking == 3">
                                             <h4>Reason:</h4>
                                             <textarea name="reason" v-model="form.reason" rows="4" cols="10" class="form-control"></textarea>
                                         </div>
@@ -133,7 +138,11 @@ const updateStatus= () => {
                                     </div>
                                 </h4>
                                 <br>
-                                <h4>Total Money: {{ totalMoney.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</h4>
+                                <h4 :style="props.booking.discount_booking_room != null ? 'text-decoration: line-through' : ''">Total Money: {{ totalMoney.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</h4>
+                                <div v-if="props.booking.discount_booking_room != null">
+                                    <span style="color: red">Discount {{ props.booking.discount_booking_room }}  % for price room</span><br>
+                                    <h4>Total Money: {{ totalMoneyWithDiscount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}</h4>
+                                </div>
                             </div>
                         </div>
                         <div class="row">

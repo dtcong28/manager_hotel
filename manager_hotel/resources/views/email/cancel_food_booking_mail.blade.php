@@ -1,5 +1,5 @@
-<h2>Cancel Food In Booking: DELUXE Hotel</h2><br>
-DELUXE Hotel Hanoi<br>
+<h2>Cancel Food In Booking: DELUXE Homestay</h2><br>
+DELUXE Homestay Hanoi<br>
 Check in: {{ data_get($record, 'info')->time_check_in }} - Check out: {{ data_get($record, 'info')->time_check_out }}<br>
 Phone number: 0967400419<br>
 Address: Ha Noi<br>

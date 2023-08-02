@@ -52,7 +52,7 @@ const minDate = computed(() => `${year}-${month}-${day}`)
                         <div class="col-md-12 ftco-animate text-center">
                             <div class="text mb-5 pb-3">
                                 <h1 class="mb-3">Welcome To Deluxe</h1>
-                                <h2>Hotels &amp; Resorts</h2>
+                                <h2>Homestay &amp; Resorts</h2>
                             </div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@ const minDate = computed(() => `${year}-${month}-${day}`)
                 <div class="row">
                     <div class="col-lg-12">
                         <form method="get" action="/booking/filter-room" class="booking-form" target="_blank" style="display: flex; justify-content: center;">
-                            <div class="row">
+                            <div class="row" style="display: flex; flex-wrap: nowrap">
                                 <div class="col-md-2.5 d-flex">
                                     <div class="form-group p-4 align-self-stretch d-flex align-items-end">
                                         <div class="wrap">
@@ -115,7 +115,7 @@ const minDate = computed(() => `${year}-${month}-${day}`)
                                 </div>
                                 <div class="col-md-1.5 d-flex" v-for="room in Number(form.number_room)" :key="room">
                                     <div class="form-group p-4 align-self-stretch d-flex align-items-end">
-                                        <div class="wrap">
+                                        <div class="wrap" style="width: 80px">
                                             <label>Room {{ room }}</label>
                                             <div class="form-field">
                                                 <div class="select-wrap">
@@ -153,8 +153,8 @@ const minDate = computed(() => `${year}-${month}-${day}`)
                     <div class="col-md-7 py-5 wrap-about pb-md-5 ftco-animate">
                         <div class="heading-section heading-section-wo-line pt-md-5 pl-md-5 mb-5">
                             <div class="ml-md-0">
-                                <span class="subheading">Welcome to {{ $page.props.info_hotel.name }} Hotel</span>
-                                <h2 class="mb-4">Welcome To Our Hotel</h2>
+                                <span class="subheading">Welcome to {{ $page.props.info_hotel.name }} Homestay</span>
+                                <h2 class="mb-4">Welcome To Our Homestay</h2>
                             </div>
                         </div>
                         <div class="pb-md-5">

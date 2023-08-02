@@ -105,6 +105,9 @@ const deleteCustomer = (id) => {
                                             <i class="fa fa-pencil"></i>
                                         </Link>
                                         <button v-if="hasPermission('delete')" @click="confirmDelete(customer.id)" class="btn btn-tbl-delete btn-xs"><i class="fa fa-trash-o "></i></button>
+                                        <Link :href="route('customers.discount', { id: customer.id })" class="btn btn-tbl-edit btn-xs blue btn-info">
+                                            <i class="fa fa-plus-circle"></i>
+                                        </Link>
                                         <Modal :show="showConfirmDeleteModal" @close="closeModal">
                                             <div class="p-6">
                                                 <h4 class="text-lg font-semibold text-slate-800">If you delete, it may affect booking customers</h4>

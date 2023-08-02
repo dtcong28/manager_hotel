@@ -31,6 +31,7 @@ class Booking extends Model
         'status_payment',
         'status_booking',
         'total_money',
+        'discount_booking_room',
         'reason_cancel',
         'meal_time',
         'note_booking_food',

@@ -66,4 +66,9 @@ class Customer extends Authenticatable
     {
         return $this->hasMany(FeedBack::class);
     }
+
+    public function discount()
+    {
+        return $this->hasMany(Discount::class);
+    }
 }

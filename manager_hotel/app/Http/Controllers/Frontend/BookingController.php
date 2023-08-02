@@ -10,18 +10,21 @@ use App\Models\Enums\BookingStatusEnum;
 use App\Models\Enums\MethodPaymentEnum;
 use App\Models\Enums\PaymentStatusEnum;
 use App\Models\Enums\TypeBookingEnum;
+use App\Models\Enums\DiscountStatusEnum;
 use App\Repositories\Eloquent\BookingFoodRepository;
 use App\Repositories\Eloquent\BookingRepository;
 use App\Repositories\Eloquent\BookingRoomRepository;
 use App\Repositories\Eloquent\CustomerRepository;
 use App\Repositories\Eloquent\FoodRepository;
 use App\Repositories\Eloquent\RoomRepository;
+use App\Repositories\Eloquent\DiscountRepository;
 use App\Services\BookingFoodService;
 use App\Services\BookingRoomService;
 use App\Services\BookingService;
 use App\Services\CustomerService;
 use App\Services\RoomService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -35,6 +38,7 @@ class BookingController extends FrontendController
     protected $bookingRoomRepository;
     protected $bookingFoodRepository;
     protected $customerRepository;
+    protected $discountRepository;
     protected $service;
     protected $customerService;
     protected $roomService;
@@ -50,6 +54,7 @@ class BookingController extends FrontendController
         $this->bookingRoomRepository = app(BookingRoomRepository::class);
         $this->bookingFoodRepository = app(BookingFoodRepository::class);
         $this->customerRepository = app(CustomerRepository::class);
+        $this->discountRepository = app(DiscountRepository::class);
         $this->service = app(BookingService::class);
         $this->customerService = app(CustomerService::class);
         $this->roomService = app(RoomService::class);
@@ -66,6 +71,16 @@ class BookingController extends FrontendController
             'number_people' => array_filter(data_get($params, 'room')),
         ];
 
+        $discounts = [];
+        if(Auth::guard('web')->check()){
+            $dataDiscount = [
+                'customer_id_eq' => Auth::guard('web')->user()->id,
+                'expiration_date_gteq' => data_get($params, 'time_check_in'),
+                'status_eq' => DiscountStatusEnum::UNUSED->value,
+            ];
+            $discounts = $this->discountRepository->getAvailableDiscount($dataDiscount);
+        }
+
         return Inertia::render('Web/Booking/RoomAvailable', [
             'rooms' => $this->roomRepository->getListFilterRoom($data),
             'info_booking' => [
@@ -73,6 +88,7 @@ class BookingController extends FrontendController
                 'time_check_out' => data_get($params, 'time_check_out'),
                 'time_stay' => timeStay(data_get($params, 'time_check_in'), data_get($params, 'time_check_out'))
             ],
+            'discounts' => $discounts,
         ]);
     }
 
@@ -95,6 +111,7 @@ class BookingController extends FrontendController
             }),
             'info_booking' => $params,
             'select_rooms' => $record,
+            'discount' => $params['discount'],
         ]);
     }
 
@@ -207,11 +224,25 @@ class BookingController extends FrontendController
                 'number_rooms' => count($request['booking']['info_booking']['rooms']),
                 'status_booking' => BookingStatusEnum::EXPECTED_ARRIVAL->value,
                 'status_payment' => PaymentStatusEnum::UNPAID->value,
+                'discount_booking_room' => $request['booking']['info_booking']['discount'],
                 'method_payment' => MethodPaymentEnum::CASH->value,
                 'note_booking_food' => $request['booking']['note_booking_food'],
                 'meal_time' => $request['booking']['meal_time'],
                 'note_booking_room' => $request['booking']['info_booking']['note_booking_room'],
             ];
+
+            // update status discount
+            if(!is_null($request['booking']['info_booking']['discount'])) {
+                $dataDiscount = [
+                    'customer_id_eq' => $customer->id,
+                    'percent_eq' => $request['booking']['info_booking']['discount'],
+                ];
+                $discount = $this->discountRepository->findDiscount($dataDiscount);
+
+                $discount->fill([
+                    'status' => DiscountStatusEnum::USED->value,
+                ])->save();
+            }
 
             $booking = $this->repository->create($dataBooking);
             if (!$booking) {
@@ -351,7 +382,7 @@ class BookingController extends FrontendController
 
     public function show()
     {
-        $customer = $this->customerRepository->find(auth('web')->user()->id);
+        $customer = $this->customerRepository->with(['discount'])->find(auth('web')->user()->id);
         $bookingCheckIn = $this->repository->where('customer_id', $customer->id)->where('status_booking', BookingStatusEnum::CHECK_IN->value)->with(['bookingRoom.room', 'bookingFood.food'])->get();
         $bookingCheckOut = $this->repository->where('customer_id', $customer->id)->where('status_booking', BookingStatusEnum::CHECK_OUT->value)->with(['bookingRoom.room', 'bookingFood.food'])->get();
         $bookingCheckEA = $this->repository->where('customer_id', $customer->id)->where('status_booking', BookingStatusEnum::EXPECTED_ARRIVAL->value)->with(['bookingRoom.room', 'bookingFood.food'])->get();

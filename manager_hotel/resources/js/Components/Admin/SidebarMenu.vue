@@ -81,7 +81,7 @@ const menus = [
         ],
     },
     {
-        name: 'Hotel',
+        name: 'Homestay',
         icon: 'store',
         route: false,
         children: [

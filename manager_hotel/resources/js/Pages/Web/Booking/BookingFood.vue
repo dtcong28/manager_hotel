@@ -8,6 +8,7 @@ const props = defineProps({
     info_booking: Array,
     select_rooms: Array,
     foods: Array,
+    discount: Array,
 })
 
 const selectFood = ref({})
@@ -105,6 +106,9 @@ const submit = () => {
                                         </div>
                                         <div class="form-group">
                                             Total: {{ (price_each_room.reduce((partialSum, a) => partialSum + a, 0) + sum(price_each_food)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) }}
+                                        </div>
+                                        <div v-if="props.discount != null" class="form-group" style="color: red">
+                                            Discount {{ props.discount }} % for price room
                                         </div>
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-primary py-3 px-5">Submit</button>

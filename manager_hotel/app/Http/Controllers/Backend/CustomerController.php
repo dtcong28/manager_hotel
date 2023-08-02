@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Requests\Customer\CustomerRequest;
+use App\Http\Requests\Discount\DiscountRequest;
 use App\Models\Enums\GenderEnum;
 use App\Repositories\Eloquent\BookingFoodRepository;
 use App\Repositories\Eloquent\BookingRepository;
 use App\Repositories\Eloquent\CustomerRepository;
+use App\Repositories\Eloquent\DiscountRepository;
 use App\Repositories\Eloquent\RoomRepository;
 use App\Services\BookingFoodService;
 use App\Services\BookingService;
 use App\Services\CustomerService;
+use App\Services\DiscountService;
 use Illuminate\Http\Request;
 use App\Models\Enums\RoomStatusEnum;
 use Illuminate\Support\Facades\DB;
@@ -24,9 +27,11 @@ class CustomerController extends BackendController
     protected $bookingRepository;
     protected $bookingFoodRepository;
     protected $roomRepository;
+    protected $discountRepository;
     protected $service;
     protected $bookingService;
     protected $bookingFoodService;
+    protected $discountService;
 
     public function __construct()
     {
@@ -35,9 +40,11 @@ class CustomerController extends BackendController
         $this->bookingRepository = app(BookingRepository::class);
         $this->roomRepository = app(RoomRepository::class);
         $this->bookingFoodRepository = app(BookingFoodRepository::class);
+        $this->discountRepository = app(DiscountRepository::class);
         $this->service = app(CustomerService::class);
         $this->bookingService = app(BookingService::class);
         $this->bookingFoodService = app(BookingFoodService::class);
+        $this->discountService = app(DiscountService::class);
     }
 
     public function index(Request $request)
@@ -61,6 +68,62 @@ class CustomerController extends BackendController
         return Inertia::render('Admin/Customers/Create', [
             'gender' => $gender,
         ]);
+    }
+
+    public function discount($id)
+    {
+        $record = $this->repository->find($id)->toArray();
+        $discounts = $this->discountRepository->findByField('customer_id', $id)->toArray();
+
+        return Inertia::render('Admin/Customers/Discount', [
+            'customer' => $record,
+            'discounts' => $discounts,
+        ]);
+    }
+
+    public function storeDiscount(DiscountRequest $request){
+        try {
+            $params = $request->all();
+
+            if (!($this->discountService->store($params))) {
+                session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));;
+                return Redirect::route('customers.index');
+            }
+
+            session()->flash('action_success', getConstant('messages.CREATE_SUCCESS'));
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            session()->flash('action_failed', getConstant('messages.CREATE_FAIL'));
+        }
+
+        return Redirect::route('customers.index');
+    }
+
+    public function destroyDiscount($id) {
+        try {
+            if (empty($id)) {
+                return redirect(getBackUrl());
+            }
+
+            if (empty($this->discountRepository->find($id))) {
+                session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+
+                return redirect(getBackUrl());
+            }
+
+            if (!$this->discountService->destroy($id)) {
+                session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+
+                return redirect(getBackUrl());
+            }
+
+            session()->flash('action_success', getConstant('messages.DELETE_SUCCESS'));
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            session()->flash('action_failed', getConstant('messages.DELETE_FAIL'));
+        }
+
+        return redirect(getBackUrl());
     }
 
     public function store(CustomerRequest $request)

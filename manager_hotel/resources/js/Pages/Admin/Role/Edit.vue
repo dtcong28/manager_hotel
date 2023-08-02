@@ -63,7 +63,7 @@ onMounted(() =>{
                                 </div>
                                 <div class="form-group">
                                     <label class="typo__label">Permission</label>
-                                    <multiselect v-model="form.permissions" tag-placeholder="Add this as new permission" placeholder="Search or add a permission" label="name" track-by="name" :options="permissions" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
+                                    <multiselect v-model="form.permissions" tag-placeholder="Add this as new permission" label="name" track-by="name" :options="permissions" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
                                     <div v-if="$page.props.errors.permissions" style="color: red">
                                         {{ $page.props.errors.permissions[0] }}
                                     </div>

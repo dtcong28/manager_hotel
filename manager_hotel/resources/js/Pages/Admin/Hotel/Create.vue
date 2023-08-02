@@ -35,7 +35,7 @@ const storeHotel = () => {
                     <li><i class="fa fa-home"></i>&nbsp;<Link class="parent-item" :href="route('dashboard')">Home</Link>&nbsp;<i
                         class="fa fa-angle-right"></i>
                     </li>
-                    <li><Link class="parent-item" href="">Hotel</Link>&nbsp;<i class="fa fa-angle-right"></i>
+                    <li><Link class="parent-item" href="">Homestay</Link>&nbsp;<i class="fa fa-angle-right"></i>
                     </li>
                     <li class="active">Information</li>
                 </ol>
@@ -45,7 +45,7 @@ const storeHotel = () => {
             <div class="col-sm-12">
                 <div class="card-box">
                     <div class="card-head">
-                        <header>Hotel Information</header>
+                        <header>Homestay Information</header>
                     </div>
                     <div class="card-body col-6" style="margin: auto">
                         <form @submit.prevent="storeHotel">
@@ -84,9 +84,9 @@ const storeHotel = () => {
                                 </div>
                             </div>
                             <div class="form-group p-t-10">
-                                <label for="introduce">Introduce hotel</label>
+                                <label for="introduce">Introduce homestay</label>
                                 <textarea id="introduce" name="introduce" v-model="form.introduce" class="form-control"
-                                          rows="7" placeholder="Enter introduce hotel"></textarea>
+                                          rows="7" placeholder="Enter introduce homestay"></textarea>
                                 <div v-if="form.errors.introduce" style="color: red">{{form.errors.introduce[0] }}
                                 </div>
                             </div>
